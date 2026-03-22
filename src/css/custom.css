@@ -664,6 +664,7 @@ pre code {
   --ifm-navbar-background-color: var(--wyrd-bg2);
   --ifm-navbar-shadow: none;
   --ifm-footer-background-color: var(--wyrd-bg);
+  --ifm-color-emphasis-200: var(--wyrd-bg4);
   --ifm-color-emphasis-300: var(--wyrd-border2);
   --ifm-color-emphasis-500: var(--wyrd-text3);
   --ifm-color-emphasis-700: var(--wyrd-text2);

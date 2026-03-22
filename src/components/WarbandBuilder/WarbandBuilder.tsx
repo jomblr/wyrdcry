@@ -4,7 +4,6 @@ import { useWarband } from './useWarband';
 import WarbandSidebar from './WarbandSidebar';
 import WarbandInfoRow from './WarbandInfoRow';
 import FighterTable from './FighterTable';
-import FactionRules from './FactionRules';
 import InformationTab from './InformationTab';
 import styles from './warband-builder.module.css';
 
@@ -37,6 +36,7 @@ export default function WarbandBuilder() {
     loadWarband,
     createNewWarband,
     deleteWarband,
+    importWarband,
     exportWarband,
   } = useWarband();
 
@@ -47,7 +47,7 @@ export default function WarbandBuilder() {
   }
 
   // An unsaved warband has no name yet — it hasn't been committed to localStorage
-  const hasUnsavedWarband = !active.name.trim();
+  const hasUnsavedWarband = !active.name.trim() && !active.factionId;
 
   // Unsaved warband always appears at the bottom of the list
   const sidebarList = savedWarbands.some(w => w.id === active.id)
@@ -61,6 +61,7 @@ export default function WarbandBuilder() {
         activeId={active.id}
         onSelect={loadWarband}
         onCreate={createNewWarband}
+        onImport={importWarband}
         disableCreate={hasUnsavedWarband}
       />
 
@@ -96,15 +97,15 @@ export default function WarbandBuilder() {
           <div className={styles.actions}>
             <button
               type="button"
-              className="button button--outline button--secondary button--lg"
+              className="button button--secondary button--md"
               onClick={handleDelete}
             >
               Delete Warband
             </button>
-            <button type="button" className="button button--primary button--lg" onClick={exportWarband}>
+            <button type="button" className="button button--primary button--md" onClick={exportWarband}>
               Export
             </button>
-            <button type="button" className="button button--primary button--lg" onClick={() => window.print()}>
+            <button type="button" className="button button--primary button--md" onClick={() => window.print()}>
               Print
             </button>
           </div>
@@ -140,7 +141,6 @@ export default function WarbandBuilder() {
                 onSendToStash={sendToStash}
                 onTakeFromStash={takeFromStash}
               />
-              <FactionRules factionId={active.factionId} />
             </>
           )
 }

@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run:*)",
       "Bash(node -e \"const f = require\\(''./src/data/factions.json''\\); console.log\\(Object.keys\\(f[0]\\)\\); console.log\\(f[0].special_rules?.slice\\(0,200\\)\\)\")",
-      "Bash(node -e \"const a = require\\(''./src/data/abilities.json''\\); console.log\\(JSON.stringify\\(a[0], null, 2\\)\\)\")"
+      "Bash(node -e \"const a = require\\(''./src/data/abilities.json''\\); console.log\\(JSON.stringify\\(a[0], null, 2\\)\\)\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"console.log\\(JSON.stringify\\(require\\(''./src/data/campaign-rules.json''\\), null, 2\\)\\)\")"
     ]
   }
 }

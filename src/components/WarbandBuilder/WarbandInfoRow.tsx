@@ -5,6 +5,7 @@ import { calcReputation, calcStanding, calcValue } from './useWarband';
 import styles from './warband-builder.module.css';
 import factionsData from '@site/src/data/factions.json';
 import fightersData from '@site/src/data/fighters.json';
+import campaignRules from '@site/src/data/campaign-rules.json';
 
 interface Props {
   warband: Warband;
@@ -17,6 +18,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
   const reputation = calcReputation(warband);
   const standing = calcStanding(reputation);
   const value = calcValue(warband, fightersData);
+  const budget = campaignRules.warband_budget;
+  const remaining = budget - value;
 
   const selectedFaction = factionsData.find(f => f.id === warband.factionId);
   const fighterCount = warband.fighters.length;
@@ -50,7 +53,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
           <div className={styles.hCell}>Standing</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Reputation</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Fighters</div>
-          <div className={`${styles.hCell} ${styles.hCellCenter}`}>Value</div>
+          <div className={`${styles.hCell} ${styles.hCellCenter}`}>Gold Coin</div>
         </div>
 
         {/* Data row */}
@@ -105,7 +108,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
 
           {/* Value */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
-            {locked ? '—' : `${value}gc`}
+            {locked ? '—' : `${remaining}gc`}
           </div>
         </div>
       </div>

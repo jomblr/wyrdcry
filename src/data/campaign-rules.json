@@ -1,5 +1,6 @@
 {
   "default_favour": 0,
+  "warband_budget": 1000,
   "standing_thresholds": [
     { "min": 0,  "max": 9,  "label": "Disposable" },
     { "min": 10, "max": 19, "label": "Notorious"  },

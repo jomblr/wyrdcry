@@ -372,10 +372,10 @@ export function useWarband() {
   const { active, savedIds } = state;
   const isSaved = savedIds.includes(active.id);
 
-  // Persist the active warband to localStorage whenever it changes (if named).
-  // Also register it in savedIds state the first time it gets a name.
+  // Persist the active warband to localStorage whenever it changes (if named or faction is set).
+  // Also register it in savedIds state the first time it qualifies.
   useEffect(() => {
-    if (!active.name.trim()) return;
+    if (!active.name.trim() && !active.factionId) return;
     persistWarband(active);
     if (!savedIds.includes(active.id)) {
       dispatch({ type: 'REGISTER_WARBAND', id: active.id });
@@ -525,6 +525,25 @@ export function useWarband() {
     [savedIds],
   );
 
+  const importWarband = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const wb = JSON.parse(e.target?.result as string) as Warband;
+        if (!wb.id || !wb.name) return;
+        wb.stash = wb.stash ?? [];
+        wb.factionNotes = wb.factionNotes ?? '';
+        wb.fighters = wb.fighters.map(f => ({ statOverrides: {}, specialRules: [], ...f }));
+        persistWarband(wb);
+        dispatch({ type: 'LOAD_WARBAND', warband: wb });
+        dispatch({ type: 'REGISTER_WARBAND', id: wb.id });
+      } catch {
+        // invalid file — ignore
+      }
+    };
+    reader.readAsText(file);
+  }, []);
+
   const exportWarband = useCallback(() => {
     const blob = new Blob([JSON.stringify(active, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -560,6 +579,7 @@ export function useWarband() {
     loadWarband: loadWarband_,
     createNewWarband,
     deleteWarband,
+    importWarband,
     exportWarband,
   };
 }
