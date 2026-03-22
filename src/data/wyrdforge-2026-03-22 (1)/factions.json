@@ -1,0 +1,98 @@
+[
+  {
+    "id": "clan-eshin",
+    "name": "Clan Eshin",
+    "description": "",
+    "warband_size": 20,
+    "special_rules": "All `Clan Eshin` fighters have the following rules:",
+    "faction_ability_ids": [
+      "shadowy-killers"
+    ],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "sword": "all",
+      "fighting-claws": "hero",
+      "club": "all",
+      "dagger": "all",
+      "spear": "all",
+      "halberd": "hero",
+      "sling": "all",
+      "item:shield": "all",
+      "item:light-armour": "all",
+      "throwing-stars": "hero",
+      "warplock-pistol": "hero"
+    }
+  },
+  {
+    "id": "sisters-of-sigmar",
+    "name": "Sisters of Sigmar",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "## Daughters of the Heldenhammer\n---\nAll `Sisters of Sigmar` fighters have access to the following rules:\n\n### [Trait] Sigmar’s Blessing\nThis fighter may call for one of Sigmar's Blessings by spending saved Wyrd Dice:\n\n- **Heart of Steel:** During this fighter’s activation, you may discard one saved Wyrd Dice to automatically pass a panic test.\n- **Righteous Fury:** During this fighter’s activation, after making a hit roll, you may discard one saved Wyrd Dice to turn a hit into a critical hit.\n- **Sigmar Protects:** During an enemy fighter’s activation, you may discard one saved Wyrd Dice to perform a reaction with this fighter without needing or spending an action to do so.\n\n### [Reaction] Martyrdom\nA fighter can make this reaction when they suffer enough damage to take them out of action, but before removing them from the battlefield. Gain a [double] with a value of 1. If this fighter is a `Hero`, gain a [triple] with a value of 1 instead. If this fighter is a `LEADER`, gain a [quad] with a value of 1 instead.",
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "sword": "all",
+      "club": "all",
+      "flail": "all",
+      "great-weapon": "all",
+      "steel-whip": "hero",
+      "warhammer": "all",
+      "sling": "all",
+      "item:heavy-armour": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all",
+      "sigmarite-warhammer": "hero"
+    }
+  },
+  {
+    "id": "mercenaries",
+    "name": "Mercenaries",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "When creating a Mercenary warband, you must select two of the following rules to represent your warband’s home province:\n\n### Huntsmen\nIncrease the Shoot characteristic of all Marksmen by 1.\n\n### Hardy\nIncrease the Health characteristic of all Militia and Champions by 2.\n\n### State Troopers\nIncrease the Fight characteristic of all Militia by 1.\n\n### Well Drilled\nAt the end of each Aftermath Sequence, select one Henchman to earn 1 Renown.\n\n### Unyielding\nIncrease the Bravery characteristic of all fighters by 1.\n\n### Wealthy Patrons\nGain an additional 20gc when collecting income in the aftermath sequence.\n\n### Well-connected\nReduce hiring fee of Hired Swords by 50%\n\n### Deeply Religious\nRoll 7 initiative dice in each initiative phase instead of 6.\n\n### Desperate\nYou cannot recruit Warriors or Marksmen, but Youngbloods are free.",
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "club": "all",
+      "spear": "all",
+      "halberd": "all",
+      "pistol": "hero",
+      "axe": "all",
+      "dagger": "all",
+      "flail": "all",
+      "sword": "all",
+      "wawr": "all",
+      "bow": "all",
+      "crossbow": "all",
+      "handgun": "hero",
+      "item:heavy-armour": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all",
+      "great-weapon": "all",
+      "warhammer": "all",
+      "blunderbuss": "all"
+    }
+  },
+  {
+    "id": "possessed",
+    "name": "Possessed",
+    "description": "",
+    "warband_size": null,
+    "special_rules": "",
+    "fighters": [],
+    "weapons": [],
+    "equipment": {}
+  },
+  {
+    "id": "witch-hunters",
+    "name": "Witch Hunters",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "",
+    "fighters": [],
+    "weapons": [],
+    "equipment": {}
+  }
+]

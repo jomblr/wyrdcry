@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "type": "folder",
+      "ctime": 1773738835811,
+      "path": "src/fighters",
+      "title": "fighters"
+    },
+    {
+      "type": "folder",
+      "ctime": 1773738854414,
+      "path": "docs/campaigns",
+      "title": "campaigns"
+    },
+    {
+      "type": "folder",
+      "ctime": 1773738862095,
+      "path": "docs/rules"
+    },
+    {
+      "type": "folder",
+      "ctime": 1773738868927,
+      "path": "docs/warbands"
+    }
+  ]
+}

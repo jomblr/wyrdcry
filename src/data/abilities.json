@@ -1,0 +1,317 @@
+[
+  {
+    "id": "blessed-sight",
+    "name": "Blessed Sight",
+    "category": "sisters-of-sigmar",
+    "ability_type": "double",
+    "description": "Roll (X) dice. For each roll of 5+, add one wyrd dice to your saved wyrd dice. Then, this fighter makes a Wait action."
+  },
+  {
+    "id": "stealthy",
+    "name": "Stealthy",
+    "category": "agility",
+    "ability_type": "trait",
+    "description": "Whenever an enemy fighter is targeting this fighter, this fighter is in cover if both of the following are true:\n- It is more than 6” from the enemy fighter.\n- It is within 1” of an obstacle, or part of its base is underneath any part of a terrain piece."
+  },
+  {
+    "id": "one-with-the-shadows",
+    "name": "One with the shadows",
+    "category": "clan-eshin",
+    "ability_type": "trait",
+    "description": "If this fighter is in cover from an enemy fighter, it is not visible to that fighter."
+  },
+  {
+    "id": "slink-away",
+    "name": "Slink away",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "This fighter makes a free retreat action."
+  },
+  {
+    "id": "murder-stab",
+    "name": "Murder Stab",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "Add half the value of this ability (rounding up) to the Fight characteristic of this fighter’s next melee attack action."
+  },
+  {
+    "id": "shadowy-killers",
+    "name": "Shadowy Killers",
+    "category": "clan-eshin",
+    "ability_type": "trait",
+    "description": "Whenever this fighter is activated, if it is not visible to enemy fighters, you may add 1 to the critical hit characteristic of their next attack action."
+  },
+  {
+    "id": "skitterleap",
+    "name": "Skitterleap",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. A fighter cannot use this ability while within 1” of an enemy fighter or when carrying a token. Remove this fighter from the battlefield, then set it up on the battlefield floor or on a platform, more than 6” from all enemy warriors, objective markers and scenario tokens.\n"
+  },
+  {
+    "id": "gnawdoom",
+    "name": "Gnawdoom",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. Select an enemy fighter within 6” and roll (X) d6. For each roll that exceeds the target’s Defense characteristic, allocate 2 damage points to that enemy fighter."
+  },
+  {
+    "id": "enshrouding-shadows",
+    "name": "Enshrouding Shadows",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. Until the end of the battleround, friendly fighters within (X/2)” of this fighter are not visible to other fighters."
+  },
+  {
+    "id": "pack-tactics",
+    "name": "Pack Tactics",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "For this fighter’s next attack action, you may add 1 to it’s Fight characteristic for each friendly Henchman within 1” of the target."
+  },
+  {
+    "id": "sigmars-blessing",
+    "name": "Sigmar’s Blessing",
+    "category": "sisters-of-sigmar",
+    "ability_type": "trait",
+    "description": "This fighter may call for one of Sigmar’s Blessings by spending saved Wyrd Dice:\n\n- **Heart of Steel:** During this fighter’s activation, you may discard one saved Wyrd Dice to automatically pass a panic test.\n- **Righteous Fury:** During this fighter’s activation, after making a hit roll, you may discard one saved Wyrd Dice to turn a hit into a critical hit.\n- **Sigmar Protects:** During an enemy fighter’s activation, you may discard one saved Wyrd Dice to perform a reaction with this fighter without needing or spending an action to do so."
+  },
+  {
+    "id": "fearsome",
+    "name": "Fearsome",
+    "category": "strength",
+    "ability_type": "trait",
+    "description": "Enemy fighters must take a Panic test when making melee attack actions against this fighter."
+  },
+  {
+    "id": "oppressor",
+    "name": "Oppressor",
+    "category": "strength",
+    "ability_type": "trait",
+    "description": "Once per battle round, when an enemy fighter makes the ‘Retreat’ action, this fighter can make the ‘Cut Them Down’ reaction without having to forfeit an action to do so."
+  },
+  {
+    "id": "weapon-master",
+    "name": "Weapon Master",
+    "category": "strength",
+    "ability_type": "trait",
+    "description": "Select a melee weapon type. When making attack actions with weapons of that type, increase the critical damage characteristic by 1."
+  },
+  {
+    "id": "staggering-blows",
+    "name": "Staggering Blows",
+    "category": "strength",
+    "ability_type": "double",
+    "description": "A fighter can use this ability after allocating damage points to an enemy fighter with a melee attack action. That enemy fighter cannot use reactions for the rest of the battle round. In addition, if the melee attack action allocated damage points from a critical hit, the target cannot use abilities for the rest of the battle round."
+  },
+  {
+    "id": "shield-bash",
+    "name": "Shield Bash",
+    "category": "strength",
+    "ability_type": "double",
+    "description": "This ability requires the fighter being equipped with a shield. Select an enemy fighter within 1\" of this fighter. That fighter makes a free retreat action directly away from this fighter. If it cannot move away from this fighter, allocate (X/2) damage points to that fighter instead."
+  },
+  {
+    "id": "maintain-momentum",
+    "name": "Maintain Momentum",
+    "category": "strength",
+    "ability_type": "triple",
+    "description": "A fighter can only use this ability if an enemy fighter has been taken down by an attack action made by them this activation. This fighter makes a bonus move action or a bonus attack action."
+  },
+  {
+    "id": "indomitable",
+    "name": "Indomitable",
+    "category": "toughness",
+    "ability_type": "trait",
+    "description": "Each time this fighter is activated, you can remove D3 damage points allocated to them."
+  },
+  {
+    "id": "nine-lives",
+    "name": "Nine Lives",
+    "category": "toughness",
+    "ability_type": "trait",
+    "description": "When rolling for injuries, this fighter can re-roll a result of 11-12. In addition, there is no limit to the amount of permanent injuries this fighter may have."
+  },
+  {
+    "id": "tough",
+    "name": "Tough",
+    "category": "toughness",
+    "ability_type": "trait",
+    "description": "Each time an attack action scores any critical hits on this fighter, 1 of those critical hits becomes a hit instead."
+  },
+  {
+    "id": "endure",
+    "name": "Endure",
+    "category": "toughness",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction after they are targeted by an attack action but before the hit rolls are made. Subtract 1 from the damage points allocated by each hit and critical hit (to a minimum of 1) from that attack action."
+  },
+  {
+    "id": "shield-wall",
+    "name": "Shield Wall",
+    "category": "toughness",
+    "ability_type": "double",
+    "description": "Until the end of the battle round, add (X/2) to the Defense characteristic of all friendly fighters within 1\" of this fighter when targeted by ranged attack actions."
+  },
+  {
+    "id": "bodyguard",
+    "name": "Bodyguard",
+    "category": "toughness",
+    "ability_type": "double",
+    "description": "Select a friendly Hero within 1\" of this fighter. Until the end of the battle round, that Hero cannot be targeted while they are within 1\" of this fighter."
+  },
+  {
+    "id": "duelist",
+    "name": "Duelist",
+    "category": "agility",
+    "ability_type": "trait",
+    "description": "Once per battle round, this fighter can make the ‘Counter’ reaction without having to forfeit an action to do so."
+  },
+  {
+    "id": "infiltrator",
+    "name": "Infiltrator",
+    "category": "agility",
+    "ability_type": "trait",
+    "description": "At the beginning of the first battle round, this fighter can make a free move action."
+  },
+  {
+    "id": "wall-runner",
+    "name": "Wall-Runner",
+    "category": "agility",
+    "ability_type": "trait",
+    "description": "This fighter may ignore the first 3\" moved vertically when climbing or falling."
+  },
+  {
+    "id": "step-aside",
+    "name": "Step-Aside",
+    "category": "agility",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction after they are targeted by a melee attack action but before any hit rolls are made. Roll 1 dice for each successful hit. On a 4+, that hit counts as a miss and is discarded."
+  },
+  {
+    "id": "disengage",
+    "name": "Disengage",
+    "category": "agility",
+    "ability_type": "double",
+    "description": "A fighter can only use this ability if they are within 1\" of an enemy fighter. This fighter makes a free Retreat action."
+  },
+  {
+    "id": "trip",
+    "name": "Trip",
+    "category": "agility",
+    "ability_type": "double",
+    "description": "After this fighter’s next melee attack action in this activation, if at least 1 hit roll from that attack action results in a hit, the target must forfeit 1 of their actions in this battle round. If the target has already activated or if they have no more actions to forfeit, allocate (X/2) damage points to the target instead."
+  },
+  {
+    "id": "quick-shot",
+    "name": "Quick Shot",
+    "category": "agility",
+    "ability_type": "triple",
+    "description": "This fighter makes a free ranged attack action."
+  },
+  {
+    "id": "eagle-eyes",
+    "name": "Eagle Eyes",
+    "category": "perception",
+    "ability_type": "trait",
+    "description": "When making an attack action using a bow, crossbow or handgun, this fighter may ignore the maximum range of the weapon, but if they do, they must reduce their Shoot characteristic by 1."
+  },
+  {
+    "id": "rapid-reload",
+    "name": "Rapid Reload",
+    "category": "perception",
+    "ability_type": "trait",
+    "description": "At the end of the battleround, you may reload one of this fighter’s weapons with the Reload special rule."
+  },
+  {
+    "id": "surgical-precision",
+    "name": "Surgical Precision",
+    "category": "perception",
+    "ability_type": "trait",
+    "description": "Select a ranged weapon type. When making attack actions with weapons of that type, increase the Critical Damage characteristic by 1."
+  },
+  {
+    "id": "trick-shot",
+    "name": "Trick Shot",
+    "category": "perception",
+    "ability_type": "trait",
+    "description": "When this fighter makes a ranged attack action, the target does not count as being in cover."
+  },
+  {
+    "id": "patient-hunter",
+    "name": "Patient Hunter",
+    "category": "perception",
+    "ability_type": "reaction",
+    "description": "When an enemy fighter ends a move action while visible to this fighter, this fighter can target that enemy fighter with a free ranged attack action."
+  },
+  {
+    "id": "reckless-shot",
+    "name": "Reckless Shot",
+    "category": "perception",
+    "ability_type": "double",
+    "description": "For this fighter’s next ranged attack action, it may target enemy fighters within 1\" of friendly fighters."
+  },
+  {
+    "id": "arcane-attunement",
+    "name": "Arcane Attunement",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "Wizard only. Start each battle with one additional Wyrd Dice."
+  },
+  {
+    "id": "tactician",
+    "name": "Tactician",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "LEADER only. Start each battle with one additional Wyrd Dice."
+  },
+  {
+    "id": "pious",
+    "name": "Pious",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "Priest only. Start each battle with one additional Wyrd Dice."
+  },
+  {
+    "id": "charismatic",
+    "name": "Charismatic",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "Once per battle, this fighter can use the ‘Inspiring Presence’ ability without needing or spending ability dice to do so."
+  },
+  {
+    "id": "underground-contacts",
+    "name": "Underground Contacts",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "When employing a hired sword, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up)."
+  },
+  {
+    "id": "maintain-momentum-wits",
+    "name": "Maintain Momentum",
+    "category": "wits",
+    "ability_type": "trait",
+    "description": "Leader only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
+  },
+  {
+    "id": "fall-back",
+    "name": "Fall Back!",
+    "category": "wits",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction after they have been allocated the total damage points by a melee attack action. This fighter makes a free Retreat action."
+  },
+  {
+    "id": "lead-the-charge",
+    "name": "Lead the Charge",
+    "category": "wits",
+    "ability_type": "triple",
+    "description": "A fighter can use this ability after ending a move action within 1\" of an enemy fighter. Up to (X/2) friendly fighters within 6\" of this fighter can make a bonus move action, but must end that move action closer to this fighter."
+  },
+  {
+    "id": "warcry",
+    "name": "Warcry",
+    "category": "wits",
+    "ability_type": "triple",
+    "description": "Friendly fighters within 6\" of this fighter are no longer panicked, and do not have to take panic tests until the end of the battleround."
+  }
+]

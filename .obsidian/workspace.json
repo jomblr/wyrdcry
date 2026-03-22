@@ -1,0 +1,232 @@
+{
+  "main": {
+    "id": "f953dd8246c1431b",
+    "type": "split",
+    "children": [
+      {
+        "id": "2217049f99a46177",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a0cf4a04942a5d59",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/warbands/Equipment/weapons.mdx",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "weapons"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "aab2e4526728c8a4",
+    "type": "split",
+    "children": [
+      {
+        "id": "2a0104237637a8e3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ec5a3f4cfec89e69",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "2c792fc6e5c98fe8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "31d4990fdcec19ed",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a0bce8e8023874db",
+    "type": "split",
+    "children": [
+      {
+        "id": "1b71d2f2055fdb79",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3d23f9b65dbab21d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "ee76ef72ac3ace41",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "6eb79e7a2a27d66e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "34cc6a1954b45eb2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "a589e629acc9dacb",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "a0cf4a04942a5d59",
+  "lastOpenFiles": [
+    "docs/warbands/Equipment/armour.mdx",
+    "docs/warbands/Factions/sisters-of-sigmar.mdx",
+    "build/blog/rss.xml",
+    "build/blog/atom.xml",
+    "build/blog/rss.css",
+    "build/blog/atom.css",
+    "build/blog/rss.xsl",
+    "build/blog/atom.xsl",
+    "build/sitemap.xml",
+    "build/index.html",
+    "build/docs/rules/Twists/index.html",
+    "build/assets/images/docsVersionDropdown-35e13cbe46c9923327f30a76a90bff3b.png",
+    "build/assets/images/building-19d810b4329db77a1638781001dd656e.webp",
+    "build/assets/images/localeDropdown-f0d995e751e7656a1b0dbbc1134e49c2.png",
+    "build/img/wyrdcry-bg.webp",
+    "build/img/wyrdcry-bg.png",
+    "build/img/undraw_docusaurus_tree.svg",
+    "build/img/undraw_docusaurus_react.svg",
+    "build/img/undraw_docusaurus_mountain.svg",
+    "build/img/logotype.svg",
+    "build/img/logo.svg",
+    "docs/warbands/starting-warband.md",
+    "docs/campaigns/starting-campaign.md",
+    "docs/rules/introduction.md",
+    "docs/campaigns/aftermath-sequence.md",
+    "docs/warbands/Equipment/equipment.md",
+    "node_modules/rehype-slug/node_modules/github-slugger/README.md",
+    "node_modules/rehype-slug/readme.md",
+    "node_modules/hast-util-heading-rank/readme.md",
+    "node_modules/remark-breaks/readme.md",
+    "node_modules/mdast-util-newline-to-break/readme.md",
+    "node_modules/hast-util-to-string/readme.md",
+    "src/data/README.md",
+    "docs/warbands/import-procedure.md",
+    "node_modules/react-markdown/readme.md",
+    "node_modules/html-url-attributes/readme.md",
+    "docs/warbands/Factions/sisters-of-sigmar.md",
+    "docs/campaigns/the-trading-post.md",
+    "docs/warbands/Equipment/weapons.md",
+    "docs/warbands/Equipment/armour.md",
+    "docs/campaigns/renown.md",
+    "src/fighters/witch-hunters/zealot.md",
+    "src/fighters/witch-hunters/witch-hunter.md",
+    "src/fighters/witch-hunters/witch-hunter-captain.md",
+    "src/fighters/witch-hunters/warhound.md",
+    "src/fighters/witch-hunters/flagellant.md"
+  ]
+}

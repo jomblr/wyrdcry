@@ -1,0 +1,918 @@
+/**
+ * Wyrdcry styling: fonts and colors from wyrdcry_fighter_profiles.
+ * Base font size overridden to 18px.
+ *
+ * Prefer adding new custom/one-off styles here (global classes) rather than
+ * scattering rules across CSS modules — keeps layout components to structure only.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Grenze+Gotisch:wght@100..900&family=Inconsolata:wght@200..900&display=swap');
+
+/* ----- Wyrdcry palette (from reference HTML) ----- */
+:root {
+  /* Light mode: inverted palette for readability */
+  --wyrd-bg: #ffffff;
+  --wyrd-bg2: #e5e5e5;
+  --wyrd-bg3: #dadada;
+  --wyrd-border: #000000;
+  --wyrd-border2: #b0b0b0;
+  --wyrd-text: #1a1a1a;
+  --wyrd-text2: #505050;
+  --wyrd-text3: #787878;
+  --wyrd-text4: #909090;
+  --wyrd-radius: 6px;
+  --wyrd-radius-lg: 10px;
+}
+
+[data-theme='dark'] {
+  --wyrd-bg: #191919;
+  --wyrd-bg2: #1f1f1f;
+  --wyrd-bg3: #252525;
+  --wyrd-bg4: #2c2c2c;
+  --wyrd-bg5: #333333;
+  --wyrd-border: #2e2e2e;
+  --wyrd-border2: #3a3a3a;
+  --wyrd-border3: #484848;
+  --wyrd-text: #e8e8e8;
+  --wyrd-text2: #b0b0b0;
+  --wyrd-text3: #787878;
+  --wyrd-text4: #505050;
+  --wyrd-radius: 6px;
+  --wyrd-radius-lg: 10px;
+}
+
+/* ----- Fonts ----- */
+:root,
+[data-theme='dark'] {
+  --wyrd-font-heading: 'Grenze Gotisch', display, serif;
+  --wyrd-font-body: 'Alegreya', Georgia, serif;
+  --ifm-font-family-base: var(--wyrd-font-body);
+  --ifm-heading-font-family: var(--wyrd-font-heading);
+  --ifm-font-size-base: 18px;
+}
+
+/*
+ * Infima `.button` does not set font-family; native `<button class="button">` then keeps the
+ * browser’s UI font. Homepage CTAs use `<Link class="button">` (`<a>`), which inherits Alegreya.
+ * Align all Infima buttons with the site body font (same as index hero buttons).
+ */
+.button {
+  font-family: var(--ifm-font-family-base);
+}
+
+/* ----- Headlines (tweak as needed) ----- */
+h1 {
+  font-family: var(--wyrd-font-heading);
+}
+
+h2 {
+  font-family: var(--wyrd-font-heading);
+}
+
+h3 {
+  font-family: var(--wyrd-font-heading);
+}
+
+/* Match .markdown > h3 size — glossary h3s are nested, not direct children of .markdown */
+.markdown .weapon-rules-glossary h3,
+.theme-doc-markdown .weapon-rules-glossary h3 {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .markdown .weapon-rules-glossary h3,
+  .theme-doc-markdown .weapon-rules-glossary h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ----- Tooltips (WarbandBuilder portal + faction equipment links + optional weapon popovers) ----- */
+
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  transform: translate(-50%, -100%);
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #000;
+}
+
+.tooltip-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+@keyframes wyrdFactionEquipTooltipIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) translateY(0);
+  }
+}
+
+body .tooltip:has(.faction-equip-tooltip-content),
+body .tooltip:has(.weapon-rule-tooltip-content),
+body .tooltip:has(.tooltip-breakdown) {
+  white-space: normal;
+  max-width: 20rem;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.45;
+  padding: 0.55rem 0.85rem;
+  animation: wyrdFactionEquipTooltipIn 0.22s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .tooltip:has(.faction-equip-tooltip-content),
+  body .tooltip:has(.weapon-rule-tooltip-content),
+  body .tooltip:has(.tooltip-breakdown) {
+    animation: none;
+  }
+}
+
+.equip-tooltip-trigger {
+  display: inline-flex;
+  min-width: 0;
+}
+
+/* Faction equipment tables: not full-time link color — match body text until hover/focus */
+.equip-tooltip-trigger a {
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.equip-tooltip-trigger a:visited {
+  color: var(--ifm-font-color-base);
+}
+
+.equip-tooltip-trigger a:hover {
+  color: var(--ifm-link-color);
+  text-decoration: underline;
+}
+
+.equip-tooltip-trigger a:focus-visible {
+  color: var(--ifm-link-color);
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.faction-equip-tooltip-rules {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Inline / faction weapon detail popover (when used) */
+.faction-weapon-tooltip {
+  position: fixed;
+  transform: translateY(calc(-100% - 8px));
+  padding: 10px 12px;
+  min-width: 200px;
+  max-width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--wyrd-bg2);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--wyrd-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  pointer-events: none;
+  color: var(--ifm-font-color-base);
+}
+
+.faction-weapon-tooltip a {
+  color: var(--ifm-font-color-base);
+}
+
+.faction-weapon-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--wyrd-font-heading);
+}
+
+/* Doc content: simple vertical rhythm */
+.markdown > * + * {
+  margin-top: 0.25rem;
+}
+
+/* Headings: much smaller bottom margin */
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6,
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  margin-bottom: 0.15rem;
+}
+
+.markdown > h2,
+.theme-doc-markdown > h2 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Horizontal rule: dotted like old h2 underline */
+.markdown hr,
+.theme-doc-markdown hr {
+  border: 0;
+  border-top: 1px dotted currentColor;
+  background: transparent;
+  height: 0;
+}
+
+h4 {
+  font-family: var(--wyrd-font-heading);
+}
+
+a {
+  font-weight: 600;
+}
+
+h5 {
+  font-family: var(--wyrd-font-heading);
+}
+
+h6 {
+  font-family: var(--wyrd-font-heading);
+}
+
+/* ----- Paragraphs (tweak as needed) ----- */
+p {
+  font-family: var(--wyrd-font-body);
+}
+
+/* ----- Inline / code: Inconsolata, uppercase ----- */
+.code,
+.theme-doc-markdown code {
+  font-family: 'Inconsolata', monospace;
+  text-transform: uppercase;
+  font-weight: 800;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  vertical-align: baseline;
+}
+
+/* Code blocks: keep normal casing */
+.theme-doc-markdown pre code,
+pre code {
+  text-transform: none;
+}
+
+/* ----- Table of contents ----- */
+.table-of-contents {
+  font-size: 1rem;
+}
+
+/* ----- Custom markdown: keywords (uppercase) ----- */
+.keyword {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ----- Faction fighter cards (src/components/wiki/FactionFighters.tsx) ----- */
+.fighterCard {
+  border: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-surface-color);
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.5rem;
+  max-width:640px
+}
+
+.fighterCardHeading {
+  margin-top: 0;
+}
+
+.fighterCardStats {
+  max-width: 42rem;
+}
+
+/* Abilities block: GFM + theme headings inside fighter card */
+.fighter-abilities.markdown {
+  margin-top: 0.75rem;
+}
+
+.fighter-abilities.markdown p {
+  margin-bottom: 0.5rem;
+}
+
+.fighter-abilities.markdown ul,
+.fighter-abilities.markdown ol {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.fighterCardKeywords {
+  margin-top: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+[data-theme='dark'] .fighterCardKeywords {
+  background: var(--ifm-color-emphasis-300);
+}
+
+/* ----- Ability & trait cards (Obsidian divs) ----- */
+.markdown .ability,
+.theme-doc-markdown .ability {
+  background-color: var(--ifm-link-color);
+  background-color: color-mix(in srgb, var(--ifm-link-color) 12%, transparent);
+  border: 1px solid var(--ifm-link-color);
+  border-radius: var(--wyrd-radius);
+  color: var(--wyrd-text);
+  padding: 0.6rem 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.markdown .trait,
+.theme-doc-markdown .trait {
+  background-color: color-mix(in srgb, var(--wyrd-text3) 15%, transparent);
+  border: 1px solid var(--wyrd-border2);
+  border-radius: var(--wyrd-radius);
+  color: var(--wyrd-text);
+  padding: 0.6rem 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.markdown .fighter,
+.theme-doc-markdown .fighter {
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--wyrd-radius);
+  padding: 0.75rem 1rem 1rem 1rem;
+  margin: 0.5rem 0;
+}
+
+/* Fighter card header: limitation + name on the left, cost on the right */
+.markdown .fighter-header,
+.theme-doc-markdown .fighter-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.markdown .fighter-title,
+.theme-doc-markdown .fighter-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.markdown .fighter-title h3,
+.theme-doc-markdown .fighter-title h3 {
+  margin: 0;
+}
+
+.markdown .fighter-title,
+.theme-doc-markdown .fighter-title,
+.markdown .fighter-cost,
+.theme-doc-markdown .fighter-cost {
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.markdown .fighter-cost,
+.theme-doc-markdown .fighter-cost {
+  text-align: right;
+}
+
+/* Responsive table: scroll on small screens, stays readable */
+.markdown .fighter-table-wrapper,
+.theme-doc-markdown .fighter-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0.75rem 0;
+  max-width: 100%;
+}
+
+.markdown .fighter table,
+.theme-doc-markdown .fighter table {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 420px;
+}
+
+.markdown .fighter table th,
+.markdown .fighter table td,
+.theme-doc-markdown .fighter table th,
+.theme-doc-markdown .fighter table td {
+  width: 16.67%; /* equal columns (6 cols) */
+}
+
+.markdown table,
+.theme-doc-markdown table {
+  border-collapse: collapse;
+}
+
+/* Weapon tables: full width, 30% name, 50% special, rest shared by Range/Attacks/Damage */
+.weapon-table {
+  width: 100%;
+  margin: 0.75rem 0 1rem 0;
+}
+
+.weapon-table table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.weapon-table table th:nth-child(1),
+.weapon-table table td:nth-child(1) {
+  width: 30%;
+}
+
+.weapon-table table th:nth-child(2),
+.weapon-table table td:nth-child(2),
+.weapon-table table th:nth-child(3),
+.weapon-table table td:nth-child(3),
+.weapon-table table th:nth-child(4),
+.weapon-table table td:nth-child(4) {
+  width: 6.67%; /* 20% / 3 for Range, Attacks, Damage */
+}
+
+.weapon-table table th:nth-child(5),
+.weapon-table table td:nth-child(5) {
+  width: 50%;
+}
+
+.markdown table thead th,
+.theme-doc-markdown table thead th {
+  border-bottom: none;
+}
+
+/* Avoid double border between header and first row */
+.markdown table tbody tr:first-child td,
+.theme-doc-markdown table tbody tr:first-child td {
+  border-top: none;
+}
+
+@media (max-width: 480px) {
+  .markdown .fighter table,
+  .theme-doc-markdown .fighter table {
+    font-size: 0.9rem;
+  }
+  .markdown .fighter table th,
+  .markdown .fighter table td,
+  .theme-doc-markdown .fighter table th,
+  .theme-doc-markdown .fighter table td {
+    padding: 0.35rem 0.4rem;
+  }
+}
+
+/* Inside .fighter we mostly rely on global .markdown spacing rules.
+   Only keep a small tweak: no extra top margin on the first child. */
+.markdown .fighter > *:first-child,
+.theme-doc-markdown .fighter > *:first-child {
+  margin-top: 0;
+}
+
+/* Keywords strip: full width, dark grey (light theme) / light grey (dark theme) */
+.markdown .fighter-keywords,
+.theme-doc-markdown .fighter-keywords {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--wyrd-radius);
+  box-sizing: border-box;
+}
+
+:root .markdown .fighter-keywords,
+:root .theme-doc-markdown .fighter-keywords {
+  background-color: var(--wyrd-bg3);
+}
+
+[data-theme='dark'] .markdown .fighter-keywords,
+[data-theme='dark'] .theme-doc-markdown .fighter-keywords {
+  background-color: var(--wyrd-bg4);
+}
+
+.markdown .fighter-keywords p,
+.theme-doc-markdown .fighter-keywords p {
+  margin-bottom: 0;
+}
+
+/* Hero injury roller layout */
+.hero-injury-roller {
+  margin: 0.75rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Keep anchor targets (spans with id) and scrolled-to rows from hiding under navbar */
+.injury-tables [id],
+.injury-tables tr {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+}
+
+.weapon-table [id^="weapon-"],
+.weapon-table td:first-child {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+}
+
+.injury-row-highlight {
+  background-color: var(--ifm-link-color);
+  color: #ffffff;
+}
+
+/* "Rolled a XX" text next to button: black on light, white on dark, fades out over 2s */
+.injury-roll-result {
+  margin-left: 0.75rem;
+  color: #000000;
+  animation: injury-roll-result-fade 2s ease-out forwards;
+}
+
+[data-theme='dark'] .injury-roll-result {
+  color: #ffffff;
+}
+
+@keyframes injury-roll-result-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Back-to-top icon: pinned right edge in the result cell */
+.injury-tables table td:last-child {
+  position: relative;
+  padding-right: 1.75rem; /* make space for icon */
+}
+
+.injury-back-to-top {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background-color: #000000;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+  /* lucide "corner-right-up" icon as data-uri svg */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='10 9 15 4 20 9'/%3E%3Cpath d='M15 4v10a4 4 0 0 1-4 4H4'/%3E%3C/svg%3E");
+}
+
+.injury-back-to-top:hover {
+  filter: brightness(1.15);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .injury-row-highlight {
+  background-color: #e6c229;
+  color: #000000;
+}
+
+.injury-tables table th:first-child,
+.injury-tables table td:first-child {
+  width: 20%;
+}
+
+/* ----- Light theme colors ----- */
+:root {
+  --ifm-color-primary: #16754a;
+  --ifm-color-primary-dark: #136941;
+  --ifm-color-primary-darker: #11633d;
+  --ifm-color-primary-darkest: #0e5232;
+  --ifm-color-primary-light: #1a8a58;
+  --ifm-color-primary-lighter: #1d9660;
+  --ifm-color-primary-lightest: #22ad70;
+  --ifm-link-color: #0d9660;
+  --ifm-link-hover-color: #0a7a4d;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --ifm-background-color: var(--wyrd-bg);
+  --ifm-background-surface-color: var(--wyrd-bg);
+  --ifm-font-color-base: var(--wyrd-text);
+  --ifm-color-content: var(--wyrd-text);
+  --ifm-color-content-secondary: var(--wyrd-text2);
+  --ifm-navbar-background-color: var(--wyrd-bg);
+  /* Remove default Infima navbar drop shadow (--ifm-global-shadow-lw) */
+  --ifm-navbar-shadow: none;
+  --ifm-footer-background-color: var(--wyrd-bg2);
+  --ifm-color-emphasis-300: var(--wyrd-border);
+  --ifm-color-emphasis-500: var(--wyrd-text3);
+  --ifm-color-emphasis-700: var(--wyrd-text2);
+  --ifm-color-emphasis-800: var(--wyrd-text);
+  --ifm-color-emphasis-900: var(--wyrd-text);
+  --ifm-navbar-link-color: var(--wyrd-text);
+  --ifm-menu-color: var(--wyrd-text2);
+  --ifm-toc-link-color: var(--wyrd-text2);
+  --ifm-hr-background-color: var(--wyrd-border);
+  --ifm-table-border-color: #000000;
+  --ifm-table-head-background: #1a1a1a;
+  --ifm-table-head-color: #ffffff;
+}
+
+/* ----- Dark theme colors (Wyrdcry reference palette) ----- */
+[data-theme='dark'] {
+  --ifm-color-primary: #e6c229;
+  --ifm-color-primary-dark: #d4b024;
+  --ifm-color-primary-darker: #c9a622;
+  --ifm-color-primary-darkest: #a6891c;
+  --ifm-color-primary-light: #ecca3d;
+  --ifm-color-primary-lighter: #f0d24a;
+  --ifm-color-primary-lightest: #f5dc6b;
+  --ifm-link-color: #e6c229;
+  --ifm-link-hover-color: #f0d24a;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-background-color: var(--wyrd-bg);
+  --ifm-background-surface-color: var(--wyrd-bg2);
+  --ifm-font-color-base: var(--wyrd-text);
+  --ifm-color-content: var(--wyrd-text);
+  --ifm-color-content-secondary: var(--wyrd-text2);
+  --ifm-navbar-background-color: var(--wyrd-bg2);
+  --ifm-navbar-shadow: none;
+  --ifm-footer-background-color: var(--wyrd-bg);
+  --ifm-color-emphasis-300: var(--wyrd-border2);
+  --ifm-color-emphasis-500: var(--wyrd-text3);
+  --ifm-color-emphasis-700: var(--wyrd-text2);
+  --ifm-color-emphasis-800: var(--wyrd-text);
+  --ifm-color-emphasis-900: var(--wyrd-text);
+  --ifm-navbar-link-color: var(--wyrd-text);
+  --ifm-menu-color: var(--wyrd-text2);
+  --ifm-toc-link-color: var(--wyrd-text2);
+  --ifm-hr-background-color: var(--wyrd-border);
+  --ifm-table-border-color: var(--wyrd-border3);
+  --ifm-table-head-background: var(--wyrd-bg4);
+  --ifm-table-head-color: #ffffff;
+  --ifm-code-background: var(--wyrd-bg3);
+  --ifm-hover-overlay: rgba(255, 255, 255, 0.05);
+}
+
+/* ----- Top navbar: 1px bottom edge (shadow off via --ifm-navbar-shadow) ----- */
+.navbar {
+  border-bottom: 1px solid var(--ifm-table-border-color);
+}
+
+/* Hero logotype is a white SVG; on normal pages tint it to match navbar text */
+.navbar__logo img {
+  filter: brightness(0);
+  opacity: 0.92;
+}
+
+[data-theme='dark'] .navbar__logo img {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+/* ----- Landing page (`/`, pages/index.js — hero + logo + buttons): transparent nav; solid + dark text on hover ----- */
+/*
+ * Infima uses `.navbar { background-color: var(--ifm-navbar-background-color) }` — we don’t edit node_modules;
+ * on the home page only, point that variable at transparent rgba so transitions still work.
+ * Class `wyrd-homepage` is set in docusaurus.config.js head script + `src/theme/Root.tsx`.
+ */
+html.wyrd-homepage {
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0);
+}
+
+html[data-theme='dark'].wyrd-homepage {
+  --ifm-navbar-background-color: rgba(31, 31, 31, 0);
+}
+
+html.wyrd-homepage .navbar {
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: rgba(255, 255, 255, 0.88);
+  border-bottom-color: rgba(0, 0, 0, 0);
+  box-shadow: none;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Light theme: solid bar on hover — restore surface color via the same variable Infima reads */
+html.wyrd-homepage .navbar:hover,
+html.wyrd-homepage .navbar:focus-within,
+html.wyrd-homepage .navbar.navbar-sidebar--show {
+  --ifm-navbar-background-color: var(--wyrd-bg);
+  border-bottom-color: var(--ifm-table-border-color);
+  --ifm-navbar-link-color: #000000;
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
+}
+
+/* Dark theme: solid bar on hover */
+html[data-theme='dark'].wyrd-homepage .navbar:hover,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show {
+  --ifm-navbar-background-color: var(--wyrd-bg2);
+  --ifm-navbar-link-color: var(--wyrd-text);
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
+}
+
+/* Links / brand / title: transition + explicit colors (Infima can override var(--ifm-navbar-link-color)) */
+html.wyrd-homepage .navbar .navbar__link,
+html.wyrd-homepage .navbar .navbar__brand,
+html.wyrd-homepage .navbar .navbar__title {
+  transition: color 0.3s ease;
+}
+
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__link,
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__brand {
+  color: #ffffff !important;
+}
+
+html.wyrd-homepage .navbar:hover .navbar__link,
+html.wyrd-homepage .navbar:focus-within .navbar__link,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__link,
+html.wyrd-homepage .navbar:hover .navbar__brand,
+html.wyrd-homepage .navbar:focus-within .navbar__brand,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__brand {
+  color: #000000 !important;
+}
+
+html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__link,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__link,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__link,
+html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__brand,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__brand,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__brand {
+  color: var(--wyrd-text) !important;
+}
+
+/* Link hover on solid bar: primary accent */
+html.wyrd-homepage .navbar:hover .navbar__link:hover,
+html.wyrd-homepage .navbar:focus-within .navbar__link:hover,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__link:hover {
+  color: var(--ifm-color-primary) !important;
+}
+
+html.wyrd-homepage .navbar .navbar__logo img {
+  transition: filter 0.35s ease;
+}
+
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__logo img {
+  filter: brightness(0) invert(1);
+}
+
+html.wyrd-homepage .navbar:hover .navbar__logo img,
+html.wyrd-homepage .navbar:focus-within .navbar__logo img,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__logo img {
+  filter: none;
+}
+
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__items .clean-btn,
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__toggle {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+html.wyrd-homepage .navbar:hover .navbar__items .clean-btn,
+html.wyrd-homepage .navbar:focus-within .navbar__items .clean-btn,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__items .clean-btn,
+html.wyrd-homepage .navbar:hover .navbar__toggle,
+html.wyrd-homepage .navbar:focus-within .navbar__toggle,
+html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__toggle {
+  color: #000000 !important;
+}
+
+html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__items .clean-btn,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__items .clean-btn,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__items .clean-btn,
+html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__toggle,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__toggle,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__toggle {
+  color: var(--wyrd-text) !important;
+}
+
+/* ----- Infima grid: horizontal inset for .col (Bootstrap-style rows) ----- */
+
+
+/* ----- Faction unique weapons (tables; tooltip styles live under “Tooltips” above) ----- */
+.faction-weapons {
+  width: 100%;
+  overflow: visible;
+}
+
+.faction-weapon-table th.faction-weapon-header {
+  text-align: left;
+}
+
+.faction-weapons .faction-weapon-table {
+  width: 100%;
+  table-layout: fixed;
+  overflow: visible;
+}
+
+.faction-weapons .faction-weapon-table th:first-child,
+.faction-weapons .faction-weapon-table td:first-child {
+  width: 100%;
+}
+
+.faction-weapons .faction-weapon-table th.faction-weapon-cost,
+.faction-weapons .faction-weapon-table td.faction-weapon-cost {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.faction-weapons .faction-weapon-table tbody,
+.faction-weapons .faction-weapon-table tr,
+.faction-weapons .faction-weapon-table td {
+  overflow: visible;
+}
+
+/* ----- Faction armour (same sizing as weapon tables) ----- */
+.faction-armour {
+  width: 100%;
+}
+
+.faction-armour table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.faction-armour table th:first-child,
+.faction-armour table td:first-child {
+  width: 100%;
+  text-align: left;
+}
+
+.faction-armour table th:last-child,
+.faction-armour table td:last-child {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.faction-weapon-name {
+  position: relative;
+  overflow: visible;
+}
+
+.faction-weapon-hero-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 14px;
+  margin-right: 0.25rem;
+  margin-bottom: 2px;
+  font-size: 0.85em;
+  color: #1a1a1a;
+  cursor: default;
+}
+
+[data-theme='dark'] .faction-weapon-hero-icon {
+  color: #fff;
+}
+
+[data-theme='dark'] img.faction-weapon-hero-icon {
+  filter: brightness(0) invert(1);
+}
+
+/*
+ * Homepage navbar: unlayered + !important on BOTH the Infima variable and longhands.
+ * If this isn’t red, `html` is missing `wyrd-homepage` (see Root.tsx + docusaurus.config.js).
+ */
+html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show),
+html.wyrd-homepage .navbar:hover,
+html.wyrd-homepage .navbar:focus-within,
+html.wyrd-homepage .navbar.navbar-sidebar--show,
+html[data-theme='dark'].wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show),
+html[data-theme='dark'].wyrd-homepage .navbar:hover,
+html[data-theme='dark'].wyrd-homepage .navbar:focus-within,
+html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show {
+  --ifm-navbar-background-color: #ff0000 !important;
+  background: #ff0000 !important;
+  background-color: #ff0000 !important;
+  border-bottom-color: #990000 !important;
+}

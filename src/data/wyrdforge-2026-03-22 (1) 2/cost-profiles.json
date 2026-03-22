@@ -1,0 +1,42 @@
+{
+  "fighter": {
+    "base_cost": 40,
+    "baselines": {
+      "move": 5,
+      "fight": 3,
+      "shoot": 3,
+      "defense": 3,
+      "health": 8,
+      "bravery": 5
+    },
+    "costs": {
+      "move": 15,
+      "fight": 10,
+      "shoot": 10,
+      "defense": 10,
+      "health": 10,
+      "bravery": 10
+    }
+  },
+  "weapon": {
+    "base_cost": 15,
+    "baselines_melee": {
+      "range": 1,
+      "attacks": 3,
+      "hit": 2,
+      "crit": 3
+    },
+    "baselines_ranged": {
+      "range": 6,
+      "attacks": 3,
+      "hit": 2,
+      "crit": 3
+    },
+    "costs": {
+      "range": 10,
+      "attacks": 15,
+      "hit": 10,
+      "crit": 5
+    }
+  }
+}

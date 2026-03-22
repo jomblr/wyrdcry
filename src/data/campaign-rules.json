@@ -1,0 +1,9 @@
+{
+  "default_favour": 0,
+  "standing_thresholds": [
+    { "min": 0,  "max": 9,  "label": "Disposable" },
+    { "min": 10, "max": 19, "label": "Notorious"  },
+    { "min": 20, "max": 34, "label": "Feared"     },
+    { "min": 35, "max": 99, "label": "Legendary"  }
+  ]
+}

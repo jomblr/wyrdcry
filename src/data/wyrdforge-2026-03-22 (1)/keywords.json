@@ -1,0 +1,14 @@
+{
+  "race": [
+    "SKAVEN",
+    "BEAST",
+    "HUMAN",
+    "DAEMON"
+  ],
+  "archetype": [
+    "HERO",
+    "LEADER",
+    "HENCHMAN",
+    "WIZARD"
+  ]
+}

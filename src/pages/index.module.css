@@ -1,0 +1,102 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  /* Pull behind the navbar so the image fills the whole viewport; pad top for bar height + breathing room */
+  --wyrd-nav-h: var(--ifm-navbar-height, 60px);
+  box-sizing: border-box;
+  margin-top: calc(-1 * var(--wyrd-nav-h));
+  min-height: 100vh;
+  padding: calc(var(--wyrd-nav-h) + 1.6rem) 2rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.particlesLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particlesLayer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  margin-top: -2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.logotype {
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.buttons a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.discordButton {
+  background: #ffffff !important;
+  color: #333333 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.discordButton:hover {
+  background: #f0f0f0 !important;
+  color: #1a1a1a !important;
+}
+
+[data-theme='dark'] .discordButton {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme='dark'] .discordButton:hover {
+  background: #e8e8e8 !important;
+  color: #000000 !important;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: calc(var(--wyrd-nav-h) + 1.2rem) 1.5rem 1.5rem;
+  }
+
+  .heroContent {
+    gap: 1.5rem;
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "costs": {
+    "base": 40,
+    "move": 10,
+    "fight": 10,
+    "shoot": 10,
+    "def": 10,
+    "health": 10,
+    "bravery": 10,
+    "special": 10
+  },
+  "fighters": [
+    {
+      "name": "Assassin Adept",
+      "faction": "Clan Eshin",
+      "move": 6,
+      "fight": 4,
+      "shoot": 4,
+      "def": 3,
+      "health": 12,
+      "bravery": 5,
+      "special": 2,
+      "tags": [
+        "Leader",
+        "Hero"
+      ],
+      "id": 21,
+      "mandatory": true,
+      "limit": 1,
+      "description": "",
+      "specialRules": "",
+      "cost": 110
+    },
+    {
+      "name": "Black Skaven",
+      "faction": "Clan Eshin",
+      "move": 6,
+      "fight": 4,
+      "shoot": 3,
+      "def": 3,
+      "health": 14,
+      "bravery": 5,
+      "special": 0,
+      "tags": [
+        "Hero"
+      ],
+      "id": 22,
+      "mandatory": false,
+      "limit": 3,
+      "cost": 90
+    },
+    {
+      "name": "Eshin Sorcerer",
+      "faction": "Clan Eshin",
+      "move": 6,
+      "fight": 3,
+      "shoot": 3,
+      "def": 3,
+      "health": 12,
+      "bravery": 5,
+      "special": 2,
+      "tags": [
+        "Hero",
+        "Wizard"
+      ],
+      "id": 23,
+      "mandatory": false,
+      "limit": 1,
+      "cost": 90
+    },
+    {
+      "name": "Night Runner",
+      "faction": "Clan Eshin",
+      "move": 6,
+      "fight": 3,
+      "shoot": 3,
+      "def": 3,
+      "health": 8,
+      "bravery": 6,
+      "special": 0,
+      "tags": [
+        "henchman"
+      ],
+      "id": 24,
+      "cost": 40
+    },
+    {
+      "name": "Giant Rat",
+      "faction": "Clan Eshin",
+      "move": 8,
+      "fight": 2,
+      "shoot": 2,
+      "def": 2,
+      "health": 6,
+      "bravery": 6,
+      "special": 1,
+      "tags": [
+        "Henchman"
+      ],
+      "id": 25,
+      "mandatory": false,
+      "limit": 5,
+      "cost": 30
+    },
+    {
+      "name": "Witch Hunter Captain",
+      "faction": "Witch Hunters",
+      "move": 5,
+      "fight": 4,
+      "shoot": 4,
+      "def": 3,
+      "health": 14,
+      "bravery": 4,
+      "special": 1,
+      "tags": [
+        "Leader",
+        "Hero"
+      ],
+      "id": 26,
+      "mandatory": true,
+      "limit": 1,
+      "description": "This guy is a great fucking dude",
+      "specialRules": "### [Double] Ability\nDoes some cool shit\n### [Double] Ability\nDoes some cool shit",
+      "cost": 110
+    },
+    {
+      "name": "Witch Hunter",
+      "faction": "Witch Hunters",
+      "move": 5,
+      "fight": 3,
+      "shoot": 3,
+      "def": 3,
+      "health": 12,
+      "bravery": 4,
+      "special": 1,
+      "tags": [
+        "Hero"
+      ],
+      "id": 27,
+      "mandatory": false,
+      "limit": 3,
+      "cost": 80
+    },
+    {
+      "name": "Flagellant",
+      "faction": "Witch Hunters",
+      "move": 5,
+      "fight": 4,
+      "shoot": 3,
+      "def": 3,
+      "health": 14,
+      "bravery": 4,
+      "special": 1,
+      "tags": [
+        "Henchman"
+      ],
+      "id": 28,
+      "mandatory": false,
+      "limit": 5,
+      "cost": 100
+    },
+    {
+      "name": "Warhound",
+      "faction": "Witch Hunters",
+      "move": 6,
+      "fight": 4,
+      "shoot": 3,
+      "def": 3,
+      "health": 8,
+      "bravery": 5,
+      "special": 1,
+      "tags": [
+        "Henchman"
+      ],
+      "id": 30,
+      "mandatory": false,
+      "limit": 5,
+      "cost": 70
+    },
+    {
+      "name": "Zealot",
+      "faction": "Witch Hunters",
+      "move": 5,
+      "fight": 3,
+      "shoot": 3,
+      "def": 3,
+      "health": 10,
+      "bravery": 5,
+      "special": 0,
+      "tags": [
+        "Henchman"
+      ],
+      "mandatory": false,
+      "limit": 0,
+      "id": 32,
+      "cost": 50
+    },
+    {
+      "name": "Matriarch",
+      "faction": "Sisters of Sigmar",
+      "move": 5,
+      "fight": 4,
+      "shoot": 3,
+      "def": 3,
+      "health": 14,
+      "bravery": 3,
+      "special": 1,
+      "tags": [
+        "Leader",
+        "Hero"
+      ],
+      "mandatory": true,
+      "limit": 1,
+      "id": 33,
+      "cost": 110
+    },
+    {
+      "name": "Sister Superior",
+      "faction": "Sisters of Sigmar",
+      "move": 5,
+      "fight": 4,
+      "shoot": 3,
+      "def": 3,
+      "health": 14,
+      "bravery": 4,
+      "special": 0,
+      "tags": [
+        "Hero"
+      ],
+      "mandatory": false,
+      "limit": 3,
+      "id": 34,
+      "cost": 90
+    },
+    {
+      "name": "Augur",
+      "faction": "Sisters of Sigmar",
+      "move": 5,
+      "fight": 2,
+      "shoot": 2,
+      "def": 3,
+      "health": 10,
+      "bravery": 4,
+      "special": 2,
+      "tags": [
+        "Hero"
+      ],
+      "mandatory": false,
+      "limit": 1,
+      "id": 35,
+      "cost": 60
+    },
+    {
+      "name": "Sister",
+      "faction": "Sisters of Sigmar",
+      "move": 5,
+      "fight": 3,
+      "shoot": 3,
+      "def": 3,
+      "health": 10,
+      "bravery": 4,
+      "special": 0,
+      "tags": [
+        "Henchman"
+      ],
+      "mandatory": false,
+      "limit": 0,
+      "id": 36,
+      "cost": 60
+    },
+    {
+      "name": "Novice",
+      "faction": "Sisters of Sigmar",
+      "move": 5,
+      "fight": 2,
+      "shoot": 2,
+      "def": 3,
+      "health": 8,
+      "bravery": 4,
+      "special": 1,
+      "tags": [
+        "Henchman"
+      ],
+      "mandatory": false,
+      "limit": 0,
+      "id": 37,
+      "cost": 40
+    }
+  ],
+  "nextId": 37,
+  "selId": 28
+}

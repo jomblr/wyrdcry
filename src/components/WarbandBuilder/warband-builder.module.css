@@ -1,0 +1,1160 @@
+/* ─── Page shell ────────────────────────────────────────────────────────────── */
+
+.builderShell {
+  display: flex;
+  height: calc(100vh - var(--ifm-navbar-height));
+  overflow: hidden;
+}
+
+/* ─── Sidebar (TOC-style, right side) ───────────────────────────────────────── */
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--ifm-toc-border-color, var(--ifm-color-emphasis-300));
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+.tocHeading {
+  font-size: 0.75rem;
+  font-weight: var(--ifm-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-content-secondary);
+  padding: 0 var(--ifm-toc-padding-horizontal, 0.75rem) 0.5rem;
+}
+
+.tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.tocLink {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  text-align: left;
+  font: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: var(--ifm-toc-padding-vertical, 0.2rem) var(--ifm-toc-padding-horizontal, 0.75rem);
+  color: var(--ifm-toc-link-color, var(--ifm-color-content-secondary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0;
+}
+
+.tocLink:hover:not(:disabled) {
+  color: var(--ifm-link-color);
+  background: none;
+}
+
+.tocLinkActive {
+  color: var(--ifm-link-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+.tocCreate {
+  margin-top: 0.5rem;
+  color: var(--ifm-color-content-secondary);
+  opacity: 0.7;
+}
+
+.tocCreate:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+/* ─── Main content area ─────────────────────────────────────────────────────── */
+
+.content {
+  flex: 1;
+  min-width: 0; /* prevents flex child from overflowing its parent */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── Top bar: tabs + action buttons ───────────────────────────────────────── */
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Segmented toggle: sliding pill (same idea as iOS / shadcn) */
+.tabToggle {
+  display: flex;
+  align-items: center;
+}
+
+.tabToggleInner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  padding: 3px;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-200);
+  border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  min-width: 16rem;
+}
+
+.tabToggleIndicator {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc((100% - 6px) / 2);
+  border-radius: calc(var(--ifm-global-radius) - 2px);
+  background: var(--ifm-color-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tabToggleInner[data-active='information'] .tabToggleIndicator {
+  transform: translateX(100%);
+}
+
+.tabToggleBtn {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0.45rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ifm-color-content-secondary);
+  border-radius: calc(var(--ifm-global-radius) - 3px);
+  transition: color 0.18s ease;
+}
+
+.tabToggleBtn:hover:not(.tabToggleBtnActive) {
+  color: var(--ifm-color-content);
+}
+
+.tabToggleBtn:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* On the sliding pill: high-contrast label (must beat :hover) */
+.tabToggleBtnActive,
+.tabToggleBtnActive:hover {
+  color: #ffffff;
+}
+
+:global(html[data-theme='dark']) .tabToggleBtnActive,
+:global(html[data-theme='dark']) .tabToggleBtnActive:hover {
+  color: #0a0a0a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabToggleIndicator {
+    transition: none;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ─── Scrollable main body ──────────────────────────────────────────────────── */
+
+.body {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  /* No padding-top here: padding on a scroll container insets sticky `top:0` (looks like a gap). */
+  padding: 0 1.25rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Preserve previous vertical rhythm; inset is outside the scrollport so sticky headers sit flush. */
+.body > :first-child {
+  padding-top: 1rem;
+}
+
+/* ─── Shared grid base ──────────────────────────────────────────────────────── */
+
+.tableWrapper {
+  width: 100%;
+  border: 2px solid var(--wyrd-border);
+  border-radius: var(--wyrd-radius);
+  /* clip rounds corners without creating a scroll container (overflow:hidden breaks sticky) */
+  overflow: clip;
+}
+
+/* Grid container — column tracks defined per-table below */
+.wbGrid {
+  display: grid;
+  width: 100%;
+}
+
+/* Header row: subgrid so columns align with the parent .wbGrid tracks */
+.gridHeader {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  background: var(--ifm-table-head-background);
+  color: var(--ifm-table-head-color);
+  margin: 0;
+}
+
+/* Sticky column headers (fighter table, wiki ref tables — not WarbandInfoRow) */
+.gridHeaderSticky {
+  position: sticky;
+  /* Warband builder: scroll is .body — stick to top of that pane */
+  top: 0;
+  z-index: 2;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--wyrd-border) 85%, transparent);
+}
+
+/* Docs pages: viewport scroll — sit below fixed navbar */
+.gridHeaderDocs {
+  top: var(--ifm-navbar-height);
+}
+
+/* Data row: same subgrid trick, with border-top and hover */
+.gridRow {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  border-top: 1px solid var(--wyrd-border);
+}
+
+.gridRow:hover {
+  background: var(--ifm-hover-overlay);
+}
+
+/* Header cell */
+.hCell {
+  padding: 0.5rem 0.6rem;
+  font-family: 'Alegreya', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+}
+
+/* Data cell */
+.cell {
+  padding: 0.35rem 0.6rem;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.cellCenter {
+  justify-content: center;
+}
+
+.hCellCenter {
+  justify-content: center;
+}
+
+.cellFull {
+  grid-column: 1 / -1;
+}
+
+/* ─── Info grid ─────────────────────────────────────────────────────────────── */
+/*    Faction | Warband Name | Favour | Standing | Reputation | Fighters | Value */
+
+.infoGrid {
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  min-width: 540px;
+}
+
+.infoSelect,
+.infoInput {
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  padding: 0;
+  cursor: pointer;
+  min-width: 0;
+  width: 100%;
+}
+
+.infoSelect:focus,
+.infoInput:focus {
+  outline: none;
+}
+
+.infoInput {
+  cursor: text;
+}
+
+.infoInput::placeholder {
+  color: var(--wyrd-text4);
+}
+
+.infoInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.lockedCell {
+  color: var(--wyrd-text4);
+}
+
+/* ─── Fighter grid ──────────────────────────────────────────────────────────── */
+/*    Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
+
+/* drag | Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
+.fighterGrid {
+  grid-template-columns: 20px 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 3fr 3fr 1fr 1fr 1fr 1fr;
+  min-width: 780px;
+}
+
+.dragHandleCell {
+  padding: 0;
+  align-self: stretch; /* fill the full row height */
+}
+
+.dragHandle {
+  background: none;
+  border: none;
+  cursor: grab;
+  color: var(--wyrd-text3);
+  padding: 0 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.gridRow:hover .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+/* Scroll container for the fighter table — lets mobile side-scroll
+   rather than squishing below 780px.
+   overflow-x: auto makes a scroll container and breaks position:sticky for vertical scroll;
+   on wide viewports the table fits — no horizontal overflow — so sticky works. */
+.tableScrollOuter {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 800px) {
+  .tableScrollOuter {
+    overflow-x: visible;
+  }
+}
+
+.tableScrollOuter .tableWrapper {
+  margin-bottom: 0;
+  min-width: 780px;
+}
+
+/* Wiki / docs reference tables — same grid + header styling as builder */
+.tableScrollOuterWiki {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+}
+
+.tableScrollOuterWiki .tableWrapper {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/* Faction equipment tables on faction pages — flush under section / hr (no extra top gap) */
+.tableScrollOuterWikiFactionEquip {
+  margin-top: 0;
+}
+
+.armourRefGrid {
+  grid-template-columns: minmax(8rem, 1fr) minmax(12rem, 2.5fr);
+  min-width: 360px;
+}
+
+.factionFighterRefGrid {
+  grid-template-columns:
+    minmax(6rem, 1.4fr) minmax(3rem, 0.75fr) minmax(4.5rem, 0.9fr) repeat(6, minmax(2rem, 0.55fr))
+    minmax(6rem, 1.1fr) minmax(10rem, 2fr);
+  min-width: 920px;
+}
+
+.factionEquipRefGrid {
+  --faction-equip-cols: minmax(6rem, 2fr) minmax(4rem, 0.9fr);
+  grid-template-columns: var(--faction-equip-cols);
+  min-width: 320px;
+}
+
+/* Faction equipment wiki: first column header is category (Melee weapons, etc.) not “Name” */
+.factionEquipHeaderCategory {
+  font-weight: 700;
+}
+
+/* Single-row stat line: full names (wiki faction fighter sections, same as builder look) */
+.fighterStatsRefGrid {
+  grid-template-columns:
+    minmax(3.5rem, 1fr) minmax(3.25rem, 1fr) minmax(3.5rem, 1fr) minmax(4.75rem, 1.1fr) minmax(3.75rem, 1fr)
+    minmax(4.75rem, 1.1fr);
+  min-width: 520px;
+}
+
+.cellWrap {
+  white-space: normal;
+  overflow: visible;
+  align-items: flex-start;
+  min-height: 2rem;
+}
+
+/* Fighter name + type stacked */
+.fighterName {
+  font-weight: 600;
+  font-size: 0.88rem;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+.fighterType {
+  font-weight:600;
+  font-size: 0.75rem;
+  color: var(--wyrd-text3);
+}
+
+.fighterNameCell {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  white-space: normal;
+  overflow: visible;
+}
+
+.fighterNameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+.fighterNameRow :global(.faction-weapon-hero-icon) {
+  width: 10px;
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-right: 0.05rem;
+}
+
+/* Inline editable inputs inside cells */
+.statInput {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: center;
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  color: inherit;
+  padding: 0;
+  min-width: 0;
+}
+
+.statInput:focus {
+  outline: 1px solid var(--wyrd-border2);
+  border-radius: 2px;
+}
+
+/* Tooltip visuals: src/css/custom.css (.tooltip, .tooltip-breakdown, …) */
+
+/* Click/scroll spinner for stat values */
+.statSpinner {
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  min-width: 1.6rem;
+  text-align: center;
+  transition: background 0.1s;
+}
+
+.statSpinner:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.statSpinner:focus {
+  outline: 1px solid var(--wyrd-border2);
+  border-radius: 2px;
+}
+
+.statReadonly {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Stat modified from base value (manual override or armour bonus) */
+.statModified {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.defenseCell {
+  position: relative;
+}
+
+.nameInput {
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: inherit;
+  padding: 0;
+  min-width: 0;
+}
+
+.nameInput:focus {
+  outline: none;
+}
+
+/* ─── Add fighter row ───────────────────────────────────────────────────────── */
+
+.addFighterBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  font-family: var(--wyrd-font-body);
+  font-size: 0.9rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.addFighterBtn:hover {
+  color: var(--ifm-color-primary);
+}
+
+.addFighterBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 200;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--wyrd-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  padding: 0.25rem 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdownGroup {
+  padding: 0.3rem 0.75rem 0.1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--wyrd-text3);
+  font-family: var(--wyrd-font-body);
+}
+
+.dropdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.35rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.9rem;
+  color: var(--ifm-color-content);
+  text-align: left;
+}
+
+.dropdownItem:hover:not(:disabled) {
+  background: var(--ifm-hover-overlay);
+}
+
+.dropdownItem:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dropdownItemDanger {
+  color: var(--ifm-color-danger, #e53935);
+}
+
+.dropdownLimit {
+  font-size: 0.75rem;
+  color: var(--wyrd-text3);
+  margin-left: 0.5rem;
+}
+
+.dropdownCost {
+  font-size: 0.75rem;
+  color: var(--wyrd-text3);
+  margin-left: auto;
+  padding-left: 0.75rem;
+  white-space: nowrap;
+}
+
+/* ─── Equipment combobox ─────────────────────────────────────────────────────── */
+
+/* The outer box — looks like an input field, wraps tags + inline text input */
+.equipmentInput {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem;
+  width: 100%;
+  min-height: 1.75rem;
+  padding: 0.2rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: var(--wyrd-radius);
+  background: transparent;
+  cursor: text;
+  box-sizing: border-box;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+/* Border + background appear on row hover or when the input is open/focused */
+.gridRow:hover .equipmentInput,
+.equipmentInputFocused {
+  border-color: var(--wyrd-border);
+  background: var(--ifm-background-surface-color);
+}
+
+.equipmentInputFocused {
+  border-color: var(--ifm-color-primary);
+}
+
+/* Highlighted when a dragged equipment tag hovers over this cell */
+.equipmentInputDragOver {
+  border-color: var(--ifm-color-primary) !important;
+  background: var(--ifm-color-primary-lightest, rgba(99, 179, 237, 0.12)) !important;
+  border-style: dashed !important;
+}
+
+.equipmentInputDragOverInvalid {
+  border-color: var(--ifm-color-danger, #e03e3e) !important;
+  background: color-mix(in srgb, var(--ifm-color-danger, #e03e3e) 8%, transparent) !important;
+  border-style: dashed !important;
+}
+
+/* ─── Warband Stash panel ──────────────────────────────────────────────────── */
+
+/* ─── Information tab layout ──────────────────────────────────────────────── */
+
+.infoTabGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+@media (max-width: 680px) {
+  .infoTabGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoPanel {
+  border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+}
+
+.infoPanelTitle {
+  font-family: 'Alegreya', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* Weapon reference table: Weapon | R | A | D | Special (builder + wiki docs) */
+.weaponRefGrid {
+  grid-template-columns: 2fr 1fr 1fr 1fr 4fr;
+  min-width: 640px;
+}
+
+.weaponRefEmpty {
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.8rem;
+  padding: 0.6rem 0.75rem;
+}
+
+/* ─── Inline delete confirmation ──────────────────────────────────────────── */
+
+.dropdownConfirm {
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.dropdownConfirmLabel {
+  font-size: 0.8rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.dropdownConfirmActions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.dropdownConfirmYes,
+.dropdownConfirmNo {
+  flex: 1;
+  padding: 0.25rem 0;
+  border-radius: var(--ifm-global-radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s;
+}
+
+.dropdownConfirmYes {
+  background: var(--ifm-color-danger, #e03e3e);
+  color: #fff;
+  border-color: var(--ifm-color-danger, #e03e3e);
+}
+
+.dropdownConfirmYes:hover {
+  filter: brightness(1.1);
+}
+
+.dropdownConfirmNo {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.dropdownConfirmNo:hover {
+  background: var(--ifm-color-emphasis-300);
+}
+
+/* ─── Warband Stash panel ──────────────────────────────────────────────────── */
+
+.stashPanel {
+  border-width: 2px;
+  overflow-y: auto;
+  max-height: 460px;
+  padding: 1rem;
+}
+
+.stashTitle {
+  font-family: 'Alegreya', serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.stashItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.stashEmpty {
+  font-size: 0.8rem;
+  color: var(--ifm-color-content-secondary);
+  align-self: center;
+}
+
+.stashTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 3px;
+  background: var(--ifm-color-emphasis-200);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.stashTagName {
+  font-weight: 500;
+}
+
+.stashTagCost {
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.7rem;
+}
+
+.stashTagRemove {
+  background: none;
+  border: none;
+  padding: 0 0 0 0.1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--ifm-color-content-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.stashTagRemove:hover {
+  color: var(--ifm-color-danger, #e03e3e);
+}
+
+/* ── Faction Rules panel ────────────────────────────────────────────── */
+.factionRulesPanel {
+  border-width: 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.notesTextarea {
+  flex: 1;
+  width: 100%;
+  min-height: 200px;
+  max-height: 390px;
+  resize: vertical;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--ifm-color-content);
+  font-family: inherit;
+  padding: 0;
+}
+
+.notesTextarea::placeholder {
+  color: var(--ifm-color-content-secondary);
+}
+
+.notesMd {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--ifm-color-content);
+  cursor: text;
+  flex: 1;
+  min-height: 2rem;
+}
+
+.notesMd :global(code) {
+  font-family: 'Inconsolata', monospace;
+  text-transform: uppercase;
+  font-weight: 800;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  vertical-align: baseline;
+  font-size: inherit;
+}
+
+.notesMd :global(h2),
+.notesMd :global(h3),
+.notesMd :global(h4) {
+  font-size: 0.88rem;
+  margin: 0.75rem 0 0.25rem;
+  font-family: 'Alegreya', serif;
+}
+
+.notesMd :global(p) {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.notesMd :global(ul) {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.notesMd :global(hr) {
+  border: none;
+  border-top: 1px solid var(--wyrd-border);
+  margin: 0.5rem 0;
+}
+
+.notesPlaceholder {
+  color: var(--ifm-color-content-secondary);
+}
+
+.factionAbilities {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.factionAbility {
+  background: color-mix(in srgb, var(--ifm-color-emphasis-200) 60%, transparent);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.45rem 0.65rem;
+}
+
+.factionAbilityHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.factionAbilityName {
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-family: 'Alegreya', serif;
+}
+
+.factionAbilityDesc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+}
+
+/* Ability type tags */
+.abilityTypeTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.5;
+  background: rgba(128, 128, 128, 0.14);
+  color: var(--ifm-color-content-secondary);
+}
+
+.abilityType_trait {
+  background: color-mix(in srgb, var(--ifm-color-emphasis-400) 25%, transparent);
+  color: var(--ifm-color-content-secondary);
+}
+
+.abilityType_double {
+  background: color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
+  color: var(--ifm-color-primary);
+}
+
+.abilityType_triple {
+  background: color-mix(in srgb, #3b9e5a 18%, transparent);
+  color: #3b9e5a;
+}
+
+[data-theme='dark'] .abilityType_triple {
+  background: color-mix(in srgb, #5ecf7c 15%, transparent);
+  color: #5ecf7c;
+}
+
+.abilityType_quadruple {
+  background: color-mix(in srgb, #c87c1a 18%, transparent);
+  color: #c87c1a;
+}
+
+[data-theme='dark'] .abilityType_quadruple {
+  background: color-mix(in srgb, #f0a040 15%, transparent);
+  color: #f0a040;
+}
+
+/* Placeholder hidden by default; shown on row hover or when focused/open */
+.equipmentTextInput::placeholder {
+  color: transparent;
+}
+
+.gridRow:hover .equipmentTextInput::placeholder,
+.equipmentInputFocused .equipmentTextInput::placeholder {
+  color: var(--wyrd-text3);
+}
+
+.equipmentTag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(128, 128, 128, 0.14);
+  color: var(--ifm-color-content-secondary);
+  border-radius: 3px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.72rem;
+  font-family: var(--wyrd-font-body);
+  white-space: nowrap;
+  line-height: 1.5;
+  max-width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.equipmentTagFocused {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-primary-contrast-foreground, #fff);
+}
+
+/* The invisible inline text input that grows with content */
+.equipmentTextInput {
+  flex: 1 1 0;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.8rem;
+  color: inherit;
+}
+
+.dropdownEmpty {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--wyrd-text3);
+  font-style: italic;
+}
+
+.dropdownItemHighlighted {
+  background: var(--ifm-hover-overlay);
+}
+
+/* ─── Ellipsis menu ─────────────────────────────────────────────────────────── */
+
+.ellipsisBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  padding: 0.5rem 0.5rem;
+  border-radius: var(--wyrd-radius);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.ellipsisBtn:hover {
+  background: var(--ifm-hover-overlay);
+  color: var(--ifm-color-content);
+}
+
+.ellipsisMenu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 200;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--wyrd-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  padding: 0.25rem 0;
+}
+
+.ellipsisMenuItem {
+  display: block;
+  width: 100%;
+  padding: 0.35rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.9rem;
+  color: var(--ifm-color-content);
+  text-align: left;
+}
+
+.ellipsisMenuItem:hover {
+  background: var(--ifm-hover-overlay);
+}
+
+.ellipsisMenuItemDanger {
+  color: var(--ifm-color-danger, #e53935);
+}
+
+/* ─── Empty state ───────────────────────────────────────────────────────────── */
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: var(--wyrd-text3);
+  font-size: 0.95rem;
+}
+
+/* ─── Print styles ──────────────────────────────────────────────────────────── */
+
+@media print {
+  .sidebar,
+  .topBar {
+    display: none !important;
+  }
+
+  .builderShell {
+    height: auto;
+    overflow: visible;
+  }
+
+  .content {
+    overflow: visible;
+  }
+
+  .body {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .tableWrapper {
+    border: 2px solid #000;
+    font-size: 0.8rem;
+  }
+
+  .gridHeaderSticky {
+    position: static;
+    box-shadow: none;
+  }
+
+  .gridHeader {
+    background: #1a1a1a !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "parry",
+    "name": "Parry",
+    "description": "When a fighter armed with this weapon is the target of a melee attack action, increase its Defense characteristic by 1.",
+    "effect": {
+      "characteristic": "defense",
+      "bonus": 1,
+      "conditional": false
+    },
+    "cost": 10
+  },
+  {
+    "id": "mighty-1",
+    "name": "Mighty 1",
+    "description": "When making attack actions with this weapon, increase the relevant combat charactic by 1 (Fight for melee attack actions, and Shoot for ranged attack actions).",
+    "effect": {
+      "characteristic": "fight_shoot",
+      "bonus": 1,
+      "conditional": false
+    },
+    "cost": 15
+  },
+  {
+    "id": "mighty-2",
+    "name": "Mighty 2",
+    "description": "When making attack actions with this weapon, increase the relevant combat charactic by 2 (Fight for melee attack actions, and Shoot for ranged attack actions).",
+    "effect": {
+      "characteristic": "fight_shoot",
+      "bonus": 2,
+      "conditional": false
+    },
+    "cost": 25
+  },
+  {
+    "id": "two-handed",
+    "name": "Two Handed",
+    "description": "This weapon counts as two hand weapons for the sake of equipment restrictions.",
+    "effect": null,
+    "cost": 0
+  },
+  {
+    "id": "whipcrack",
+    "name": "Whipcrack",
+    "description": "When making melee attack actions with this weapon, the target cannot make reactions.",
+    "effect": null,
+    "cost": 0
+  },
+  {
+    "id": "unreliable",
+    "name": "Unreliable",
+    "description": "When making an attack action with this weapon, if any hit rolls result in a 1, all hit rolls are discarded and the attack action ends.",
+    "effect": null,
+    "cost": -10
+  },
+  {
+    "id": "reload",
+    "name": "Reload",
+    "description": "This weapon must be reloaded after being used for an attack action. A fighter can reload one of their weapons with this special rule when making the wait action.",
+    "effect": null,
+    "cost": -10
+  },
+  {
+    "id": "brace",
+    "name": "Brace",
+    "description": "A fighter may be equipped with two weapons with this special rule and have it count as a single ranged weapon.",
+    "effect": null,
+    "cost": 0
+  },
+  {
+    "id": "cumbersome",
+    "name": "Cumbersome",
+    "description": "A fighter wielding this weapon cannot make the Counter [reaction]",
+    "effect": null,
+    "cost": 0
+  }
+]

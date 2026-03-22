@@ -1,0 +1,79 @@
+[
+  {
+    "id": "blessed-sight",
+    "name": "Blessed Sight",
+    "category": "sisters-of-sigmar",
+    "ability_type": "double",
+    "description": "Roll (X) dice. For each roll of 5+, add one wyrd dice to your saved wyrd dice. Then, this fighter makes a Wait action."
+  },
+  {
+    "id": "stealthy",
+    "name": "Stealthy",
+    "category": "agility",
+    "ability_type": "trait",
+    "description": "Whenever an enemy fighter is targeting this fighter, this fighter is in cover if both of the following are true:\n- It is more than 6” from the enemy fighter.\n- It is within 1” of an obstacle, or part of its base is underneath any part of a terrain piece."
+  },
+  {
+    "id": "one-with-the-shadows",
+    "name": "One with the shadows",
+    "category": "clan-eshin",
+    "ability_type": "trait",
+    "description": "If this fighter is in cover from an enemy fighter, it is not visible to that fighter."
+  },
+  {
+    "id": "slink-away",
+    "name": "Slink away",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "This fighter makes a free retreat action."
+  },
+  {
+    "id": "murder-stab",
+    "name": "Murder Stab",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "Add half the value of this ability (rounding up) to the Fight characteristic of this fighter’s next melee attack action."
+  },
+  {
+    "id": "shadowy-killers",
+    "name": "Shadowy Killers",
+    "category": "clan-eshin",
+    "ability_type": "trait",
+    "description": "Whenever this fighter is activated, if it is not visible to enemy fighters, you may add 1 to the critical hit characteristic of their next attack action."
+  },
+  {
+    "id": "skitterleap",
+    "name": "Skitterleap",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. A fighter cannot use this ability while within 1” of an enemy fighter or when carrying a token. Remove this fighter from the battlefield, then set it up on the battlefield floor or on a platform, more than 6” from all enemy warriors, objective markers and scenario tokens.\n"
+  },
+  {
+    "id": "gnawdoom",
+    "name": "Gnawdoom",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. Select an enemy fighter within 6” and roll (X) d6. For each roll that exceeds the target’s Defense characteristic, allocate 2 damage points to that enemy fighter."
+  },
+  {
+    "id": "enshrouding-shadows",
+    "name": "Enshrouding Shadows",
+    "category": "clan-eshin",
+    "ability_type": "triple",
+    "description": "Magical ability. Until the end of the battleround, friendly fighters within (X/2)” of this fighter are not visible to other fighters."
+  },
+  {
+    "id": "pack-tactics",
+    "name": "Pack Tactics",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "For this fighter’s next attack action, you may add 1 to it’s Fight characteristic for each friendly Henchman within 1” of the target."
+  },
+  {
+    "id": "sigmars-blessing",
+    "name": "Sigmar's Blessing",
+    "category": "sisters-of-sigmar",
+    "ability_type": "trait",
+    "description": "This fighter may call for one of Sigmar's Blessings by spending saved Wyrd Dice:\n\n- **Heart of Steel:** During this fighter’s activation, you may discard one saved Wyrd Dice to automatically pass a panic test.\n- **Righteous Fury:** During this fighter’s activation, after making a hit roll, you may discard one saved Wyrd Dice to turn a hit into a critical hit.\n- **Sigmar Protects:** During an enemy fighter’s activation, you may discard one saved Wyrd Dice to perform a reaction with this fighter without needing or spending an action to do so."
+  }
+]
