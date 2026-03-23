@@ -9,9 +9,9 @@ export default function Root({children}: Props) {
 
   useLayoutEffect(() => {
     if (isHomePathname(pathname, siteConfig.baseUrl)) {
-      document.documentElement.classList.add('wyrd-homepage');
+      document.documentElement.dataset.wyrdPage = 'home';
     } else {
-      document.documentElement.classList.remove('wyrd-homepage');
+      delete document.documentElement.dataset.wyrdPage;
     }
   }, [pathname, siteConfig.baseUrl]);
 

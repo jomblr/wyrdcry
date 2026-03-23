@@ -701,17 +701,17 @@ pre code {
 /*
  * Infima uses `.navbar { background-color: var(--ifm-navbar-background-color) }` — we don’t edit node_modules;
  * on the home page only, point that variable at transparent rgba so transitions still work.
- * Class `wyrd-homepage` is set in docusaurus.config.js head script + `src/theme/Root.tsx`.
+ * Attribute `data-wyrd-page="home"` is set in docusaurus.config.js head script + `src/theme/Root.tsx` + `src/pages/index.js`.
  */
-html.wyrd-homepage {
+html[data-wyrd-page="home"] {
   --ifm-navbar-background-color: rgba(255, 255, 255, 0);
 }
 
-html[data-theme='dark'].wyrd-homepage {
+html[data-theme='dark'][data-wyrd-page="home"] {
   --ifm-navbar-background-color: rgba(31, 31, 31, 0);
 }
 
-html.wyrd-homepage .navbar {
+html[data-wyrd-page="home"] .navbar {
   --ifm-navbar-link-color: #ffffff;
   --ifm-navbar-link-hover-color: rgba(255, 255, 255, 0.88);
   border-bottom-color: rgba(0, 0, 0, 0);
@@ -723,9 +723,9 @@ html.wyrd-homepage .navbar {
 }
 
 /* Light theme: solid bar on hover — restore surface color via the same variable Infima reads */
-html.wyrd-homepage .navbar:hover,
-html.wyrd-homepage .navbar:focus-within,
-html.wyrd-homepage .navbar.navbar-sidebar--show {
+html[data-wyrd-page="home"] .navbar:hover,
+html[data-wyrd-page="home"] .navbar:has(:focus-visible),
+html[data-wyrd-page="home"] .navbar.navbar-sidebar--show {
   --ifm-navbar-background-color: var(--wyrd-bg);
   border-bottom-color: var(--ifm-table-border-color);
   --ifm-navbar-link-color: #000000;
@@ -733,87 +733,94 @@ html.wyrd-homepage .navbar.navbar-sidebar--show {
 }
 
 /* Dark theme: solid bar on hover */
-html[data-theme='dark'].wyrd-homepage .navbar:hover,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show {
+html[data-theme='dark'][data-wyrd-page="home"] .navbar:hover,
+html[data-theme='dark'][data-wyrd-page="home"] .navbar:has(:focus-visible),
+html[data-theme='dark'][data-wyrd-page="home"] .navbar.navbar-sidebar--show {
   --ifm-navbar-background-color: var(--wyrd-bg2);
   --ifm-navbar-link-color: var(--wyrd-text);
   --ifm-navbar-link-hover-color: var(--ifm-color-primary);
 }
 
-/* Links / brand / title: transition + explicit colors (Infima can override var(--ifm-navbar-link-color)) */
-html.wyrd-homepage .navbar .navbar__link,
-html.wyrd-homepage .navbar .navbar__brand,
-html.wyrd-homepage .navbar .navbar__title {
+/* Links / brand / title: transitions (outside layer — no conflict) */
+html[data-wyrd-page="home"] .navbar .navbar__link,
+html[data-wyrd-page="home"] .navbar .navbar__brand,
+html[data-wyrd-page="home"] .navbar .navbar__title {
   transition: color 0.3s ease;
 }
 
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__link,
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__brand {
-  color: #ffffff !important;
-}
-
-html.wyrd-homepage .navbar:hover .navbar__link,
-html.wyrd-homepage .navbar:focus-within .navbar__link,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__link,
-html.wyrd-homepage .navbar:hover .navbar__brand,
-html.wyrd-homepage .navbar:focus-within .navbar__brand,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__brand {
-  color: #000000 !important;
-}
-
-html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__link,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__link,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__link,
-html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__brand,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__brand,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__brand {
-  color: var(--wyrd-text) !important;
-}
-
-/* Link hover on solid bar: primary accent */
-html.wyrd-homepage .navbar:hover .navbar__link:hover,
-html.wyrd-homepage .navbar:focus-within .navbar__link:hover,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__link:hover {
-  color: var(--ifm-color-primary) !important;
-}
-
-html.wyrd-homepage .navbar .navbar__logo img {
+html[data-wyrd-page="home"] .navbar .navbar__logo img {
   transition: filter 0.35s ease;
 }
 
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__logo img {
+html[data-wyrd-page="home"] .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__logo img {
   filter: brightness(0) invert(1);
 }
 
-html.wyrd-homepage .navbar:hover .navbar__logo img,
-html.wyrd-homepage .navbar:focus-within .navbar__logo img,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__logo img {
+html[data-wyrd-page="home"] .navbar:hover .navbar__logo img,
+html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__logo img,
+html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__logo img {
   filter: none;
 }
 
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__items .clean-btn,
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__toggle {
-  color: #ffffff !important;
-  transition: color 0.3s ease;
-}
+/*
+ * Color overrides: must live inside @layer docusaurus.infima so our higher-specificity
+ * selectors beat Infima's `.navbar__link { color: var(...) !important }` within the same layer.
+ * Unlayered !important loses to layered !important in the CSS cascade layers spec.
+ */
+@layer docusaurus.infima {
+  html[data-wyrd-page="home"] .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__link,
+  html[data-wyrd-page="home"] .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__brand {
+    color: #ffffff !important;
+  }
 
-html.wyrd-homepage .navbar:hover .navbar__items .clean-btn,
-html.wyrd-homepage .navbar:focus-within .navbar__items .clean-btn,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__items .clean-btn,
-html.wyrd-homepage .navbar:hover .navbar__toggle,
-html.wyrd-homepage .navbar:focus-within .navbar__toggle,
-html.wyrd-homepage .navbar.navbar-sidebar--show .navbar__toggle {
-  color: #000000 !important;
-}
+  html[data-wyrd-page="home"] .navbar:hover .navbar__link,
+  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link,
+  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link,
+  html[data-wyrd-page="home"] .navbar:hover .navbar__brand,
+  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__brand,
+  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__brand {
+    color: #000000 !important;
+  }
 
-html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__items .clean-btn,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__items .clean-btn,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__items .clean-btn,
-html[data-theme='dark'].wyrd-homepage .navbar:hover .navbar__toggle,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within .navbar__toggle,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__toggle {
-  color: var(--wyrd-text) !important;
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:hover .navbar__link,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:hover .navbar__brand,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__brand,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__brand {
+    color: var(--wyrd-text) !important;
+  }
+
+  /* Link hover on solid bar: primary accent */
+  html[data-wyrd-page="home"] .navbar:hover .navbar__link:hover,
+  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link:hover,
+  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link:hover {
+    color: var(--ifm-color-primary) !important;
+  }
+
+  /* Theme toggle / hamburger button */
+  html[data-wyrd-page="home"] .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__items .clean-btn,
+  html[data-wyrd-page="home"] .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show) .navbar__toggle {
+    color: #ffffff !important;
+  }
+
+  html[data-wyrd-page="home"] .navbar:hover .navbar__items .clean-btn,
+  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__items .clean-btn,
+  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__items .clean-btn,
+  html[data-wyrd-page="home"] .navbar:hover .navbar__toggle,
+  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__toggle,
+  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__toggle {
+    color: #000000 !important;
+  }
+
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:hover .navbar__items .clean-btn,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__items .clean-btn,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__items .clean-btn,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:hover .navbar__toggle,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__toggle,
+  html[data-theme='dark'][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__toggle {
+    color: var(--wyrd-text) !important;
+  }
 }
 
 /* ----- Infima grid: horizontal inset for .col (Bootstrap-style rows) ----- */
@@ -900,20 +907,3 @@ html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show .navbar__togg
   filter: brightness(0) invert(1);
 }
 
-/*
- * Homepage navbar: unlayered + !important on BOTH the Infima variable and longhands.
- * If this isn’t red, `html` is missing `wyrd-homepage` (see Root.tsx + docusaurus.config.js).
- */
-html.wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show),
-html.wyrd-homepage .navbar:hover,
-html.wyrd-homepage .navbar:focus-within,
-html.wyrd-homepage .navbar.navbar-sidebar--show,
-html[data-theme='dark'].wyrd-homepage .navbar:not(:hover):not(:focus-within):not(.navbar-sidebar--show),
-html[data-theme='dark'].wyrd-homepage .navbar:hover,
-html[data-theme='dark'].wyrd-homepage .navbar:focus-within,
-html[data-theme='dark'].wyrd-homepage .navbar.navbar-sidebar--show {
-  --ifm-navbar-background-color: #ff0000 !important;
-  background: #ff0000 !important;
-  background-color: #ff0000 !important;
-  border-bottom-color: #990000 !important;
-}

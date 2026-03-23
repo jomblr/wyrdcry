@@ -48,7 +48,7 @@ const config = {
     {
       tagName: 'script',
       attributes: {},
-      innerHTML: `(function(){try{var b=${JSON.stringify(baseUrl)};function n(s){if(!s)return '/';s=s.replace(/(?:\\/index)?\\.html$/,'')||'/';return s.length>1&&s.endsWith('/')?s.slice(0,-1):s;}var p=n(window.location.pathname||'/'),bn=n(b);var home=(bn==='/'&&(p==='/'||p===''))||(bn!=='/'&&p===bn);var el=document.documentElement;if(home)el.classList.add('wyrd-homepage');else el.classList.remove('wyrd-homepage');}catch(e){}})();`,
+      innerHTML: `(function(){try{var b=${JSON.stringify(baseUrl)};function n(s){if(!s)return '/';s=s.replace(/(?:\\/index)?\\.html$/,'')||'/';return s.length>1&&s.endsWith('/')?s.slice(0,-1):s;}var p=n(window.location.pathname||'/'),bn=n(b);var home=(bn==='/'&&(p==='/'||p===''))||(bn!=='/'&&p===bn);var el=document.documentElement;if(home)el.dataset.wyrdPage='home';else delete el.dataset.wyrdPage;}catch(e){}})();`,
     },
   ],
 
