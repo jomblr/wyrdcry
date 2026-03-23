@@ -170,7 +170,7 @@
 /* On the sliding pill: high-contrast label (must beat :hover) */
 .tabToggleBtnActive,
 .tabToggleBtnActive:hover {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 :global(html[data-theme='dark']) .tabToggleBtnActive,

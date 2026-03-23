@@ -94,7 +94,7 @@ const config = {
       navbar: {
         logo: {
           alt: 'Wyrdcry',
-          src: 'img/logotype.svg',
+          src: 'img/home.svg',
         },
         items: [
           {

@@ -10,7 +10,7 @@ import styles from './index.module.css';
 
 const DISCORD_INVITE = 'https://discord.gg/U6mTMfx29E';
 
-/** Full-viewport hero: logotype + “Start your warband” / etc. Shown at site root `/` (this file is `pages/index.js`). */
+/** Full-viewport hero: logotype + "Start your warband" / etc. Shown at site root `/` (this file is `pages/index.js`). */
 function HomepageHeader() {
   const bgUrl = useBaseUrl('img/background-variant.png');
   return (
@@ -20,7 +20,7 @@ function HomepageHeader() {
       style={{ backgroundImage: bgUrl ? `url(${bgUrl})` : undefined }}
     >
       <div className={styles.particlesLayer} aria-hidden>
-        <ParticlesBackground color="#5cdb9a" />
+        <ParticlesBackground color="#5cdb9a" quantity={150} size={0.68} staticity={99999} />
       </div>
       <div className={clsx('container', styles.heroContent)}>
         <img

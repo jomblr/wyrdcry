@@ -690,6 +690,8 @@ pre code {
 .navbar__logo img {
   filter: brightness(0);
   opacity: 0.92;
+  height: 22px;
+  width: auto;
 }
 
 [data-theme='dark'] .navbar__logo img {
@@ -697,12 +699,7 @@ pre code {
   opacity: 0.95;
 }
 
-/* ----- Landing page (`/`, pages/index.js — hero + logo + buttons): transparent nav; solid + dark text on hover ----- */
-/*
- * Infima uses `.navbar { background-color: var(--ifm-navbar-background-color) }` — we don’t edit node_modules;
- * on the home page only, point that variable at transparent rgba so transitions still work.
- * Attribute `data-wyrd-page="home"` is set in docusaurus.config.js head script + `src/theme/Root.tsx` + `src/pages/index.js`.
- */
+/* ----- Landing page: always-transparent navbar, white text, underline on hover ----- */
 html[data-wyrd-page="home"] {
   --ifm-navbar-background-color: rgba(255, 255, 255, 0);
 }
@@ -713,112 +710,42 @@ html[data-theme=’dark’][data-wyrd-page="home"] {
 
 html[data-wyrd-page="home"] .navbar {
   --ifm-navbar-link-color: #ffffff;
-  --ifm-navbar-link-hover-color: rgba(255, 255, 255, 0.88);
+  --ifm-navbar-link-hover-color: #ffffff;
   border-bottom-color: rgba(0, 0, 0, 0);
   box-shadow: none;
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
 }
 
-/* Light theme: solid bar on hover — restore surface color via the same variable Infima reads */
-html[data-wyrd-page="home"] .navbar:hover,
-html[data-wyrd-page="home"] .navbar:has(:focus-visible),
-html[data-wyrd-page="home"] .navbar.navbar-sidebar--show {
-  --ifm-navbar-background-color: var(--wyrd-bg);
-  border-bottom-color: var(--ifm-table-border-color);
-  --ifm-navbar-link-color: #000000;
-  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
-}
-
-/* Dark theme: solid bar on hover */
-html[data-theme=’dark’][data-wyrd-page="home"] .navbar:hover,
-html[data-theme=’dark’][data-wyrd-page="home"] .navbar:has(:focus-visible),
-html[data-theme=’dark’][data-wyrd-page="home"] .navbar.navbar-sidebar--show {
-  --ifm-navbar-background-color: var(--wyrd-bg2);
-  --ifm-navbar-link-color: var(--wyrd-text);
-  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
-}
-
-/* Links / brand / title: transitions */
-html[data-wyrd-page="home"] .navbar .navbar__link,
-html[data-wyrd-page="home"] .navbar .navbar__brand,
-html[data-wyrd-page="home"] .navbar .navbar__title {
-  transition: color 0.3s ease;
+/* Logo icon: always white, top margin, fade on hover to match link interaction */
+html[data-wyrd-page="home"] .navbar .navbar__logo {
+  margin-top: 13px;
 }
 
 html[data-wyrd-page="home"] .navbar .navbar__logo img {
-  transition: filter 0.35s ease;
-}
-
-html[data-wyrd-page="home"] .navbar:not(:hover):not(:has(:focus-visible)):not(.navbar-sidebar--show) .navbar__logo img {
   filter: brightness(0) invert(1);
+  transition: opacity 0.2s ease;
 }
 
-html[data-wyrd-page="home"] .navbar:hover .navbar__logo img,
-html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__logo img,
-html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__logo img {
-  filter: none;
+html[data-wyrd-page="home"] .navbar .navbar__brand:hover .navbar__logo img {
+  opacity: 0.7;
 }
 
-/*
- * Color overrides inside @layer docusaurus.infima so our higher-specificity selectors
- * beat Infima’s `.navbar__link { color: var(...) !important }` within the same layer.
- */
+/* Theme toggle always white */
+html[data-wyrd-page="home"] .navbar .navbar__items .clean-btn,
+html[data-wyrd-page="home"] .navbar .navbar__toggle {
+  color: #ffffff;
+}
+
+/* White text + underline on hover — no color change */
 @layer docusaurus.infima {
-  html[data-wyrd-page="home"] .navbar:not(:hover):not(:has(:focus-visible)):not(.navbar-sidebar--show) .navbar__link,
-  html[data-wyrd-page="home"] .navbar:not(:hover):not(:has(:focus-visible)):not(.navbar-sidebar--show) .navbar__brand {
+  html[data-wyrd-page="home"] .navbar .navbar__link,
+  html[data-wyrd-page="home"] .navbar .navbar__brand {
     color: #ffffff !important;
   }
 
-  html[data-wyrd-page="home"] .navbar:hover .navbar__link,
-  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link,
-  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link,
-  html[data-wyrd-page="home"] .navbar:hover .navbar__brand,
-  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__brand,
-  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__brand {
-    color: #000000 !important;
-  }
-
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:hover .navbar__link,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:hover .navbar__brand,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__brand,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__brand {
-    color: var(--wyrd-text) !important;
-  }
-
-  /* Link hover on solid bar: primary accent */
-  html[data-wyrd-page="home"] .navbar:hover .navbar__link:hover,
-  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__link:hover,
-  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__link:hover {
-    color: var(--ifm-color-primary) !important;
-  }
-
-  /* Theme toggle / hamburger button */
-  html[data-wyrd-page="home"] .navbar:not(:hover):not(:has(:focus-visible)):not(.navbar-sidebar--show) .navbar__items .clean-btn,
-  html[data-wyrd-page="home"] .navbar:not(:hover):not(:has(:focus-visible)):not(.navbar-sidebar--show) .navbar__toggle {
+  html[data-wyrd-page="home"] .navbar .navbar__link:hover,
+  html[data-wyrd-page="home"] .navbar .navbar__brand:hover {
     color: #ffffff !important;
-  }
-
-  html[data-wyrd-page="home"] .navbar:hover .navbar__items .clean-btn,
-  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__items .clean-btn,
-  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__items .clean-btn,
-  html[data-wyrd-page="home"] .navbar:hover .navbar__toggle,
-  html[data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__toggle,
-  html[data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__toggle {
-    color: #000000 !important;
-  }
-
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:hover .navbar__items .clean-btn,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__items .clean-btn,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__items .clean-btn,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:hover .navbar__toggle,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar:has(:focus-visible) .navbar__toggle,
-  html[data-theme=’dark’][data-wyrd-page="home"] .navbar.navbar-sidebar--show .navbar__toggle {
-    color: var(--wyrd-text) !important;
+    text-decoration: underline;
   }
 }
 
