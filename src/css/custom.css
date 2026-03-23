@@ -608,6 +608,8 @@ pre code {
 
 /* ----- Light theme colors ----- */
 :root {
+  /* Filter chain: converts a black SVG → #16754a (primary green) */
+  --wyrd-logo-hover-filter: brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(106deg) brightness(0.38);
   --ifm-color-primary: #16754a;
   --ifm-color-primary-dark: #136941;
   --ifm-color-primary-darker: #11633d;
@@ -645,6 +647,8 @@ pre code {
 
 /* ----- Dark theme colors (Wyrdcry reference palette) ----- */
 [data-theme='dark'] {
+  /* Filter chain: converts a black SVG → #e6c229 (primary yellow) */
+  --wyrd-logo-hover-filter: brightness(0) invert(1) sepia(1) saturate(2.5) brightness(0.9);
   --ifm-color-primary: #e6c229;
   --ifm-color-primary-dark: #d4b024;
   --ifm-color-primary-darker: #c9a622;
@@ -686,12 +690,21 @@ pre code {
   border-bottom: 1px solid var(--ifm-table-border-color);
 }
 
-/* Hero logotype is a white SVG; on normal pages tint it to match navbar text */
+/* Navbar logo: size, margin, and hover fade — global across all pages */
+.navbar__logo {
+  margin-top: 13px;
+}
+
 .navbar__logo img {
   filter: brightness(0);
   opacity: 0.92;
   height: 22px;
   width: auto;
+  transition: opacity 0.2s ease;
+}
+
+.navbar__brand:hover .navbar__logo img {
+  opacity: 1;
 }
 
 [data-theme='dark'] .navbar__logo img {
@@ -715,19 +728,11 @@ html[data-wyrd-page="home"] .navbar {
   box-shadow: none;
 }
 
-/* Logo icon: always white, top margin, fade on hover to match link interaction */
-html[data-wyrd-page="home"] .navbar .navbar__logo {
-  margin-top: 13px;
-}
-
+/* Logo icon: always white on the homepage (overrides the global brightness(0)) */
 html[data-wyrd-page="home"] .navbar .navbar__logo img {
   filter: brightness(0) invert(1);
-  transition: opacity 0.2s ease;
 }
 
-html[data-wyrd-page="home"] .navbar .navbar__brand:hover .navbar__logo img {
-  opacity: 0.7;
-}
 
 /* Theme toggle always white */
 html[data-wyrd-page="home"] .navbar .navbar__items .clean-btn,
