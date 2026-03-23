@@ -26,31 +26,6 @@
     }
   },
   {
-    "id": "sisters-of-sigmar",
-    "name": "Sisters of Sigmar",
-    "description": "",
-    "warband_size": 15,
-    "special_rules": "All `Sisters of Sigmar` fighters have access to the following rules:\n\n### [Trait] Sigmar’s Blessing\nThis fighter may call for one of Sigmar's Blessings by spending saved Wyrd Dice:\n\n- **Heart of Steel:** During this fighter’s activation, you may discard one saved Wyrd Dice to automatically pass a panic test.\n- **Righteous Fury:** During this fighter’s activation, after making a hit roll, you may discard one saved Wyrd Dice to turn a hit into a critical hit.\n- **Sigmar Protects:** During an enemy fighter’s activation, you may discard one saved Wyrd Dice to perform a reaction with this fighter without needing or spending an action to do so.\n\n### [Reaction] Martyrdom\nA fighter can make this reaction when they suffer enough damage to take them out of action, but before removing them from the battlefield. Gain a [double] with a value of 1. If this fighter is a `Hero`, gain a [triple] with a value of 1 instead. If this fighter is a `LEADER`, gain a [quad] with a value of 1 instead.",
-    "faction_ability_ids": [
-      "sigmars-blessing"
-    ],
-    "fighters": [],
-    "weapons": [],
-    "equipment": {
-      "sword": "all",
-      "club": "all",
-      "flail": "all",
-      "great-weapon": "all",
-      "steel-whip": "hero",
-      "warhammer": "all",
-      "sling": "all",
-      "item:heavy-armour": "hero",
-      "item:light-armour": "all",
-      "item:shield": "all",
-      "sigmarite-warhammer": "hero"
-    }
-  },
-  {
     "id": "mercenaries",
     "name": "Mercenaries",
     "description": "",
@@ -77,54 +52,6 @@
       "great-weapon": "all",
       "warhammer": "all",
       "blunderbuss": "all"
-    }
-  },
-  {
-    "id": "possessed",
-    "name": "Possessed",
-    "description": "",
-    "warband_size": null,
-    "special_rules": "",
-    "fighters": [],
-    "weapons": [],
-    "equipment": {
-      "axe": "all",
-      "club": "all",
-      "dagger": "all",
-      "flail": "all",
-      "great-weapon": "hero",
-      "spear": "all",
-      "sword": "all",
-      "warhammer": "all",
-      "bow": "all",
-      "item:heavy-armour": "hero",
-      "item:light-armour": "all",
-      "item:shield": "all"
-    }
-  },
-  {
-    "id": "witch-hunters",
-    "name": "Witch Hunters",
-    "description": "",
-    "warband_size": 15,
-    "special_rules": "",
-    "fighters": [],
-    "weapons": [],
-    "equipment": {
-      "axe": "all",
-      "club": "all",
-      "dagger": "all",
-      "flail": "all",
-      "great-weapon": "all",
-      "spear": "all",
-      "sword": "all",
-      "warhammer": "all",
-      "bow": "all",
-      "crossbow": "hero",
-      "crossbow-pistol": "hero",
-      "pistol": "hero",
-      "item:light-armour": "all",
-      "item:shield": "all"
     }
   }
 ]

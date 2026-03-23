@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/warbands/Equipment/weapons.mdx",
+                "file": "src/sisters-of-sigmar.mdx",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "weapons"
+              "title": "sisters-of-sigmar"
             }
           }
         ]
@@ -180,26 +180,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "a0cf4a04942a5d59",
+  "active": "ec5a3f4cfec89e69",
   "lastOpenFiles": [
+    "docs/warbands/Equipment/weapons.mdx",
     "build/blog/rss.xml",
     "build/blog/atom.xml",
     "build/blog/rss.css",
     "build/blog/atom.css",
-    "build/blog/rss.xsl",
     "build/blog/atom.xsl",
+    "build/blog/rss.xsl",
     "build/sitemap.xml",
-    "build/docs/warbands/starting-warband/index.html",
     "build/index.html",
-    "build/docs/rules/Twists/index.html",
-    "build/docs/rules/scenarios/index.html",
-    "build/assets/images/building-19d810b4329db77a1638781001dd656e.webp",
-    "build/assets/images/docsVersionDropdown-35e13cbe46c9923327f30a76a90bff3b.png",
+    "build/docs/tutorial-extras/manage-docs-versions/index.html",
+    "build/docs/tutorial-extras/manage-docs-versions",
     "build/assets/images/localeDropdown-f0d995e751e7656a1b0dbbc1134e49c2.png",
+    "build/assets/images/docsVersionDropdown-35e13cbe46c9923327f30a76a90bff3b.png",
+    "build/assets/images/building-19d810b4329db77a1638781001dd656e.webp",
     "build/img/wyrdcry-bg.webp",
-    "build/img/undraw_docusaurus_react.svg",
     "build/img/wyrdcry-bg.png",
     "build/img/undraw_docusaurus_tree.svg",
+    "build/img/undraw_docusaurus_react.svg",
     "build/img/undraw_docusaurus_mountain.svg",
     "build/img/logotype.svg",
     "build/img/logo.svg",
