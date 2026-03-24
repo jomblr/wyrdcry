@@ -728,6 +728,15 @@ html[data-wyrd-page="home"] .navbar {
   box-shadow: none;
 }
 
+/* Mobile sidebar: restore solid background so it's never transparent */
+html[data-wyrd-page="home"] .navbar-sidebar {
+  background: var(--wyrd-bg);
+}
+
+html[data-theme='dark'][data-wyrd-page="home"] .navbar-sidebar {
+  background: var(--wyrd-bg2);
+}
+
 /* Logo icon: always white on the homepage (overrides the global brightness(0)) */
 html[data-wyrd-page="home"] .navbar .navbar__logo img {
   filter: brightness(0) invert(1);
