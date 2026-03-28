@@ -11,7 +11,7 @@ import Heading from '@theme/Heading';
 import fightersData from '@site/src/data/fighters.json';
 import factionsData from '@site/src/data/factions.json';
 import abilitiesData from '@site/src/data/abilities.json';
-import { compareFightersByCostThenName, limitLabel } from './factionUtils';
+import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
 type Fighter = (typeof fightersData)[number];
@@ -84,7 +84,7 @@ function FighterAbilitiesMarkdown({ source }: { source: string }) {
 export default function FactionFighters({ factionId }: Props) {
   const fighters = fightersData
     .filter(f => f.faction === factionId)
-    .sort(compareFightersByCostThenName);
+    .sort(compareFightersByRoleThenName);
 
   if (fighters.length === 0) {
     return (

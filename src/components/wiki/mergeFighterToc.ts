@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import type { TOCItem } from '@docusaurus/mdx-loader';
 import fightersData from '@site/src/data/fighters.json';
-import { compareFightersByCostThenName, limitLabel } from './factionUtils';
+import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
 
 /**
  * Optional front matter on any doc page that uses `<FactionFighters />` but whose
@@ -66,7 +66,7 @@ function tocLabelHtml(text: string): string {
 function fighterTocEntries(factionId: string): TOCItem[] {
   return fightersData
     .filter(f => f.faction === factionId)
-    .sort(compareFightersByCostThenName)
+    .sort(compareFightersByRoleThenName)
     .map(f => {
       const lim = limitLabel(f.limit);
       const label = lim ? `${f.name} (${lim})` : f.name;
