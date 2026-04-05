@@ -115,7 +115,12 @@ const config = {
             position: 'left',
             label: 'Campaigns',
           },
-          {to: '/warband-builder', label: 'Warband Builder', position: 'left'},
+
+          {
+            to: '/warband-builder',
+            label: 'Warband Builder',
+            position: 'left',
+          },
         ],
       },
       footer: undefined,

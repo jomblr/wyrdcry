@@ -15,11 +15,13 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import type { FighterInstance, Warband, StatKey } from './useWarband';
+import { calcValue } from './useWarband';
 import FighterRow from './FighterRow';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
 import fightersData from '@site/src/data/fighters.json';
 import factionsData from '@site/src/data/factions.json';
+import campaignRules from '@site/src/data/campaign-rules.json';
 
 // leading '' is the drag-handle column
 const HEADERS: { label: string; center?: boolean }[] = [
@@ -85,6 +87,7 @@ export default function FighterTable({
   const faction = factionsData.find(f => f.id === warband.factionId);
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
+  const remainingGold = campaignRules.warband_budget - calcValue(warband, fightersData);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -135,6 +138,7 @@ export default function FighterTable({
                 key={instance.instanceId}
                 instance={instance}
                 stash={warband.stash}
+                remainingGold={remainingGold}
                 onSetName={name => onSetFighterName(instance.instanceId, name)}
                 onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
                 onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}

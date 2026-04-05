@@ -98,6 +98,7 @@ interface Props {
   isHero: boolean;
   isWizard: boolean;
   isBeast: boolean;
+  remainingGold: number;
   onAdd: (id: string) => void;
   onRemove: (id: string) => void;
   onSendToStash: (itemIdx: number) => void;
@@ -105,7 +106,7 @@ interface Props {
   onTransferIn: (sourceInstanceId: string, itemId: string, itemIdx: number) => void;
 }
 
-export default function EquipmentCell({ instanceId, equipment, stash, factionId, isHero, isWizard, isBeast, onAdd, onRemove, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
+export default function EquipmentCell({ instanceId, equipment, stash, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemove, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -192,10 +193,10 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
   // Flat list for keyboard navigation (stash first, then regular)
   const flatList: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[] = [
     ...stashGroup,
-    ...filteredNatural.map(w => ({ id: w.id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots) })),
-    ...filteredMelee.map(w  => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) })),
-    ...filteredRanged.map(w => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) })),
-    ...filteredArmour.map(i => ({ id: i.id,  name: i.name,  cost: i.cost, disabled: armourDisabled(i, equipment, slots, isWizard) })),
+    ...filteredNatural.map(w => ({ id: w.id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
+    ...filteredMelee.map(w  => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
+    ...filteredRanged.map(w => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
+    ...filteredArmour.map(i => ({ id: i.id,  name: i.name,  cost: i.cost, disabled: armourDisabled(i, equipment, slots, isWizard) || i.cost > remainingGold })),
   ];
 
   // ── Helpers ──

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useCallback } from 'react';
-import ReactMarkdown from 'react-markdown';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -32,7 +31,7 @@ export default function FactionRules({ notes, onSetNotes }: Props) {
           value={notes ?? ''}
           onChange={e => onSetNotes(e.target.value)}
           onBlur={stopEditing}
-          placeholder="Add notes… (supports markdown)"
+          placeholder="Add notes…"
           spellCheck={false}
         />
       ) : (
@@ -45,9 +44,9 @@ export default function FactionRules({ notes, onSetNotes }: Props) {
           onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && startEditing()}
         >
           {(notes ?? '').trim() ? (
-            <ReactMarkdown>{notes ?? ''}</ReactMarkdown>
+            notes
           ) : (
-            <span className={styles.notesPlaceholder}>Add notes… (supports markdown)</span>
+            <span className={styles.notesPlaceholder}>Add notes…</span>
           )}
         </div>
       )}

@@ -18,6 +18,7 @@ import Tooltip from './Tooltip';
 interface Props {
   instance: FighterInstance;
   stash: string[];
+  remainingGold: number;
   onSetName: (name: string) => void;
   onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
@@ -32,7 +33,7 @@ interface Props {
   onSetSpecialRules: (rules: string[]) => void;
 }
 
-export default function FighterRow({ instance, stash, onSetName, onSetXp, onSetRenown, onSetEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetSpecialRules }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetSpecialRules }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
@@ -288,6 +289,7 @@ export default function FighterRow({ instance, stash, onSetName, onSetXp, onSetR
             isHero={isHero}
             isWizard={isWizard}
             isBeast={isBeast}
+            remainingGold={remainingGold}
             onAdd={weaponId => onSetEquipment([...instance.equipment, weaponId])}
             onRemove={weaponId => onSetEquipment(instance.equipment.filter(id => id !== weaponId))}
             onSendToStash={onSendToStash}

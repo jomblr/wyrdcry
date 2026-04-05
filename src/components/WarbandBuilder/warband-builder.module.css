@@ -870,11 +870,9 @@
 }
 
 .notesTextarea {
-  flex: 1;
   width: 100%;
-  min-height: 200px;
-  max-height: 390px;
-  resize: vertical;
+  height: 200px;
+  resize: none;
   background: transparent;
   border: none;
   outline: none;
@@ -894,8 +892,9 @@
   line-height: 1.55;
   color: var(--ifm-color-content);
   cursor: text;
-  flex: 1;
-  min-height: 2rem;
+  height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
 }
 
 .notesMd :global(code) {
