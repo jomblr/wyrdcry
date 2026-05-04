@@ -9,14 +9,13 @@ You may either [download a roster](/files/warband-roster.pdf) or use the ~~Warba
 
 ## Step 2: Select a faction
 ---
-All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. The 6 factions are:
+All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. The factions are:
 
-- [Clan Eshin](/docs/warbands/factions/clan-eshin)
-- [Mercenaries](/docs/warbands/factions/mercenaries)
-- [The Undead](/docs/warbands/factions/undead)
-- [Witch Hunters](/docs/warbands/factions/witch-hunters)
-- [The Cult of The Possessed](/docs/warbands/factions/possessed)
-- [Sisters of Sigmar](/docs/warbands/factions/sisters-of-sigmar)
+- [Clan Eshin](/docs/warbands/Factions/clan-eshin)
+- [Mercenaries](/docs/warbands/Factions/mercenaries)
+- [Witch Hunters](/docs/warbands/Factions/witch-hunters)
+- [The Cult of The Possessed](/docs/warbands/Factions/possessed)
+- [Sisters of Sigmar](/docs/warbands/Factions/sisters-of-sigmar)
 
 After selecting a faction you must note down the faction name on your warband roster.
 
