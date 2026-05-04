@@ -33,7 +33,7 @@
       "crit": 3
     },
     "costs": {
-      "range": 10,
+      "range": 5,
       "attacks": 15,
       "hit": 10,
       "crit": 5

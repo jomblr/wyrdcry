@@ -43,10 +43,10 @@ To determine which hit rolls have **missed**, scored a **hit** or a **critical h
 |Target is flanked|-|-1 Defense|
 
 ### Cover
-Obstacles and platforms can provide cover to a figher that is targeted by Ranged Attack Actions. While in cover, a fighter may add 1 to their Defense characteristic. A fighter is in cover if any of the following are true:
+Obstacles and platforms can provide cover to a figher that is targeted by Attack actions. While in cover, a fighter may add 1 to their Defense characteristic. A fighter is in cover if any of the following are true:
 
 - You cannot draw an imaginary line between the closest points on each fighter’s base without it passing through an obstacle.
-	- Do not count obstacles within ½” of the fighter making the ranged attack action (this represents fighters being able to aim around corners and through gaps in nearby terrain, and so on).
+	- Do not count obstacles within ½” of the fighter making the Attack action (this represents fighters being able to aim around corners and through gaps in nearby terrain, and so on).
 - The target is on a platform that is 2” or more above the fighter making the ranged attack action.
 
 ### Flanked

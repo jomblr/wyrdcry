@@ -1,0 +1,58 @@
+---
+sidebar_position: 3
+title: Sisters of Sigmar
+faction_id: sisters-of-sigmar
+---
+
+import FactionReference, {
+  FactionFighters,
+  FactionMeleeEquipment,
+  FactionRangedEquipment,
+  FactionArmourEquipment,
+  FactionWarbandLimit,
+  FactionSpecialRules,
+} from '@site/src/components/wiki/FactionReference';
+
+# Sisters of Sigmar
+
+
+<FactionReference factionId="sisters-of-sigmar" />
+
+## Warband size
+---
+
+<FactionWarbandLimit factionId="sisters-of-sigmar" />
+
+## Faction rules
+---
+All `Sisters of Sigmar` fighters have access to the following rules:
+
+### [Trait] Sigmar’s Blessing
+This fighter may call for one of Sigmar's Blessings by spending saved Wyrd Dice:
+
+- **Hearts of Steel:** When this fighter is asked to take a Bravery test, you may discard one saved Wyrd Dice to automatically pass the test.
+- **Righteous Fury:** During this fighter’s activation, after making a hit roll, you may discard one saved Wyrd Dice to turn a hit into a critical hit.
+- **Sigmar Protects:** During an enemy fighter’s activation, you may discard one saved Wyrd Dice to perform a reaction with this fighter without needing or spending an action to do so.
+
+### [Reaction] Martyrdom
+A fighter can make this reaction when they suffer enough damage to take them out of action, but before removing them from the battlefield. Add 1 Wyrd Dice to your saved Wyrd Dice. If this fighter has the `HERO` keyword, add 2 instead. If this fighter has the `LEADER keyword`, add 3 instead.
+
+## Fighters {#fighters}
+---
+
+<FactionFighters factionId="sisters-of-sigmar" />
+
+## Equipment
+---
+<div className="row margin-top--lg">
+  <div className="col col--6">
+
+<FactionMeleeEquipment factionId="sisters-of-sigmar" />
+  </div>
+  <div className="col col--6">
+
+<FactionRangedEquipment factionId="sisters-of-sigmar" />
+
+<FactionArmourEquipment factionId="sisters-of-sigmar" />
+  </div>
+</div>

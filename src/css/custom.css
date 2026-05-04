@@ -181,6 +181,14 @@ body .tooltip:has(.tooltip-breakdown) {
   font-weight: 400;
 }
 
+/* ----- Faction lore block (intro flavour text on faction pages) ----- */
+.faction-lore {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
 /* Inline / faction weapon detail popover (when used) */
 .faction-weapon-tooltip {
   position: fixed;
@@ -296,7 +304,6 @@ pre code {
 /* ----- Custom markdown: keywords (uppercase) ----- */
 .keyword {
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 /* ----- Faction fighter cards (src/components/wiki/FactionFighters.tsx) ----- */
@@ -737,9 +744,16 @@ html[data-theme='dark'][data-wyrd-page="home"] .navbar-sidebar {
   background: var(--wyrd-bg2);
 }
 
-/* Logo icon: always white on the homepage (overrides the global brightness(0)) */
-html[data-wyrd-page="home"] .navbar .navbar__logo img {
+/* Logo icon: white in the top bar on homepage; sidebar logo uses global theme filter */
+html[data-wyrd-page="home"] .navbar .navbar__items .navbar__logo img {
   filter: brightness(0) invert(1);
+}
+
+/* Hide top-bar logo when hamburger is shown; keep it in the sidebar */
+@media (max-width: 996px) {
+  .navbar .navbar__items .navbar__logo {
+    display: none;
+  }
 }
 
 

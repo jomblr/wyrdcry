@@ -16,12 +16,10 @@ A fighter can pick up a token in its control as a free action. Place the token n
 
 Fighters with the **BEAST** keyword cannot carry tokens at all.
 
-### Dropping Treasure
-
-A fighter can drop a carried token as a free action. In addition, a fighter will automatically drop its token if taken out of action. In both cases, the player controlling the fighter places the token back on the battlefield, within 1” of the fighter.
+### Dropping Tokens
+A fighter can drop a carried token as a free action. In addition, a fighter will automatically drop carried tokens if taken out of action. In both cases, the player controlling the fighter places the token back on the battlefield, within 1” of the fighter, before removing the fighter from the battlefield.
 
 ## Selecting a Scenario
-
 When selecting a scenario you may either agree on one with your opponent or roll a d6 and consult the list below:
 
 **1. Ambush!**

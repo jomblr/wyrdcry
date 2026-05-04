@@ -14,24 +14,46 @@ import FactionReference, {
 } from '@site/src/components/wiki/FactionReference';
 
 # Mercenaries
-For three hundred years the Empire has known little but war, and from endless conflict a new breed of mercenary has emerged. Where once free companies marched under the banners of their sworn Elector Count, they now roam and pillage their way across the countryside like tiny armies with their own illustrious history and martial traditions.
-
-To be a mercenary captain in these times is a lucrative business, for the wealthy are as desperate for wyrdstone as the poor are for a hot meal and a few gold coins to spend at the local tavern. The shanty-towns around Mordheim swell with youths, deserters, and criminals, all gathering by the familiar colors and accent of their home province. To stray from your own is to invite muggings and brawls, for while the captains try to maintain an uneasy truce, old rivalries keep simmering beneath the surface.
-
-Within Mordheim proper however, all such restraint vanishes, as warriors collide in skirmishes that resemble the wider conflict that rages in the fractured empire.
 
 <FactionReference factionId="mercenaries" />
 
 ## Warband size
-
+---
 <FactionWarbandLimit factionId="mercenaries" />
 
 ## Faction rules
+---
+When creating a `Mercenary warband`, you must select two of the following rules to represent your warband’s home province:
 
-<FactionSpecialRules factionId="mercenaries" />
+### Huntsmen
+Increase the Shoot characteristic of all Marksmen by 1.
+
+### Hardy
+Increase the Health characteristic of all Warriors and Champions by 2.
+
+### State Troopers
+Increase the Fight characteristic of all Warriors by 1.
+
+### Well Drilled
+At the end of each Aftermath Sequence, select one Henchman to earn 1 Renown.
+
+### Unyielding
+Increase the Bravery characteristic of all fighters by 1.
+
+### Wealthy Patrons
+Gain an additional 30gc when collecting income in the aftermath sequence.
+
+### Well-connected
+Reduce hiring fee of Hired Swords by 50%
+
+### Deeply Religious
+Roll 7 initiative dice in each initiative phase instead of 6.
+
+### Desperate
+You cannot recruit Warriors or Marksmen, but Youngbloods are free.
 
 ## Fighters {#fighters}
-
+---
 <FactionFighters factionId="mercenaries" />
 
 ## Equipment

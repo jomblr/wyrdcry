@@ -4,10 +4,8 @@
     "name": "Clan Eshin",
     "description": "",
     "warband_size": 20,
-    "special_rules": "All `Clan Eshin` fighters have the following rules:",
-    "faction_ability_ids": [
-      "shadowy-killers"
-    ],
+    "special_rules": "",
+    "faction_ability_ids": [],
     "fighters": [],
     "weapons": [],
     "equipment": {
@@ -19,10 +17,35 @@
       "halberd": "hero",
       "sling": "all",
       "item:shield": "all",
-      "item:light-armour": "all",
+      "item:light-armour": "hero",
       "throwing-stars": "hero",
       "warplock-pistol": "hero",
       "weeping-blades": "hero"
+    }
+  },
+  {
+    "id": "sisters-of-sigmar",
+    "name": "Sisters of Sigmar",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "",
+    "faction_ability_ids": [
+      "sigmars-blessing"
+    ],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "sword": "all",
+      "club": "all",
+      "flail": "all",
+      "great-weapon": "all",
+      "steel-whip": "hero",
+      "warhammer": "all",
+      "sling": "all",
+      "item:heavy-armour": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all",
+      "sigmarite-warhammer": "hero"
     }
   },
   {
@@ -30,7 +53,8 @@
     "name": "Mercenaries",
     "description": "",
     "warband_size": 15,
-    "special_rules": "When creating a Mercenary warband, you must select two of the following rules to represent your warband’s home province:\n\n### Huntsmen\nIncrease the Shoot characteristic of all Marksmen by 1.\n\n### Hardy\nIncrease the Health characteristic of all Militia and Champions by 2.\n\n### State Troopers\nIncrease the Fight characteristic of all Militia by 1.\n\n### Well Drilled\nAt the end of each Aftermath Sequence, select one Henchman to earn 1 Renown.\n\n### Unyielding\nIncrease the Bravery characteristic of all fighters by 1.\n\n### Wealthy Patrons\nGain an additional 20gc when collecting income in the aftermath sequence.\n\n### Well-connected\nReduce hiring fee of Hired Swords by 50%\n\n### Deeply Religious\nRoll 7 initiative dice in each initiative phase instead of 6.\n\n### Desperate\nYou cannot recruit Warriors or Marksmen, but Youngbloods are free.",
+    "special_rules": "",
+    "faction_ability_ids": [],
     "fighters": [],
     "weapons": [],
     "equipment": {
@@ -52,6 +76,81 @@
       "great-weapon": "all",
       "warhammer": "all",
       "blunderbuss": "all"
+    }
+  },
+  {
+    "id": "possessed",
+    "name": "Possessed",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "axe": "all",
+      "club": "all",
+      "dagger": "all",
+      "flail": "all",
+      "great-weapon": "hero",
+      "spear": "all",
+      "sword": "all",
+      "warhammer": "all",
+      "bow": "all",
+      "item:heavy-armour": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all"
+    }
+  },
+  {
+    "id": "witch-hunters",
+    "name": "Witch Hunters",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "axe": "all",
+      "club": "all",
+      "dagger": "all",
+      "flail": "all",
+      "great-weapon": "all",
+      "spear": "all",
+      "sword": "all",
+      "warhammer": "all",
+      "bow": "all",
+      "crossbow": "hero",
+      "crossbow-pistol": "hero",
+      "pistol": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all"
+    }
+  },
+  {
+    "id": "undead",
+    "name": "Undead",
+    "description": "",
+    "warband_size": 15,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "axe": "hero",
+      "club": "all",
+      "dagger": "all",
+      "great-weapon": "hero",
+      "halberd": "hero",
+      "spear": "hero",
+      "sword": "hero",
+      "warhammer": "hero",
+      "bow": "all",
+      "item:heavy-armour": "hero",
+      "item:light-armour": "all",
+      "item:shield": "all",
+      "flail": "hero"
     }
   }
 ]

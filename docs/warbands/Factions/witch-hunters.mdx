@@ -1,0 +1,57 @@
+---
+sidebar_position: 4
+title: Witch Hunters
+faction_id: witch-hunters
+---
+
+import FactionReference, {
+  FactionFighters,
+  FactionMeleeEquipment,
+  FactionRangedEquipment,
+  FactionArmourEquipment,
+  FactionWarbandLimit,
+  FactionSpecialRules,
+} from '@site/src/components/wiki/FactionReference';
+
+# Witch Hunters
+
+
+<FactionReference factionId="witch-hunters" />
+
+## Warband size
+---
+
+<FactionWarbandLimit factionId="witch-hunters" />
+
+## Faction rules
+---
+
+### Zeal
+Over the course of a battle, you must keep track of the warband’s **Zeal**. As your warband passes each Zeal threshold, apply the corresponding effect to all friendly fighters in the warband with the `WITCH HUNTERS` keyword.
+
+|  Zeal Threshold |  Effect |
+|:---:|:---|
+|0|**Grim:** When a friendly fighter makes an attack action against a fighter with an accusation token, you may increase their Fight or Shoot characteristic by 1.|
+|5|**Wrathful:** When a friendly fighter makes an attack action against a fighter with an accusation token, you may turn 1 hit into a critical hit.|
+|10|**Frenzied:** When a friendly fighter is targeted by an attack action, you may turn 1 critical hit into a hit.|
+|15+|**Maddened:** All friendly fighters must decrease their Defense characteristic by 1, but will pass any Bravery test they are required to take.|
+
+## Fighters {#fighters}
+---
+
+<FactionFighters factionId="witch-hunters" />
+
+## Equipment
+---
+<div className="row margin-top--lg">
+  <div className="col col--6">
+
+<FactionMeleeEquipment factionId="witch-hunters" />
+  </div>
+  <div className="col col--6">
+
+<FactionRangedEquipment factionId="witch-hunters" />
+
+<FactionArmourEquipment factionId="witch-hunters" />
+  </div>
+</div>

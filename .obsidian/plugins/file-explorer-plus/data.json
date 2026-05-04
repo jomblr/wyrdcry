@@ -30,7 +30,7 @@
     ]
   },
   "hideFilters": {
-    "active": true,
+    "active": false,
     "tags": [
       {
         "name": "",
@@ -40,13 +40,6 @@
       }
     ],
     "paths": [
-      {
-        "name": "",
-        "active": true,
-        "type": "FILES_AND_DIRECTORIES",
-        "pattern": "",
-        "patternType": "WILDCARD"
-      },
       {
         "name": "",
         "active": true,

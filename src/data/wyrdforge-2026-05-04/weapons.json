@@ -43,7 +43,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "halberd",
@@ -56,7 +56,7 @@
     "special_rules": [
       "two-handed"
     ],
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "fighting-claws",
@@ -100,7 +100,7 @@
       "reload",
       "mighty-2"
     ],
-    "cost": 80
+    "cost": 65
   },
   {
     "id": "pistol",
@@ -129,7 +129,7 @@
     "special_rules": [
       "mighty-1"
     ],
-    "cost": 40
+    "cost": 30
   },
   {
     "id": "crossbow",
@@ -143,7 +143,7 @@
       "mighty-1",
       "reload"
     ],
-    "cost": 55
+    "cost": 40
   },
   {
     "id": "sling",
@@ -154,7 +154,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "bow",
@@ -165,7 +165,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 35
+    "cost": 25
   },
   {
     "id": "sword",
@@ -202,7 +202,7 @@
     "special_rules": [
       "mighty-2"
     ],
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "great-weapon",
@@ -216,7 +216,7 @@
       "mighty-2",
       "two-handed"
     ],
-    "cost": 65
+    "cost": 60
   },
   {
     "id": "blunderbuss",
@@ -226,7 +226,10 @@
     "attacks": 6,
     "hit": 1,
     "crit": 3,
-    "special_rules": [],
+    "special_rules": [
+      "blast",
+      "one-use"
+    ],
     "cost": 50
   },
   {
@@ -238,9 +241,10 @@
     "hit": 3,
     "crit": 5,
     "special_rules": [
-      "mighty-2"
+      "mighty-2",
+      "blessed"
     ],
-    "cost": 45
+    "cost": 50
   },
   {
     "id": "weeping-blades",
@@ -283,14 +287,14 @@
     "cost": 45
   },
   {
-    "id": "giant-rat-bite",
-    "name": "Bite",
+    "id": "possessed-daemonic-weapon",
+    "name": "Daemonic Weapon",
     "type": "natural",
     "range": 1,
     "attacks": 3,
-    "hit": 1,
-    "crit": 3,
+    "hit": 3,
+    "crit": 4,
     "special_rules": [],
-    "cost": 5
+    "cost": 30
   }
 ]

@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/sisters-of-sigmar.mdx",
+                "file": "docs/warbands/Factions/clan-eshin.mdx",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "sisters-of-sigmar"
+              "title": "clan-eshin"
+            }
+          },
+          {
+            "id": "f87d425f88a61dd3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/rules/the-battle-round/the-combat-phase/panic.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "panic"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -41,7 +56,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -180,19 +195,20 @@
       "bases:Create new base": false
     }
   },
-  "active": "ec5a3f4cfec89e69",
+  "active": "f87d425f88a61dd3",
   "lastOpenFiles": [
-    "docs/warbands/Equipment/weapons.mdx",
-    "build/blog/rss.xml",
-    "build/blog/atom.xml",
-    "build/blog/rss.css",
-    "build/blog/atom.css",
-    "build/blog/atom.xsl",
-    "build/blog/rss.xsl",
-    "build/sitemap.xml",
-    "build/index.html",
-    "build/docs/tutorial-extras/manage-docs-versions/index.html",
-    "build/docs/tutorial-extras/manage-docs-versions",
+    "docs/rules/the-battle-round/the-battle-round.md",
+    "docs/warbands/starting-warband.md",
+    "docs/warbands/factions/clan-eshin.mdx",
+    "docs/warbands/equipment/weapons.mdx",
+    "docs/warbands/equipment/armour.mdx",
+    "docs/warbands/factions/witch-hunters.mdx",
+    "docs/warbands/factions/possessed.mdx",
+    "build/assets/js/main.24ad89e8.js",
+    "build/assets/js/main.24ad89e8.js.LICENSE.txt",
+    "build/assets/js/fe3088e7.b2a4743e.js",
+    "build/assets/js/efd19dae.66715f86.js",
+    "build/assets/js/971afd86.4e1c9038.js",
     "build/assets/images/localeDropdown-f0d995e751e7656a1b0dbbc1134e49c2.png",
     "build/assets/images/docsVersionDropdown-35e13cbe46c9923327f30a76a90bff3b.png",
     "build/assets/images/building-19d810b4329db77a1638781001dd656e.webp",
@@ -202,31 +218,30 @@
     "build/img/undraw_docusaurus_react.svg",
     "build/img/undraw_docusaurus_mountain.svg",
     "build/img/logotype.svg",
-    "build/img/logo.svg",
-    "docs/warbands/starting-warband.md",
-    "docs/campaigns/starting-campaign.md",
-    "docs/rules/introduction.md",
+    "build/img/home.svg",
     "docs/campaigns/aftermath-sequence.md",
-    "docs/warbands/Equipment/equipment.md",
-    "node_modules/rehype-slug/node_modules/github-slugger/README.md",
-    "node_modules/rehype-slug/readme.md",
-    "node_modules/hast-util-heading-rank/readme.md",
-    "node_modules/remark-breaks/readme.md",
-    "node_modules/mdast-util-newline-to-break/readme.md",
-    "node_modules/hast-util-to-string/readme.md",
-    "src/data/README.md",
-    "docs/warbands/import-procedure.md",
-    "node_modules/react-markdown/readme.md",
-    "node_modules/html-url-attributes/readme.md",
-    "docs/warbands/Factions/sisters-of-sigmar.md",
-    "docs/campaigns/the-trading-post.md",
-    "docs/warbands/Equipment/weapons.md",
-    "docs/warbands/Equipment/armour.md",
-    "docs/campaigns/renown.md",
-    "src/fighters/witch-hunters/zealot.md",
-    "src/fighters/witch-hunters/witch-hunter.md",
-    "src/fighters/witch-hunters/witch-hunter-captain.md",
-    "src/fighters/witch-hunters/warhound.md",
-    "src/fighters/witch-hunters/flagellant.md"
+    "docs/rules/the-battle-round/the-end-phase.md",
+    "docs/rules/the-battle-round/the-combat-phase/panic.md",
+    "docs/campaigns/Talents/4-perception-talents.md",
+    "docs/rules/the-battle-round/the-combat-phase/attack-action.md",
+    "docs/rules/keywords.md",
+    "docs/rules/scenarios.md",
+    "node_modules/whatwg-encoding/node_modules/iconv-lite/Changelog.md",
+    "node_modules/whatwg-encoding/node_modules/iconv-lite/README.md",
+    "node_modules/whatwg-encoding/README.md",
+    "node_modules/encoding-sniffer/node_modules/iconv-lite/README.md",
+    "node_modules/encoding-sniffer/node_modules/iconv-lite/Changelog.md",
+    "node_modules/encoding-sniffer/README.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/node_modules/fs-extra/README.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/node_modules/entities/readme.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/node_modules/htmlparser2/README.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/node_modules/cheerio/Readme.md",
+    "node_modules/@easyops-cn/autocomplete.js/README.md",
+    "node_modules/@easyops-cn/autocomplete.js/CONTRIBUTING.md",
+    "node_modules/@easyops-cn/autocomplete.js/CHANGELOG.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/README.md",
+    "node_modules/@easyops-cn/docusaurus-search-local/CHANGELOG.md",
+    "node_modules/@node-rs/jieba/README.md",
+    "node_modules/@node-rs/jieba-darwin-arm64/README.md"
   ]
 }

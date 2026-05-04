@@ -8,10 +8,10 @@ Battles are fought in a series of rounds referred to as **battle rounds**, each 
 ### [The initiative phase](/docs/rules/the-battle-round/the-initiative-phase)
 The players roll for initiative and gather ability dice.
 
-### The combat phase
+### [The combat phase](/docs/rules/the-battle-round/the-combat-phase)
 The warbands clash as the players take turns activating their fighters.
 
-### End of round
+### [The end phase](/docs/rules/the-battle-round/the-end-phase)
 The players check the victory conditions and warband morale, before starting a new battle round.
 
 ## Battle length

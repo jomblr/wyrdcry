@@ -19,6 +19,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.1",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.577.0",

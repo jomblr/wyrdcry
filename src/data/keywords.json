@@ -3,12 +3,17 @@
     "SKAVEN",
     "BEAST",
     "HUMAN",
-    "DAEMON"
+    "DAEMON",
+    "VAMPIRE",
+    "GHOUL",
+    "ZOMBIE"
   ],
   "archetype": [
     "HERO",
     "LEADER",
     "HENCHMAN",
-    "WIZARD"
+    "WIZARD",
+    "MUTANT",
+    "TERRIFYING"
   ]
 }

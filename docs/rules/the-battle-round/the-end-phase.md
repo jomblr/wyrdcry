@@ -3,14 +3,12 @@ sidebar_position: 7
 title: The End Phase
 ---
 # The End Phase
-## Step 1: Remove Panic Tokens
-Remove panic tokens from all fighters in your warband. 
 
-## Step 2: Check Warband Morale
+## Step 1: Check Warband Morale
 
 As your warband suffer casualties in battle, your warband’s morale will start to waver, causing fighters to panic and eventually break and run.
 
-The warband morale starts **wavering** once half your fighters (rounding up) has been taken out of action, and will continue to do so until the battle ends. While wavering, your fighters must take a panic test whenever they are activated.
+The warband morale starts **wavering** once half your fighters (rounding up) has been taken out of action, and will continue to do so until the battle ends. While wavering, your fighters must pass a Bravery test when they are first activated, or become panicked.
 
 ### Withdraw from battle
 

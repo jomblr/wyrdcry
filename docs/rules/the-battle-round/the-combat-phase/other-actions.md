@@ -19,8 +19,8 @@ The channeled ability dice must be used during the `Wizard`’s activation; it c
 |D6| Effect |
 |:---:|---|
 |**1**|**Calamitous Detonation:** The `Wizard` is taken out of action.|
-|**2-4**|**Barely Controlled Power:** Allocate (X) damage points to the `Wizard`.|
-|**5-6**|**Arcane Surge:** The `Wizard` suffers no ill effects.|
+|**2-3**|**Barely Controlled Power:** Allocate (X) damage points to the `Wizard`.|
+|**4-6**|**Arcane Surge:** The `Wizard` suffers no ill effects.|
 
 ## Retreat
 If a fighter is within 1” of an enemy fighter, they must make a Retreat action to move away. When retreating, a fighter can move normally up to 3” in any direction, but the fighter cannot finish the action within 1” of an enemy fighter. If this is impossible, the fighter cannot make the Retreat action and must make another action instead.

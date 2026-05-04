@@ -5,18 +5,18 @@ sidebar_position: 1
 # Starting a warband
 ## Step 1: Get a warband roster
 ---
-You may either [download a roster](/files/warband-roster.pdf) or use the [Warband Builder](/warband-builder)
+You may either [download a roster](/files/warband-roster.pdf) or use the ~~Warband Builder (WIP)~~
 
 ## Step 2: Select a faction
 ---
 All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. The 6 factions are:
 
-- Skaven
-- Mercenaries
-- The Undead
-- Witch Hunters
-- The Cult of The Possessed
-- Sisters of Sigmar
+- [Clan Eshin](/docs/warbands/factions/clan-eshin)
+- [Mercenaries](/docs/warbands/factions/mercenaries)
+- [The Undead](/docs/warbands/factions/undead)
+- [Witch Hunters](/docs/warbands/factions/witch-hunters)
+- [The Cult of The Possessed](/docs/warbands/factions/possessed)
+- [Sisters of Sigmar](/docs/warbands/factions/sisters-of-sigmar)
 
 After selecting a faction you must note down the faction name on your warband roster.
 

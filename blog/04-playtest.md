@@ -1,8 +1,9 @@
 ---
-slug: first-post
-title: First post
+slug: 04-playtest
+title: 0.4 Playtest is LIVE!
 authors: [jomblr]
 tags: [changelog]
+date: 2026-03-17
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

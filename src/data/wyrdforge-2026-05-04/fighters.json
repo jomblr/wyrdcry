@@ -91,7 +91,7 @@
     "faction_ability_ids": [
       "skitterleap",
       "gnawdoom",
-      "enshrouding-darkness"
+      "enshrouding-shadows"
     ],
     "natural_weapon": "",
     "race": [
@@ -405,9 +405,9 @@
     "cost": 100,
     "ability_preamble": "When recruiting a Magister, you must select one of the following abilities:",
     "faction_ability_ids": [
+      "dark-blood",
       "puppet-master",
-      "curse-of-agony",
-      "touch-of-chaos"
+      "gift-of-chaos"
     ],
     "natural_weapon": "",
     "race": [
@@ -473,7 +473,7 @@
       "HERO",
       "MUTANT"
     ],
-    "limit": 1
+    "limit": null
   },
   {
     "id": "brethren",

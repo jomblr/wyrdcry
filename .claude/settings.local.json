@@ -6,7 +6,13 @@
       "Bash(node -e \"const a = require\\(''./src/data/abilities.json''\\); console.log\\(JSON.stringify\\(a[0], null, 2\\)\\)\")",
       "Bash(node -e \":*)",
       "Bash(node -e \"console.log\\(JSON.stringify\\(require\\(''./src/data/campaign-rules.json''\\), null, 2\\)\\)\")",
-      "Bash(ssh -T git@github.com)"
+      "Bash(ssh -T git@github.com)",
+      "Bash(python3 -c \":*)",
+      "Bash(npx tsc:*)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(find '/Users/johan.markstrom/Documents/Code Projects/Wyrdcryer/wyrdcry-site/docs' -name *ossessed* -o -name *possessed*)",
+      "Bash(npm install:*)",
+      "Bash(git add *)"
     ]
   }
 }

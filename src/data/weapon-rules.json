@@ -13,24 +13,24 @@
   {
     "id": "mighty-1",
     "name": "Mighty 1",
-    "description": "When making attack actions with this weapon, increase the relevant combat charactic by 1 (Fight for melee attack actions, and Shoot for ranged attack actions).",
+    "description": "When a fighter makes an attack action with this weapon, increase their Fight characteristic by 1 if it is a melee weapon, or their Shoot characteristic by 1 if it is a ranged weapon.",
     "effect": {
       "characteristic": "fight_shoot",
       "bonus": 1,
       "conditional": false
     },
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "mighty-2",
     "name": "Mighty 2",
-    "description": "When making attack actions with this weapon, increase the relevant combat charactic by 2 (Fight for melee attack actions, and Shoot for ranged attack actions).",
+    "description": "When a fighter makes an attack action with this weapon, increase their Fight characteristic by 1 if it is a melee weapon, or their Shoot characteristic by 1 if it is a ranged weapon.",
     "effect": {
       "characteristic": "fight_shoot",
       "bonus": 2,
       "conditional": false
     },
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "two-handed",
@@ -44,7 +44,7 @@
     "name": "Whipcrack",
     "description": "When making melee attack actions with this weapon, the target cannot make reactions.",
     "effect": null,
-    "cost": 0
+    "cost": 10
   },
   {
     "id": "unreliable",
@@ -58,7 +58,7 @@
     "name": "Reload",
     "description": "This weapon must be reloaded after being used for an attack action. A fighter can reload one of their weapons with this special rule when making the wait action.",
     "effect": null,
-    "cost": -10
+    "cost": -5
   },
   {
     "id": "brace",
@@ -68,10 +68,24 @@
     "cost": 0
   },
   {
-    "id": "cumbersome",
-    "name": "Cumbersome",
-    "description": "A fighter wielding this weapon cannot make the Counter [reaction]",
+    "id": "blessed",
+    "name": "Blessed",
+    "description": "Increase the Fight characteristic of the wielder by 1 when making attack actions against fighters with the `UNDEAD` or `DAEMON` keyword.",
     "effect": null,
-    "cost": 0
+    "cost": 10
+  },
+  {
+    "id": "blast",
+    "name": "Blast",
+    "description": "When making a hit roll with this weapon, for each roll of 6, allocate 2 damage points to another visible fighter within 1” of the target of the attack action.",
+    "effect": null,
+    "cost": 10
+  },
+  {
+    "id": "one-use",
+    "name": "One-use",
+    "description": "This weapon can only be used for one attack action each battle.",
+    "effect": null,
+    "cost": -10
   }
 ]
