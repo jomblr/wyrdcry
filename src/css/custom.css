@@ -226,6 +226,11 @@ body .tooltip:has(.tooltip-breakdown) {
   margin-top: 0.25rem;
 }
 
+.markdown img {
+  width: 50%;
+  cursor: zoom-in;
+}
+
 /* Headings: much smaller bottom margin */
 .markdown h1,
 .markdown h2,

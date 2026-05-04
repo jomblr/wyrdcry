@@ -61,6 +61,7 @@ const config = {
         indexBlog: false,
       },
     ],
+    'docusaurus-plugin-image-zoom',
   ],
 
   presets: [
@@ -101,6 +102,13 @@ const config = {
       tableOfContents: {
         minHeadingLevel: 2,
         maxHeadingLevel: 3,
+      },
+      zoom: {
+        selector: '.markdown img',
+        background: {
+          light: 'rgb(255, 255, 255)',
+          dark: 'rgb(50, 50, 50)',
+        },
       },
       navbar: {
         logo: {

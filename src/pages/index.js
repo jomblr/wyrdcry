@@ -31,9 +31,9 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/warbands/starting-warband"
+            to="/docs/rules/introduction"
           >
-            Start your warband
+            What is Wyrdcry?
           </Link>
           <Link
             className="button button--primary button--lg"
