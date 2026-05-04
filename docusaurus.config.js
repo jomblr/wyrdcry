@@ -52,6 +52,17 @@ const config = {
     },
   ],
 
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        docsRouteBasePath: '/docs',
+        indexBlog: false,
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -114,12 +125,6 @@ const config = {
             sidebarId: 'campaignsSidebar',
             position: 'left',
             label: 'Campaigns',
-          },
-
-          {
-            to: '/warband-builder',
-            label: 'Warband Builder',
-            position: 'left',
           },
         ],
       },

@@ -120,11 +120,7 @@ export function WeaponSpecialRulesGlossary() {
 
   return (
     <section className={`${styles.ruleGlossary} weapon-rules-glossary`}>
-      <p>
-        Rules referenced by weapons in the tables above and defined in{' '}
-        <code>weapon-rules.json</code>. Definitions in your core rulebook take precedence if
-        anything differs.
-      </p>
+
       {glossaryRules.map(ruleId => {
         const def = weaponRulesData.find(r => r.id === ruleId);
         const title = def?.name?.trim() || humanizeRule(ruleId);
