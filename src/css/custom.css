@@ -226,7 +226,7 @@ body .tooltip:has(.tooltip-breakdown) {
   margin-top: 0.25rem;
 }
 
-.markdown img {
+.markdown img:not(.faction-weapon-hero-icon) {
   width: 50%;
   cursor: zoom-in;
 }

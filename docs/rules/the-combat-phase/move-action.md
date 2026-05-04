@@ -5,13 +5,13 @@ title: Move Action
 # Move Action
 Move the fighter up to their Move characteristic (measured in inches). This must be done in one or more straight-line increments, and increments are always rounded up to the nearest inch.
 
-- A fighter cannot move through [terrain pieces](/docs/rules/the-battle-round/the-combat-phase/terrain), unless they are insignificant.
+- A fighter cannot move through [terrain pieces](terrain.md), unless they are insignificant.
 - A fighter cannot move through the base of enemy fighters.
 - A fighter cannot start a Move action while within 1” of an enemy fighter, they must make the Retreat action instead.
 - A fighter can move within 1” of an enemy fighter, but if they do, they must stop the move action there, unless that enemy fighter is already within 1” of another friendly fighter.
 
 ## Climbing
-A fighter can climb a terrain piece that is an [obstacle](/docs/rules/the-battle-round/the-combat-phase/terrain#obstacles) as part of their Move action. Count the vertical distance moved as double (1" of vertical movement counts as 2"). A fighter is considered to be climbing until their base can be placed on the battlefield floor, on a [platform](/docs/rules/the-battle-round/the-combat-phase/terrain#5-platforms), or until they jump. A fighter can end a move action while climbing, but if they are still climbing at the end of their activation, they fall.
+A fighter can climb a terrain piece that is an [obstacle](terrain.md#obstacles) as part of their Move action. While climbing, they can move vertically up or down through the air, as well as horizontally, but must stay within ½" of the obstacle they are climbing. A fighter cannot climb further than their Move characteristic in a single activation. A fighter is considered to be climbing until their base can be placed on the battlefield floor, on a [platform](terrain.md#5-platforms), or until they jump. A fighter can end a move action while climbing, but if they are still climbing at the end of their activation, they fall.
 
 ## Jumping
 A fighter can jump from an obstacle or platform as part of their Move action. Count the horizontal distance moved as normal, but do not count the distance moved vertically. 

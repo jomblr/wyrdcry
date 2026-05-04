@@ -27,4 +27,4 @@ A fighter can make this reaction after they have been allocated the total damage
 A fighter can use this ability after ending a move action within 1" of an enemy fighter. Up to (X/2) Friendly fighters within 6" of this fighter can make a bonus move action, but must end that move action closer to this fighter.
 
 ### [Triple] Warcry
-Friendly fighters within 6" of this fighter are no longer panicked, and does not have to take panic tests until the end of the battleround.
+Friendly fighters within 6" of this fighter are no longer panicked, and automatically passes any Bravery tests they are required to take until the end of the battle round.

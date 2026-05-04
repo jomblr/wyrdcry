@@ -1,0 +1,68 @@
+---
+sidebar_position: 5
+title: Undead
+faction_id: undead
+---
+
+import FactionReference, {
+  FactionFighters,
+  FactionMeleeEquipment,
+  FactionRangedEquipment,
+  FactionArmourEquipment,
+  FactionWarbandLimit,
+  FactionSpecialRules,
+} from '@site/src/components/wiki/FactionReference';
+
+# The Undead
+
+<FactionReference factionId="undead" />
+
+## Warband size
+---
+<FactionWarbandLimit factionId="undead" />
+
+## Faction rules
+---
+### Thrall
+Fighters with the `Thrall` keyword are bound to the `Vampire` leading the warband. A `thrall` cannot be equipped with any weapons, armour or equipment. They do not earn experience or gain renown, are unable to carry treasure tokens and automatically pass any Bravery test they are required to take.
+
+## Blood of Von Carstein
+---
+Each time a `VAMPIRE` earns renown, you can pick from the following abilities in addition to the specializations in the campaign book. Doing so does not count against a fighter’s specialization limit.
+
+#### [Reaction] Transfixing Glare
+Use this reaction when a visible enemy fighter within 6" of this fighter uses an action. That fighter must pass a Bravery test, or the action is cancelled.
+
+#### [Trait] Ravenous Thirst
+When this fighter uses the Feed ability, you may allocate up to X damage points to the target, and remove up to (X) damage points from this fighter.
+
+#### [Trait] Dark Regeneration
+This fighter never has to roll on the injury table as a result of being taken out of action.
+
+#### [Double] Unholy Celerity
+A fighter can only use this ability if an enemy fighter has been taken down by an attack action made by this fighter this activation. This fighter makes a free move action or a free attack action.
+
+#### [Triple] Bat Form
+For this fighter’s next move action, increase its Move characteristic by 3. During that move action, this fighter can fly.
+
+#### [Quad] Beheading Strike
+This fighter makes a free attack action. In addition, add (X/2) to the Attacks and Fight characteristics of that attack action.
+
+## Fighters {#fighters}
+---
+<FactionFighters factionId="undead" />
+
+## Equipment
+---
+<div className="row margin-top--lg">
+  <div className="col col--6">
+
+<FactionMeleeEquipment factionId="undead" />
+  </div>
+  <div className="col col--6">
+
+<FactionRangedEquipment factionId="undead" />
+
+<FactionArmourEquipment factionId="undead" />
+  </div>
+</div>

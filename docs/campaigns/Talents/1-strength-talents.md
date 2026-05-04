@@ -5,7 +5,7 @@ title: Strength
 # Strength
 ---
 ### [Trait] Fearsome
-Enemy fighters must take a Panic test when making melee attack actions against this fighter.
+This fighter gains the `Terrifying` keyword.
 
 ### [Trait] Oppressor
 Once per battle round, when an enemy fighter makes the 'Retreat' action, this fighter can make the 'Cut Them Down' reaction without having to forfeit an action to do so.

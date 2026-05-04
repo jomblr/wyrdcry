@@ -10,7 +10,7 @@ There is a list of **[universal reactions](#universal-reactions)** below that ar
 Each reaction states when the controlling player must declare that their fighter will make the reaction. In addition, one of the following must be true:
 
 - The fighter has not activated yet in the battle round
-- The fighter has activated, but is [waiting](/docs/rules/the-battle-round/the-combat-phase/other-actions#wait).
+- The fighter has activated, but is [waiting](other-actions.md#wait).
 - The fighter is a `Hero` with their **[heroic reaction](#heroic-reaction)** remaining.
 
 Each time a fighter makes a reaction, they forfeit one of their actions in that battle round. If a fighter forfeits all of their actions to make reactions, they are treated as a fighter that has already activated and cannot be picked to activate in the battle round.

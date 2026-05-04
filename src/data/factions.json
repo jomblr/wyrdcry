@@ -146,10 +146,10 @@
       "spear": "hero",
       "sword": "hero",
       "warhammer": "hero",
-      "bow": "all",
+      "bow": "hero",
       "item:heavy-armour": "hero",
-      "item:light-armour": "all",
-      "item:shield": "all",
+      "item:light-armour": "hero",
+      "item:shield": "hero",
       "flail": "hero"
     }
   }

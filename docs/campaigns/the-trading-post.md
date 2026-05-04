@@ -26,13 +26,13 @@ Some items, such as drugs and poisons, are listed as 'Single-Use'. Each item sta
 While wearing this cloak, a fighter is considered to have the ['Stealthy'](/docs/campaigns/Talents/agility-talents#trait-stealthy) talent
 
 ### Lantern (30gc)
-Friendly fighters may re-roll failed Panic tests while within 3” of this fighter. However, this fighter must reduce their Defense characteristic by 1 when targeted by ranged attacks.
+Friendly fighters may re-roll failed Bravery tests while within 3” of this fighter. However, this fighter must reduce their Defense characteristic by 1 when targeted by ranged attacks.
 
 ### Lucky Charm (35gc)
 Once per battle, when the bearer is targeted by an attack action and after hit rolls have been made, you may turn one critical hit into a hit.
 
 ### Rope and Hook (20gc)
-When the bearer makes a move action, count the vertical distance of climbing an obstacle as half (rounding up).
+When the bearer makes a move action, count the vertical distance of climbing as half (rounding up).
 
 ### <Crow /> Master-Crafted Weapon (+100gc)
 Purchase a weapon from the fighter’s faction entry, and increase its gold coin cost by 100 gold coin. Then, add 1 to the hit and critical hit characteristics of that weapon.
@@ -55,7 +55,7 @@ Use this item in the 'Present Warbands' step. Until the end of the battle, incre
 Use this item after allocating damage to an enemy fighter with a critical hit. That fighter must forfeit one action or suffer d6 damage points.
 
 ### Familiar (40gc)
-A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-battle-round/the-combat-phase/other-actions#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
+A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](other-actions.md#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
 
 ### Healing Draught (40gc)
 Use this item when making a Wait action  to immediately use the ‘Respite’ ability without needing or spending ability dice to do so. Treat the value of that ability as a 6.

@@ -418,9 +418,15 @@
 
 .tableScrollOuterWiki .tableWrapper {
   margin-bottom: 0;
+  overflow: hidden;
+}
+
+.tableScrollOuterWiki .tableWrapper .gridHeader {
+  border-radius: calc(var(--wyrd-radius) - 2px) calc(var(--wyrd-radius) - 2px) 0 0;
 }
 
 /* Faction equipment tables on faction pages — flush under section / hr (no extra top gap) */
+
 .tableScrollOuterWikiFactionEquip {
   margin-top: 0;
 }

@@ -4,7 +4,7 @@ title: Other Actions
 ---
 # Other Actions
 ## Channel Magic
-A `Wizard` can channel magic to generate or upgrade ability dice for use in [magical abilities](/docs/rules/the-battle-round/the-combat-phase/abilities). When channeling, you may add a **[double]** with a value of 3, or choose one ability dice and apply one of the following effects to it:
+A `Wizard` can channel magic to generate or upgrade ability dice for use in [magical abilities](abilities.md). When channeling, you may add a **[double]** with a value of 3, or choose one ability dice and apply one of the following effects to it:
 
 - Upgrade a **[double]** to a **[triple]**, or a **[triple]** to a **[quad]**.
 - Increase the value of an ability dice by 3 (to a maximum of 6).

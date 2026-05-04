@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 4
 title: The Initiative Phase
 ---
 # The Initiative Phase

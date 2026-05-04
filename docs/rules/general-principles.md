@@ -24,7 +24,7 @@ For rules purposes, a fighter considers all fighters in their warband to be **fr
 
 ## The Battlefield
 
-Battles are fought on a flat surface measuring 3 feet by 3 feet, referred to as the **battlefield floor.** This surface is bordered by **battlefield edges** and populated with all manner of ruined buildings, risers and scaffolding called [**terrain pieces**](/docs/rules/the-battle-round/the-combat-phase/terrain). Together, these elements form the **battlefield**. Rules for terrain pieces are found on page 28.
+Battles are fought on a flat surface measuring 3 feet by 3 feet, referred to as the **battlefield floor.** This surface is bordered by **battlefield edges** and populated with all manner of ruined buildings, risers and scaffolding called [**terrain pieces**](terrain.md). Together, these elements form the **battlefield**. Rules for terrain pieces are found on page 28.
 
 ## Measuring
 

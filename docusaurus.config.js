@@ -104,7 +104,7 @@ const config = {
         maxHeadingLevel: 3,
       },
       zoom: {
-        selector: '.markdown img',
+        selector: '.markdown img:not(.faction-weapon-hero-icon)',
         background: {
           light: 'rgb(255, 255, 255)',
           dark: 'rgb(50, 50, 50)',
