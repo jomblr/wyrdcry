@@ -134,6 +134,11 @@ const config = {
             position: 'left',
             label: 'Campaigns',
           },
+          {
+            to: '/blog',
+            label: 'Updates',
+            position: 'right',
+          },
         ],
       },
       footer: undefined,

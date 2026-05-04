@@ -16,17 +16,17 @@ These keywords are primarily used when a fighter gains Renown and makes a charac
 - `Hired Sword`
 ## Fighter Keywords
 - <span Id='Leader'>`Leader`</span>
-	- Friendly fighters within 6" can use the Leader's Bravery characteristic when taking [Panic tests.](panic.md)
+	- Friendly fighters within 6" can use the Leader's Bravery characteristic when taking [Panic tests.](/docs/rules/the-combat-phase/panic)
 	- If killed, a [new leader must be selected](/docs/campaigns/aftermath-sequence#death-of-a-leader)
 - <span Id='Hero'>`Hero`</span>
 	- Can use equipment marked with <HeroOnly />
-	- Can make a [Heroic Reaction](reactions.md#heroic-reaction) once per battle
+	- Can make a [Heroic Reaction](/docs/rules/the-combat-phase/reactions#heroic-reaction) once per battle
 	- Can make a characteristics increase or select a trait when [gaining renown](/docs/campaigns/renown)
 	- Can be sent to find items at the Trading Post
 	- Must roll on the [Hero Injury Table](/docs/campaigns/aftermath-sequence#hero-injuries) when taken out of action
 - <span Id='Wizard'>`Wizard`</span>
 	- Can use magical abilities
-	- Can make the [Channel Magic](other-actions.md#channel-magic) action
+	- Can make the [Channel Magic](/docs/rules/the-combat-phase/other-actions#channel-magic) action
 	- Cannot be equipped with armour
 - <span Id='Henchman'>`Henchman`</span>
 	- Can make a characteristics increase when [gaining renown](/docs/campaigns/renown)

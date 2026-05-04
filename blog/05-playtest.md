@@ -8,13 +8,13 @@ date: 2026-03-27
 ## Another month - another playtest!
 
 ### The Wyrdcry Compendium
-If you can read this, you've found the compendium. Great! This website will be the most up-to-date version of Wyrdcry until the project is wrapped up and new PDF:s are designed. You'll find the whole ruleset, faction rules, campaign rules - and a nifty little warband planner.
+If you can read this, you've found the compendium. Great! This website will be the most up-to-date version of Wyrdcry until the project is wrapped up and new PDF:s are designed. You'll find the whole ruleset, faction rules, and campaign rules.
 
 ### The 1000gc warband limit
-Wyrdcry now uses a 1000gc warband limit, similar to vanilla warcry. The 0.4 playtest has been used to come up with new cost profiles for determining fighter and weapon costs, which will help as we're drafting up the remaining 4 warbands.
+Wyrdcry now uses a 1000gc warband limit, similar to vanilla warcry. The 0.4 playtest has been used to come up with new cost profiles for determining fighter and weapon costs, which will help as we're starting to playtest the final 4 warbands.
 
 ### Rebalancing of Skaven and Mercenaries
-To my absolute delight, many of you have started participating in playing introductory games of Wyrdcry - and have cemented the long-running trend of Mercenaries having a hard time dealing with the superior numbers of the ratmen. To address this, we're doing a heavier nudge by making Mercenary henchmen cheaper, adressing weapon and armour costs - and introducing a few more special rules. You can read more about them here.
+To my absolute delight, many of you have started participating in playing introductory games of Wyrdcry - and have cemented the long-running trend of Mercenaries having a hard time dealing with the superior numbers of the ratmen. To address this, we're doing a heavier nudge by making Mercenary henchmen cheaper, adressing weapon and armour costs - and introducing a few more special rules. [You can read more about them here.](/docs/warbands/Factions/mercenaries)
 
 | Mercenaries | Previous | New | Change | 
 | :--- | :---: | :---: | :---: | 
@@ -58,7 +58,9 @@ The cost profile for weapons has changed a bit, putting more weight on amount of
 |Heavy Armour|50|70|-30%|
 
 ### New Warbands
-Based on the feedback of our project champions (and our smoking hot cost profiles), four new warbands are now available: The Sisters of Sigmar, Witch Hunters, The Undead, and The Cult of the Possessed. These are beta rules so expect some rough edges. The goal right now is to get them on the table and find out how broken/fun they are to play.
+Based on the feedback of our project champions (and our smoking hot cost profiles), four new warbands are now available: [The Sisters of Sigmar](/docs/warbands/Factions/sisters-of-sigmar), [Witch Hunters](/docs/warbands/Factions/witch-hunters), [The Undead](/docs/warbands/Factions/undead), and [The Cult of the Possessed](/docs/warbands/Factions/possessed). These are beta rules so expect some rough edges. The goal right now is to get them on the table and find out how broken/fun they are to play.
 
-### The Warband Planner - Beta (Desktop only)
-I've hinted at working on a warband builder, and I'm happy to announce that a very rough first draft is available here in the compendium. With it, you will will be able to pick a faction, kit out your fighters and print it to pdf. It's sill a work in progress and uses local storage, so please make JSON backups regularly.
+### And much, much more
+- [Experimental climbing rules](/docs/rules/the-combat-phase/move-action#climbing) that promotes climbing and vertical movement. Upgrade your fighters with Rope and Hook for Warcry-style movement.
+- [Channel Magic action](/docs/rules/the-combat-phase/other-actions#channel-magic) that forces Wizards to spend an action to channel magic
+- [Re-christening of Panic Tests](/docs/rules/the-combat-phase/panic) (Now called Bravery tests)

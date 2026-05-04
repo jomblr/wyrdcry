@@ -5,6 +5,7 @@ title: Scenarios
 
 # Scenarios
 ## Markers & Tokens
+---
 
 Many scenarios require the players to place 1 or more **markers** or **tokens** on the battlefield. Markers are static objects, representing points of interest, while tokens represent objects, tools and treasure that can be carried by fighters. Neither are part of the battlefield, meaning that fighters can move over them and stand upon them. When measuring distances to a marker or token, measure to and from the centre of the marker or token.
 
@@ -19,17 +20,18 @@ Fighters with the **BEAST** keyword cannot carry tokens at all.
 ### Dropping Tokens
 A fighter can drop a carried token as a free action. In addition, a fighter will automatically drop carried tokens if taken out of action. In both cases, the player controlling the fighter places the token back on the battlefield, within 1” of the fighter, before removing the fighter from the battlefield.
 
-## Selecting a Scenario
-When selecting a scenario you may either agree on one with your opponent or roll a d6 and consult the list below:
+## Wyrdstone Hunt
+---
+_Most days, hunting for wyrdstone means a bloody scuffle in an alley. You're as likely to to pry the shards from a dead man's fingers as from a pile of rubble._
 
-**1. Ambush!**
+### Set Up
+Place 3 markers on the battlefield as shown on the map below, representing wyrdstone clusters. A fighter within 1” of a cluster can loot it as an action to pick up a treasure token. A cluster can be looted twice, after which it is removed from the battlefield.
 
-**2. Wyrdstone Hunt (Playtest Scenario)**
+![A breakdown of a terrain piece](/img/wyrdstone-hunt.png)
 
-**3.** **Chance Encounter**
+### Victory Condition
+The warband that is carrying the most treasure tokens at the end of the battle is the winner.
 
-**4. Secret Treasure**
-
-**5. The Rout**
-
-**6. Defend the Find**
+### Favor
+- 1 for winning the battle.
+- 1 for each fighter carrying a treasure token.

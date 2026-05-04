@@ -55,7 +55,7 @@ Use this item in the 'Present Warbands' step. Until the end of the battle, incre
 Use this item after allocating damage to an enemy fighter with a critical hit. That fighter must forfeit one action or suffer d6 damage points.
 
 ### Familiar (40gc)
-A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](other-actions.md#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
+A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-combat-phase/other-actions#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
 
 ### Healing Draught (40gc)
 Use this item when making a Wait action  to immediately use the ‘Respite’ ability without needing or spending ability dice to do so. Treat the value of that ability as a 6.

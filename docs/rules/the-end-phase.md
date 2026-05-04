@@ -19,4 +19,4 @@ If your warband is wavering, instead of starting a new battle round, you can dec
 
 The battle ends, and the enemy warband is the winner regardless of the victory conditions. Any wyrdstone tokens left on battlefield are recovered by the enemy warband.
 
-## Step 3: Start a new battle round
+## Step 2: Start a new battle round

@@ -16,6 +16,7 @@ All factions have a faction entry that contains all of the special rules, fighte
 - [Witch Hunters](/docs/warbands/Factions/witch-hunters)
 - [The Cult of The Possessed](/docs/warbands/Factions/possessed)
 - [Sisters of Sigmar](/docs/warbands/Factions/sisters-of-sigmar)
+- [The Undead](/docs/warbands/Factions/undead)
 
 After selecting a faction you must note down the faction name on your warband roster.
 
