@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/rules/the-battle-round/the-combat-phase/panic.md",
+                "file": "docs/warbands/Factions/mercenaries.mdx",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "panic"
+              "title": "mercenaries"
             }
           }
         ],
@@ -195,8 +195,9 @@
       "bases:Create new base": false
     }
   },
-  "active": "ec5a3f4cfec89e69",
+  "active": "f87d425f88a61dd3",
   "lastOpenFiles": [
+    "docs/rules/the-battle-round/the-combat-phase/panic.md",
     "node_modules/docusaurus-plugin-image-zoom/RELEASE.md",
     "node_modules/docusaurus-plugin-image-zoom/README.md",
     "node_modules/docusaurus-plugin-image-zoom/src/index.ts",
@@ -232,7 +233,6 @@
     "build/img/home.svg",
     "docs/campaigns/aftermath-sequence.md",
     "docs/rules/the-battle-round/the-end-phase.md",
-    "docs/rules/the-battle-round/the-combat-phase/panic.md",
     "docs/campaigns/Talents/4-perception-talents.md",
     "docs/rules/the-battle-round/the-combat-phase/attack-action.md",
     "docs/rules/keywords.md",

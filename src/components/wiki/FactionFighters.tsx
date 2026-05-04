@@ -180,20 +180,26 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
         ) : null}
 
         <div className="fighterCardStats">
-          <div className={wb.tableScrollOuterWiki}>
-            <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid}`}>
+          <div className="fighterCardStatsGrid">
+            <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
               <div className={wb.gridHeader}>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Move</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Fight</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Shoot</div>
+              </div>
+              <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.move}&quot;</div>
+                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.fight}</div>
+                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.shoot}</div>
+              </div>
+            </div>
+            <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
+              <div className={wb.gridHeader}>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Defense</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Health</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Bravery</div>
               </div>
-              <div className={wb.gridRow}>
-                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.move}&quot;</div>
-                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.fight}</div>
-                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.shoot}</div>
+              <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.defense}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.health}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.bravery}+</div>

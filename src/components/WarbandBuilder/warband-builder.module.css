@@ -259,6 +259,10 @@
   background: var(--ifm-hover-overlay);
 }
 
+.gridRowNoHover:hover {
+  background: none;
+}
+
 /* Header cell */
 .hCell {
   padding: 0.5rem 0.6rem;
@@ -414,7 +418,6 @@
 
 .tableScrollOuterWiki .tableWrapper {
   margin-bottom: 0;
-  min-width: 0;
 }
 
 /* Faction equipment tables on faction pages — flush under section / hr (no extra top gap) */
@@ -451,6 +454,10 @@
     minmax(3.5rem, 1fr) minmax(3.25rem, 1fr) minmax(3.5rem, 1fr) minmax(4.75rem, 1.1fr) minmax(3.75rem, 1fr)
     minmax(4.75rem, 1.1fr);
   min-width: 520px;
+}
+
+.fighterStatsRefGrid3 {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .cellWrap {

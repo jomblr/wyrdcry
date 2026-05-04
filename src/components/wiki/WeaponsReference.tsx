@@ -50,7 +50,7 @@ function SpecialRuleLinks({ rules }: { rules: string[] }) {
           <span>{humanizeRule(r)}</span>
         );
         return (
-          <span key={r}>
+          <span key={r} style={{ whiteSpace: 'nowrap' }}>
             {i > 0 ? ', ' : ''}
             {link}
           </span>

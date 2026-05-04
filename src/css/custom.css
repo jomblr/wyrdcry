@@ -316,13 +316,48 @@ pre code {
   border: 2px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
   background: var(--ifm-background-surface-color);
-  padding: 1.25rem 1.35rem;
+  padding: 1rem;
   margin-bottom: 1.5rem;
   max-width:640px
 }
 
 .fighterCardHeading {
   margin-top: 0;
+}
+
+.fighterCardStatsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+@media (max-width: 767px) {
+  .fighterCardStatsGrid > *:first-child {
+    border-radius: var(--wyrd-radius) var(--wyrd-radius) 0 0;
+    border-bottom: none;
+  }
+  .fighterCardStatsGrid > *:last-child {
+    border-radius: 0 0 var(--wyrd-radius) var(--wyrd-radius);
+  }
+}
+
+
+@media (min-width: 768px) {
+  .fighterCardStatsGrid {
+    flex-direction: row;
+  }
+  .fighterCardStatsGrid > * {
+    flex: 1;
+    margin: 0;
+  }
+  .fighterCardStatsGrid > *:first-child {
+    border-radius: var(--wyrd-radius) 0 0 var(--wyrd-radius);
+    border-right: none;
+  }
+  .fighterCardStatsGrid > *:last-child {
+    border-radius: 0 var(--wyrd-radius) var(--wyrd-radius) 0;
+    border-left: none;
+  }
 }
 
 .fighterCardStats {
@@ -455,30 +490,33 @@ pre code {
 .weapon-table {
   width: 100%;
   margin: 0.75rem 0 1rem 0;
+  overflow-x: auto;
 }
 
-.weapon-table table {
-  width: 100%;
-  table-layout: fixed;
-}
+@media (min-width: 768px) {
+  .weapon-table table {
+    width: 100%;
+    table-layout: fixed;
+  }
 
-.weapon-table table th:nth-child(1),
-.weapon-table table td:nth-child(1) {
-  width: 30%;
-}
+  .weapon-table table th:nth-child(1),
+  .weapon-table table td:nth-child(1) {
+    width: 30%;
+  }
 
-.weapon-table table th:nth-child(2),
-.weapon-table table td:nth-child(2),
-.weapon-table table th:nth-child(3),
-.weapon-table table td:nth-child(3),
-.weapon-table table th:nth-child(4),
-.weapon-table table td:nth-child(4) {
-  width: 6.67%; /* 20% / 3 for Range, Attacks, Damage */
-}
+  .weapon-table table th:nth-child(2),
+  .weapon-table table td:nth-child(2),
+  .weapon-table table th:nth-child(3),
+  .weapon-table table td:nth-child(3),
+  .weapon-table table th:nth-child(4),
+  .weapon-table table td:nth-child(4) {
+    width: 6.67%; /* 20% / 3 for Range, Attacks, Damage */
+  }
 
-.weapon-table table th:nth-child(5),
-.weapon-table table td:nth-child(5) {
-  width: 50%;
+  .weapon-table table th:nth-child(5),
+  .weapon-table table td:nth-child(5) {
+    width: 50%;
+  }
 }
 
 .markdown table thead th,
