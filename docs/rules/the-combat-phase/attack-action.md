@@ -38,7 +38,7 @@ To determine which hit rolls have **missed**, scored a **hit** or a **critical h
 |Modifier|Attacker|Defender|
 |:---|:---:|:---:|
 |Attacker is panicked|-1 Fight / Shoot|-|
-|Weapon is **Piercing X**|-|-X Defense|
+|Weapon is **Mighty X**|+X Fight / Shoot|-|
 |Target is in cover|-|+1 Defense|
 |Target is flanked|-|-1 Defense|
 

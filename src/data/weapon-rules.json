@@ -24,7 +24,7 @@
   {
     "id": "mighty-2",
     "name": "Mighty 2",
-    "description": "When a fighter makes an attack action with this weapon, increase their Fight characteristic by 1 if it is a melee weapon, or their Shoot characteristic by 1 if it is a ranged weapon.",
+    "description": "When a fighter makes an attack action with this weapon, increase their Fight characteristic by 2 if it is a melee weapon, or their Shoot characteristic by 2 if it is a ranged weapon.",
     "effect": {
       "characteristic": "fight_shoot",
       "bonus": 2,
@@ -63,7 +63,7 @@
   {
     "id": "brace",
     "name": "Brace",
-    "description": "A fighter may be equipped with two weapons with this special rule and have it count as a single ranged weapon.",
+    "description": "When determining how many ranged weapons a fighter is equipped with, two weapons with this special rule count as one.",
     "effect": null,
     "cost": 0
   },

@@ -20,6 +20,15 @@ function weaponRuleDescription(ruleId: string): string | null {
   return d ? d : null;
 }
 
+function renderWithCode(text: string): React.ReactNode {
+  const parts = text.split(/(`[^`]+`)/g);
+  return parts.map((part, i) =>
+    part.startsWith('`') && part.endsWith('`')
+      ? <code key={i}>{part.slice(1, -1)}</code>
+      : part,
+  );
+}
+
 function humanizeRule(rule: string): string {
   return rule
     .split('-')
@@ -130,7 +139,7 @@ export function WeaponSpecialRulesGlossary() {
             <Heading as="h3" id={ruleId} className={styles.ruleGlossaryHeading}>
               {title}
             </Heading>
-            {description ? <p className={styles.ruleGlossaryDesc}>{description}</p> : null}
+            {description ? <p className={styles.ruleGlossaryDesc}>{renderWithCode(description)}</p> : null}
           </div>
         );
       })}

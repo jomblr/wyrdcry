@@ -6,7 +6,8 @@
     "DAEMON",
     "VAMPIRE",
     "GHOUL",
-    "ZOMBIE"
+    "ZOMBIE",
+    "THRALL"
   ],
   "archetype": [
     "HERO",
