@@ -87,7 +87,7 @@
     "bravery": 5,
     "power_level": 25,
     "cost": 100,
-    "ability_preamble": "When recruiting a Matriarch, you must select one of the following abilities:",
+    "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "skitterleap",
       "gnawdoom",
@@ -142,7 +142,7 @@
     "bravery": 3,
     "power_level": 10,
     "cost": 110,
-    "ability_preamble": "When recruiting a Matriarch, you must select one of the following abilities:",
+    "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "words-of-healing",
       "hammer-of-sigmar",
@@ -403,7 +403,7 @@
     "bravery": 4,
     "power_level": 30,
     "cost": 100,
-    "ability_preamble": "When recruiting a Magister, you must select one of the following abilities:",
+    "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "puppet-master",
       "curse-of-agony",

@@ -248,16 +248,18 @@
   },
   {
     "id": "weeping-blades",
-    "name": "Weeping Blade",
+    "name": "Weeping Blades",
     "type": "melee",
     "range": 1,
-    "attacks": 3,
+    "attacks": 4,
     "hit": 3,
     "crit": 5,
     "special_rules": [
-      "parry"
+      "parry",
+      "two-handed"
     ],
-    "cost": 45
+    "power_level": 10,
+    "cost": 70
   },
   {
     "id": "throwing-stars",
