@@ -70,7 +70,7 @@
   {
     "id": "blessed",
     "name": "Blessed",
-    "description": "Increase the Fight characteristic of the wielder by 1 when making attack actions against fighters with the `UNDEAD` or `DAEMON` keyword.",
+    "description": "Increase the Fight characteristic of the wielder by 1 when making attack actions against fighters with the `VAMPIRE`, `DAEMON` or `THRALL` keyword.",
     "effect": null,
     "cost": 10
   },

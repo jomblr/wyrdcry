@@ -403,7 +403,7 @@
     "name": "Soulfire",
     "category": "sisters-of-sigmar",
     "ability_type": "quad",
-    "description": "Allocate (X/2) damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `Vampire`, `Daemon` or `Zombie`, allocate (X) damage points instead."
+    "description": "Allocate (X/2) damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `Vampire`, `Daemon` or `Thrall`, allocate (X) damage points instead."
   },
   {
     "id": "touch-of-chaos",
