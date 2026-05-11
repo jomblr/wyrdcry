@@ -312,7 +312,7 @@
     "name": "Driven by Greed",
     "category": "mercenaries",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a wyrdstone token or treasure token. Add 1 to the Fight and Attacks characteristic of this fighter’s next melee attack action."
+    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a treasure token. Add 1 to the Fight and Attacks characteristic of this fighter’s next melee attack action."
   },
   {
     "id": "hunters-eye",

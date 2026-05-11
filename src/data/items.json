@@ -1,15 +1,12 @@
 [
   {
-    "id": "light-armour",
-    "name": "Light Armour",
-    "type": "armour",
-    "description": "Increase the Defense characteristic of the bearer by 1.",
-    "effect": {
-      "characteristic": "defense",
-      "bonus": 1
-    },
-    "cost": 30,
-    "rare": false
+    "id": "familiar",
+    "name": "Familiar",
+    "type": "single-use",
+    "description": "",
+    "effect": null,
+    "cost": 50,
+    "rare": true
   },
   {
     "id": "heavy-armour",
@@ -24,6 +21,18 @@
     "rare": false
   },
   {
+    "id": "light-armour",
+    "name": "Light Armour",
+    "type": "armour",
+    "description": "Increase the Defense characteristic of the bearer by 1.",
+    "effect": {
+      "characteristic": "defense",
+      "bonus": 1
+    },
+    "cost": 30,
+    "rare": false
+  },
+  {
     "id": "shield",
     "name": "Shield",
     "type": "armour",
@@ -34,14 +43,5 @@
     },
     "cost": 20,
     "rare": false
-  },
-  {
-    "id": "familiar",
-    "name": "Familiar",
-    "type": "single-use",
-    "description": "",
-    "effect": null,
-    "cost": 50,
-    "rare": true
   }
 ]

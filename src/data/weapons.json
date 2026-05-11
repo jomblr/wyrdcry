@@ -1,5 +1,41 @@
 [
   {
+    "id": "axe",
+    "name": "Axe",
+    "type": "melee",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [],
+    "cost": 20
+  },
+  {
+    "id": "blunderbuss",
+    "name": "Blunderbuss",
+    "type": "ranged",
+    "range": 6,
+    "attacks": 6,
+    "hit": 1,
+    "crit": 3,
+    "special_rules": [
+      "blast",
+      "one-use"
+    ],
+    "cost": 50
+  },
+  {
+    "id": "bow",
+    "name": "Bow",
+    "type": "ranged",
+    "range": 18,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "cost": 25
+  },
+  {
     "id": "club",
     "name": "Club",
     "type": "melee",
@@ -9,6 +45,46 @@
     "crit": 3,
     "special_rules": [],
     "cost": 15
+  },
+  {
+    "id": "crossbow",
+    "name": "Crossbow",
+    "type": "ranged",
+    "range": 24,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 5,
+    "special_rules": [
+      "mighty-1",
+      "reload"
+    ],
+    "cost": 40
+  },
+  {
+    "id": "crossbow-pistol",
+    "name": "Crossbow Pistol",
+    "type": "ranged",
+    "range": 6,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 5,
+    "special_rules": [
+      "mighty-1",
+      "reload",
+      "brace"
+    ],
+    "cost": 25
+  },
+  {
+    "id": "possessed-daemonic-weapon",
+    "name": "Daemonic Weapon",
+    "type": "natural",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [],
+    "cost": 30
   },
   {
     "id": "dagger",
@@ -22,41 +98,17 @@
     "cost": 5
   },
   {
-    "id": "steel-whip",
-    "name": "Steel Whip",
-    "type": "melee",
-    "range": 3,
-    "attacks": 3,
-    "hit": 1,
-    "crit": 4,
-    "special_rules": [
-      "whipcrack"
-    ],
-    "cost": 30
-  },
-  {
-    "id": "spear",
-    "name": "Spear",
-    "type": "melee",
-    "range": 2,
+    "id": "elf-ranger-bow",
+    "name": "Elven bow",
+    "type": "ranged",
+    "exclusive": "yes",
+    "range": 6,
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 20
-  },
-  {
-    "id": "halberd",
-    "name": "Halberd",
-    "type": "melee",
-    "range": 2,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [
-      "two-handed"
-    ],
-    "cost": 25
+    "power_level": 0,
+    "cost": 15
   },
   {
     "id": "fighting-claws",
@@ -73,17 +125,42 @@
     "cost": 45
   },
   {
-    "id": "crossbow-pistol",
-    "name": "Crossbow Pistol",
-    "type": "ranged",
-    "range": 6,
-    "attacks": 2,
-    "hit": 3,
-    "crit": 5,
+    "id": "flail",
+    "name": "Flail",
+    "type": "melee",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
     "special_rules": [
-      "mighty-1",
-      "reload",
-      "brace"
+      "mighty-1"
+    ],
+    "cost": 30
+  },
+  {
+    "id": "great-weapon",
+    "name": "Great Weapon",
+    "type": "melee",
+    "range": 1,
+    "attacks": 2,
+    "hit": 4,
+    "crit": 7,
+    "special_rules": [
+      "mighty-2",
+      "two-handed"
+    ],
+    "cost": 60
+  },
+  {
+    "id": "halberd",
+    "name": "Halberd",
+    "type": "melee",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "two-handed"
     ],
     "cost": 25
   },
@@ -119,31 +196,18 @@
     "cost": 40
   },
   {
-    "id": "flail",
-    "name": "Flail",
+    "id": "sigmarite-warhammer",
+    "name": "Sigmarite Warhammer",
     "type": "melee",
-    "range": 2,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
-    "special_rules": [
-      "mighty-1"
-    ],
-    "cost": 30
-  },
-  {
-    "id": "crossbow",
-    "name": "Crossbow",
-    "type": "ranged",
-    "range": 24,
+    "range": 1,
     "attacks": 2,
     "hit": 3,
     "crit": 5,
     "special_rules": [
-      "mighty-1",
-      "reload"
+      "mighty-2",
+      "blessed"
     ],
-    "cost": 40
+    "cost": 50
   },
   {
     "id": "sling",
@@ -157,15 +221,28 @@
     "cost": 20
   },
   {
-    "id": "bow",
-    "name": "Bow",
-    "type": "ranged",
-    "range": 18,
+    "id": "spear",
+    "name": "Spear",
+    "type": "melee",
+    "range": 2,
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 25
+    "cost": 20
+  },
+  {
+    "id": "steel-whip",
+    "name": "Steel Whip",
+    "type": "melee",
+    "range": 3,
+    "attacks": 3,
+    "hit": 1,
+    "crit": 4,
+    "special_rules": [
+      "whipcrack"
+    ],
+    "cost": 30
   },
   {
     "id": "sword",
@@ -181,15 +258,43 @@
     "cost": 25
   },
   {
-    "id": "axe",
-    "name": "Axe",
-    "type": "melee",
-    "range": 1,
+    "id": "throwing-stars",
+    "name": "Throwing Stars",
+    "type": "ranged",
+    "range": 6,
     "attacks": 3,
     "hit": 2,
     "crit": 4,
     "special_rules": [],
     "cost": 20
+  },
+  {
+    "id": "troll-slayer-thrown-axe",
+    "name": "Thrown Axe",
+    "type": "ranged",
+    "exclusive": "yes",
+    "range": 6,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 15
+  },
+  {
+    "id": "troll-slayer-axes",
+    "name": "Twin dwarven axes",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 4,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "parry"
+    ],
+    "power_level": 0,
+    "cost": 55
   },
   {
     "id": "warhammer",
@@ -203,74 +308,6 @@
       "mighty-2"
     ],
     "cost": 35
-  },
-  {
-    "id": "great-weapon",
-    "name": "Great Weapon",
-    "type": "melee",
-    "range": 1,
-    "attacks": 2,
-    "hit": 4,
-    "crit": 7,
-    "special_rules": [
-      "mighty-2",
-      "two-handed"
-    ],
-    "cost": 60
-  },
-  {
-    "id": "blunderbuss",
-    "name": "Blunderbuss",
-    "type": "ranged",
-    "range": 6,
-    "attacks": 6,
-    "hit": 1,
-    "crit": 3,
-    "special_rules": [
-      "blast",
-      "one-use"
-    ],
-    "cost": 50
-  },
-  {
-    "id": "sigmarite-warhammer",
-    "name": "Sigmarite Warhammer",
-    "type": "melee",
-    "range": 1,
-    "attacks": 2,
-    "hit": 3,
-    "crit": 5,
-    "special_rules": [
-      "mighty-2",
-      "blessed"
-    ],
-    "cost": 50
-  },
-  {
-    "id": "weeping-blades",
-    "name": "Weeping Blades",
-    "type": "melee",
-    "range": 1,
-    "attacks": 4,
-    "hit": 3,
-    "crit": 5,
-    "special_rules": [
-      "parry",
-      "two-handed"
-    ],
-    "power_level": 10,
-    "cost": 70
-  },
-  {
-    "id": "throwing-stars",
-    "name": "Throwing Stars",
-    "type": "ranged",
-    "range": 6,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [],
-    "cost": 20
   },
   {
     "id": "warplock-pistol",
@@ -289,14 +326,18 @@
     "cost": 45
   },
   {
-    "id": "possessed-daemonic-weapon",
-    "name": "Daemonic Weapon",
-    "type": "natural",
+    "id": "weeping-blades",
+    "name": "Weeping Blades",
+    "type": "melee",
     "range": 1,
-    "attacks": 3,
+    "attacks": 4,
     "hit": 3,
-    "crit": 4,
-    "special_rules": [],
-    "cost": 30
+    "crit": 5,
+    "special_rules": [
+      "parry",
+      "two-handed"
+    ],
+    "power_level": 10,
+    "cost": 70
   }
 ]

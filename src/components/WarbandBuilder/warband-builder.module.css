@@ -753,6 +753,11 @@
   min-width: 640px;
 }
 
+.weaponRefGridCompact {
+  min-width: 0;
+  grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
+}
+
 .weaponRefEmpty {
   color: var(--ifm-color-content-secondary);
   font-size: 0.8rem;

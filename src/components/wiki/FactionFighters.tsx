@@ -11,7 +11,9 @@ import Heading from '@theme/Heading';
 import fightersData from '@site/src/data/fighters.json';
 import factionsData from '@site/src/data/factions.json';
 import abilitiesData from '@site/src/data/abilities.json';
+import weaponsData from '@site/src/data/weapons.json';
 import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
+import { SpecialRuleLinks } from './WeaponsReference';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
 type Fighter = (typeof fightersData)[number];
@@ -158,6 +160,40 @@ function resolvedAbilitiesMarkdown(fighter: Fighter): string {
   return f.abilities?.trim() ?? '';
 }
 
+function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
+  const weapons = equipment
+    .map(e => e.replace(/^weapon:/, ''))
+    .map(id => weaponsData.find(w => w.id === id))
+    .filter((w): w is (typeof weaponsData)[number] => w !== undefined);
+
+  if (weapons.length === 0) return null;
+
+  return (
+    <div className={wb.tableScrollOuterWiki}>
+      <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.weaponRefGrid} ${wb.weaponRefGridCompact}`}>
+        <div className={wb.gridHeader}>
+          <div className={wb.hCell}>Weapon</div>
+          <div className={`${wb.hCell} ${wb.hCellCenter}`}>R</div>
+          <div className={`${wb.hCell} ${wb.hCellCenter}`}>A</div>
+          <div className={`${wb.hCell} ${wb.hCellCenter}`}>D</div>
+          <div className={wb.hCell}>Special</div>
+        </div>
+        {weapons.map(w => (
+          <div className={`${wb.gridRow} ${wb.gridRowNoHover}`} key={w.id}>
+            <div className={wb.cell}>{w.name}</div>
+            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
+            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
+            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
+            <div className={`${wb.cell} ${wb.cellWrap}`}>
+              <SpecialRuleLinks rules={w.special_rules} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function FighterSection({ fighter: f }: { fighter: Fighter }) {
   const abilities = resolvedAbilitiesMarkdown(f);
   const description = f.description?.trim() ?? '';
@@ -207,6 +243,10 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
             </div>
           </div>
         </div>
+
+        {(f as any).default_equipment?.length > 0 && (
+          <DefaultEquipmentTable equipment={(f as any).default_equipment} />
+        )}
 
         {abilities ? <FighterAbilitiesMarkdown source={abilities} /> : null}
 

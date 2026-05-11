@@ -152,5 +152,16 @@
       "item:shield": "hero",
       "flail": "hero"
     }
+  },
+  {
+    "id": "hired-sword",
+    "name": "Hired Sword",
+    "description": "",
+    "warband_size": null,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {}
   }
 ]

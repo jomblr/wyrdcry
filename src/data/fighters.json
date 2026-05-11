@@ -838,5 +838,61 @@
     "faction": "knights-of-martina",
     "keywords": [],
     "limit": null
+  },
+  {
+    "id": "troll-slayer",
+    "name": "Troll Slayer",
+    "description": "Troll Slayers are members of a morbid Dwarf cult, sworn to atone for some\nunforgivable shame. With flame-red hair and ritualistic tattoos, they roam\nin search of the deadliest monsters, seeking redemption in glorious battle.",
+    "move": 4,
+    "fight": 6,
+    "shoot": 3,
+    "defense": 4,
+    "health": 16,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "lead-by-example"
+    ],
+    "default_equipment": [
+      "weapon:troll-slayer-axes",
+      "weapon:troll-slayer-thrown-axe"
+    ],
+    "race": [
+      "DWARF"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "limit": null
+  },
+  {
+    "id": "elf-ranger",
+    "name": "Elf Ranger",
+    "description": "Elf rangers work as scouts and spies beyond the borders of the high elf realms,\ntracking targets of interest and eliminating them where possible. As hired\nswords, they offer little in comradery, but plenty in murderous efficiency.",
+    "move": 6,
+    "fight": 4,
+    "shoot": 6,
+    "defense": 3,
+    "health": 10,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [
+      "weapon:elf-ranger-bow",
+      "weapon:sword"
+    ],
+    "race": [
+      "ELF"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "limit": null
   }
 ]

@@ -36,7 +36,7 @@ function humanizeRule(rule: string): string {
     .join(' ');
 }
 
-function SpecialRuleLinks({ rules }: { rules: string[] }) {
+export function SpecialRuleLinks({ rules }: { rules: string[] }) {
   if (rules.length === 0) return <>—</>;
   return (
     <>
@@ -108,7 +108,7 @@ export function WeaponsTable({ type }: { type: WeaponsTableType }) {
   const weapons = useMemo(
     () =>
       weaponsData
-        .filter(w => w.type === type)
+        .filter(w => w.type === type && !w.exclusive)
         .sort((a, b) => a.name.localeCompare(b.name)),
     [type],
   );
