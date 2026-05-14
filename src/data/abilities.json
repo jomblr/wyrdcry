@@ -17,8 +17,8 @@
     "id": "one-with-the-shadows",
     "name": "One With The Shadows",
     "category": "clan-eshin",
-    "ability_type": "trait",
-    "description": "A fighter cannot use this ability while visible to enemy fighters or when carrying treasure tokens. Remove this fighter from the battlefield. This fighter is now **hidden**.\n"
+    "ability_type": "triple",
+    "description": "A fighter cannot use this ability when visible to enemy fighters or when carrying treasure tokens. Remove this fighter from the battlefield. This fighter is now **hidden**.\n"
   },
   {
     "id": "murder-stab",

@@ -13,9 +13,10 @@
     "cost": 120,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "murder-stab"
+      "murder-stab",
+      "one-with-the-shadows"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "SKAVEN"
     ],
