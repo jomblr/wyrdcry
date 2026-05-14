@@ -23,7 +23,7 @@ Some items, such as drugs and poisons, are listed as 'Single-Use'. Each item sta
 ## Miscellaneous Items
 ---
 ### <Crow /> Elven Cloak (50gc)
-While wearing this cloak, a fighter is considered to have the ['Stealthy'](/docs/campaigns/Talents/agility-talents#trait-stealthy) talent
+While wearing this cloak, a fighter is considered to have the ['Stealthy'](/docs/campaigns/Talents/agility-talents#trait-stealthy) trait.
 
 ### Lantern (30gc)
 Friendly fighters may re-roll failed Bravery tests while within 3” of this fighter. However, this fighter must reduce their Defense characteristic by 1 when targeted by ranged attacks.
@@ -46,16 +46,16 @@ Start each battle with one additional Wyrd Dice.
 ## Single Use
 ---
 ### Blessed Water (10gc)
-Use this item in the 'Present Warbands' step. Select a weapon equipped by the bearer. Until the end of the battle, that weapon gains the **blessed** special rule.
+Use this item in the 'Present Warbands' step. Select a weapon equipped by the bearer. Until the end of the battle, that weapon gains the **blessed** weapon rule.
 
 ### Crimson Shade (20gc)
-Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Move and Fight characteristics by 1. In the aftermath sequence, roll a dice. On a 1-2, the fighter gains the [Kleptomaniac](/docs/campaigns/aftermath-sequence#kleptomania) trait
+Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Move and Fight characteristics by 1. In the aftermath sequence, roll a dice. On a 1-2, the fighter gains the [Kleptomaniac](/docs/campaigns/aftermath-sequence#kleptomania) trait.
 
 ### Dark Venom (20gc)
 Use this item after allocating damage to an enemy fighter with a critical hit. That fighter must forfeit one action or suffer d6 damage points.
 
 ### Familiar (40gc)
-A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-combat-phase/other-actions#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
+A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-combat-phase/actions/channel-magic#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
 
 ### Healing Draught (40gc)
 Use this item when making a Wait action  to immediately use the ‘Respite’ ability without needing or spending ability dice to do so. Treat the value of that ability as a 6.
@@ -67,4 +67,4 @@ Use this item in the 'Present Warbands' step. Until the end of the battle, incre
 A fighter may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.
 
 ### Superior Blackpowder (20gc)
-Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the [Unreliable](/docs/warbands/Equipment/weapons#unreliable) special rule from all equipped weapons.
+Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the [Unreliable](/docs/warbands/Equipment/weapons#unreliable) weapon rule from all equipped weapons.

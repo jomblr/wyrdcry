@@ -108,7 +108,7 @@ export function WeaponsTable({ type }: { type: WeaponsTableType }) {
   const weapons = useMemo(
     () =>
       weaponsData
-        .filter(w => w.type === type && !w.exclusive)
+        .filter(w => w.type === type && w.exclusive !== 'yes')
         .sort((a, b) => a.name.localeCompare(b.name)),
     [type],
   );

@@ -516,13 +516,14 @@
     "faction_ability_ids": [
       "anointed"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
     "faction": "possessed",
     "keywords": [
-      "HENCHMAN"
+      "HENCHMAN",
+      "MUTANT"
     ],
     "limit": null
   },

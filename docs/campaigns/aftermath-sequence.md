@@ -14,7 +14,7 @@ Roll on the appropriate Injury table for each fighter that was taken out of acti
 
 ### Permanent Injuries
 
-When `Heroes` are taken out of action, they risk suffering a **permanent injury** (symbolised as a ▼). Permanent injuries are all traits, with the following special rules: 
+When `Heroes` are taken out of action, they risk suffering a **permanent injury** (symbolised as a ▼). Permanent injuries are all [Traits], with the following special rules: 
 
 - A `Hero` can never have more than three permanent injuries. If they suffer a fourth one, treat that result as [11-12: Dead](#dead) instead.
 - If a `Hero` suffers a permanent injury they already have, treat that result as [41-56: Flesh Found instead](#flesh-wound).

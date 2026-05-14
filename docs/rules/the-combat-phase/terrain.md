@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 title: Terrain
 ---
 # Terrain
@@ -33,7 +33,7 @@ Any horizontally flat surface on a terrain piece that is large enough to fit a f
 
 Whenever damage is allocated to a fighter that is within ½” of the edge of a platform, the controlling player must roll a die:
 
-- **On a 1:** The fighter [falls](move-action.md#falling)
+- **On a 1:** The fighter [falls](/docs/rules/the-combat-phase/actions/move-action#falling)
 - **On a 2-6:** Nothing happens
 
 ### 6) Insignificant

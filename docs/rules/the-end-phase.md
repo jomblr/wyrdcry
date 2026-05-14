@@ -4,7 +4,7 @@ title: The End Phase
 ---
 # The End Phase
 
-## Step 1: Check Warband Morale
+## Step 1: Count fighters taken out of action
 
 As your warband suffer casualties in battle, your warband’s morale will start to waver, causing fighters to panic and eventually break and run.
 

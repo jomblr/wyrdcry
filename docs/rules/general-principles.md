@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 ---
+import { FighterCard } from '@site/src/components/wiki/FactionFighters';
 
 # General Principles
 
@@ -12,11 +13,31 @@ In Wyrdcry, you control a **warband** battling an **enemy warband** in the ruins
 
 To play a battle, you and your opponents must **start a warband** by filling in a **warband roster.** The rules for starting a warband are found [here](/docs/warbands/starting-warband).
 
-### Fighters
+## Fighters
 
-Your warband is made up by models referred to as **fighters**, and their rules are contained in their **fighter profile.**
+Your warband is made up by models referred to as **fighters**, and their rules are contained in their **fighter profile.** You can find an example of a fighter profile below.
 
-Fighters have **characteristics** that describe their physical abilities and are used when making tests and resolving actions, and **keywords** that determine which abilities and rules apply to them. They can be equipped with all manner of weapons, armour and special equipment, and will grow stronger and suffer injuries over the course of a campaign. An example of a fighter profile can be found here.
+### Example Fighter Profile
+<FighterCard fighterId="warrior" />
+
+### Characteristics
+Each fighter has a set of **Characteristics** that describe their physical abilities and are used when making tests and resolving actions
+- **Move:** How fast the fighter can move (measured in inches)
+- **Fight:** A fighter’s skill in close combat
+- **Shoot:** A fighter’s accuracy
+- **Defense:** A combination of a fighter's agility and equipped armour.
+- **Health:** How much damage a fighter can endure before taken out of action.
+- **Bravery:** A fighter’s courage and mental resolve.
+
+### Keywords
+Keywords describe distinctive features of the fighter, such as their race and faction, or what archetype the fighter  is. When referenced in a rule, keywords are always written in `UPPERCASE`. If a rule refers to a keyword in the plural (for example, `HEROES`), it is treated as a reference to the singular keyword (`Hero`).
+
+### Talents
+Most fighters have one or more **Talents** that shape how they act on the battlefield and set them apart from their peers:
+
+- **Traits** represent passive talents, racial traits and old wounds and their effects are automatically applied whenever their conditions are met.
+- **Abilities** represent tricks, spells and manoeuvres that a fighter can use during their activation by spending ability dice (marked as **[Double]**, **[Triple]** or **[Quad]**).
+- **Reactions** allow a fighter to respond to the actions of their enemies, most commonly by spending an action.
 
 ### Friendly and enemy fighters
 
@@ -24,7 +45,7 @@ For rules purposes, a fighter considers all fighters in their warband to be **fr
 
 ## The Battlefield
 
-Battles are fought on a flat surface measuring 3 feet by 3 feet, referred to as the **battlefield floor.** This surface is bordered by **battlefield edges** and populated with all manner of ruined buildings, risers and scaffolding called [**terrain pieces**](/docs/rules/the-combat-phase/terrain). Together, these elements form the **battlefield**. Rules for terrain pieces are found on page 28.
+Battles are fought on a flat surface measuring 3 feet by 3 feet, referred to as the **battlefield floor.** This surface is bordered by **battlefield edges** and populated with all manner of ruined buildings, risers and scaffolding called [**terrain pieces**](/docs/rules/the-combat-phase/terrain). Together, these elements form the **battlefield**.
 
 ## Measuring
 

@@ -1,16 +1,16 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: Reactions
 ---
 # Reactions
-Unlike actions and abilities, reactions are things a fighter can do **during an enemy fighter’s activation**, allowing them to protect themselves, their allies or even retaliate.
+Unlike actions and abilities, reactions are things a fighter can do **during an enemy fighter’s activation**, allowing them to protect themselves, their allies or even retaliate against an attacker.
 
-There is a list of **[universal reactions](#universal-reactions)** below that are available to fighters from all factions. Some fighters also have their own unique reactions.
+There is a list of **[universal reactions](#universal-reactions)** below that are available to fighters from all factions. Many fighters are granted additional reactions by their faction, or when gaining Renown.
 
 Each reaction states when the controlling player must declare that their fighter will make the reaction. In addition, one of the following must be true:
 
 - The fighter has not activated yet in the battle round
-- The fighter has activated, but is [waiting](other-actions.md#wait).
+- The fighter has activated, but is [waiting](/docs/rules/the-combat-phase/actions/wait).
 - The fighter is a `Hero` with their **[heroic reaction](#heroic-reaction)** remaining.
 
 Each time a fighter makes a reaction, they forfeit one of their actions in that battle round. If a fighter forfeits all of their actions to make reactions, they are treated as a fighter that has already activated and cannot be picked to activate in the battle round.

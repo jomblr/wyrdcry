@@ -25,10 +25,5 @@ The cost profile for weapons has changed a bit, putting more weight on amount of
 ### New Warbands
 Based on the feedback of our project champions (and our smoking hot cost profiles), four new warbands are now available: [The Sisters of Sigmar](/docs/warbands/Factions/sisters-of-sigmar), [Witch Hunters](/docs/warbands/Factions/witch-hunters), [The Undead](/docs/warbands/Factions/undead), and [The Cult of the Possessed](/docs/warbands/Factions/possessed). These are beta rules so expect some rough edges. The goal right now is to get them on the table and find out how broken/fun they are to play.
 
-### And much, much more
-- [New climbing rules](/docs/rules/the-combat-phase/move-action#climbing) that promotes climbing and vertical movement. Upgrade your fighters with Rope and Hook for Warcry-style movement.
-- [Channel Magic action](/docs/rules/the-combat-phase/other-actions#channel-magic) that forces Wizards to spend an action to channel magic
-- [Re-christening of Panic Tests](/docs/rules/the-combat-phase/panic) (Now called Bravery tests)
-
 ### What's next?
 This is the biggest playtest to date, and I'm eager to see more people picking up the game and submitting their games on discord. With your help, I'm hoping to lock down the ruleset and create new PDF:s of the rulebook (and the factions sometime in June). Please keep an eye open on discord as I'm also planning on adding a lightweight warband builder in the near future.

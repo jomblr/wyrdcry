@@ -14,11 +14,11 @@ A fighter can make 2 actions during their activation. The first action must be c
 
 These are the most common actions that your fighters will use over the course of a battle.
 
-- #### [Attack](attack-action.md)
-- #### [Move](move-action.md)
-- #### [Retreat](other-actions.md#retreat)
-- #### [Wait](other-actions.md#wait)
-- #### [Channel Magic](other-actions.md#channel-magic)
+- #### [Attack](/docs/rules/the-combat-phase/actions/attack-action)
+- #### [Move](/docs/rules/the-combat-phase/actions/move-action)
+- #### [Retreat](/docs/rules/the-combat-phase/actions/retreat)
+- #### [Wait](/docs/rules/the-combat-phase/actions/wait)
+- #### [Channel](/docs/rules/the-combat-phase/actions/channel-magic)
 
 ### Special Actions
 Some scenarios and contracts include special actions that fighters can make instead of a universal action.

@@ -102,13 +102,13 @@
     "name": "Elven bow",
     "type": "ranged",
     "exclusive": "yes",
-    "range": 6,
+    "range": 18,
     "attacks": 3,
-    "hit": 2,
-    "crit": 3,
+    "hit": 3,
+    "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 15
+    "cost": 40
   },
   {
     "id": "fighting-claws",
@@ -168,31 +168,35 @@
     "id": "handgun",
     "name": "Handgun",
     "type": "ranged",
+    "exclusive": "no",
     "range": 24,
     "attacks": 2,
     "hit": 4,
     "crit": 8,
     "special_rules": [
-      "unreliable",
+      "mighty-2",
       "reload",
-      "mighty-2"
+      "unreliable"
     ],
+    "power_level": 0,
     "cost": 65
   },
   {
     "id": "pistol",
     "name": "Pistol",
     "type": "ranged",
+    "exclusive": "no",
     "range": 6,
     "attacks": 2,
     "hit": 4,
     "crit": 6,
     "special_rules": [
       "mighty-2",
-      "brace",
+      "reload",
       "unreliable",
-      "reload"
+      "brace"
     ],
+    "power_level": 0,
     "cost": 40
   },
   {
@@ -313,16 +317,18 @@
     "id": "warplock-pistol",
     "name": "Warplock Pistol",
     "type": "ranged",
+    "exclusive": "no",
     "range": 6,
     "attacks": 2,
     "hit": 4,
     "crit": 7,
     "special_rules": [
       "mighty-2",
-      "unreliable",
       "reload",
+      "unreliable",
       "brace"
     ],
+    "power_level": 0,
     "cost": 45
   },
   {

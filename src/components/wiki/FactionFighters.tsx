@@ -112,6 +112,22 @@ export default function FactionFighters({ factionId }: Props) {
   );
 }
 
+/** Renders a single fighter card by fighter id. */
+export function FighterCard({ fighterId }: { fighterId: string }) {
+  const fighter = fightersData.find(f => f.id === fighterId);
+  if (!fighter) {
+    return (
+      <p>
+        <em>
+          No fighter found with id <code>{fighterId}</code> in{' '}
+          <code>src/data/fighters.json</code>.
+        </em>
+      </p>
+    );
+  }
+  return <FighterSection fighter={fighter} />;
+}
+
 function FighterKeywordLine({ fighter: f }: { fighter: Fighter }) {
   const factionName =
     factionsData.find(x => x.id === f.faction)?.name ?? f.faction;

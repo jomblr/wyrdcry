@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 title: Abilities
 ---
 # Abilities
@@ -7,7 +7,7 @@ Abilities are special powers that fighters can unleash by spending the ability d
 
 Below is a list of **universal abilities** available to fighters from all factions as long as they have the correct keyword. For instance, to use **Inspiring Presence**, the fighter must be a `Hero`.
 
-Many fighters have unique abilities that are listed in their fighter profile, and may learn new ones as they earn experience.
+Many fighters have unique abilities that are listed in their fighter profile, and may learn new ones as they gain Renown.
 
 ## Using Abilities
 A fighter can use 1 ability per activation and the ability can be used either before their first action or after their first or second action.

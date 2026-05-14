@@ -26,7 +26,7 @@ These keywords are primarily used when a fighter gains Renown and makes a charac
 	- Must roll on the [Hero Injury Table](/docs/campaigns/aftermath-sequence#hero-injuries) when taken out of action
 - <span Id='Wizard'>`Wizard`</span>
 	- Can use magical abilities
-	- Can make the [Channel Magic](/docs/rules/the-combat-phase/other-actions#channel-magic) action
+	- Can make the [Channel Magic](/docs/rules/the-combat-phase/actions/channel-magic) action
 	- Cannot be equipped with armour
 - <span Id='Henchman'>`Henchman`</span>
 	- Can make a characteristics increase when [gaining renown](/docs/campaigns/renown)

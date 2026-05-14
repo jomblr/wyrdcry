@@ -2,7 +2,7 @@
 sidebar_position: 1
 title: Strength
 ---
-# Strength
+# Strength Talents
 ---
 ### [Trait] Fearsome
 This fighter gains the `Terrifying` keyword.

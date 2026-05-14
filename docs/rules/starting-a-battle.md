@@ -19,7 +19,7 @@ Take turns placing terrain pieces on the battlefield, while agreeing on what typ
 If the selected scenario requires objective markers or treasure tokens, those are placed during this step too. It does not matter in which exact order you place terrain pieces, markers and tokens, as the goal is to create an interesting battlefield for the warbands to fight over.
 
 ## 5. Deploy warbands
-Unless stated otherwise, the defender chooses a battlefield edge and sets up a search party within 3” of it. The opposing player then sets up one search party within 3” of the opposite edge. Players take turns setting up search parties until all fighters are deployed.
+Unless stated otherwise, both players must divide their warbands into search parties. Then, the defender chooses a battlefield edge and sets up a search party within 3” of it. The opposing player then sets up one search party within 3” of the opposite edge. Players take turns setting up search parties until all fighters are deployed.
 
 ### Search Parties
 Each search party consists of one third of a player’s warband, distributed as evenly as possible. For example, a warband of 10 fighters would form two search parties of 3 fighters and one of 4. When deploying a search party, each fighter after the first must be placed within 3” of another fighter in that search party.

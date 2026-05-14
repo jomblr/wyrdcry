@@ -1,8 +1,8 @@
 ---
-sidebar_position: 5
-title: Attack Action
+sidebar_position: 2
+title: Attack
 ---
-# Attack Action
+# Attack
 ## 1. Select a weapon and target
 
 Select one of the fighter’s weapons to be used for the attack. The weapon determines what kind of attack it is:

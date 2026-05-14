@@ -9,7 +9,7 @@ Each player rolls 6 dice and count the amount of singles they have. A single is 
 If both players are tied for singles, they must roll off. The winner of that roll off has the initiative.
 
 ### Ability Dice
-Group all remaining dice by their score. These are your ability dice, which are used to activate powerful abilities in the combat phase. When referenced in a rule, an ability dice looks like this:
+Group all remaining dice by their score. These are your ability dice, which are used to activate powerful maneuvers and spells in the combat phase. When referenced in a rule, an ability dice looks like this:
 
 - **[Double]** = 2 dice with the same score
 - **[Triple]** = 3 dice with the same score
