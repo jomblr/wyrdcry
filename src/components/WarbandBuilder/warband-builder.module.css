@@ -86,6 +86,97 @@
   opacity: 0.35;
 }
 
+/* ─── Warband list (landing page) ───────────────────────────────────────────── */
+
+.warbandListShell {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.25rem;
+  overflow-y: auto;
+}
+
+.warbandListInner {
+  width: 100%;
+  max-width: 480px;
+}
+
+.warbandListHeading {
+  font-family: 'Alegreya', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+}
+
+.warbandListEmpty {
+  color: var(--ifm-color-content-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.warbandListItems {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.warbandListRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.9rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  border-radius: var(--ifm-global-radius);
+  cursor: pointer;
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  color: var(--ifm-color-content);
+  transition: background 0.12s, border-color 0.12s;
+  text-align: left;
+}
+
+.warbandListRow:hover {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-primary);
+}
+
+.warbandListName {
+  font-weight: 600;
+}
+
+.warbandListMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+}
+
+.warbandListFaction {
+  font-size: 0.82rem;
+  color: var(--ifm-color-content-secondary);
+  font-weight: 400;
+}
+
+.warbandListArrow {
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.warbandListRow:hover .warbandListArrow {
+  opacity: 1;
+  color: var(--ifm-color-primary);
+}
+
+.warbandListActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* ─── Main content area ─────────────────────────────────────────────────────── */
 
 .content {
@@ -175,13 +266,40 @@
 
 :global(html[data-theme='dark']) .tabToggleBtnActive,
 :global(html[data-theme='dark']) .tabToggleBtnActive:hover {
-  color: #0a0a0a;
+  color: #0a0a0a !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tabToggleIndicator {
     transition: none;
   }
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  background: none;
+  border: none;
+  border-radius: var(--ifm-global-radius);
+  cursor: pointer;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.9rem;
+  color: var(--ifm-color-content-secondary);
+  transition: color 0.12s, background 0.12s;
+  white-space: nowrap;
+}
+
+.backBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-color-emphasis-200);
 }
 
 .actions {
@@ -370,7 +488,7 @@
 
 /* drag | Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
 .fighterGrid {
-  grid-template-columns: 20px 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 3fr 3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 16px 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 3fr 3fr 0.5fr 0.5fr 0.8fr 0.5fr;
   min-width: 780px;
 }
 
@@ -742,7 +860,7 @@
   gap: 1rem;
 }
 
-.infoTabGrid > *:last-child {
+.infoTabGrid > *:nth-child(n+3) {
   grid-column: 1 / -1;
 }
 
@@ -770,6 +888,15 @@
 /* Weapon reference table: Weapon | R | A | D | Special (builder + wiki docs) */
 .weaponRefGrid {
   grid-template-columns: 2fr 1fr 1fr 1fr 4fr;
+}
+
+.abilityRefGrid {
+  grid-template-columns: 1fr 7fr;
+}
+
+.abilityRefGrid .gridRow {
+  overflow: visible;
+  align-items: start;
 }
 
 .weaponRefGridCompact {
@@ -806,6 +933,41 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+}
+
+.abilityCellStatic {
+  display: block;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.5;
+}
+
+.abilityCell {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.abilityTextarea {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  resize: none;
+  overflow: hidden;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: 1.4;
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .customWeaponRemove {
@@ -1266,6 +1428,10 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+:global(html[data-theme='dark']) .modalSaveBtn {
+  color: #0a0a0a;
 }
 
 .modalSaveBtn:hover {

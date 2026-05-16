@@ -135,6 +135,11 @@ const config = {
             label: 'Campaigns',
           },
           {
+            to: '/warband-builder',
+            label: 'Warband Builder',
+            position: 'left',
+          },
+          {
             to: '/blog',
             label: 'Updates',
             position: 'right',

@@ -76,7 +76,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
   const typeLabel = profile?.name ?? '';
-  const isHero = profile?.keywords.includes('HERO') ?? false;
+  const isHero = (profile?.keywords.includes('HERO') ?? false) || instance.renown >= 4;
   const isWizard = profile?.keywords.includes('WIZARD') ?? false;
   const isBeast = profile?.race.includes('BEAST') ?? false;
   const isThrall = profile?.race.includes('THRALL') ?? false;
