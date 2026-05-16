@@ -53,7 +53,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
           <div className={styles.hCell}>Standing</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Reputation</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Fighters</div>
-          <div className={`${styles.hCell} ${styles.hCellCenter}`}>Gold Coin</div>
+          <div className={`${styles.hCell} ${styles.hCellCenter}`}>Total Value</div>
         </div>
 
         {/* Data row */}
@@ -108,7 +108,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
 
           {/* Value */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
-            {locked ? '—' : `${remaining}gc`}
+            {locked ? '—' : `${value}gc`}
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { EllipsisVertical, GripVertical } from 'lucide-react';
-import { GiIronCross } from 'react-icons/gi';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
@@ -12,6 +11,7 @@ import itemsData from '@site/src/data/items.json';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
 import SpecialRulesCell from './SpecialRulesCell';
+import ValueModal from './ValueModal';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
 
@@ -30,15 +30,32 @@ interface Props {
   onSendToStash: (itemIdx: number) => void;
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
-  onSetSpecialRules: (rules: string[]) => void;
+  onSetNotes: (notes: string) => void;
+  onSetCostOverride: (cost: number | null) => void;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetSpecialRules }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [valueModalOpen, setValueModalOpen] = useState(false);
+  const [equipMultiline, setEquipMultiline] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const equipCellRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cell = equipCellRef.current;
+    if (!cell) return;
+    const check = () => {
+      const inner = cell.firstElementChild as HTMLElement | null;
+      if (!inner) return;
+      setEquipMultiline(inner.clientHeight > 48);
+    };
+    const observer = new ResizeObserver(check);
+    observer.observe(cell);
+    return () => observer.disconnect();
+  }, []);
 
   const {
     attributes,
@@ -62,14 +79,18 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   const isHero = profile?.keywords.includes('HERO') ?? false;
   const isWizard = profile?.keywords.includes('WIZARD') ?? false;
   const isBeast = profile?.race.includes('BEAST') ?? false;
+  const isThrall = profile?.race.includes('THRALL') ?? false;
+  const noEquipment = isBeast || isThrall;
 
-  const equipCost = instance.equipment.reduce((sum, eid) => {
+  const equipCost = instance.equipment.reduce((sum, eid, idx) => {
+    if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum; // first dagger is free
     const w = weaponsData.find(x => x.id === eid);
     if (w) return sum + w.cost;
     const item = itemsData.find(x => x.id === eid);
     return sum + (item?.cost ?? 0);
   }, 0);
-  const totalCost = (profile?.cost ?? 0) + equipCost;
+  const baseCost = instance.costOverride ?? profile?.cost ?? 0;
+  const totalCost = baseCost + equipCost;
 
   // Auto-apply defense bonus from equipped armour / shield
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
@@ -227,11 +248,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       {/* Fighter name + type */}
       <div className={`${styles.cell} ${styles.fighterNameCell}`}>
         <div className={styles.fighterNameRow}>
-          {isHero && (
-            <Tooltip content={<span className="weapon-rule-tooltip-content">Hero</span>}>
-              <GiIronCross className="faction-weapon-hero-icon" aria-hidden="true" />
-            </Tooltip>
-          )}
           <input
             className={styles.nameInput}
             value={instance.customName}
@@ -275,8 +291,8 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       </div>
 
       {/* Equipment */}
-      <div className={styles.cell}>
-        {isBeast ? (
+      <div ref={equipCellRef} className={`${styles.cell} ${equipMultiline ? styles.cellTop : ''}`}>
+        {noEquipment ? (
           profile.natural_weapon
             ? <span className={styles.equipmentTag} style={{ cursor: 'default' }}>{weaponsData.find(w => w.id === profile.natural_weapon)?.name ?? profile.natural_weapon}</span>
             : <span className={styles.lockedCell}>—</span>
@@ -299,31 +315,45 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         )}
       </div>
 
-      {/* Special Rules */}
+      {/* Notes */}
       <div className={styles.cell}>
         <SpecialRulesCell
-          fighterId={instance.fighterId}
-          specialRules={instance.specialRules ?? []}
-          onChange={onSetSpecialRules}
+          notes={instance.notes ?? ''}
+          onChange={onSetNotes}
         />
       </div>
 
       {/* XP */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${isBeast ? styles.lockedCell : ''}`}>
-        {isBeast ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noEquipment ? styles.lockedCell : ''}`}>
+        {noEquipment ? '—' : (
           <StatSpinner value={instance.xp} min={0} onChange={onSetXp} />
         )}
       </div>
 
       {/* Renown */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${isBeast ? styles.lockedCell : ''}`}>
-        {isBeast ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noEquipment ? styles.lockedCell : ''}`}>
+        {noEquipment ? '—' : (
           <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} />
         )}
       </div>
 
-      {/* Cost — base fighter + equipped weapons */}
-      <div className={`${styles.cell} ${styles.cellCenter}`}>{totalCost}gc</div>
+      {/* Value — clickable to edit base cost and see breakdown */}
+      <div
+        className={`${styles.cell} ${styles.cellCenter} ${styles.valueCell}`}
+        onClick={() => setValueModalOpen(true)}
+        title="Click to edit"
+      >
+        <span>{totalCost}gc{instance.costOverride !== null && instance.costOverride !== undefined && instance.costOverride !== (profile?.cost ?? 0) ? '*' : ''}</span>
+      </div>
+      {valueModalOpen && (
+        <ValueModal
+          fighterName={instance.customName || profile?.name || 'Fighter'}
+          baseCost={baseCost}
+          equipment={instance.equipment}
+          onCostChange={cost => onSetCostOverride(cost)}
+          onClose={() => setValueModalOpen(false)}
+        />
+      )}
 
       {/* Ellipsis menu */}
       <div className={`${styles.cell} ${styles.cellCenter}`}>

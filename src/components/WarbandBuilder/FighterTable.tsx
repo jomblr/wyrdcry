@@ -34,10 +34,10 @@ const HEADERS: { label: string; center?: boolean }[] = [
   { label: 'H',             center: true },
   { label: 'B',             center: true },
   { label: 'Equipment' },
-  { label: 'Special Rules' },
+  { label: 'Notes' },
   { label: 'XP',            center: true },
   { label: 'R',             center: true },
-  { label: 'Cost',          center: true },
+  { label: 'Value',         center: true },
   { label: '',              center: true },
 ];
 
@@ -55,7 +55,8 @@ interface Props {
   onSendToStash: (instanceId: string, itemIdx: number) => void;
   onTakeFromStash: (instanceId: string, itemId: string) => void;
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
-  onSetFighterSpecialRules: (instanceId: string, rules: string[]) => void;
+  onSetFighterNotes: (instanceId: string, notes: string) => void;
+  onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
 }
 
 function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstance[], atFighterLimit: boolean): boolean {
@@ -82,7 +83,8 @@ export default function FighterTable({
   onSendToStash,
   onTakeFromStash,
   onSetFighterStat,
-  onSetFighterSpecialRules,
+  onSetFighterNotes,
+  onSetFighterCostOverride,
 }: Props) {
   const faction = factionsData.find(f => f.id === warband.factionId);
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
@@ -152,7 +154,8 @@ export default function FighterTable({
                 onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
                 onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
                 onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
-                onSetSpecialRules={rules => onSetFighterSpecialRules(instance.instanceId, rules)}
+                onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+                onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
               />
             ))}
           </SortableContext>
