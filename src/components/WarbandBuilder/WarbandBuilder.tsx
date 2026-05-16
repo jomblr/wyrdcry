@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, EllipsisVertical } from 'lucide-react';
+import ReactDOM from 'react-dom';
 import { useWarband } from './useWarband';
+import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import WarbandList from './WarbandList';
 import WarbandInfoRow from './WarbandInfoRow';
 import FighterTable from './FighterTable';
@@ -14,6 +16,10 @@ type View = 'list' | 'detail';
 export default function WarbandBuilder() {
   const [tab, setTab] = useState<Tab>('fighters');
   const [view, setView] = useState<View>('list');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPos, setMenuPos] = useState<DropdownPos | null>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const {
     active,
@@ -69,6 +75,7 @@ export default function WarbandBuilder() {
   }
 
   function handleDelete() {
+    setMenuOpen(false);
     const label = active.name || 'Untitled Warband';
     const ok = window.confirm(`Delete "${label}"? This cannot be undone.`);
     if (ok) {
@@ -76,6 +83,21 @@ export default function WarbandBuilder() {
       setView('list');
     }
   }
+
+  function toggleMenu() {
+    if (menuOpen) { setMenuOpen(false); return; }
+    if (menuBtnRef.current) setMenuPos(calcDropdownPos(menuBtnRef.current.getBoundingClientRect(), { alignRight: true }));
+    setMenuOpen(true);
+  }
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handler(e: MouseEvent) {
+      if (!menuRef.current?.contains(e.target as Node) && !menuBtnRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [menuOpen]);
 
   if (view === 'list') {
     return (

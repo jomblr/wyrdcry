@@ -16,8 +16,28 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
 
   return (
     <div className={styles.warbandListShell}>
+      <img src="/img/warrior.png" className={styles.warbandListWarrior} aria-hidden />
       <div className={styles.warbandListInner}>
         <h2 className={styles.warbandListHeading}>My Warbands</h2>
+
+        <div className={styles.warbandListActions}>
+          <button type="button" className="button button--primary button--md" onClick={onCreate}>
+            Create new warband
+          </button>
+          <button type="button" className="button button--secondary button--md" onClick={() => fileRef.current?.click()}>
+            Import warband
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={e => {
+              const file = e.target.files?.[0];
+              if (file) { onImport(file); e.target.value = ''; }
+            }}
+          />
+        </div>
 
         {warbands.length === 0 ? (
           <p className={styles.warbandListEmpty}>No warbands yet. Create one to get started.</p>
@@ -42,25 +62,6 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
             ))}
           </ul>
         )}
-
-        <div className={styles.warbandListActions}>
-          <button type="button" className="button button--primary button--md" onClick={onCreate}>
-            Create new warband
-          </button>
-          <button type="button" className="button button--secondary button--md" onClick={() => fileRef.current?.click()}>
-            Import warband
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".json"
-            style={{ display: 'none' }}
-            onChange={e => {
-              const file = e.target.files?.[0];
-              if (file) { onImport(file); e.target.value = ''; }
-            }}
-          />
-        </div>
       </div>
     </div>
   );

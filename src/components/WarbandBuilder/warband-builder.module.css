@@ -90,16 +90,65 @@
 
 .warbandListShell {
   flex: 1;
+  position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  padding: 3rem 1.25rem;
-  overflow-y: auto;
+  justify-content: flex-end;
+  padding: 3rem 10% 0 1.25rem;
+  overflow: hidden;
+}
+
+.warbandListWarrior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 90vh;
+  max-height: 700px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom left;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.9;
+  z-index: 0;
 }
 
 .warbandListInner {
   width: 100%;
   max-width: 480px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.warbandListItems {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: none;
+}
+
+.warbandListItems::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 996px) {
+  .warbandListShell {
+    justify-content: center;
+    padding: 2rem 1.25rem 0;
+  }
+
+  .warbandListWarrior {
+    display: none;
+  }
 }
 
 .warbandListHeading {
@@ -112,15 +161,6 @@
 .warbandListEmpty {
   color: var(--ifm-color-content-secondary);
   margin-bottom: 1.25rem;
-}
-
-.warbandListItems {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
 }
 
 .warbandListRow {
@@ -175,6 +215,12 @@
 .warbandListActions {
   display: flex;
   gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.warbandListActions :global(.button) {
+  flex: 1;
+  text-align: center;
 }
 
 /* ─── Main content area ─────────────────────────────────────────────────────── */
@@ -305,6 +351,11 @@
 .actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.actions :global(.button) {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 /* ─── Scrollable main body ──────────────────────────────────────────────────── */
@@ -1300,6 +1351,8 @@
 .equipmentTagFixed {
   cursor: default;
   font-style: italic;
+  background: none;
+  padding: 0;
 }
 
 /* The invisible inline text input that grows with content */

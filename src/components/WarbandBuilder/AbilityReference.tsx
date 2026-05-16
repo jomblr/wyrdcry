@@ -55,13 +55,13 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
         <div className={`${styles.wbGrid} ${styles.abilityRefGrid}`}>
           <div className={`${styles.gridHeader} ${styles.gridHeaderSticky}`}>
             <div className={styles.hCell}>Fighter</div>
-            <div className={styles.hCell}>Ability</div>
+            <div className={styles.hCell}>Talent</div>
           </div>
 
           {isEmpty && (
             <div className={styles.gridRow}>
               <div className={`${styles.cell} ${styles.weaponRefEmpty}`} style={{ gridColumn: '1 / -1' }}>
-                No abilities
+                No talents
               </div>
             </div>
           )}
@@ -102,13 +102,13 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
                     el.style.height = 'auto';
                     el.style.height = el.scrollHeight + 'px';
                   }}
-                  placeholder="Ability description"
+                  placeholder="Talent description"
                   rows={1}
                 />
                 <button
                   className={styles.customWeaponRemove}
                   onClick={() => onRemoveCustomAbility(ab.id)}
-                  title="Remove ability"
+                  title="Remove talent"
                 >
                   ×
                 </button>
@@ -119,7 +119,7 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
           <div className={`${styles.gridRow} ${styles.addFighterRow}`}>
             <div className={`${styles.cell} ${styles.cellFull}`}>
               <button className={styles.addFighterBtn} onClick={onAddCustomAbility}>
-                Add ability
+                Add talent
               </button>
             </div>
           </div>
