@@ -369,6 +369,10 @@ pre code {
   margin-top: 0.75rem;
 }
 
+.ability-ref-entry.fighter-abilities.markdown {
+  margin-top: 0;
+}
+
 .fighter-abilities.markdown p {
   margin-bottom: 0.5rem;
 }

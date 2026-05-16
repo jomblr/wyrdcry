@@ -33,6 +33,13 @@ export interface FighterInstance {
   statOverrides: Partial<Record<StatKey, number>>;
 }
 
+export interface CustomAbility {
+  id: string;
+  fighter: string;
+  type: string;
+  ability: string;
+}
+
 export interface CustomWeapon {
   id: string;
   name: string;
@@ -52,6 +59,7 @@ export interface Warband {
   stash: string[]; // item IDs parked in warband stash
   factionNotes: string;
   customWeapons: CustomWeapon[];
+  customAbilities: CustomAbility[];
 }
 
 interface WarbandState {
@@ -83,6 +91,9 @@ type Action =
   | { type: 'ADD_CUSTOM_WEAPON'; weapon: CustomWeapon }
   | { type: 'UPDATE_CUSTOM_WEAPON'; id: string; patch: Partial<Omit<CustomWeapon, 'id'>> }
   | { type: 'REMOVE_CUSTOM_WEAPON'; id: string }
+  | { type: 'ADD_CUSTOM_ABILITY'; ability: CustomAbility }
+  | { type: 'UPDATE_CUSTOM_ABILITY'; id: string; patch: Partial<Omit<CustomAbility, 'id'>> }
+  | { type: 'REMOVE_CUSTOM_ABILITY'; id: string }
   | { type: 'LOAD_WARBAND'; warband: Warband }
   | { type: 'NEW_WARBAND' }
   | { type: 'REGISTER_WARBAND'; id: string }
@@ -103,6 +114,7 @@ function newWarband(): Warband {
     stash: [],
     factionNotes: '',
     customWeapons: [],
+    customAbilities: [],
   };
 }
 
@@ -129,6 +141,7 @@ function loadWarband(id: string): Warband | null {
     if (!wb.stash) wb.stash = [];
     if (wb.factionNotes === undefined) wb.factionNotes = '';
     if (!wb.customWeapons) wb.customWeapons = [];
+    if (!wb.customAbilities) wb.customAbilities = [];
     // Backwards compat: old fighters won't have statOverrides or notes
     wb.fighters = wb.fighters.map(f => {
       const { specialRules, ...rest } = f as any;
@@ -227,6 +240,29 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         active: {
           ...state.active,
           customWeapons: state.active.customWeapons.filter(w => w.id !== action.id),
+        },
+      };
+
+    case 'ADD_CUSTOM_ABILITY':
+      return { ...state, active: { ...state.active, customAbilities: [...state.active.customAbilities, action.ability] } };
+
+    case 'UPDATE_CUSTOM_ABILITY':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          customAbilities: state.active.customAbilities.map(a =>
+            a.id === action.id ? { ...a, ...action.patch } : a,
+          ),
+        },
+      };
+
+    case 'REMOVE_CUSTOM_ABILITY':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          customAbilities: state.active.customAbilities.filter(a => a.id !== action.id),
         },
       };
 
@@ -469,6 +505,19 @@ export function useWarband() {
     [],
   );
 
+  const addCustomAbility = useCallback(() =>
+    dispatch({ type: 'ADD_CUSTOM_ABILITY', ability: { id: uuid(), fighter: '', type: '', ability: '' } }),
+  []);
+  const updateCustomAbility = useCallback(
+    (id: string, patch: Partial<Omit<CustomAbility, 'id'>>) =>
+      dispatch({ type: 'UPDATE_CUSTOM_ABILITY', id, patch }),
+    [],
+  );
+  const removeCustomAbility = useCallback(
+    (id: string) => dispatch({ type: 'REMOVE_CUSTOM_ABILITY', id }),
+    [],
+  );
+
   const addFighter = useCallback((fighterId: string, name: string) => {
     dispatch({
       type: 'ADD_FIGHTER',
@@ -642,6 +691,9 @@ export function useWarband() {
     addCustomWeapon,
     updateCustomWeapon,
     removeCustomWeapon,
+    addCustomAbility,
+    updateCustomAbility,
+    removeCustomAbility,
     addFighter,
     removeFighter,
     duplicateFighter,
