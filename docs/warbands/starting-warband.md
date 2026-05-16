@@ -5,7 +5,7 @@ sidebar_position: 1
 # Starting a warband
 ## Step 1: Get a warband roster
 ---
-You may either [download a roster](/files/warband-roster.pdf) or use the ~~Warband Builder (WIP)~~
+You may either [download a roster](/files/warband-roster.pdf) or use the [Warband Builder](/warband-builder).
 
 ## Step 2: Select a faction
 ---
