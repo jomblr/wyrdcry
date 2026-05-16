@@ -106,6 +106,7 @@ let activeDrag: EquipDragPayload | null = null;
 interface Props {
   instanceId: string;
   equipment: string[];
+  fixedEquipment?: string[];
   stash: string[];
   factionId: string | null;
   isHero: boolean;
@@ -119,7 +120,7 @@ interface Props {
   onTransferIn: (sourceInstanceId: string, itemId: string, itemIdx: number) => void;
 }
 
-export default function EquipmentCell({ instanceId, equipment, stash, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemove, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
+export default function EquipmentCell({ instanceId, equipment, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemove, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -134,7 +135,7 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
   const [dragOver, setDragOver] = useState<'none' | 'valid' | 'invalid'>('none');
   const dragEnterCounter = useRef(0);
 
-  const slots = usedSlots(equipment);
+  const slots = usedSlots([...fixedEquipment, ...equipment]);
 
   // ── Faction eligibility ──
   // Weapons use their id directly; armour items use "item:<id>" as the key
@@ -524,6 +525,15 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
+      {fixedEquipment.map((id, idx) => (
+        <span
+          key={`fixed-${id}-${idx}`}
+          className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}
+          title="Exclusive weapon — cannot be removed"
+        >
+          {labelFor(id)}
+        </span>
+      ))}
       {equipment.map((id, idx) => (
         <span
           key={`${id}-${idx}`}

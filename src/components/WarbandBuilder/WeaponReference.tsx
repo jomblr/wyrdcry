@@ -17,9 +17,12 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
   const allEquipment = [
     ...warband.fighters.flatMap(f => {
       const profile = fightersData.find(p => p.id === f.fighterId);
+      const fixedIds = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
       const isBeast = profile?.race.includes('BEAST') ?? false;
-      if (isBeast) return profile?.natural_weapon ? [profile.natural_weapon] : [];
-      return f.equipment;
+      const isThrall = profile?.race.includes('THRALL') ?? false;
+      const isDaemon = profile?.race.includes('DAEMON') ?? false;
+      if (isBeast || isThrall || isDaemon) return fixedIds;
+      return [...fixedIds, ...f.equipment];
     }),
     ...warband.stash,
   ];
@@ -142,14 +145,7 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
             </div>
           ))}
 
-          {/* Add weapon row */}
-          <div className={`${styles.gridRow} ${styles.addFighterRow}`}>
-            <div className={`${styles.cell} ${styles.cellFull}`}>
-              <button className={styles.addFighterBtn} onClick={onAddCustomWeapon}>
-                Add weapon
-              </button>
-            </div>
-          </div>
+          {/* Add weapon row — hidden for now, functionality preserved */}
         </div>
       </div>
     </div>

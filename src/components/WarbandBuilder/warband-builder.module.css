@@ -276,6 +276,14 @@
   align-items: center;
 }
 
+.hCellIndent {
+  padding-left: 0.8rem;
+}
+
+.cellIndent {
+  padding-left: 0.4rem;
+}
+
 /* Data cell */
 .cell {
   padding: 0.35rem 0.6rem;
@@ -1125,6 +1133,11 @@
 .equipmentTagFocused {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-primary-contrast-foreground, #fff);
+}
+
+.equipmentTagFixed {
+  cursor: default;
+  font-style: italic;
 }
 
 /* The invisible inline text input that grows with content */

@@ -24,7 +24,7 @@ import factionsData from '@site/src/data/factions.json';
 import campaignRules from '@site/src/data/campaign-rules.json';
 
 // leading '' is the drag-handle column
-const HEADERS: { label: string; center?: boolean }[] = [
+const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
   { label: '' },
   { label: 'Fighter' },
   { label: 'M',             center: true },
@@ -33,7 +33,7 @@ const HEADERS: { label: string; center?: boolean }[] = [
   { label: 'D',             center: true },
   { label: 'H',             center: true },
   { label: 'B',             center: true },
-  { label: 'Equipment' },
+  { label: 'Equipment', indent: true },
   { label: 'Notes' },
   { label: 'XP',            center: true },
   { label: 'R',             center: true },
@@ -118,7 +118,7 @@ export default function FighterTable({
           {HEADERS.map((h, i) => (
             <div
               key={i}
-              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''}`}
+              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''}`}
             >
               {h.label}
             </div>

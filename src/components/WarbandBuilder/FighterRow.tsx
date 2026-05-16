@@ -80,7 +80,10 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   const isWizard = profile?.keywords.includes('WIZARD') ?? false;
   const isBeast = profile?.race.includes('BEAST') ?? false;
   const isThrall = profile?.race.includes('THRALL') ?? false;
-  const noEquipment = isBeast || isThrall;
+  const isDaemon = profile?.race.includes('DAEMON') ?? false;
+  const noEquipment = isBeast || isThrall || isDaemon;
+  const noXpRenown = isBeast || isThrall;
+  const fixedEquipment = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
   const equipCost = instance.equipment.reduce((sum, eid, idx) => {
     if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum; // first dagger is free
@@ -293,13 +296,18 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       {/* Equipment */}
       <div ref={equipCellRef} className={`${styles.cell} ${equipMultiline ? styles.cellTop : ''}`}>
         {noEquipment ? (
-          profile.natural_weapon
-            ? <span className={styles.equipmentTag} style={{ cursor: 'default' }}>{weaponsData.find(w => w.id === profile.natural_weapon)?.name ?? profile.natural_weapon}</span>
-            : <span className={styles.lockedCell}>—</span>
+          fixedEquipment.length > 0
+            ? <div className={styles.cellIndent}>{fixedEquipment.map((id, idx) => (
+                <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
+                  {weaponsData.find(w => w.id === id)?.name ?? id}
+                </span>
+              ))}</div>
+            : <span className={`${styles.lockedCell} ${styles.cellIndent}`}>—</span>
         ) : (
           <EquipmentCell
             instanceId={instance.instanceId}
             equipment={instance.equipment}
+            fixedEquipment={fixedEquipment}
             stash={stash}
             factionId={profile.faction}
             isHero={isHero}
@@ -324,15 +332,15 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       </div>
 
       {/* XP */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noEquipment ? styles.lockedCell : ''}`}>
-        {noEquipment ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
+        {noXpRenown ? '—' : (
           <StatSpinner value={instance.xp} min={0} onChange={onSetXp} />
         )}
       </div>
 
       {/* Renown */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noEquipment ? styles.lockedCell : ''}`}>
-        {noEquipment ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
+        {noXpRenown ? '—' : (
           <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} />
         )}
       </div>
