@@ -24,12 +24,20 @@ type ArmourItem = (typeof armourItems)[number];
 function usedSlots(ids: string[]): { melee: number; ranged: number } {
   let melee = 0;
   let ranged = 0;
+  const seenBrace = new Set<string>();
   for (const id of ids) {
     if (id === 'shield') { melee += 1; continue; }
     const w = weaponsData.find(x => x.id === id);
     if (!w) continue;
     if (w.type === 'melee') melee += w.special_rules.includes('two-handed') ? 2 : 1;
-    else if (w.type === 'ranged') ranged += 1;
+    else if (w.type === 'ranged') {
+      if (w.special_rules.includes('brace')) {
+        // A brace pair (1 or 2 copies) counts as 1 ranged slot
+        if (!seenBrace.has(id)) { ranged += 1; seenBrace.add(id); }
+      } else {
+        ranged += 1;
+      }
+    }
   }
   return { melee, ranged };
 }
@@ -42,7 +50,12 @@ function hasArmour(ids: string[]): boolean {
 
 function weaponDisabled(w: Weapon, equipment: string[], slots: { melee: number; ranged: number }): boolean {
   if (w.type === 'ranged') {
-    // No duplicates for ranged; 1-slot limit
+    if (w.special_rules.includes('brace')) {
+      const count = equipment.filter(id => id === w.id).length;
+      if (count === 0) return slots.ranged >= RANGED_SLOTS; // needs a free slot
+      if (count === 1) return false;                        // second copy costs no extra slot
+      return true;                                          // already a full pair
+    }
     return equipment.includes(w.id) || slots.ranged >= RANGED_SLOTS;
   }
   // Melee: non-two-handed weapons CAN be equipped twice, two-handed fills both slots
@@ -158,9 +171,12 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
     if (w.special_rules.includes('two-handed') && equipment.includes(w.id)) return false;
     return true;
   });
-  const baseRanged = isBeast ? [] : weaponsData.filter(w =>
-    w.type === 'ranged' && factionAllows(w.id) && !equipment.includes(w.id),
-  );
+  const baseRanged = isBeast ? [] : weaponsData.filter(w => {
+    if (w.type !== 'ranged' || !factionAllows(w.id)) return false;
+    const count = equipment.filter(id => id === w.id).length;
+    if (w.special_rules.includes('brace')) return count < 2; // show until pair is complete
+    return count === 0;
+  });
   // Armour: faction-gated via "item:<id>" keys, unavailable to beasts/wizards
   const baseArmour = isBeast ? [] : armourItems.filter(i =>
     !equipment.includes(i.id) && factionAllowsArmour(i.id),
@@ -193,10 +209,10 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
   // Flat list for keyboard navigation (stash first, then regular)
   const flatList: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[] = [
     ...stashGroup,
-    ...filteredNatural.map(w => ({ id: w.id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
-    ...filteredMelee.map(w  => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
-    ...filteredRanged.map(w => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || w.cost > remainingGold })),
-    ...filteredArmour.map(i => ({ id: i.id,  name: i.name,  cost: i.cost, disabled: armourDisabled(i, equipment, slots, isWizard) || i.cost > remainingGold })),
+    ...filteredNatural.map(w => ({ id: w.id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
+    ...filteredMelee.map(w  => ({ id: w.id,  name: w.name,  cost: w.id === 'dagger' && !equipment.includes('dagger') ? 0 : w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
+    ...filteredRanged.map(w => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
+    ...filteredArmour.map(i => ({ id: i.id,  name: i.name,  cost: i.cost, disabled: armourDisabled(i, equipment, slots, isWizard) })),
   ];
 
   // ── Helpers ──
@@ -449,7 +465,7 @@ export default function EquipmentCell({ instanceId, equipment, stash, factionId,
               disabled={item.disabled}
             >
               <span>{item.name}</span>
-              <span className={styles.dropdownCost}>{item.cost}gc</span>
+              <span className={styles.dropdownCost}>{item.cost === 0 ? 'free' : `${item.cost}gc`}</span>
             </button>
           );
         })}

@@ -4,7 +4,6 @@ import weaponsData from '@site/src/data/weapons.json';
 import itemsData from '@site/src/data/items.json';
 import factionsData from '@site/src/data/factions.json';
 import fightersData from '@site/src/data/fighters.json';
-import abilitiesData from '@site/src/data/abilities.json';
 
 // crypto.randomUUID() requires a secure context (HTTPS/localhost).
 // This fallback works over plain HTTP on a local network.
@@ -27,10 +26,21 @@ export interface FighterInstance {
   fighterId: string;
   customName: string;
   equipment: string[];
-  specialRules: string[];
+  notes: string;
+  costOverride: number | null;
   xp: number;
   renown: number;
   statOverrides: Partial<Record<StatKey, number>>;
+}
+
+export interface CustomWeapon {
+  id: string;
+  name: string;
+  range: string;
+  attacks: string;
+  hit: string;
+  crit: string;
+  special: string;
 }
 
 export interface Warband {
@@ -41,6 +51,7 @@ export interface Warband {
   fighters: FighterInstance[];
   stash: string[]; // item IDs parked in warband stash
   factionNotes: string;
+  customWeapons: CustomWeapon[];
 }
 
 interface WarbandState {
@@ -61,13 +72,17 @@ type Action =
   | { type: 'SET_FIGHTER_RENOWN'; instanceId: string; renown: number }
   | { type: 'SET_FIGHTER_EQUIPMENT'; instanceId: string; equipment: string[] }
   | { type: 'SET_FIGHTER_STAT'; instanceId: string; stat: StatKey; value: number }
-  | { type: 'SET_FIGHTER_SPECIAL_RULES'; instanceId: string; specialRules: string[] }
+  | { type: 'SET_FIGHTER_NOTES'; instanceId: string; notes: string }
+  | { type: 'SET_FIGHTER_COST_OVERRIDE'; instanceId: string; costOverride: number | null }
   | { type: 'REORDER_FIGHTERS'; fighters: FighterInstance[] }
   | { type: 'TRANSFER_EQUIPMENT'; fromId: string; toId: string; itemId: string; itemIdx: number }
   | { type: 'SEND_TO_STASH'; instanceId: string; itemIdx: number }
   | { type: 'TAKE_FROM_STASH'; instanceId: string; itemId: string }
   | { type: 'REMOVE_FROM_STASH'; itemIdx: number }
   | { type: 'SET_FAVOUR'; favour: number }
+  | { type: 'ADD_CUSTOM_WEAPON'; weapon: CustomWeapon }
+  | { type: 'UPDATE_CUSTOM_WEAPON'; id: string; patch: Partial<Omit<CustomWeapon, 'id'>> }
+  | { type: 'REMOVE_CUSTOM_WEAPON'; id: string }
   | { type: 'LOAD_WARBAND'; warband: Warband }
   | { type: 'NEW_WARBAND' }
   | { type: 'REGISTER_WARBAND'; id: string }
@@ -87,6 +102,7 @@ function newWarband(): Warband {
     fighters: [],
     stash: [],
     factionNotes: '',
+    customWeapons: [],
   };
 }
 
@@ -112,8 +128,12 @@ function loadWarband(id: string): Warband | null {
     const wb = JSON.parse(raw) as Warband;
     if (!wb.stash) wb.stash = [];
     if (wb.factionNotes === undefined) wb.factionNotes = '';
-    // Backwards compat: old fighters won't have statOverrides or specialRules
-    wb.fighters = wb.fighters.map(f => ({ statOverrides: {}, specialRules: [], ...f }));
+    if (!wb.customWeapons) wb.customWeapons = [];
+    // Backwards compat: old fighters won't have statOverrides or notes
+    wb.fighters = wb.fighters.map(f => {
+      const { specialRules, ...rest } = f as any;
+      return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, ...rest };
+    });
     return wb;
   } catch {
     return null;
@@ -152,8 +172,12 @@ function itemCost(id: string): number {
 export function calcValue(warband: Warband, fightersData: { id: string; cost: number }[]): number {
   const fightersCost = warband.fighters.reduce((sum, fi) => {
     const profile = fightersData.find(f => f.id === fi.fighterId);
-    const baseCost = profile?.cost ?? 0;
-    const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
+    const baseCost = fi.costOverride ?? profile?.cost ?? 0;
+    const equipCost = fi.equipment.reduce((s, eid, idx) => {
+      // First dagger per fighter is free
+      const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
+      return s + cost;
+    }, 0);
     return sum + baseCost + equipCost;
   }, 0);
   const stashCost = warband.stash.reduce((s, id) => s + itemCost(id), 0);
@@ -182,6 +206,29 @@ function reducer(state: WarbandState, action: Action): WarbandState {
 
     case 'SET_FACTION_NOTES':
       return { ...state, active: { ...state.active, factionNotes: action.notes } };
+
+    case 'ADD_CUSTOM_WEAPON':
+      return { ...state, active: { ...state.active, customWeapons: [...state.active.customWeapons, action.weapon] } };
+
+    case 'UPDATE_CUSTOM_WEAPON':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          customWeapons: state.active.customWeapons.map(w =>
+            w.id === action.id ? { ...w, ...action.patch } : w,
+          ),
+        },
+      };
+
+    case 'REMOVE_CUSTOM_WEAPON':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          customWeapons: state.active.customWeapons.filter(w => w.id !== action.id),
+        },
+      };
 
     case 'ADD_FIGHTER':
       return {
@@ -260,13 +307,24 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
-    case 'SET_FIGHTER_SPECIAL_RULES':
+    case 'SET_FIGHTER_NOTES':
       return {
         ...state,
         active: {
           ...state.active,
           fighters: state.active.fighters.map(f =>
-            f.instanceId === action.instanceId ? { ...f, specialRules: action.specialRules } : f,
+            f.instanceId === action.instanceId ? { ...f, notes: action.notes } : f,
+          ),
+        },
+      };
+
+    case 'SET_FIGHTER_COST_OVERRIDE':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(f =>
+            f.instanceId === action.instanceId ? { ...f, costOverride: action.costOverride } : f,
           ),
         },
       };
@@ -398,12 +456,20 @@ export function useWarband() {
   const setFavour = useCallback((favour: number) => dispatch({ type: 'SET_FAVOUR', favour }), []);
   const setFactionNotes = useCallback((notes: string) => dispatch({ type: 'SET_FACTION_NOTES', notes }), []);
 
+  const addCustomWeapon = useCallback(() =>
+    dispatch({ type: 'ADD_CUSTOM_WEAPON', weapon: { id: uuid(), name: 'New weapon', range: '1', attacks: '3', hit: '3', crit: '5', special: '' } }),
+  []);
+  const updateCustomWeapon = useCallback(
+    (id: string, patch: Partial<Omit<CustomWeapon, 'id'>>) =>
+      dispatch({ type: 'UPDATE_CUSTOM_WEAPON', id, patch }),
+    [],
+  );
+  const removeCustomWeapon = useCallback(
+    (id: string) => dispatch({ type: 'REMOVE_CUSTOM_WEAPON', id }),
+    [],
+  );
+
   const addFighter = useCallback((fighterId: string, name: string) => {
-    const profile = fightersData.find(f => f.id === fighterId);
-    const abilityIds: string[] = (profile as any)?.faction_ability_ids ?? [];
-    const specialRules = abilityIds
-      .map(id => abilitiesData.find(a => a.id === id)?.name)
-      .filter(Boolean) as string[];
     dispatch({
       type: 'ADD_FIGHTER',
       fighter: {
@@ -411,7 +477,8 @@ export function useWarband() {
         fighterId,
         customName: name,
         equipment: [],
-        specialRules,
+        notes: '',
+        costOverride: null,
         xp: 0,
         renown: 0,
         statOverrides: {},
@@ -435,7 +502,8 @@ export function useWarband() {
           fighterId: source.fighterId,
           customName: source.customName,
           equipment: [...source.equipment],
-          specialRules: [...source.specialRules],
+          notes: source.notes,
+          costOverride: source.costOverride,
           xp: 0,
           renown: 0,
           statOverrides: { ...source.statOverrides },
@@ -467,9 +535,15 @@ export function useWarband() {
     [],
   );
 
-  const setFighterSpecialRules = useCallback(
-    (instanceId: string, specialRules: string[]) =>
-      dispatch({ type: 'SET_FIGHTER_SPECIAL_RULES', instanceId, specialRules }),
+  const setFighterNotes = useCallback(
+    (instanceId: string, notes: string) =>
+      dispatch({ type: 'SET_FIGHTER_NOTES', instanceId, notes }),
+    [],
+  );
+
+  const setFighterCostOverride = useCallback(
+    (instanceId: string, costOverride: number | null) =>
+      dispatch({ type: 'SET_FIGHTER_COST_OVERRIDE', instanceId, costOverride }),
     [],
   );
 
@@ -533,7 +607,10 @@ export function useWarband() {
         if (!wb.id || !wb.name) return;
         wb.stash = wb.stash ?? [];
         wb.factionNotes = wb.factionNotes ?? '';
-        wb.fighters = wb.fighters.map(f => ({ statOverrides: {}, specialRules: [], ...f }));
+        wb.fighters = wb.fighters.map(f => {
+          const { specialRules, ...rest } = f as any;
+          return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, ...rest };
+        });
         persistWarband(wb);
         dispatch({ type: 'LOAD_WARBAND', warband: wb });
         dispatch({ type: 'REGISTER_WARBAND', id: wb.id });
@@ -562,6 +639,9 @@ export function useWarband() {
     setFaction,
     setFavour,
     setFactionNotes,
+    addCustomWeapon,
+    updateCustomWeapon,
+    removeCustomWeapon,
     addFighter,
     removeFighter,
     duplicateFighter,
@@ -569,7 +649,8 @@ export function useWarband() {
     setFighterXp,
     setFighterRenown,
     setFighterStat,
-    setFighterSpecialRules,
+    setFighterNotes,
+    setFighterCostOverride,
     setFighterEquipment,
     reorderFighters,
     transferEquipment,

@@ -292,6 +292,20 @@
   justify-content: center;
 }
 
+.cellTop {
+  align-self: start;
+  padding-top: 0.45rem;
+}
+
+.cellWrap {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  flex-wrap: wrap;
+  align-self: start;
+  align-content: center;
+}
+
 .hCellCenter {
   justify-content: center;
 }
@@ -466,12 +480,6 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-.cellWrap {
-  white-space: normal;
-  overflow: visible;
-  align-items: flex-start;
-  min-height: 2rem;
-}
 
 /* Fighter name + type stacked */
 .fighterName {
@@ -726,6 +734,10 @@
   gap: 1rem;
 }
 
+.infoTabGrid > *:last-child {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 680px) {
   .infoTabGrid {
     grid-template-columns: 1fr;
@@ -750,12 +762,63 @@
 /* Weapon reference table: Weapon | R | A | D | Special (builder + wiki docs) */
 .weaponRefGrid {
   grid-template-columns: 2fr 1fr 1fr 1fr 4fr;
-  min-width: 640px;
 }
 
 .weaponRefGridCompact {
   min-width: 0;
   grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
+}
+
+.customWeaponRow {
+  background: var(--ifm-background-surface-color);
+}
+
+.customWeaponInput {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--wyrd-font-body);
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+.customWeaponInputNarrow {
+  width: 1.5rem;
+  text-align: center;
+}
+
+.customWeaponSep {
+  padding: 0 0.1rem;
+  color: var(--wyrd-text3);
+}
+
+.customWeaponSpecialCell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.customWeaponRemove {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.1rem;
+  opacity: 0;
+  transition: opacity 0.12s, color 0.12s;
+}
+
+.customWeaponRow:hover .customWeaponRemove {
+  opacity: 1;
+}
+
+.customWeaponRemove:hover {
+  color: var(--ifm-color-danger);
 }
 
 .weaponRefEmpty {
@@ -774,8 +837,10 @@
 }
 
 .dropdownConfirmLabel {
-  font-size: 0.8rem;
-  color: var(--ifm-color-content-secondary);
+  font-family: 'Alegreya', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ifm-color-content);
 }
 
 .dropdownConfirmActions {
@@ -786,19 +851,19 @@
 .dropdownConfirmYes,
 .dropdownConfirmNo {
   flex: 1;
-  padding: 0.25rem 0;
-  border-radius: var(--ifm-global-radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: var(--wyrd-font-body);
+  font-weight: 400;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: none;
   transition: background 0.15s;
 }
 
 .dropdownConfirmYes {
   background: var(--ifm-color-danger, #e03e3e);
   color: #fff;
-  border-color: var(--ifm-color-danger, #e03e3e);
 }
 
 .dropdownConfirmYes:hover {
@@ -808,7 +873,6 @@
 .dropdownConfirmNo {
   background: var(--ifm-color-emphasis-200);
   color: var(--ifm-color-content);
-  border-color: var(--ifm-color-emphasis-300);
 }
 
 .dropdownConfirmNo:hover {
@@ -1076,6 +1140,148 @@
   color: inherit;
 }
 
+.valueCell {
+  cursor: pointer;
+}
+
+.valueCell:hover span {
+  background: var(--ifm-color-emphasis-200);
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  transition: background 0.1s;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalBox {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--wyrd-border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modalTitle {
+  font-family: 'Alegreya', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.modalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.modalTotalRow {
+  font-weight: 600;
+}
+
+.modalLabel {
+  color: var(--wyrd-text2);
+}
+
+.modalTotalRow .modalLabel {
+  color: inherit;
+}
+
+.modalCostCell {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.modalCostInput {
+  width: 4rem;
+  text-align: right;
+  background: none;
+  border: 1px solid var(--wyrd-border);
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.85rem;
+  color: inherit;
+  font-family: var(--wyrd-font-body);
+}
+
+.modalGc {
+  font-size: 0.8rem;
+  color: var(--wyrd-text3);
+}
+
+.modalCostValue {
+  min-width: 4rem;
+  text-align: right;
+  display: inline-block;
+}
+
+.modalFree {
+  color: var(--wyrd-text3);
+  font-style: italic;
+}
+
+.modalDivider {
+  border-top: 1px solid var(--wyrd-border);
+  margin: 0.15rem 0;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+.modalSaveBtn {
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+  font-family: var(--wyrd-font-body);
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modalSaveBtn:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.notesTextarea {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.8rem;
+  color: inherit;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.notesTextarea::placeholder {
+  color: transparent;
+}
+
+.gridRow:hover .notesTextarea::placeholder,
+.equipmentInputFocused .notesTextarea::placeholder {
+  color: var(--wyrd-text3);
+}
+
 .dropdownEmpty {
   padding: 0.4rem 0.75rem;
   font-size: 0.85rem;
@@ -1148,6 +1354,14 @@
   font-size: 0.95rem;
 }
 
+.tabPanel {
+  display: block;
+}
+
+.tabPanelHidden {
+  display: none;
+}
+
 /* ─── Print styles ──────────────────────────────────────────────────────────── */
 
 @media print {
@@ -1168,6 +1382,20 @@
   .body {
     overflow: visible;
     padding: 0;
+  }
+
+  .tabPanelHidden {
+    display: block;
+  }
+
+  .addFighterRow {
+    display: none;
+  }
+
+  .tabPanel + .tabPanelHidden,
+  .tabPanelHidden + .tabPanel,
+  .tabPanelHidden + .tabPanelHidden {
+    page-break-before: always;
   }
 
   .tableWrapper {

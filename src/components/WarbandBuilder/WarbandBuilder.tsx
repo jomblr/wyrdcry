@@ -19,6 +19,9 @@ export default function WarbandBuilder() {
     setFaction,
     setFavour,
     setFactionNotes,
+    addCustomWeapon,
+    updateCustomWeapon,
+    removeCustomWeapon,
     addFighter,
     removeFighter,
     duplicateFighter,
@@ -26,7 +29,8 @@ export default function WarbandBuilder() {
     setFighterXp,
     setFighterRenown,
     setFighterStat,
-    setFighterSpecialRules,
+    setFighterNotes,
+    setFighterCostOverride,
     setFighterEquipment,
     reorderFighters,
     transferEquipment,
@@ -112,46 +116,42 @@ export default function WarbandBuilder() {
         </div>
 
         {/* Body */}
-        <div
-          className={styles.body}
-          role="tabpanel"
-          aria-labelledby={tab === 'fighters' ? 'warband-tab-fighters' : 'warband-tab-information'}
-        >
-            {tab === 'fighters' && (
-            <>
-              <WarbandInfoRow
-                warband={active}
-                onSetName={setName}
-                onSetFaction={setFaction}
-                onSetFavour={setFavour}
-              />
-              <FighterTable
-                warband={active}
-                onSetFighterName={setFighterName}
-                onSetFighterXp={setFighterXp}
-                onSetFighterRenown={setFighterRenown}
-                onSetFighterStat={setFighterStat}
-                onSetFighterSpecialRules={setFighterSpecialRules}
-                onSetFighterEquipment={setFighterEquipment}
-                onRemoveFighter={removeFighter}
-                onDuplicateFighter={duplicateFighter}
-                onTransferEquipment={transferEquipment}
-                onAddFighter={addFighter}
-                onReorderFighters={reorderFighters}
-                onSendToStash={sendToStash}
-                onTakeFromStash={takeFromStash}
-              />
-            </>
-          )
-}
-
-          {tab === 'information' && (
+        <div className={styles.body}>
+          <div className={tab === 'fighters' ? styles.tabPanel : styles.tabPanelHidden}>
+            <WarbandInfoRow
+              warband={active}
+              onSetName={setName}
+              onSetFaction={setFaction}
+              onSetFavour={setFavour}
+            />
+            <FighterTable
+              warband={active}
+              onSetFighterName={setFighterName}
+              onSetFighterXp={setFighterXp}
+              onSetFighterRenown={setFighterRenown}
+              onSetFighterStat={setFighterStat}
+              onSetFighterNotes={setFighterNotes}
+              onSetFighterCostOverride={setFighterCostOverride}
+              onSetFighterEquipment={setFighterEquipment}
+              onRemoveFighter={removeFighter}
+              onDuplicateFighter={duplicateFighter}
+              onTransferEquipment={transferEquipment}
+              onAddFighter={addFighter}
+              onReorderFighters={reorderFighters}
+              onSendToStash={sendToStash}
+              onTakeFromStash={takeFromStash}
+            />
+          </div>
+          <div className={tab === 'information' ? styles.tabPanel : styles.tabPanelHidden}>
             <InformationTab
               warband={active}
               onRemoveFromStash={removeFromStash}
               onSetNotes={setFactionNotes}
+              onAddCustomWeapon={addCustomWeapon}
+              onUpdateCustomWeapon={updateCustomWeapon}
+              onRemoveCustomWeapon={removeCustomWeapon}
             />
-          )}
+          </div>
         </div>
       </div>
     </div>
