@@ -20,6 +20,10 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
       <div className={styles.warbandListInner}>
         <h2 className={styles.warbandListHeading}>My Warbands</h2>
 
+        <p>
+          The Warband Builder is currently in beta and some features may change. See the <a href="/docs/warbands/warband-builder">User Guide</a> before getting started.
+        </p>
+
         <div className={styles.warbandListActions}>
           <button type="button" className="button button--primary button--md" onClick={onCreate}>
             Create new warband

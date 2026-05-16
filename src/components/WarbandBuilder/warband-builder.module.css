@@ -158,6 +158,7 @@
   margin: 0 0 1.25rem;
 }
 
+
 .warbandListEmpty {
   color: var(--ifm-color-content-secondary);
   margin-bottom: 1.25rem;
@@ -803,6 +804,11 @@
   padding: 0.25rem 0;
   max-height: 300px;
   overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.dropdown::-webkit-scrollbar {
+  display: none;
 }
 
 .dropdownGroup {
