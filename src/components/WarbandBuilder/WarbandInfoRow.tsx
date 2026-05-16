@@ -66,7 +66,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
               onChange={handleFactionChange}
             >
               <option value="" disabled>Select faction</option>
-              {factionsData.map(f => (
+              {factionsData.filter(f => f.id !== 'hired-sword').map(f => (
                 <option key={f.id} value={f.id}>{f.name}</option>
               ))}
             </select>
