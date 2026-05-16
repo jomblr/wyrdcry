@@ -76,14 +76,16 @@
     "cost": 25
   },
   {
-    "id": "possessed-daemonic-weapon",
-    "name": "Daemonic Weapon",
-    "type": "natural",
+    "id": "possessed-daemonic-appendage",
+    "name": "Daemonic Appendage",
+    "type": "melee",
+    "exclusive": "yes",
     "range": 1,
     "attacks": 3,
     "hit": 3,
     "crit": 4,
     "special_rules": [],
+    "power_level": 0,
     "cost": 30
   },
   {
@@ -182,6 +184,19 @@
     "cost": 65
   },
   {
+    "id": "zombie-infectious-bite",
+    "name": "Infectious Bite",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 15
+  },
+  {
     "id": "pistol",
     "name": "Pistol",
     "type": "ranged",
@@ -198,6 +213,32 @@
     ],
     "power_level": 0,
     "cost": 40
+  },
+  {
+    "id": "direwolf-rotten-fangs",
+    "name": "Rotten Fangs",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 20
+  },
+  {
+    "id": "warhound-savage-bite",
+    "name": "Savage Bite",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 20
   },
   {
     "id": "sigmarite-warhammer",
@@ -299,6 +340,19 @@
     ],
     "power_level": 0,
     "cost": 55
+  },
+  {
+    "id": "vicious-teeth",
+    "name": "Vicious Teeth",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 1,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 5
   },
   {
     "id": "warhammer",

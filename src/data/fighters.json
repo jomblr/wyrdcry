@@ -119,10 +119,10 @@
     "power_level": 0,
     "cost": 35,
     "ability_preamble": "",
-    "faction_ability_ids": [
-      "vicious-teeth"
+    "faction_ability_ids": [],
+    "default_equipment": [
+      "weapon:vicious-teeth"
     ],
-    "natural_weapon": "",
     "race": [
       "BEAST"
     ],
@@ -463,10 +463,11 @@
     "cost": 165,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "daemonic-appendage",
       "ascended"
     ],
-    "natural_weapon": "",
+    "default_equipment": [
+      "weapon:possessed-daemonic-appendage"
+    ],
     "race": [
       "DAEMON"
     ],
@@ -648,10 +649,11 @@
     "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "savage-bite",
       "death-grip"
     ],
-    "natural_weapon": "",
+    "default_equipment": [
+      "weapon:warhound-savage-bite"
+    ],
     "race": [
       "BEAST"
     ],
@@ -755,10 +757,11 @@
     "cost": 85,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "rotten-fangs",
       "chilling-howl"
     ],
-    "natural_weapon": "",
+    "default_equipment": [
+      "weapon:direwolf-rotten-fangs"
+    ],
     "race": [
       "THRALL"
     ],
@@ -783,10 +786,11 @@
     "cost": 30,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "shambling-horde",
-      "infectious-bite"
+      "shambling-horde"
     ],
-    "natural_weapon": "",
+    "default_equipment": [
+      "weapon:zombie-infectious-bite"
+    ],
     "race": [
       "THRALL"
     ],

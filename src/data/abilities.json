@@ -434,13 +434,6 @@
     "description": "This fighter refuses to wear any armour, and is always considered to be in Cover."
   },
   {
-    "id": "daemonic-appendage",
-    "name": "Daemonic Appendage",
-    "category": "possessed",
-    "ability_type": "trait",
-    "description": "This fighter's limbs have mutated into a natural weapon with the following characteristics; **Range 1” | 3 Attacks | 3/4 Damage**"
-  },
-  {
     "id": "ascended",
     "name": "Ascended",
     "category": "possessed",
@@ -462,13 +455,6 @@
     "description": "When this fighter is recruited to the warband, it must make a roll on the mutation table."
   },
   {
-    "id": "vicious-teeth",
-    "name": "Vicious Teeth",
-    "category": "clan-eshin",
-    "ability_type": "trait",
-    "description": "This trait counts as a natural weapon with the following characteristics; **Range 1” | 3 Attacks | 1/3 Damage**"
-  },
-  {
     "id": "one-with-the-shadows",
     "name": "One With The Shadows",
     "category": "unique",
@@ -481,13 +467,6 @@
     "category": "undead",
     "ability_type": "trait",
     "description": "When a Vampire is deployed to the battlefield, roll a die: On a 1-5, the vampire is **ravenous**, on a 6 - the Vampire is **empowered**.\n\nOnce per battle round, when a **ravenous** vampire is activated, it can perform a free move action. However, while ravenous, a vampire cannot use reactions or abilities, except Feed (see below).\n\nAn **empowered vampire** can use multiple abilities in each activation. The same ability can be used more than once, but abilities that grant free actions must be fully resolved before another ability can be used. In addition, once per battle round when an empowered vampire uses an ability, you can either add a double with a value of 3, treat a double as a triple, or a triple as a quad. After the ability is resolved, this fighter’s activation ends and it becomes ravenous."
-  },
-  {
-    "id": "savage-bite",
-    "name": "Savage Bite",
-    "category": "witch-hunters",
-    "ability_type": "trait",
-    "description": "This trait counts as a natural weapon with the following characteristics; **Range 1” | 3 Attacks | 2/4 Damage**"
   },
   {
     "id": "feed",
@@ -511,24 +490,10 @@
     "description": "Select up to 3 visible friendly fighters with the `Zombie` keyword. Those fighters can each immediately make a bonus move action of up to 3\", as long as they end that move action closer to this fighter."
   },
   {
-    "id": "rotten-fangs",
-    "name": "Rotten Fangs",
-    "category": "undead",
-    "ability_type": "trait",
-    "description": "This trait counts as a natural weapon with the following characteristics; **Range 1” | 3 Attacks | 2/4 Damage**"
-  },
-  {
     "id": "chilling-howl",
     "name": "Chilling Howl",
     "category": "undead",
     "ability_type": "triple",
     "description": "Until the end of the battle round, enemy fighters within 6\" of this fighter must pass a Bravery Test to make reactions or use abilities."
-  },
-  {
-    "id": "infectious-bite",
-    "name": "Infectious Bite",
-    "category": "undead",
-    "ability_type": "trait",
-    "description": "This trait counts as a natural weapon with the following characteristics; **Range 1” | 3 Attacks | 2/3 Damage**"
   }
 ]
