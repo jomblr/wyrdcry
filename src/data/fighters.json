@@ -232,7 +232,7 @@
     "faction_ability_ids": [
       "driven-by-greed"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -354,12 +354,12 @@
     "shoot": 3,
     "defense": 3,
     "health": 10,
-    "bravery": 5,
-    "power_level": 5,
+    "bravery": 4,
+    "power_level": -5,
     "cost": 55,
     "ability_preamble": "",
     "faction_ability_ids": [],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
