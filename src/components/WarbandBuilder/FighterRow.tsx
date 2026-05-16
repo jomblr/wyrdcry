@@ -199,7 +199,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
                 <div className={styles.dropdownConfirmActions}>
                   <button
                     type="button"
-                    className={styles.dropdownConfirmYes}
+                    className={`button button--danger button--md ${styles.dropdownConfirmYes}`}
                     onClick={() => {
                       handleMenuClose();
                       onRemove();
@@ -207,7 +207,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
                   >
                     Yes
                   </button>
-                  <button type="button" className={styles.dropdownConfirmNo} onClick={handleMenuClose}>
+                  <button type="button" className={`button button--secondary button--md ${styles.dropdownConfirmNo}`} onClick={handleMenuClose}>
                     No
                   </button>
                 </div>

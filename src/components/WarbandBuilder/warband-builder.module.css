@@ -1051,10 +1051,10 @@
 /* ─── Inline delete confirmation ──────────────────────────────────────────── */
 
 .dropdownConfirm {
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
 }
 
 .dropdownConfirmLabel {
@@ -1066,39 +1066,16 @@
 
 .dropdownConfirmActions {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.3rem;
 }
 
-.dropdownConfirmYes,
-.dropdownConfirmNo {
+.dropdownConfirmYes:global(.button),
+.dropdownConfirmNo:global(.button) {
   flex: 1;
-  padding: 0.3rem 0.9rem;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
   font-size: 0.85rem;
-  font-family: var(--wyrd-font-body);
-  font-weight: 400;
-  cursor: pointer;
-  border: none;
-  transition: background 0.15s;
 }
 
-.dropdownConfirmYes {
-  background: var(--ifm-color-danger, #e03e3e);
-  color: #fff;
-}
-
-.dropdownConfirmYes:hover {
-  filter: brightness(1.1);
-}
-
-.dropdownConfirmNo {
-  background: var(--ifm-color-emphasis-200);
-  color: var(--ifm-color-content);
-}
-
-.dropdownConfirmNo:hover {
-  background: var(--ifm-color-emphasis-300);
-}
 
 /* ─── Warband Stash panel ──────────────────────────────────────────────────── */
 
