@@ -43,29 +43,25 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
           />
         </div>
 
-        {warbands.length === 0 ? (
-          <p className={styles.warbandListEmpty}>No warbands yet. Create one to get started.</p>
-        ) : (
-          <ul className={styles.warbandListItems}>
-            {warbands.map(wb => (
-              <li key={wb.id}>
-                <button
-                  type="button"
-                  className={styles.warbandListRow}
-                  onClick={() => onSelect(wb.id)}
-                >
-                  <span className={styles.warbandListMeta}>
-                    <span className={styles.warbandListName}>{wb.name || 'Untitled Warband'}</span>
-                    <span className={styles.warbandListFaction}>
-                      {wb.factionId ? (factionsData.find(f => f.id === wb.factionId)?.name ?? wb.factionId) : 'No faction'}
-                    </span>
+        <ul className={styles.warbandListItems}>
+          {warbands.map(wb => (
+            <li key={wb.id}>
+              <button
+                type="button"
+                className={styles.warbandListRow}
+                onClick={() => onSelect(wb.id)}
+              >
+                <span className={styles.warbandListMeta}>
+                  <span className={styles.warbandListName}>{wb.name || 'Untitled Warband'}</span>
+                  <span className={styles.warbandListFaction}>
+                    {wb.factionId ? (factionsData.find(f => f.id === wb.factionId)?.name ?? wb.factionId) : 'No faction'}
                   </span>
-                  <ArrowRight size={16} className={styles.warbandListArrow} />
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+                </span>
+                <ArrowRight size={16} className={styles.warbandListArrow} />
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

@@ -27,6 +27,7 @@ export default function WarbandBuilder() {
     active,
     savedWarbands,
     setName,
+    setGold,
     setFaction,
     setFavour,
     setFactionNotes,
@@ -46,11 +47,14 @@ export default function WarbandBuilder() {
     setFighterNotes,
     setFighterCostOverride,
     setFighterEquipment,
+    setFighterPendingEquipment,
+    purchasePending,
     reorderFighters,
     transferEquipment,
     sendToStash,
     takeFromStash,
     removeFromStash,
+    sellFromStash,
     loadWarband,
     createNewWarband,
     deleteWarband,
@@ -68,10 +72,11 @@ export default function WarbandBuilder() {
     setShowFactionModal(true);
   }
 
-  function handleFactionConfirmed(factionId: string) {
+  function handleFactionConfirmed(factionId: string, gold: number) {
     setShowFactionModal(false);
     createNewWarband();
     setFaction(factionId);
+    setGold(gold);
     setView('detail');
     setTab('fighters');
   }
@@ -81,6 +86,8 @@ export default function WarbandBuilder() {
     setView('detail');
     setTab('fighters');
   }
+
+  const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
 
   function handleDelete() {
     setMenuOpen(false);
@@ -129,70 +136,76 @@ export default function WarbandBuilder() {
   return (
     <div className={styles.builderShell}>
       <div className={styles.content}>
-        {/* Top bar */}
-        <div className={styles.topBar}>
-          <div className={styles.topBarLeft}>
-            <button
-              type="button"
-              className={styles.backBtn}
-              onClick={() => setView('list')}
-              aria-label="Back to warband list"
-            >
-              <ArrowLeft size={16} />
-              <span>Warbands</span>
-            </button>
+        {/* Body */}
+        <div className={styles.body}>
+          {/* Top bar — inside body so it scrolls with content */}
+          <div className={styles.topBar}>
+            <div className={styles.topBarLeft}>
+              <button
+                type="button"
+                className={styles.backBtn}
+                onClick={() => setView('list')}
+                aria-label="Back to warband list"
+              >
+                <ArrowLeft size={16} />
+                <span>Warbands</span>
+              </button>
 
-            <div className={styles.tabToggle} role="tablist" aria-label="Warband section">
-              <div className={styles.tabToggleInner} data-active={tab}>
-                <span className={styles.tabToggleIndicator} aria-hidden />
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={tab === 'fighters'}
-                  id="warband-tab-fighters"
-                  className={clsx(styles.tabToggleBtn, tab === 'fighters' && styles.tabToggleBtnActive)}
-                  onClick={() => setTab('fighters')}
-                >
-                  Fighters
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={tab === 'information'}
-                  id="warband-tab-information"
-                  className={clsx(styles.tabToggleBtn, tab === 'information' && styles.tabToggleBtnActive)}
-                  onClick={() => setTab('information')}
-                >
-                  Information
-                </button>
+              <div className={styles.tabToggle} role="tablist" aria-label="Warband section">
+                <div className={styles.tabToggleInner} data-active={tab}>
+                  <span className={styles.tabToggleIndicator} aria-hidden />
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === 'fighters'}
+                    id="warband-tab-fighters"
+                    className={clsx(styles.tabToggleBtn, tab === 'fighters' && styles.tabToggleBtnActive)}
+                    onClick={() => setTab('fighters')}
+                  >
+                    Fighters
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === 'information'}
+                    id="warband-tab-information"
+                    className={clsx(styles.tabToggleBtn, tab === 'information' && styles.tabToggleBtnActive)}
+                    onClick={() => setTab('information')}
+                  >
+                    Information
+                  </button>
+                </div>
               </div>
+            </div>
+
+            <div className={styles.actions}>
+              <button
+                type="button"
+                className="button button--secondary button--md"
+                onClick={handleDelete}
+              >
+                Delete Warband
+              </button>
+              <button type="button" className="button button--secondary button--md" onClick={exportWarband}>
+                Export
+              </button>
+              <button type="button" className="button button--secondary button--md" onClick={() => window.print()}>
+                Print
+              </button>
+              {hasPending && (
+                <button type="button" className="button button--primary button--md" onClick={purchasePending}>
+                  Purchase
+                </button>
+              )}
             </div>
           </div>
 
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className="button button--secondary button--md"
-              onClick={handleDelete}
-            >
-              Delete Warband
-            </button>
-            <button type="button" className="button button--primary button--md" onClick={exportWarband}>
-              Export
-            </button>
-            <button type="button" className="button button--primary button--md" onClick={() => window.print()}>
-              Print
-            </button>
-          </div>
-        </div>
-
-        {/* Body */}
-        <div className={styles.body}>
           <div className={tab === 'fighters' ? styles.tabPanel : styles.tabPanelHidden}>
             <WarbandInfoRow
               warband={active}
               onSetName={setName}
               onSetFavour={setFavour}
+              onAddGold={amount => setGold(active.gold + amount)}
             />
             <FighterTable
               warband={active}
@@ -203,6 +216,7 @@ export default function WarbandBuilder() {
               onSetFighterNotes={setFighterNotes}
               onSetFighterCostOverride={setFighterCostOverride}
               onSetFighterEquipment={setFighterEquipment}
+              onSetFighterPendingEquipment={setFighterPendingEquipment}
               onRemoveFighter={removeFighter}
               onDuplicateFighter={duplicateFighter}
               onTransferEquipment={transferEquipment}
@@ -213,9 +227,16 @@ export default function WarbandBuilder() {
             />
           </div>
           <div className={tab === 'information' ? styles.tabPanel : styles.tabPanelHidden}>
+            <WarbandInfoRow
+              warband={active}
+              onSetName={setName}
+              onSetFavour={setFavour}
+              onAddGold={amount => setGold(active.gold + amount)}
+            />
             <InformationTab
               warband={active}
               onRemoveFromStash={removeFromStash}
+              onSellFromStash={sellFromStash}
               onSetNotes={setFactionNotes}
               onAddCustomWeapon={addCustomWeapon}
               onUpdateCustomWeapon={updateCustomWeapon}

@@ -240,8 +240,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 1.25rem;
-  flex-shrink: 0;
+  padding: 0.6rem 0;
 }
 
 /* Segmented toggle: sliding pill (same idea as iOS / shadcn) */
@@ -365,12 +364,10 @@
   flex: 1;
   min-width: 0;
   overflow-y: auto;
-  /* No padding-top here: padding on a scroll container insets sticky `top:0` (looks like a gap). */
   padding: 0 1.25rem 1rem;
   box-sizing: border-box;
 }
 
-/* Preserve previous vertical rhythm; inset is outside the scrollport so sticky headers sit flush. */
 .body > :first-child {
   padding-top: 1rem;
 }
@@ -404,7 +401,6 @@
 /* Sticky column headers (fighter table, wiki ref tables — not WarbandInfoRow) */
 .gridHeaderSticky {
   position: sticky;
-  /* Warband builder: scroll is .body — stick to top of that pane */
   top: 0;
   z-index: 2;
   margin-top: 0;
@@ -432,6 +428,41 @@
 .gridRowNoHover:hover {
   background: none;
 }
+
+.fighterRowPending {
+  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
+}
+
+.fighterRowPending:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 11%, var(--ifm-hover-overlay));
+}
+
+:global(html[data-theme='dark']) .fighterRowPending {
+  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 9%, transparent);
+}
+
+:global(html[data-theme='dark']) .fighterRowPending:hover {
+  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 13%, var(--ifm-hover-overlay));
+}
+
+.goldPending {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+:global(html[data-theme='dark']) .goldPending {
+  color: var(--ifm-color-warning, #f0ad4e);
+}
+
+.pendingCost {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.goldCell {
+  cursor: pointer;
+}
+
 
 /* Header cell */
 .hCell {
@@ -524,6 +555,10 @@
 
 .infoInput::placeholder {
   color: var(--wyrd-text4);
+}
+
+.infoSelectEmpty {
+  opacity: 0.45;
 }
 
 .infoInput:disabled {
@@ -743,7 +778,6 @@
 
 /* Stat modified from base value (manual override or armour bonus) */
 .statModified {
-  color: var(--ifm-color-primary);
   font-weight: 600;
 }
 
@@ -800,7 +834,7 @@
   border: 1px solid var(--wyrd-border);
   border-radius: var(--wyrd-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 220px;
+  min-width: 280px;
   padding: 0.25rem 0;
   max-height: 300px;
   overflow-y: auto;
@@ -856,7 +890,7 @@
 }
 
 .dropdownCost {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: var(--wyrd-text3);
   margin-left: auto;
   padding-left: 0.75rem;
@@ -1050,7 +1084,7 @@
 
 .weaponRefEmpty {
   color: var(--ifm-color-content-secondary);
-  font-size: 0.8rem;
+  font-size: 1rem;
   padding: 0.6rem 0.75rem;
 }
 
@@ -1106,9 +1140,28 @@
 }
 
 .stashEmpty {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--ifm-color-content-secondary);
   align-self: center;
+}
+
+.stashItemTag {
+  cursor: pointer;
+}
+
+.cursorLabel {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--wyrd-border);
+  border-radius: 4px;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.78rem;
+  font-family: var(--wyrd-font-body);
+  color: var(--ifm-color-content);
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .stashTag {
@@ -1170,11 +1223,12 @@
 }
 
 .notesTextarea::placeholder {
+  font-size: 1rem;
   color: var(--ifm-color-content-secondary);
 }
 
 .notesMd {
-  font-size: 0.82rem;
+  font-size: 1rem;
   line-height: 1.55;
   color: var(--ifm-color-content);
   cursor: text;
@@ -1218,6 +1272,7 @@
 }
 
 .notesPlaceholder {
+  font-size: 1rem;
   color: var(--ifm-color-content-secondary);
 }
 
@@ -1338,6 +1393,16 @@
   padding: 0;
 }
 
+.equipmentTagPending {
+  background: color-mix(in srgb, var(--ifm-color-primary) 20%, rgba(128,128,128,0.14));
+  color: var(--ifm-color-primary-darkest, var(--ifm-color-primary));
+}
+
+:global(html[data-theme='dark']) .equipmentTagPending {
+  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 22%, rgba(128,128,128,0.14));
+  color: var(--ifm-color-warning, #f0ad4e);
+}
+
 /* The invisible inline text input that grows with content */
 .equipmentTextInput {
   flex: 1 1 0;
@@ -1449,6 +1514,23 @@
   margin: 0.15rem 0;
 }
 
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+  border-bottom: 1px solid var(--wyrd-border);
+  padding-bottom: 0.35rem;
+}
+
+.modalFieldLabel {
+  font-size: 0.7rem;
+  color: var(--wyrd-text2);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .modalActions {
   display: flex;
   justify-content: flex-end;
@@ -1482,7 +1564,7 @@
   outline: none;
   padding: 0;
   font-family: var(--wyrd-font-body);
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: inherit;
   resize: none;
   overflow: hidden;
@@ -1490,11 +1572,13 @@
 }
 
 .notesTextarea::placeholder {
+  font-size: 1rem;
   color: transparent;
 }
 
 .gridRow:hover .notesTextarea::placeholder,
 .equipmentInputFocused .notesTextarea::placeholder {
+  font-size: 1rem;
   color: var(--wyrd-text3);
 }
 

@@ -106,21 +106,23 @@ let activeDrag: EquipDragPayload | null = null;
 interface Props {
   instanceId: string;
   equipment: string[];
+  pendingStartIndex: number;
   fixedEquipment?: string[];
   stash: string[];
   factionId: string | null;
   isHero: boolean;
   isWizard: boolean;
   isBeast: boolean;
+  isFighterPurchased: boolean;
   remainingGold: number;
   onAdd: (id: string) => void;
-  onRemove: (id: string) => void;
+  onRemoveAtIdx: (idx: number) => void;
   onSendToStash: (itemIdx: number) => void;
   onTakeFromStash: (itemId: string) => void;
   onTransferIn: (sourceInstanceId: string, itemId: string, itemIdx: number) => void;
 }
 
-export default function EquipmentCell({ instanceId, equipment, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemove, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
+export default function EquipmentCell({ instanceId, equipment, pendingStartIndex, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, isFighterPurchased, remainingGold, onAdd, onRemoveAtIdx, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -210,10 +212,10 @@ export default function EquipmentCell({ instanceId, equipment, fixedEquipment = 
   // Flat list for keyboard navigation (stash first, then regular)
   const flatList: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[] = [
     ...stashGroup,
-    ...filteredNatural.map(w => ({ id: w.id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
-    ...filteredMelee.map(w  => ({ id: w.id,  name: w.name,  cost: w.id === 'dagger' && !equipment.includes('dagger') ? 0 : w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
-    ...filteredRanged.map(w => ({ id: w.id,  name: w.name,  cost: w.cost, disabled: weaponDisabled(w, equipment, slots) || false })),
-    ...filteredArmour.map(i => ({ id: i.id,  name: i.name,  cost: i.cost, disabled: armourDisabled(i, equipment, slots, isWizard) })),
+    ...filteredNatural.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
+    ...filteredMelee.map(w  => { const cost = w.id === 'dagger' && !equipment.includes('dagger') ? 0 : w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
+    ...filteredRanged.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
+    ...filteredArmour.map(i => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: armourDisabled(i, equipment, slots, isWizard) || cost > remainingGold }; }),
   ];
 
   // ── Helpers ──
@@ -249,17 +251,13 @@ export default function EquipmentCell({ instanceId, equipment, fixedEquipment = 
 
   function handleTagClick(e: React.MouseEvent, idx: number) {
     e.stopPropagation();
-    if (e.ctrlKey || e.metaKey) {
-      onSendToStash(idx);
-      return;
-    }
     setFocusedTagIdx(idx);
     inputRef.current?.focus();
     if (!open) openDropdown();
   }
 
   function handleRemoveFocusedTag(idx: number) {
-    onRemove(equipment[idx]);
+    onRemoveAtIdx(idx);
     // Keep focus on the adjacent tag, or return to input if last
     if (equipment.length <= 1) {
       setFocusedTagIdx(null);
@@ -299,7 +297,7 @@ export default function EquipmentCell({ instanceId, equipment, fixedEquipment = 
           handleRemoveFocusedTag(focusedTagIdx);
         } else if (query === '' && equipment.length > 0) {
           e.preventDefault();
-          onRemove(equipment[equipment.length - 1]);
+          onRemoveAtIdx(equipment.length - 1);
         }
         break;
 
@@ -443,6 +441,7 @@ export default function EquipmentCell({ instanceId, equipment, fixedEquipment = 
     if (query) setFocusedTagIdx(null);
   }, [query]);
 
+
   // ── Render helpers ──
 
   function renderGroup(
@@ -529,30 +528,37 @@ export default function EquipmentCell({ instanceId, equipment, fixedEquipment = 
         <span
           key={`fixed-${id}-${idx}`}
           className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}
-          title="Exclusive weapon — cannot be removed"
+          title={undefined}
         >
           {labelFor(id)}
         </span>
       ))}
-      {equipment.map((id, idx) => (
-        <span
-          key={`${id}-${idx}`}
-          className={`${styles.equipmentTag} ${focusedTagIdx === idx ? styles.equipmentTagFocused : ''}`}
-          draggable
-          onDragStart={e => {
-            const payload: EquipDragPayload = { sourceInstanceId: instanceId, itemId: id, itemIdx: idx };
-            activeDrag = payload;
-            e.dataTransfer.setData(TRANSFER_MIME, JSON.stringify(payload));
-            e.dataTransfer.effectAllowed = 'move';
-            e.stopPropagation();
-          }}
-          onDragEnd={() => { activeDrag = null; setDragOver('none'); }}
-          onClick={e => handleTagClick(e, idx)}
-          title="Ctrl+click to stash · Drag to another fighter · Click to select then Delete"
-        >
-          {labelFor(id)}
-        </span>
-      ))}
+      {equipment.map((id, idx) => {
+        const isPendingTag = idx >= pendingStartIndex;
+        return (
+          <span
+            key={`${id}-${idx}`}
+            className={[
+              styles.equipmentTag,
+              focusedTagIdx === idx ? styles.equipmentTagFocused : '',
+              isPendingTag ? styles.equipmentTagPending : '',
+            ].join(' ')}
+            draggable={!isPendingTag}
+            onDragStart={isPendingTag ? undefined : e => {
+              const payload: EquipDragPayload = { sourceInstanceId: instanceId, itemId: id, itemIdx: idx };
+              activeDrag = payload;
+              e.dataTransfer.setData(TRANSFER_MIME, JSON.stringify(payload));
+              e.dataTransfer.effectAllowed = 'move';
+              e.stopPropagation();
+            }}
+            onDragEnd={isPendingTag ? undefined : () => { activeDrag = null; setDragOver('none'); }}
+            onClick={e => handleTagClick(e, idx)}
+            title={undefined}
+          >
+            {labelFor(id)}{isFighterPurchased && isPendingTag ? ` (${costFor(id)}gc)` : ''}
+          </span>
+        );
+      })}
       <input
         ref={inputRef}
         className={styles.equipmentTextInput}

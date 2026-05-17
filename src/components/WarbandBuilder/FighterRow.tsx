@@ -23,6 +23,7 @@ interface Props {
   onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
+  onSetPendingEquipment: (equipment: string[]) => void;
   onRemove: () => void;
   onDuplicate: () => void;
   canDuplicate: boolean;
@@ -34,7 +35,7 @@ interface Props {
   onSetCostOverride: (cost: number | null) => void;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [valueModalOpen, setValueModalOpen] = useState(false);
@@ -85,6 +86,13 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   const noXpRenown = isBeast || isThrall;
   const fixedEquipment = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
+  // Pending: all equipment on a pending fighter is pending; on a purchased fighter,
+  // only pendingEquipment is pending. Merge for display, track where pending starts.
+  const pendingStartIndex = instance.isPending ? 0 : instance.equipment.length;
+  const allEquipment = instance.isPending
+    ? instance.equipment
+    : [...instance.equipment, ...instance.pendingEquipment];
+
   const equipCost = instance.equipment.reduce((sum, eid, idx) => {
     if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum; // first dagger is free
     const w = weaponsData.find(x => x.id === eid);
@@ -94,6 +102,20 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   }, 0);
   const baseCost = instance.costOverride ?? profile?.cost ?? 0;
   const totalCost = baseCost + equipCost;
+
+  function buildCostBreakdown(): string | undefined {
+    const lines: string[] = [`Fighter: ${baseCost}gc`];
+    instance.equipment.forEach((eid, idx) => {
+      if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return;
+      const w = weaponsData.find(x => x.id === eid);
+      const item = itemsData.find(x => x.id === eid);
+      const name = w?.name ?? item?.name ?? eid;
+      const cost = w?.cost ?? item?.cost ?? 0;
+      if (cost > 0) lines.push(`${name}: ${cost}gc`);
+    });
+    lines.push(`Total: ${totalCost}gc`);
+    return lines.join('\n');
+  }
 
   // Auto-apply defense bonus from equipped armour / shield
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
@@ -121,11 +143,9 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     const hasManual = override !== undefined && override !== base;
     const hasBonus = bonus > 0;
     if (!hasManual && !hasBonus) return undefined;
+    const manualDelta = hasManual ? override! - base : 0;
     const lines: string[] = [`Base: ${base}`];
-    if (hasManual) {
-      const delta = override! - base;
-      lines.push(`Manual: ${delta > 0 ? '+' : ''}${delta}`);
-    }
+    if (manualDelta !== 0) lines.push(`Modifier: ${manualDelta > 0 ? '+' : ''}${manualDelta}`);
     if (hasBonus) {
       instance.equipment.forEach(eid => {
         const item = itemsData.find(x => x.id === eid);
@@ -195,7 +215,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           >
             {confirmDelete ? (
               <div className={styles.dropdownConfirm}>
-                <span className={styles.dropdownConfirmLabel}>Delete fighter?</span>
+                <span className={styles.dropdownConfirmLabel}>Remove fighter?</span>
                 <div className={styles.dropdownConfirmActions}>
                   <button
                     type="button"
@@ -223,7 +243,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
                   Duplicate fighter
                 </button>
                 <button type="button" className={styles.dropdownItem} onClick={() => setConfirmDelete(true)}>
-                  Delete fighter
+                  Remove fighter
                 </button>
               </>
             )}
@@ -306,17 +326,41 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         ) : (
           <EquipmentCell
             instanceId={instance.instanceId}
-            equipment={instance.equipment}
+            equipment={allEquipment}
+            pendingStartIndex={pendingStartIndex}
             fixedEquipment={fixedEquipment}
             stash={stash}
             factionId={profile.faction}
             isHero={isHero}
             isWizard={isWizard}
             isBeast={isBeast}
+            isFighterPurchased={!instance.isPending}
             remainingGold={remainingGold}
-            onAdd={weaponId => onSetEquipment([...instance.equipment, weaponId])}
-            onRemove={weaponId => onSetEquipment(instance.equipment.filter(id => id !== weaponId))}
-            onSendToStash={onSendToStash}
+            onAdd={id => {
+              if (instance.isPending) {
+                onSetEquipment([...instance.equipment, id]);
+              } else {
+                onSetPendingEquipment([...instance.pendingEquipment, id]);
+              }
+            }}
+            onRemoveAtIdx={idx => {
+              if (instance.isPending) {
+                onSetEquipment(instance.equipment.filter((_, i) => i !== idx));
+              } else if (idx < instance.equipment.length) {
+                onSendToStash(idx);
+              } else {
+                onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (idx - instance.equipment.length)));
+              }
+            }}
+            onSendToStash={mergedIdx => {
+              if (instance.isPending) {
+                onSetEquipment(instance.equipment.filter((_, i) => i !== mergedIdx));
+              } else if (mergedIdx < instance.equipment.length) {
+                onSendToStash(mergedIdx);
+              } else {
+                onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (mergedIdx - instance.equipment.length)));
+              }
+            }}
             onTakeFromStash={onTakeFromStash}
             onTransferIn={(sourceId, itemId, itemIdx) => onTransferEquipment(sourceId, itemId, itemIdx)}
           />
@@ -345,13 +389,29 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         )}
       </div>
 
-      {/* Value — clickable to edit base cost and see breakdown */}
+      {/* Value — clickable to edit base cost before purchase */}
       <div
-        className={`${styles.cell} ${styles.cellCenter} ${styles.valueCell}`}
-        onClick={() => setValueModalOpen(true)}
-        title="Click to edit"
+        className={`${styles.cell} ${styles.cellCenter} ${instance.isPending ? styles.valueCell : ''}`}
+        onClick={() => instance.isPending && setValueModalOpen(true)}
       >
-        <span>{totalCost}gc{instance.costOverride !== null && instance.costOverride !== undefined && instance.costOverride !== (profile?.cost ?? 0) ? '*' : ''}</span>
+        {(() => {
+          const costBreakdown = buildCostBreakdown();
+          const costSpan = (
+            <span className={instance.isPending ? styles.pendingCost : undefined}>
+              {totalCost}gc{instance.costOverride !== null && instance.costOverride !== undefined && instance.costOverride !== (profile?.cost ?? 0) ? '*' : ''}
+            </span>
+          );
+          if (!costBreakdown) return costSpan;
+          return (
+            <Tooltip content={
+              <div className="tooltip-breakdown">
+                {costBreakdown.split('\n').map((line, i) => <span key={i}>{line}</span>)}
+              </div>
+            }>
+              {costSpan}
+            </Tooltip>
+          );
+        })()}
       </div>
       {valueModalOpen && (
         <ValueModal

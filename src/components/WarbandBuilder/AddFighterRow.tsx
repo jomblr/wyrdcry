@@ -10,10 +10,11 @@ interface Props {
   factionId: string | null;
   currentFighters: FighterInstance[];
   atFighterLimit: boolean;
+  remainingGold: number;
   onAdd: (fighterId: string, name: string) => void;
 }
 
-export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, onAdd }: Props) {
+export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd }: Props) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -32,6 +33,10 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   function isAtLimit(fighter: (typeof fightersData)[0]) {
     if (!('limit' in fighter) || fighter.limit == null) return false;
     return countInRoster(fighter.id) >= fighter.limit;
+  }
+
+  function canAfford(fighter: (typeof fightersData)[0]) {
+    return fighter.cost <= remainingGold;
   }
 
   function limitLabel(fighter: (typeof fightersData)[0]) {
@@ -89,11 +94,11 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
                   <button
                     key={f.id}
                     className={styles.dropdownItem}
-                    disabled={isAtLimit(f)}
+                    disabled={isAtLimit(f) || !canAfford(f)}
                     onClick={() => handleSelect(f)}
                   >
-                    <span>{f.name}</span>
-                    {limitLabel(f) && <span className={styles.dropdownLimit}>{limitLabel(f)}</span>}
+                    <span>{f.name}{limitLabel(f) ? ` (${limitLabel(f)})` : ''}</span>
+                    <span className={styles.dropdownCost}>{f.cost}gc</span>
                   </button>
                 ))}
               </>
@@ -105,11 +110,11 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
                   <button
                     key={f.id}
                     className={styles.dropdownItem}
-                    disabled={isAtLimit(f)}
+                    disabled={isAtLimit(f) || !canAfford(f)}
                     onClick={() => handleSelect(f)}
                   >
-                    <span>{f.name}</span>
-                    {limitLabel(f) && <span className={styles.dropdownLimit}>{limitLabel(f)}</span>}
+                    <span>{f.name}{limitLabel(f) ? ` (${limitLabel(f)})` : ''}</span>
+                    <span className={styles.dropdownCost}>{f.cost}gc</span>
                   </button>
                 ))}
               </>

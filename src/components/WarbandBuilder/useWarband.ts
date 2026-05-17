@@ -26,6 +26,8 @@ export interface FighterInstance {
   fighterId: string;
   customName: string;
   equipment: string[];
+  pendingEquipment: string[];
+  isPending: boolean;
   notes: string;
   costOverride: number | null;
   xp: number;
@@ -55,6 +57,7 @@ export interface Warband {
   name: string;
   factionId: string | null;
   favour: number;
+  gold: number;
   fighters: FighterInstance[];
   stash: string[]; // item IDs parked in warband stash
   factionNotes: string;
@@ -71,6 +74,7 @@ interface WarbandState {
 
 type Action =
   | { type: 'SET_NAME'; name: string }
+  | { type: 'SET_GOLD'; gold: number }
   | { type: 'SET_FACTION'; factionId: string }
   | { type: 'SET_FACTION_NOTES'; notes: string }
   | { type: 'ADD_FIGHTER'; fighter: FighterInstance }
@@ -79,6 +83,8 @@ type Action =
   | { type: 'SET_FIGHTER_XP'; instanceId: string; xp: number }
   | { type: 'SET_FIGHTER_RENOWN'; instanceId: string; renown: number }
   | { type: 'SET_FIGHTER_EQUIPMENT'; instanceId: string; equipment: string[] }
+  | { type: 'SET_FIGHTER_PENDING_EQUIPMENT'; instanceId: string; pendingEquipment: string[] }
+  | { type: 'PURCHASE_PENDING' }
   | { type: 'SET_FIGHTER_STAT'; instanceId: string; stat: StatKey; value: number }
   | { type: 'SET_FIGHTER_NOTES'; instanceId: string; notes: string }
   | { type: 'SET_FIGHTER_COST_OVERRIDE'; instanceId: string; costOverride: number | null }
@@ -88,6 +94,7 @@ type Action =
   | { type: 'TAKE_FROM_STASH'; instanceId: string; itemId: string }
   | { type: 'REMOVE_FROM_STASH'; itemIdx: number }
   | { type: 'SET_FAVOUR'; favour: number }
+  | { type: 'SELL_FROM_STASH'; itemIdx: number; salePrice: number }
   | { type: 'ADD_CUSTOM_WEAPON'; weapon: CustomWeapon }
   | { type: 'UPDATE_CUSTOM_WEAPON'; id: string; patch: Partial<Omit<CustomWeapon, 'id'>> }
   | { type: 'REMOVE_CUSTOM_WEAPON'; id: string }
@@ -110,6 +117,7 @@ function newWarband(): Warband {
     name: '',
     factionId: null,
     favour: campaignRules.default_favour,
+    gold: campaignRules.warband_budget,
     fighters: [],
     stash: [],
     factionNotes: '',
@@ -140,12 +148,13 @@ function loadWarband(id: string): Warband | null {
     const wb = JSON.parse(raw) as Warband;
     if (!wb.stash) wb.stash = [];
     if (wb.factionNotes === undefined) wb.factionNotes = '';
+    if (wb.gold === undefined) wb.gold = campaignRules.warband_budget;
     if (!wb.customWeapons) wb.customWeapons = [];
     if (!wb.customAbilities) wb.customAbilities = [];
     // Backwards compat: old fighters won't have statOverrides or notes
     wb.fighters = wb.fighters.map(f => {
       const { specialRules, ...rest } = f as any;
-      return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, ...rest };
+      return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, isPending: false, pendingEquipment: [], ...rest };
     });
     return wb;
   } catch {
@@ -172,8 +181,16 @@ export function calcStanding(reputation: number): string {
   for (const tier of thresholds) {
     if (reputation >= tier.min && reputation <= tier.max) return tier.label;
   }
-  // Fall back to highest tier if over max
   return thresholds[thresholds.length - 1]?.label ?? '—';
+}
+
+export function getFavourTier(favour: number): { label: string; defaultGold: number } {
+  const tiers = campaignRules.favour_tiers;
+  for (const tier of tiers) {
+    if (favour >= tier.min && favour <= tier.max) return { label: tier.label, defaultGold: tier.default_gold };
+  }
+  const last = tiers[tiers.length - 1];
+  return { label: last.label, defaultGold: last.default_gold };
 }
 
 function itemCost(id: string): number {
@@ -184,6 +201,7 @@ function itemCost(id: string): number {
 
 export function calcValue(warband: Warband, fightersData: { id: string; cost: number }[]): number {
   const fightersCost = warband.fighters.reduce((sum, fi) => {
+    if (fi.isPending) return sum;
     const profile = fightersData.find(f => f.id === fi.fighterId);
     const baseCost = fi.costOverride ?? profile?.cost ?? 0;
     const equipCost = fi.equipment.reduce((s, eid, idx) => {
@@ -197,12 +215,30 @@ export function calcValue(warband: Warband, fightersData: { id: string; cost: nu
   return fightersCost + stashCost;
 }
 
+export function calcPendingCost(warband: Warband, fightersData: { id: string; cost: number }[]): number {
+  return warband.fighters.reduce((sum, fi) => {
+    if (fi.isPending) {
+      const profile = fightersData.find(f => f.id === fi.fighterId);
+      const baseCost = fi.costOverride ?? profile?.cost ?? 0;
+      const equipCost = fi.equipment.reduce((s, eid, idx) => {
+        const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
+        return s + cost;
+      }, 0);
+      return sum + baseCost + equipCost;
+    }
+    return sum + fi.pendingEquipment.reduce((s, eid) => s + itemCost(eid), 0);
+  }, 0);
+}
+
 // ─── Reducer ──────────────────────────────────────────────────────────────────
 
 function reducer(state: WarbandState, action: Action): WarbandState {
   switch (action.type) {
     case 'SET_NAME':
       return { ...state, active: { ...state.active, name: action.name } };
+
+    case 'SET_GOLD':
+      return { ...state, active: { ...state.active, gold: action.gold } };
 
     case 'SET_FACTION': {
       const faction = factionsData.find(f => f.id === action.factionId);
@@ -275,14 +311,27 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
-    case 'REMOVE_FIGHTER':
+    case 'REMOVE_FIGHTER': {
+      const fi = state.active.fighters.find(f => f.instanceId === action.instanceId);
+      let goldDeduct = 0;
+      if (fi && !fi.isPending) {
+        const profile = fightersData.find(f => f.id === fi.fighterId);
+        const baseCost = fi.costOverride ?? profile?.cost ?? 0;
+        const equipCost = fi.equipment.reduce((s, eid, idx) => {
+          const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
+          return s + cost;
+        }, 0);
+        goldDeduct = baseCost + equipCost;
+      }
       return {
         ...state,
         active: {
           ...state.active,
+          gold: state.active.gold - goldDeduct,
           fighters: state.active.fighters.filter(f => f.instanceId !== action.instanceId),
         },
       };
+    }
 
     case 'SET_FIGHTER_NAME':
       return {
@@ -327,6 +376,33 @@ function reducer(state: WarbandState, action: Action): WarbandState {
           fighters: state.active.fighters.map(f =>
             f.instanceId === action.instanceId ? { ...f, equipment: action.equipment } : f,
           ),
+        },
+      };
+
+    case 'SET_FIGHTER_PENDING_EQUIPMENT':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(f =>
+            f.instanceId === action.instanceId ? { ...f, pendingEquipment: action.pendingEquipment } : f,
+          ),
+        },
+      };
+
+    case 'PURCHASE_PENDING':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(fi => ({
+            ...fi,
+            isPending: false,
+            equipment: fi.isPending
+              ? fi.equipment
+              : [...fi.equipment, ...fi.pendingEquipment],
+            pendingEquipment: [],
+          })),
         },
       };
 
@@ -429,6 +505,18 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
+    case 'SELL_FROM_STASH': {
+      const fullCost = itemCost(state.active.stash[action.itemIdx]);
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          stash: state.active.stash.filter((_, i) => i !== action.itemIdx),
+          gold: state.active.gold + action.salePrice - fullCost,
+        },
+      };
+    }
+
     case 'SET_FAVOUR':
       return { ...state, active: { ...state.active, favour: action.favour } };
 
@@ -488,6 +576,7 @@ export function useWarband() {
   // ── Actions ──
 
   const setName = useCallback((name: string) => dispatch({ type: 'SET_NAME', name }), []);
+  const setGold = useCallback((gold: number) => dispatch({ type: 'SET_GOLD', gold }), []);
   const setFaction = useCallback((factionId: string) => dispatch({ type: 'SET_FACTION', factionId }), []);
   const setFavour = useCallback((favour: number) => dispatch({ type: 'SET_FAVOUR', favour }), []);
   const setFactionNotes = useCallback((notes: string) => dispatch({ type: 'SET_FACTION_NOTES', notes }), []);
@@ -526,6 +615,8 @@ export function useWarband() {
         fighterId,
         customName: name,
         equipment: [],
+        pendingEquipment: [],
+        isPending: true,
         notes: '',
         costOverride: null,
         xp: 0,
@@ -551,6 +642,8 @@ export function useWarband() {
           fighterId: source.fighterId,
           customName: source.customName,
           equipment: [...source.equipment],
+          pendingEquipment: [],
+          isPending: true,
           notes: source.notes,
           costOverride: source.costOverride,
           xp: 0,
@@ -602,6 +695,14 @@ export function useWarband() {
     [],
   );
 
+  const setFighterPendingEquipment = useCallback(
+    (instanceId: string, pendingEquipment: string[]) =>
+      dispatch({ type: 'SET_FIGHTER_PENDING_EQUIPMENT', instanceId, pendingEquipment }),
+    [],
+  );
+
+  const purchasePending = useCallback(() => dispatch({ type: 'PURCHASE_PENDING' }), []);
+
   const reorderFighters = useCallback(
     (fighters: FighterInstance[]) => dispatch({ type: 'REORDER_FIGHTERS', fighters }),
     [],
@@ -622,6 +723,12 @@ export function useWarband() {
   const takeFromStash = useCallback(
     (instanceId: string, itemId: string) =>
       dispatch({ type: 'TAKE_FROM_STASH', instanceId, itemId }),
+    [],
+  );
+
+  const sellFromStash = useCallback(
+    (itemIdx: number, salePrice: number) =>
+      dispatch({ type: 'SELL_FROM_STASH', itemIdx, salePrice }),
     [],
   );
 
@@ -656,9 +763,10 @@ export function useWarband() {
         if (!wb.id || !wb.name) return;
         wb.stash = wb.stash ?? [];
         wb.factionNotes = wb.factionNotes ?? '';
+        wb.gold = wb.gold ?? campaignRules.warband_budget;
         wb.fighters = wb.fighters.map(f => {
           const { specialRules, ...rest } = f as any;
-          return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, ...rest };
+          return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, isPending: false, pendingEquipment: [], ...rest };
         });
         persistWarband(wb);
         dispatch({ type: 'LOAD_WARBAND', warband: wb });
@@ -685,6 +793,7 @@ export function useWarband() {
     savedWarbands,
     isSaved,
     setName,
+    setGold,
     setFaction,
     setFavour,
     setFactionNotes,
@@ -704,11 +813,14 @@ export function useWarband() {
     setFighterNotes,
     setFighterCostOverride,
     setFighterEquipment,
+    setFighterPendingEquipment,
+    purchasePending,
     reorderFighters,
     transferEquipment,
     sendToStash,
     takeFromStash,
     removeFromStash,
+    sellFromStash,
     loadWarband: loadWarband_,
     createNewWarband,
     deleteWarband,

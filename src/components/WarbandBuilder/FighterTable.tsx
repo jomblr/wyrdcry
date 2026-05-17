@@ -15,7 +15,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import type { FighterInstance, Warband, StatKey } from './useWarband';
-import { calcValue } from './useWarband';
+import { calcValue, calcPendingCost } from './useWarband';
 import FighterRow from './FighterRow';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
@@ -47,6 +47,7 @@ interface Props {
   onSetFighterXp: (instanceId: string, xp: number) => void;
   onSetFighterRenown: (instanceId: string, renown: number) => void;
   onSetFighterEquipment: (instanceId: string, equipment: string[]) => void;
+  onSetFighterPendingEquipment: (instanceId: string, equipment: string[]) => void;
   onRemoveFighter: (instanceId: string) => void;
   onDuplicateFighter: (instanceId: string) => void;
   onTransferEquipment: (fromId: string, toId: string, itemId: string, itemIdx: number) => void;
@@ -75,6 +76,7 @@ export default function FighterTable({
   onSetFighterXp,
   onSetFighterRenown,
   onSetFighterEquipment,
+  onSetFighterPendingEquipment,
   onRemoveFighter,
   onDuplicateFighter,
   onTransferEquipment,
@@ -89,7 +91,7 @@ export default function FighterTable({
   const faction = factionsData.find(f => f.id === warband.factionId);
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
-  const remainingGold = campaignRules.warband_budget - calcValue(warband, fightersData);
+  const remainingGold = warband.gold - calcValue(warband, fightersData) - calcPendingCost(warband, fightersData);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -145,6 +147,7 @@ export default function FighterTable({
                 onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
                 onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
                 onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
+                onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
                 onRemove={() => onRemoveFighter(instance.instanceId)}
                 onDuplicate={() => onDuplicateFighter(instance.instanceId)}
                 canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
@@ -166,6 +169,7 @@ export default function FighterTable({
           factionId={warband.factionId}
           currentFighters={warband.fighters}
           atFighterLimit={atFighterLimit}
+          remainingGold={remainingGold}
           onAdd={onAddFighter}
         />
       </div>

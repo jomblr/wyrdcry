@@ -9,6 +9,7 @@ import styles from './warband-builder.module.css';
 interface Props {
   warband: Warband;
   onRemoveFromStash: (itemIdx: number) => void;
+  onSellFromStash: (itemIdx: number, salePrice: number) => void;
   onSetNotes: (v: string) => void;
   onAddCustomWeapon: () => void;
   onUpdateCustomWeapon: (id: string, patch: Partial<Omit<CustomWeapon, 'id'>>) => void;
@@ -18,10 +19,10 @@ interface Props {
   onRemoveCustomAbility: (id: string) => void;
 }
 
-export default function InformationTab({ warband, onRemoveFromStash, onSetNotes, onAddCustomWeapon, onUpdateCustomWeapon, onRemoveCustomWeapon, onAddCustomAbility, onUpdateCustomAbility, onRemoveCustomAbility }: Props) {
+export default function InformationTab({ warband, onRemoveFromStash, onSellFromStash, onSetNotes, onAddCustomWeapon, onUpdateCustomWeapon, onRemoveCustomWeapon, onAddCustomAbility, onUpdateCustomAbility, onRemoveCustomAbility }: Props) {
   return (
     <div className={styles.infoTabGrid}>
-      <WarbandStash stash={warband.stash} onRemove={onRemoveFromStash} />
+      <WarbandStash stash={warband.stash} onRemove={onRemoveFromStash} onSell={onSellFromStash} />
       <FactionRules notes={warband.factionNotes} onSetNotes={onSetNotes} />
       <WeaponReference
         warband={warband}
