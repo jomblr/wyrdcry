@@ -5,41 +5,21 @@ import { calcReputation, calcStanding, calcValue } from './useWarband';
 import styles from './warband-builder.module.css';
 import factionsData from '@site/src/data/factions.json';
 import fightersData from '@site/src/data/fighters.json';
-import campaignRules from '@site/src/data/campaign-rules.json';
 
 interface Props {
   warband: Warband;
   onSetName: (name: string) => void;
-  onSetFaction: (factionId: string) => void;
   onSetFavour: (favour: number) => void;
 }
 
-export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSetFavour }: Props) {
+export default function WarbandInfoRow({ warband, onSetName, onSetFavour }: Props) {
   const reputation = calcReputation(warband);
   const standing = calcStanding(reputation);
   const value = calcValue(warband, fightersData);
-  const budget = campaignRules.warband_budget;
-  const remaining = budget - value;
-
   const selectedFaction = factionsData.find(f => f.id === warband.factionId);
   const fighterCount = warband.fighters.length;
   const maxFighters = selectedFaction?.warband_size ?? null;
   const locked = !warband.factionId;
-
-  function handleFactionChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newFactionId = e.target.value;
-    if (!newFactionId) return;
-    if (warband.fighters.length > 0) {
-      const ok = window.confirm(
-        'Changing faction will remove all fighters from this warband. Continue?',
-      );
-      if (!ok) {
-        e.target.value = warband.factionId ?? '';
-        return;
-      }
-    }
-    onSetFaction(newFactionId);
-  }
 
   return (
     <div className={styles.tableScrollOuter}>
@@ -47,8 +27,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
       <div className={`${styles.wbGrid} ${styles.infoGrid}`}>
         {/* Header */}
         <div className={styles.gridHeader}>
-          <div className={styles.hCell}>Faction</div>
           <div className={styles.hCell}>Warband Name</div>
+          <div className={styles.hCell}>Faction</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Favour</div>
           <div className={styles.hCell}>Standing</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Reputation</div>
@@ -58,30 +38,21 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFaction, onSet
 
         {/* Data row */}
         <div className={styles.gridRow}>
-          {/* Faction */}
-          <div className={styles.cell}>
-            <select
-              className={styles.infoSelect}
-              value={warband.factionId ?? ''}
-              onChange={handleFactionChange}
-            >
-              <option value="" disabled>Select faction</option>
-              {factionsData.filter(f => f.id !== 'hired-sword').map(f => (
-                <option key={f.id} value={f.id}>{f.name}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Warband Name — locked until faction is chosen */}
+          {/* Warband Name */}
           <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`}>
             <input
               className={styles.infoInput}
               type="text"
-              placeholder={locked ? 'Select a faction first' : 'Warband name'}
+              placeholder="Warband name"
               value={warband.name}
               onChange={e => onSetName(e.target.value)}
               disabled={locked}
             />
+          </div>
+
+          {/* Faction — read-only */}
+          <div className={styles.cell}>
+            {selectedFaction ? selectedFaction.name : <span className={styles.lockedCell}>—</span>}
           </div>
 
           {/* Favour */}

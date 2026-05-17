@@ -456,7 +456,7 @@
 
 /* Data cell */
 .cell {
-  padding: 0.35rem 0.6rem;
+  padding: 0.5rem 0.5rem;
   font-size: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -669,7 +669,7 @@
 
 .fighterType {
   font-weight:600;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--wyrd-text3);
 }
 
@@ -756,7 +756,7 @@
   background: none;
   border: none;
   font-family: var(--wyrd-font-body);
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 600;
   color: inherit;
   padding: 0;
@@ -1317,7 +1317,7 @@
   color: var(--ifm-color-content-secondary);
   border-radius: 3px;
   padding: 0.05rem 0.3rem;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-family: var(--wyrd-font-body);
   white-space: nowrap;
   line-height: 1.5;
@@ -1452,6 +1452,7 @@
 .modalActions {
   display: flex;
   justify-content: flex-end;
+  gap: 0.5rem;
   margin-top: 0.25rem;
 }
 

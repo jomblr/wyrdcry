@@ -6,6 +6,7 @@ import { useWarband } from './useWarband';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import WarbandList from './WarbandList';
 import WarbandInfoRow from './WarbandInfoRow';
+import FactionPickerModal from './FactionPickerModal';
 import FighterTable from './FighterTable';
 import InformationTab from './InformationTab';
 import styles from './warband-builder.module.css';
@@ -16,6 +17,7 @@ type View = 'list' | 'detail';
 export default function WarbandBuilder() {
   const [tab, setTab] = useState<Tab>('fighters');
   const [view, setView] = useState<View>('list');
+  const [showFactionModal, setShowFactionModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState<DropdownPos | null>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
@@ -63,7 +65,13 @@ export default function WarbandBuilder() {
   }
 
   function handleCreate() {
+    setShowFactionModal(true);
+  }
+
+  function handleFactionConfirmed(factionId: string) {
+    setShowFactionModal(false);
     createNewWarband();
+    setFaction(factionId);
     setView('detail');
     setTab('fighters');
   }
@@ -108,6 +116,12 @@ export default function WarbandBuilder() {
           onCreate={handleCreate}
           onImport={handleImport}
         />
+        {showFactionModal && (
+          <FactionPickerModal
+            onConfirm={handleFactionConfirmed}
+            onCancel={() => setShowFactionModal(false)}
+          />
+        )}
       </div>
     );
   }
@@ -178,7 +192,6 @@ export default function WarbandBuilder() {
             <WarbandInfoRow
               warband={active}
               onSetName={setName}
-              onSetFaction={setFaction}
               onSetFavour={setFavour}
             />
             <FighterTable
