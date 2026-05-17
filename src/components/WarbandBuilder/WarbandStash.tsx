@@ -58,8 +58,9 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
           <span className={styles.stashEmpty}>The stash is empty</span>
         )}
         {stash.map((id, idx) => {
-          const salePrice = Math.floor(costFor(id) / 2);
-          const label = `Sell for ${salePrice}gc`;
+          const isDagger = id === 'dagger';
+          const salePrice = isDagger ? 0 : Math.floor(costFor(id) / 2);
+          const label = isDagger ? 'Discard' : `Sell for ${salePrice}gc`;
           return (
             <span
               key={`${id}-${idx}`}

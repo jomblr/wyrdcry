@@ -469,17 +469,18 @@ function reducer(state: WarbandState, action: Action): WarbandState {
       const src = state.active.fighters.find(f => f.instanceId === action.instanceId);
       if (!src) return state;
       const itemId = src.equipment[action.itemIdx];
+      const updatedFighters = state.active.fighters.map(f =>
+        f.instanceId === action.instanceId
+          ? { ...f, equipment: f.equipment.filter((_, i) => i !== action.itemIdx) }
+          : f,
+      );
+      // Daggers are discarded, not stashed
+      if (itemId === 'dagger') {
+        return { ...state, active: { ...state.active, fighters: updatedFighters } };
+      }
       return {
         ...state,
-        active: {
-          ...state.active,
-          fighters: state.active.fighters.map(f =>
-            f.instanceId === action.instanceId
-              ? { ...f, equipment: f.equipment.filter((_, i) => i !== action.itemIdx) }
-              : f,
-          ),
-          stash: [...state.active.stash, itemId],
-        },
+        active: { ...state.active, fighters: updatedFighters, stash: [...state.active.stash, itemId] },
       };
     }
 
