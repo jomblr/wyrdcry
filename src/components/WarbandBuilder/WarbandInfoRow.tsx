@@ -92,6 +92,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Reputation</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Fighters</div>
           <div className={`${styles.hCell} ${styles.hCellCenter}`}>Gold</div>
+          <div className={`${styles.hCell} ${styles.hCellCenter}`}>Value</div>
         </div>
 
         {/* Data row */}
@@ -148,6 +149,11 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
                 ? <span className={styles.goldPending}>{pendingCost}/{remainingGold}</span>
                 : remainingGold
             }
+          </div>
+
+          {/* Value */}
+          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            {locked ? '—' : `${spent}gc`}
           </div>
         </div>
       </div>

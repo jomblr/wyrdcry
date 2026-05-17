@@ -226,7 +226,11 @@ export function calcPendingCost(warband: Warband, fightersData: { id: string; co
       }, 0);
       return sum + baseCost + equipCost;
     }
-    return sum + fi.pendingEquipment.reduce((s, eid) => s + itemCost(eid), 0);
+    return sum + fi.pendingEquipment.reduce((s, eid, idx) => {
+      const alreadyHasDagger = fi.equipment.includes('dagger');
+      const isFreeFirstDagger = eid === 'dagger' && !alreadyHasDagger && fi.pendingEquipment.indexOf('dagger') === idx;
+      return s + (isFreeFirstDagger ? 0 : itemCost(eid));
+    }, 0);
   }, 0);
 }
 

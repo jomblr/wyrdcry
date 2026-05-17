@@ -555,7 +555,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
             onClick={e => handleTagClick(e, idx)}
             title={undefined}
           >
-            {labelFor(id)}{isFighterPurchased && isPendingTag ? ` (${costFor(id)}gc)` : ''}
+            {labelFor(id)}{isFighterPurchased && isPendingTag ? (() => { const isFreeFirstDagger = id === 'dagger' && equipment.indexOf('dagger') === idx; const c = isFreeFirstDagger ? 0 : costFor(id); return c > 0 ? ` (${c}gc)` : ''; })() : ''}
           </span>
         );
       })}
