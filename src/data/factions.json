@@ -44,7 +44,8 @@
       "item:heavy-armour": "hero",
       "item:light-armour": "all",
       "item:shield": "all",
-      "sigmarite-warhammer": "hero"
+      "sigmarite-warhammer": "hero",
+      "dagger": "all"
     }
   },
   {
