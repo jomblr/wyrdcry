@@ -52,7 +52,7 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
 
   return (
     <div className={`${styles.infoPanel} ${styles.stashPanel}`}>
-      <h3 className={styles.stashTitle}>Warband Stash</h3>
+      <h3 className={styles.stashTitle}>Warband Stash <span className={styles.stashItemHint}>(Ctrl/Cmd click to sell)</span></h3>
       <div className={styles.stashItems}>
         {stash.length === 0 && (
           <span className={styles.stashEmpty}>The stash is empty</span>

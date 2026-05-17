@@ -1149,6 +1149,11 @@
   cursor: pointer;
 }
 
+.stashItemHint {
+  font-size: 0.75em;
+  opacity: 0.55;
+}
+
 .cursorLabel {
   position: fixed;
   pointer-events: none;
