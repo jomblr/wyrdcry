@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -17,6 +17,7 @@ import {
 import type { FighterInstance, Warband, StatKey } from './useWarband';
 import { calcValue, calcPendingCost } from './useWarband';
 import FighterRow from './FighterRow';
+import FighterCard from './FighterCard';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
 import fightersData from '@site/src/data/fighters.json';
@@ -60,6 +61,20 @@ interface Props {
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
 }
 
+function useIsMobile(breakpoint = 800) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstance[], atFighterLimit: boolean): boolean {
   if (atFighterLimit) return false;
   const profile = fightersData.find(f => f.id === instance.fighterId);
@@ -88,6 +103,7 @@ export default function FighterTable({
   onSetFighterNotes,
   onSetFighterCostOverride,
 }: Props) {
+  const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
@@ -109,6 +125,51 @@ export default function FighterTable({
     const oldIndex = warband.fighters.findIndex(f => f.instanceId === active.id);
     const newIndex = warband.fighters.findIndex(f => f.instanceId === over.id);
     onReorderFighters(arrayMove(warband.fighters, oldIndex, newIndex));
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={warband.fighters.map(f => f.instanceId)} strategy={verticalListSortingStrategy}>
+            <div className={styles.fighterCardList}>
+              {warband.fighters.map((instance: FighterInstance) => (
+                <FighterCard
+                  key={instance.instanceId}
+                  instance={instance}
+                  stash={warband.stash}
+                  remainingGold={remainingGold}
+                  onSetName={name => onSetFighterName(instance.instanceId, name)}
+                  onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
+                  onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
+                  onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
+                  onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
+                  onRemove={() => onRemoveFighter(instance.instanceId)}
+                  onDuplicate={() => onDuplicateFighter(instance.instanceId)}
+                  canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
+                  onTransferEquipment={(fromId, itemId, itemIdx) =>
+                    onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
+                  }
+                  onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+                  onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
+                  onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
+                  onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+                  onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+        <AddFighterRow
+          factionId={warband.factionId}
+          currentFighters={warband.fighters}
+          atFighterLimit={atFighterLimit}
+          remainingGold={remainingGold}
+          onAdd={onAddFighter}
+          mobileBar
+        />
+      </>
+    );
   }
 
   return (

@@ -1667,6 +1667,140 @@
   display: none;
 }
 
+/* ─── Mobile fighter cards ──────────────────────────────────────────────────── */
+
+.fighterCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.fighterCard {
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.fighterCardPending {
+  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 35%, var(--wyrd-border));
+}
+
+:global(html[data-theme='dark']) .fighterCardPending {
+  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 9%, transparent);
+}
+
+.fighterCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fighterCardDragHandle {
+  background: none;
+  border: none;
+  cursor: grab;
+  color: var(--wyrd-text3);
+  padding: 0 0.1rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  touch-action: none;
+}
+
+.fighterCardDragHandle:active {
+  cursor: grabbing;
+}
+
+.fighterCardNameBlock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fighterCardStats {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.fighterCardStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.fighterCardStatLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--wyrd-text3);
+  letter-spacing: 0.04em;
+}
+
+.fighterCardFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--wyrd-border);
+  padding-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.fighterCardFooterItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fighterCardFooterLabel {
+  font-size: 0.75rem;
+  color: var(--wyrd-text3);
+  font-weight: 600;
+}
+
+.fighterCardFooterValue {
+  margin-left: auto;
+  font-size: 0.9rem;
+}
+
+/* Sticky add fighter bar — sticks to bottom of the scroll container (.body) */
+.mobileAddFighterBar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.6rem 0 0.5rem;
+  background: var(--ifm-background-color);
+  border-top: 1px solid var(--wyrd-border);
+  z-index: 10;
+  margin-top: 0.25rem;
+}
+
+.mobileAddFighterBtn {
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* In cards, always show placeholders and equipment border (no row-hover context) */
+.fighterCard .notesTextarea::placeholder,
+.fighterCard .equipmentTextInput::placeholder {
+  color: var(--wyrd-text3);
+}
+
+.fighterCard .equipmentInput {
+  border-color: var(--wyrd-border);
+  background: var(--ifm-background-color);
+}
+
 /* ─── Print styles ──────────────────────────────────────────────────────────── */
 
 @media print {
