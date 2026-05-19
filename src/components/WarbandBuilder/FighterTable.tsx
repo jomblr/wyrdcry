@@ -130,36 +130,36 @@ export default function FighterTable({
   if (isMobile) {
     return (
       <>
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={warband.fighters.map(f => f.instanceId)} strategy={verticalListSortingStrategy}>
-            <div className={styles.fighterCardList}>
-              {warband.fighters.map((instance: FighterInstance) => (
-                <FighterCard
-                  key={instance.instanceId}
-                  instance={instance}
-                  stash={warband.stash}
-                  remainingGold={remainingGold}
-                  onSetName={name => onSetFighterName(instance.instanceId, name)}
-                  onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
-                  onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
-                  onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
-                  onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
-                  onRemove={() => onRemoveFighter(instance.instanceId)}
-                  onDuplicate={() => onDuplicateFighter(instance.instanceId)}
-                  canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
-                  onTransferEquipment={(fromId, itemId, itemIdx) =>
-                    onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
-                  }
-                  onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
-                  onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
-                  onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
-                  onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
-                  onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
+        <div className={styles.fighterCardList}>
+          {warband.fighters.map((instance: FighterInstance, idx: number) => (
+            <FighterCard
+              key={instance.instanceId}
+              instance={instance}
+              stash={warband.stash}
+              remainingGold={remainingGold}
+              canMoveUp={idx > 0}
+              canMoveDown={idx < warband.fighters.length - 1}
+              onMoveUp={() => onReorderFighters(arrayMove(warband.fighters, idx, idx - 1))}
+              onMoveDown={() => onReorderFighters(arrayMove(warband.fighters, idx, idx + 1))}
+              onSetName={name => onSetFighterName(instance.instanceId, name)}
+              onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
+              onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
+              onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
+              onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
+              onRemove={() => onRemoveFighter(instance.instanceId)}
+              onDuplicate={() => onDuplicateFighter(instance.instanceId)}
+              canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
+              onTransferEquipment={(fromId, itemId, itemIdx) =>
+                onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
+              }
+              onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+              onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
+              onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
+              onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+              onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+            />
+          ))}
+        </div>
         <AddFighterRow
           factionId={warband.factionId}
           currentFighters={warband.fighters}

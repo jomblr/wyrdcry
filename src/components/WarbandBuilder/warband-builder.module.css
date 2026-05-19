@@ -1587,6 +1587,12 @@
   color: var(--wyrd-text3);
 }
 
+.dropdownSep {
+  height: 1px;
+  background: var(--wyrd-border);
+  margin: 0.2rem 0;
+}
+
 .dropdownEmpty {
   padding: 0.4rem 0.75rem;
   font-size: 0.85rem;
@@ -1701,49 +1707,11 @@
   gap: 0.4rem;
 }
 
-.fighterCardDragHandle {
-  background: none;
-  border: none;
-  cursor: grab;
-  color: var(--wyrd-text3);
-  padding: 0 0.1rem;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  touch-action: none;
-}
-
-.fighterCardDragHandle:active {
-  cursor: grabbing;
-}
-
 .fighterCardNameBlock {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-}
-
-.fighterCardStats {
-  display: flex;
-  gap: 0.15rem;
-}
-
-.fighterCardStat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  min-width: 0;
-}
-
-.fighterCardStatLabel {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--wyrd-text3);
-  letter-spacing: 0.04em;
 }
 
 .fighterCardFooter {
@@ -1770,6 +1738,11 @@
 .fighterCardFooterValue {
   margin-left: auto;
   font-size: 0.9rem;
+}
+
+/* 6-column equal grid for the stat table inside a card */
+.fighterCardStatsGrid {
+  grid-template-columns: repeat(6, 1fr);
 }
 
 /* Sticky add fighter bar — sticks to bottom of the scroll container (.body) */

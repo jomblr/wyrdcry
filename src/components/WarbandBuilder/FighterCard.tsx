@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { EllipsisVertical, GripVertical } from 'lucide-react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
 import fightersData from '@site/src/data/fighters.json';
@@ -19,6 +17,10 @@ interface Props {
   instance: FighterInstance;
   stash: string[];
   remainingGold: number;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
   onSetName: (name: string) => void;
   onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
@@ -46,6 +48,7 @@ const STATS: { key: StatKey; label: string; suffix?: string; step?: number; min?
 
 export default function FighterCard({
   instance, stash, remainingGold,
+  canMoveUp, canMoveDown, onMoveUp, onMoveDown,
   onSetName, onSetXp, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
@@ -58,17 +61,6 @@ export default function FighterCard({
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: instance.instanceId });
-
-  const dragStyle: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.4 : undefined,
-    zIndex: isDragging ? 1 : undefined,
-    position: 'relative',
-  };
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
   if (!profile) return null;
@@ -202,6 +194,17 @@ export default function FighterCard({
             </div>
           ) : (
             <>
+              {canMoveUp && (
+                <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveUp(); }}>
+                  Move up
+                </button>
+              )}
+              {canMoveDown && (
+                <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveDown(); }}>
+                  Move down
+                </button>
+              )}
+              {(canMoveUp || canMoveDown) && <div className={styles.dropdownSep} />}
               <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); onDuplicate(); }} disabled={!canDuplicate}>
                 Duplicate fighter
               </button>
@@ -223,16 +226,9 @@ export default function FighterCard({
   );
 
   return (
-    <div
-      ref={setNodeRef}
-      className={`${styles.fighterCard} ${instance.isPending ? styles.fighterCardPending : ''}`}
-      style={dragStyle}
-    >
+    <div className={`${styles.fighterCard} ${instance.isPending ? styles.fighterCardPending : ''}`}>
       {/* Header */}
       <div className={styles.fighterCardHeader}>
-        <button type="button" className={styles.fighterCardDragHandle} {...attributes} {...listeners} aria-label="Drag to reorder">
-          <GripVertical size={14} />
-        </button>
         <div className={styles.fighterCardNameBlock}>
           <input
             className={styles.nameInput}
@@ -247,25 +243,33 @@ export default function FighterCard({
         </button>
       </div>
 
-      {/* Stats */}
-      <div className={styles.fighterCardStats}>
-        {STATS.map(({ key, label, suffix, step, min, max, invert }) => (
-          <div key={key} className={styles.fighterCardStat}>
-            <span className={styles.fighterCardStatLabel}>{label}</span>
-            <StatSpinner
-              value={statVal(key)}
-              modified={isModified(key) || (key === 'defense' && defenseBonus > 0)}
-              suffix={suffix}
-              step={step}
-              min={min}
-              max={max}
-              invert={invert}
-              breakdown={buildTooltip(key)}
-              onChange={v => onSetStat(key, key === 'defense' ? v - defenseBonus : v)}
-              readonly={isBeast}
-            />
+      {/* Stats table */}
+      <div className={styles.tableWrapper}>
+        <div className={`${styles.wbGrid} ${styles.fighterCardStatsGrid}`}>
+          <div className={styles.gridHeader}>
+            {STATS.map(({ label }) => (
+              <div key={label} className={`${styles.hCell} ${styles.hCellCenter}`}>{label}</div>
+            ))}
           </div>
-        ))}
+          <div className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
+            {STATS.map(({ key, suffix, step, min, max, invert }) => (
+              <div key={key} className={`${styles.cell} ${styles.cellCenter}`}>
+                <StatSpinner
+                  value={statVal(key)}
+                  modified={isModified(key) || (key === 'defense' && defenseBonus > 0)}
+                  suffix={suffix}
+                  step={step}
+                  min={min}
+                  max={max}
+                  invert={invert}
+                  breakdown={buildTooltip(key)}
+                  onChange={v => onSetStat(key, key === 'defense' ? v - defenseBonus : v)}
+                  readonly={isBeast}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Equipment */}
@@ -328,7 +332,8 @@ export default function FighterCard({
             </div>
           </>
         )}
-        <div className={`${styles.fighterCardFooterItem} ${styles.fighterCardFooterValue} ${instance.isPending ? styles.valueCell : ''}`}
+        <div
+          className={`${styles.fighterCardFooterItem} ${styles.fighterCardFooterValue} ${instance.isPending ? styles.valueCell : ''}`}
           onClick={() => instance.isPending && setValueModalOpen(true)}
         >
           <span className={styles.fighterCardFooterLabel}>Value</span>
