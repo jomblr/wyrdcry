@@ -20,6 +20,7 @@ interface Props {
 export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar, hasPending, onPurchase }: Props) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
+  const [btnWidth, setBtnWidth] = useState<number | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +51,9 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   function handleToggle() {
     if (open) { setOpen(false); return; }
     if (btnRef.current) {
-      setPos(calcDropdownPos(btnRef.current.getBoundingClientRect()));
+      const rect = btnRef.current.getBoundingClientRect();
+      setPos(calcDropdownPos(rect));
+      setBtnWidth(rect.width);
     }
     setOpen(true);
   }
@@ -89,7 +92,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   const dropdown =
     open && pos
       ? ReactDOM.createPortal(
-          <div ref={dropdownRef} className={styles.dropdown} style={dropdownStyle(pos)}>
+          <div ref={dropdownRef} className={styles.dropdown} style={{ ...dropdownStyle(pos), ...(mobileBar && btnWidth ? { width: btnWidth } : {}) }}>
             {heroes.length > 0 && (
               <>
                 <div className={styles.dropdownGroup}>Heroes</div>
