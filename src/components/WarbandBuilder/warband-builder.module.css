@@ -327,6 +327,17 @@
   gap: 1rem;
 }
 
+/* Mobile: tab toggle on its own row below the back/ellipsis row */
+.topBarTabRow {
+  padding-bottom: 0.75rem;
+}
+
+/* Makes the tab toggle stretch full width on mobile */
+.tabToggleFullWidth {
+  min-width: 0;
+  width: 100%;
+}
+
 .backBtn {
   display: flex;
   align-items: center;

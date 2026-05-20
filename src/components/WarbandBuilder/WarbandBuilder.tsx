@@ -14,6 +14,20 @@ import styles from './warband-builder.module.css';
 type Tab = 'fighters' | 'information';
 type View = 'list' | 'detail';
 
+function useIsMobile(breakpoint = 800) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 export default function WarbandBuilder() {
   const [tab, setTab] = useState<Tab>('fighters');
   const [view, setView] = useState<View>('list');
@@ -87,6 +101,7 @@ export default function WarbandBuilder() {
     setTab('fighters');
   }
 
+  const isMobile = useIsMobile();
   const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
 
   function handleDelete() {
@@ -138,67 +153,69 @@ export default function WarbandBuilder() {
       <div className={styles.content}>
         {/* Body */}
         <div className={styles.body}>
-          {/* Top bar — inside body so it scrolls with content */}
-          <div className={styles.topBar}>
-            <div className={styles.topBarLeft}>
-              <button
-                type="button"
-                className={styles.backBtn}
-                onClick={() => setView('list')}
-                aria-label="Back to warband list"
-              >
-                <ArrowLeft size={16} />
-                <span>Warbands</span>
-              </button>
-
+          {/* Tab toggle — shared markup */}
+          {(() => {
+            const tabToggle = (
               <div className={styles.tabToggle} role="tablist" aria-label="Warband section">
-                <div className={styles.tabToggleInner} data-active={tab}>
+                <div className={clsx(styles.tabToggleInner, isMobile && styles.tabToggleFullWidth)} data-active={tab}>
                   <span className={styles.tabToggleIndicator} aria-hidden />
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === 'fighters'}
-                    id="warband-tab-fighters"
+                  <button type="button" role="tab" aria-selected={tab === 'fighters'} id="warband-tab-fighters"
                     className={clsx(styles.tabToggleBtn, tab === 'fighters' && styles.tabToggleBtnActive)}
-                    onClick={() => setTab('fighters')}
-                  >
-                    Fighters
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === 'information'}
-                    id="warband-tab-information"
+                    onClick={() => setTab('fighters')}>Fighters</button>
+                  <button type="button" role="tab" aria-selected={tab === 'information'} id="warband-tab-information"
                     className={clsx(styles.tabToggleBtn, tab === 'information' && styles.tabToggleBtnActive)}
-                    onClick={() => setTab('information')}
-                  >
-                    Information
-                  </button>
+                    onClick={() => setTab('information')}>Information</button>
                 </div>
               </div>
-            </div>
+            );
 
-            <div className={styles.actions}>
-              <button
-                type="button"
-                className="button button--secondary button--md"
-                onClick={handleDelete}
-              >
-                Delete Warband
-              </button>
-              <button type="button" className="button button--secondary button--md" onClick={exportWarband}>
-                Export
-              </button>
-              <button type="button" className="button button--secondary button--md" onClick={() => window.print()}>
-                Print
-              </button>
-              {hasPending && (
-                <button type="button" className="button button--primary button--md" onClick={purchasePending}>
-                  Purchase
-                </button>
-              )}
-            </div>
-          </div>
+            if (isMobile) {
+              const mobileMenu = menuOpen && menuPos
+                ? ReactDOM.createPortal(
+                    <div ref={menuRef} className={styles.dropdown} style={dropdownStyle(menuPos, true)}>
+                      <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
+                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
+                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); window.print(); }}>Print</button>
+                    </div>,
+                    document.body,
+                  )
+                : null;
+
+              return (
+                <>
+                  <div className={styles.topBar}>
+                    <button type="button" className={styles.backBtn} onClick={() => setView('list')} aria-label="Back to warband list">
+                      <ArrowLeft size={16} /><span>Warbands</span>
+                    </button>
+                    <button type="button" ref={menuBtnRef} className={styles.ellipsisBtn} onClick={toggleMenu} aria-label="Warband options">
+                      <EllipsisVertical size={18} />
+                    </button>
+                    {mobileMenu}
+                  </div>
+                  <div className={styles.topBarTabRow}>{tabToggle}</div>
+                </>
+              );
+            }
+
+            return (
+              <div className={styles.topBar}>
+                <div className={styles.topBarLeft}>
+                  <button type="button" className={styles.backBtn} onClick={() => setView('list')} aria-label="Back to warband list">
+                    <ArrowLeft size={16} /><span>Warbands</span>
+                  </button>
+                  {tabToggle}
+                </div>
+                <div className={styles.actions}>
+                  <button type="button" className="button button--secondary button--md" onClick={handleDelete}>Delete Warband</button>
+                  <button type="button" className="button button--secondary button--md" onClick={exportWarband}>Export</button>
+                  <button type="button" className="button button--secondary button--md" onClick={() => window.print()}>Print</button>
+                  {hasPending && (
+                    <button type="button" className="button button--primary button--md" onClick={purchasePending}>Purchase</button>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
 
           <div className={tab === 'fighters' ? styles.tabPanel : styles.tabPanelHidden}>
             <WarbandInfoRow
