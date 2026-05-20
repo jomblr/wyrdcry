@@ -139,7 +139,6 @@ export default function FighterTable({
             <FighterCard
               key={instance.instanceId}
               instance={instance}
-              stash={warband.stash}
               remainingGold={remainingGold}
               canMoveUp={idx > 0}
               canMoveDown={idx < warband.fighters.length - 1}
@@ -153,11 +152,7 @@ export default function FighterTable({
               onRemove={() => onRemoveFighter(instance.instanceId)}
               onDuplicate={() => onDuplicateFighter(instance.instanceId)}
               canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
-              onTransferEquipment={(fromId, itemId, itemIdx) =>
-                onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
-              }
               onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
-              onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
               onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}

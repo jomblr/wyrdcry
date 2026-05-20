@@ -11,7 +11,6 @@ import FighterEditPanel from './FighterEditPanel';
 
 interface Props {
   instance: FighterInstance;
-  stash: string[];
   remainingGold: number;
   canMoveUp: boolean;
   canMoveDown: boolean;
@@ -25,9 +24,7 @@ interface Props {
   onRemove: () => void;
   onDuplicate: () => void;
   canDuplicate: boolean;
-  onTransferEquipment: (fromInstanceId: string, itemId: string, itemIdx: number) => void;
   onSendToStash: (itemIdx: number) => void;
-  onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
@@ -43,12 +40,12 @@ const STAT_KEYS: { key: StatKey; label: string; suffix?: string }[] = [
 ];
 
 export default function FighterCard({
-  instance, stash, remainingGold,
+  instance, remainingGold,
   canMoveUp, canMoveDown, onMoveUp, onMoveDown,
   onSetName, onSetXp, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
-  onTransferEquipment, onSendToStash, onTakeFromStash,
+  onSendToStash,
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -236,16 +233,13 @@ export default function FighterCard({
       {editOpen && (
         <FighterEditPanel
           instance={instance}
-          stash={stash}
           remainingGold={remainingGold}
           onSetName={onSetName}
           onSetXp={onSetXp}
           onSetRenown={onSetRenown}
           onSetEquipment={onSetEquipment}
           onSetPendingEquipment={onSetPendingEquipment}
-          onTransferEquipment={onTransferEquipment}
           onSendToStash={onSendToStash}
-          onTakeFromStash={onTakeFromStash}
           onSetStat={onSetStat}
           onSetNotes={onSetNotes}
           onSetCostOverride={onSetCostOverride}

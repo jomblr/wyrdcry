@@ -2020,6 +2020,38 @@
   gap: 0.2rem;
 }
 
+/* ─── Equipment Picker ───────────────────────────────────────────────────────── */
+
+.equipPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.equipPickerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.equipPickerName {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.equipPickerCost {
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.equipPickerRowDisabled .equipPickerName,
+.equipPickerRowDisabled .equipPickerCost {
+  opacity: 0.4;
+}
+
 .editPanelValueHint {
   font-size: 0.72rem;
   color: var(--wyrd-text3);

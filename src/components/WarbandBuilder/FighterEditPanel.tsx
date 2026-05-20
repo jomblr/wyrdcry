@@ -6,22 +6,19 @@ import styles from './warband-builder.module.css';
 import fightersData from '@site/src/data/fighters.json';
 import weaponsData from '@site/src/data/weapons.json';
 import itemsData from '@site/src/data/items.json';
-import EquipmentCell from './EquipmentCell';
+import EquipmentPicker from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 
 interface Props {
   instance: FighterInstance;
-  stash: string[];
   remainingGold: number;
   onSetName: (name: string) => void;
   onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
-  onTransferEquipment: (fromInstanceId: string, itemId: string, itemIdx: number) => void;
   onSendToStash: (itemIdx: number) => void;
-  onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
@@ -59,10 +56,10 @@ function PanelStat({ label, value, onChange, suffix = '', step = 1, min = 1, max
 }
 
 export default function FighterEditPanel({
-  instance, stash, remainingGold,
+  instance, remainingGold,
   onSetName, onSetXp, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
-  onTransferEquipment, onSendToStash, onTakeFromStash,
+  onSendToStash,
   onSetStat, onSetNotes, onSetCostOverride,
   onClose,
 }: Props) {
@@ -80,7 +77,6 @@ export default function FighterEditPanel({
   const noXpRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
-  const pendingStartIndex = instance.isPending ? 0 : instance.equipment.length;
   const allEquipment = instance.isPending
     ? instance.equipment
     : [...instance.equipment, ...instance.pendingEquipment];
@@ -161,46 +157,44 @@ export default function FighterEditPanel({
 
           {/* Equipment */}
           <div className={styles.editPanelSection}>
-            <div className={styles.editPanelSectionTitle}>Equipment</div>
             {noEquipment ? (
               fixedEquipment.length > 0 ? (
-                <div className={styles.editPanelFixedEquip}>
-                  {fixedEquipment.map((id, idx) => (
-                    <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
-                      {weaponsData.find(w => w.id === id)?.name ?? id}
-                    </span>
-                  ))}
-                </div>
-              ) : <span className={styles.lockedCell}>—</span>
+                <>
+                  <div className={styles.editPanelSectionTitle}>Equipment</div>
+                  <div className={styles.editPanelFixedEquip}>
+                    {fixedEquipment.map((id, idx) => (
+                      <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
+                        {weaponsData.find(w => w.id === id)?.name ?? id}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              ) : null
             ) : (
-              <EquipmentCell
-                instanceId={instance.instanceId}
-                equipment={allEquipment}
-                pendingStartIndex={pendingStartIndex}
+              <EquipmentPicker
+                allEquipment={allEquipment}
                 fixedEquipment={fixedEquipment}
-                stash={stash}
                 factionId={profile.faction}
                 isHero={isHero}
                 isWizard={isWizard}
                 isBeast={isBeast}
-                isFighterPurchased={!instance.isPending}
                 remainingGold={remainingGold}
                 onAdd={id => {
                   if (instance.isPending) onSetEquipment([...instance.equipment, id]);
                   else onSetPendingEquipment([...instance.pendingEquipment, id]);
                 }}
-                onRemoveAtIdx={idx => {
-                  if (instance.isPending) onSetEquipment(instance.equipment.filter((_, i) => i !== idx));
-                  else if (idx < instance.equipment.length) onSendToStash(idx);
-                  else onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (idx - instance.equipment.length)));
+                onRemoveLast={id => {
+                  const lastIdx = allEquipment.lastIndexOf(id);
+                  if (lastIdx === -1) return;
+                  if (instance.isPending) {
+                    onSetEquipment(instance.equipment.filter((_, i) => i !== lastIdx));
+                  } else if (lastIdx < instance.equipment.length) {
+                    onSendToStash(lastIdx);
+                  } else {
+                    const pendingIdx = lastIdx - instance.equipment.length;
+                    onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== pendingIdx));
+                  }
                 }}
-                onSendToStash={mergedIdx => {
-                  if (instance.isPending) onSetEquipment(instance.equipment.filter((_, i) => i !== mergedIdx));
-                  else if (mergedIdx < instance.equipment.length) onSendToStash(mergedIdx);
-                  else onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (mergedIdx - instance.equipment.length)));
-                }}
-                onTakeFromStash={onTakeFromStash}
-                onTransferIn={(sourceId, itemId, itemIdx) => onTransferEquipment(sourceId, itemId, itemIdx)}
               />
             )}
           </div>
