@@ -224,6 +224,8 @@ export default function WarbandBuilder() {
               onReorderFighters={reorderFighters}
               onSendToStash={sendToStash}
               onTakeFromStash={takeFromStash}
+              hasPending={hasPending}
+              onPurchase={purchasePending}
             />
           </div>
           <div className={tab === 'information' ? styles.tabPanel : styles.tabPanelHidden}>

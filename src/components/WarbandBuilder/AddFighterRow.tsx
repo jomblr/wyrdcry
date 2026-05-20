@@ -13,9 +13,11 @@ interface Props {
   remainingGold: number;
   onAdd: (fighterId: string, name: string) => void;
   mobileBar?: boolean;
+  hasPending?: boolean;
+  onPurchase?: () => void;
 }
 
-export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar }: Props) {
+export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar, hasPending, onPurchase }: Props) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -130,13 +132,22 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
       <div className={styles.mobileAddFighterBar}>
         <button
           ref={btnRef}
-          className={`button button--primary ${styles.mobileAddFighterBtn}`}
+          className={`button button--secondary ${styles.mobileAddFighterBtn}`}
           onClick={handleToggle}
           disabled={!factionId || atFighterLimit}
           title={atFighterLimit ? 'Warband is at maximum size — remove a fighter to add another' : undefined}
         >
           + Add fighter
         </button>
+        {hasPending && onPurchase && (
+          <button
+            type="button"
+            className={`button button--primary ${styles.mobileAddFighterBtn}`}
+            onClick={onPurchase}
+          >
+            Purchase
+          </button>
+        )}
         {dropdown}
       </div>
     );

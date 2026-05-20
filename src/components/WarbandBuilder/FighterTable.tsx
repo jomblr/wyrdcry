@@ -59,6 +59,8 @@ interface Props {
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
+  hasPending?: boolean;
+  onPurchase?: () => void;
 }
 
 function useIsMobile(breakpoint = 800) {
@@ -102,6 +104,8 @@ export default function FighterTable({
   onSetFighterStat,
   onSetFighterNotes,
   onSetFighterCostOverride,
+  hasPending,
+  onPurchase,
 }: Props) {
   const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
@@ -167,6 +171,8 @@ export default function FighterTable({
           remainingGold={remainingGold}
           onAdd={onAddFighter}
           mobileBar
+          hasPending={hasPending}
+          onPurchase={onPurchase}
         />
       </>
     );
