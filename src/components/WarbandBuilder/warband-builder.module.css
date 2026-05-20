@@ -1763,6 +1763,269 @@
   font-size: 1rem;
 }
 
+/* ─── Fighter card static display ──────────────────────────────────────────── */
+
+.fighterCardName {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.fighterCardNameEmpty {
+  color: var(--wyrd-text3);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.fighterCardEquipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.fighterCardNotes {
+  font-size: 0.82rem;
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+/* Edit pencil button */
+.editBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  padding: 0.4rem;
+  border-radius: var(--wyrd-radius);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.editBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+/* ─── Fighter edit panel (bottom sheet) ─────────────────────────────────────── */
+
+.editPanelOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 500;
+  touch-action: none;
+}
+
+.editPanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 92vh;
+  background: var(--ifm-background-color);
+  border-radius: 14px 14px 0 0;
+  z-index: 501;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.editPanelHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ifm-color-emphasis-300);
+  margin: 10px auto 0;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.editPanelTop {
+  padding: 0.6rem 3rem 0.85rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid var(--wyrd-border);
+  flex-shrink: 0;
+}
+
+.editPanelType {
+  font-size: 0.78rem;
+  color: var(--wyrd-text3);
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+}
+
+.editPanelNameInput {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: center;
+  font-family: 'Alegreya', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: inherit;
+  padding: 0;
+}
+
+.editPanelNameInput:focus {
+  outline: none;
+}
+
+.editPanelNameInput::placeholder {
+  color: var(--wyrd-text3);
+  font-style: italic;
+}
+
+.editPanelCloseBtn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  padding: 0.3rem;
+  border-radius: var(--ifm-global-radius);
+  display: flex;
+  align-items: center;
+}
+
+.editPanelCloseBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+.editPanelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.1rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.editPanelSection {}
+
+.editPanelSectionTitle {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--wyrd-text3);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.editPanelSectionTitle::before,
+.editPanelSectionTitle::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wyrd-border);
+}
+
+/* 3-column characteristics grid */
+.editPanelStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* Individual stat with label + - value + control */
+.panelStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.panelStatLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+}
+
+.panelStatControl {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+}
+
+.panelStatBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.3rem 0.6rem;
+  color: var(--ifm-color-content-secondary);
+  transition: background 0.1s, color 0.1s;
+}
+
+.panelStatBtn:hover {
+  background: var(--ifm-hover-overlay);
+  color: var(--ifm-color-content);
+}
+
+.panelStatValue {
+  min-width: 2.2rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.25rem 0;
+}
+
+.editPanelProgressRow {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.editPanelFixedEquip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.editPanelValue {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.editPanelValueHint {
+  font-size: 0.72rem;
+  color: var(--wyrd-text3);
+  font-weight: 400;
+}
+
+/* In panel body, always show equipment input border */
+.editPanelBody .equipmentInput {
+  border-color: var(--wyrd-border);
+  background: var(--ifm-background-surface-color);
+}
+
+.editPanelBody .notesTextarea::placeholder,
+.editPanelBody .equipmentTextInput::placeholder {
+  color: var(--wyrd-text3);
+}
+
 /* In cards, always show placeholders and equipment border (no row-hover context) */
 .fighterCard .notesTextarea::placeholder,
 .fighterCard .equipmentTextInput::placeholder {
