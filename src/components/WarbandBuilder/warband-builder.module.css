@@ -829,7 +829,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 200;
+  z-index: 600;
   background: var(--ifm-background-surface-color);
   border: 1px solid var(--wyrd-border);
   border-radius: var(--wyrd-radius);
