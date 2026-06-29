@@ -12,7 +12,7 @@ const DISCORD_INVITE = 'https://discord.gg/U6mTMfx29E';
 
 /** Full-viewport hero: logotype + "Start your warband" / etc. Shown at site root `/` (this file is `pages/index.js`). */
 function HomepageHeader() {
-  const bgUrl = useBaseUrl('img/background-variant.png');
+  const bgUrl = useBaseUrl('img/background-variant.webp');
   return (
     <header
       id="wyrd-landing"
