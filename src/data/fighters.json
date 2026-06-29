@@ -859,7 +859,9 @@
     "cost": 60,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "lead-by-example"
+      "indomitable",
+      "slayer-deathwish",
+      "slayer-slayer-oath"
     ],
     "default_equipment": [
       "weapon:troll-slayer-axes",
@@ -871,6 +873,11 @@
     "faction": "hired-sword",
     "keywords": [
       "HERO"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "sisters-of-sigmar",
+      "witch-hunters"
     ],
     "limit": null
   },
@@ -887,7 +894,11 @@
     "power_level": 0,
     "cost": 70,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "trick-shot",
+      "disengage",
+      "stealthy"
+    ],
     "default_equipment": [
       "weapon:elf-ranger-bow",
       "weapon:sword"
@@ -898,6 +909,293 @@
     "faction": "hired-sword",
     "keywords": [
       "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "ogre-bodyguard",
+    "name": "Ogre Bodyguard",
+    "description": "A warband backed up by an Ogre makes a fearsome enemy, since Ogres are extremely dangerous fighters and a terrifying sight to behold when\nenraged.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 2,
+    "defense": 4,
+    "health": 20,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 80,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "whack",
+      "bodyguard"
+    ],
+    "default_equipment": [
+      "weapon:ogre-great-weapon"
+    ],
+    "race": [
+      "OGRE"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "possessed",
+      "undead",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "freelance-knight",
+    "name": "Freelance Knight",
+    "description": "Freelancers, or “robber knights,” are fallen nobles with little to their name but their weapons and armour. Drunk and bitter, they haunt the surrounding settlements for work, caring more for coin than honour.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 6,
+    "health": 16,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "duelist",
+      "guard",
+      "heckle"
+    ],
+    "default_equipment": [
+      "weapon:mastercrafted-sword",
+      "item:heavy-armour",
+      "item:shield"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "thief",
+    "name": "Thief",
+    "description": "Thieves have always lurked in the cities of the Old World. Where once they picked pockets and slipped into townhouses, they are now prized for their knack for striking fast and vanishing before anyone can give chase.",
+    "move": 6,
+    "fight": 3,
+    "shoot": 4,
+    "defense": 3,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 40,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "wall-runner",
+      "fall-back",
+      "snatch"
+    ],
+    "default_equipment": [
+      "weapon:thief-shiv-and-club",
+      "weapon:thief-throwing-dagger"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "undead",
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "warlock",
+    "name": "Warlock",
+    "description": "Witchcraft is a crime in the Empire, but that doesn’t stop magicians from finding employ with wealthy patrons. In Mordheim they barter their perilous craft for wyrdstone and a chance to uncover magical relics lost in the ruins.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 3,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "wither",
+      "flight-of-zimmerman",
+      "fires-of-uzhul"
+    ],
+    "default_equipment": [
+      "weapon:sword"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "possessed",
+      "undead"
+    ],
+    "limit": null
+  },
+  {
+    "id": "rat-ogre",
+    "name": "Rat Ogre",
+    "description": "Rat Ogres are lethal but stupid killing machines, whose small brains are singularly devoted to the pursuit of fighting and tearing their enemies apart.",
+    "move": 6,
+    "fight": 6,
+    "shoot": 2,
+    "defense": 4,
+    "health": 20,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 90,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "stupidity",
+      "bounding-leaps",
+      "savage-mauling",
+      "fearsome"
+    ],
+    "default_equipment": [
+      "weapon:rat-ogre-sheer-brutality"
+    ],
+    "race": [
+      "MONSTER"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "clan-eshin"
+    ],
+    "limit": null
+  },
+  {
+    "id": "beastman-warrior",
+    "name": "Beastman Warrior",
+    "description": "Beastmen are savage brutes that infest the forests of the Empire: massive horned creatures with a furious temper and an inhuman resistance to pain.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 4,
+    "health": 16,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "endure",
+      "bestial-rage",
+      "headlong-charge"
+    ],
+    "default_equipment": [
+      "weapon:dual-axes"
+    ],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "necromancer",
+    "name": "Necromancer",
+    "description": "Necromancers are evil wizards who have mastered the corrupt art of Necromancy. Many havefled to Mordheim to escape the agents of Sigmar and practice their dark arts freely.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 3,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "raise-dead",
+      "transference",
+      "vanhels-danse-macabre"
+    ],
+    "default_equipment": [
+      "weapon:staff"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [
+      "undead",
+      "mercenaries",
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "warrior-priest",
+    "name": "Warrior Priest",
+    "description": "With fire burning in their eyes, the Warrior-Priests stride into battle, chanting aloud the Deus Sigmar, the praise of the patron god of the Empire.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 5,
+    "health": 14,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "hammer-of-sigmar",
+      "voice-of-sigmar",
+      "denounce"
+    ],
+    "default_equipment": [
+      "weapon:sigmarite-warhammer"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "witch-hunters",
+      "mercenaries"
     ],
     "limit": null
   }

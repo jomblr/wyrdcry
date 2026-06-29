@@ -23,9 +23,13 @@ export default function Tooltip({ content, children }: Props) {
 
   const positionFromEl = useCallback((el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
+    const maxWidth = 320; // matches max-width in CSS
+    const idealLeft = rect.left + window.scrollX + rect.width / 2;
+    const minLeft = maxWidth / 2 + 8;
+    const maxLeft = window.scrollX + window.innerWidth - maxWidth / 2 - 8;
     setPos({
       top: rect.top + window.scrollY - 8,
-      left: rect.left + window.scrollX + rect.width / 2,
+      left: Math.min(Math.max(idealLeft, minLeft), maxLeft),
     });
   }, []);
 

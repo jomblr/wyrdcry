@@ -14,6 +14,7 @@ const baseUrl = '/';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Wyrdcry',
+  tagline: 'Fast-Paced Skirmish battles in the City of the Damned',
   favicon: 'img/favicon.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future

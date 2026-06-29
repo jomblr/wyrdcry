@@ -14,7 +14,7 @@ title: Wits
 Once per battle, this fighter can use the 'Inspiring Presence' ability without needing or spending ability dice to do so.
 
 ### [Trait] Underground Contacts
-When employing a hired sword, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up).
+When recruiting a Hired Sword, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up).
 
 ### [Trait] Maintain Momentum
 `Leader` only. When seizing the initiative in the initiative phase, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative.

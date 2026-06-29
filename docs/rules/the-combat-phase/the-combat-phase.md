@@ -4,7 +4,7 @@ title: The Combat Phase
 ---
 # The Combat Phase
 ## Activating fighters
-In the combat phase, players take turns activating their fighters. The player with initiative decides who makes the first activation. A fighter can only be activated once, and when all fighters have been activated, the battle round ends.
+In the combat phase, players take turns activating their fighters. The player with initiative decides who makes the first activation. A fighter can only be activated once, and when all fighters have been activated, the combat phase ends.
 
 ## Actions
 

@@ -13,20 +13,29 @@ The Warband Builder stores all data locally in your browser. If you clear your c
 The fighter tab contains an overview of all the fighters in your warband.
 
 ### Adding Fighters
-Click Add Fighter at the bottom of the fighter table to recruit a new fighter. The available fighter types are determined by your warband's faction entry and its restrictions. Once your warband reaches its maximum size, the button will be disabled.
+Click Add Fighter at the bottom of the fighter table to add a new fighter to your roster. The available fighter types are determined by your warband's faction entry and its restrictions. Once your warband reaches its maximum size, the button will be disabled.
 
 ![](/img/add-fighter.png)
 
-### Purchasing Equipment
+#### Discounted Fighters
+Some factions allow fighters to be recruited for a lowered gold cost. To reduce the gold cost of a fighter, click the gold cost value and change the gold cost in the modal.
+
+### Adding Equipment
 Click a fighter's equipment field to open the equipment selector. All purchases follow the restrictions outlined [here](/docs/warbands/starting-warband#step-4-equipment). As weapons and equipment are assigned to a fighter, options that can no longer be taken will be greyed out automatically.
 
 ![](/img/add-equipment.png)
 
-### Armour and Defense
+#### Armour and Defense
 A fighter's Defense value is automatically updated as armour and shields are equipped.
 
-### Equipment and the Warband Stash
+#### Equipment and the Warband Stash
 To move a piece of equipment to the Warband Stash rather than discarding it, **Ctrl+click** the item (or **Cmd+click** on Mac). When opening the equipment selector for a fighter, stashed items appear at the top of the list.
+
+### Purchase
+Newly added fighters and equipment aren't purchased until you click the Purchase button
+
+### Selling items
+To sell an item, navigate to the **Warband Stash** in the information tab and right click the item you want to sell.
 
 ### Experience and Renown
 The warband builder supports fighters gaining experience and renown.

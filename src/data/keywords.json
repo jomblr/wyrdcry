@@ -9,7 +9,10 @@
     "ZOMBIE",
     "THRALL",
     "DWARF",
-    "ELF"
+    "ELF",
+    "OGRE",
+    "MONSTER",
+    "BEASTMAN"
   ],
   "archetype": [
     "HERO",

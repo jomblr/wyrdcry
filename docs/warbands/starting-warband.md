@@ -35,6 +35,7 @@ Purchase equipment for your fighters while following these restrictions:
 	- A fighter can forfeit one melee weapon to wear a shield.
 - Any equipment marked with a cross (✠) may only be equipped by a `Hero`
 - `Beasts` cannot use any equipment, and their natural weapons are listed in their respective fighter profile.
+
 ## Step 5: Finishing Touches
 ---
 ### The Warband Stash

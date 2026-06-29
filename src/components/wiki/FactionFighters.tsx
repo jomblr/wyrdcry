@@ -210,6 +210,16 @@ function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
   );
 }
 
+function recruitableByText(ids: string[]): string {
+  const names = ids
+    .map(id => factionsData.find(fac => fac.id === id)?.name ?? id)
+    .sort((a, b) => a.localeCompare(b));
+  if (names.length === 1) return `may be recruited by ${names[0]}`;
+  const last = names[names.length - 1];
+  const rest = names.slice(0, -1);
+  return `may be recruited by ${rest.join(', ')} and ${last}`;
+}
+
 function FighterSection({ fighter: f }: { fighter: Fighter }) {
   const abilities = resolvedAbilitiesMarkdown(f);
   const description = f.description?.trim() ?? '';
@@ -224,6 +234,9 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
         </Heading>
         <p>
           <strong>{f.cost} gc</strong>
+          {(f as { recruitable_by?: string[] }).recruitable_by?.length ? (
+            <> ({recruitableByText((f as { recruitable_by?: string[] }).recruitable_by!)})</>
+          ) : null}
         </p>
         {description ? (
           <p>

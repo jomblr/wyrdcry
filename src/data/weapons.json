@@ -100,6 +100,19 @@
     "cost": 5
   },
   {
+    "id": "dual-axes",
+    "name": "Dual Axes",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 4,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 35
+  },
+  {
     "id": "elf-ranger-bow",
     "name": "Elven bow",
     "type": "ranged",
@@ -130,13 +143,16 @@
     "id": "flail",
     "name": "Flail",
     "type": "melee",
+    "exclusive": "no",
     "range": 2,
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [
-      "mighty-1"
+      "mighty-1",
+      "two-handed"
     ],
+    "power_level": 0,
     "cost": 30
   },
   {
@@ -197,6 +213,36 @@
     "cost": 15
   },
   {
+    "id": "mastercrafted-sword",
+    "name": "Mastercrafted Sword",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "parry"
+    ],
+    "power_level": 0,
+    "cost": 40
+  },
+  {
+    "id": "ogre-great-weapon",
+    "name": "Ogre Great Weapon",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 6,
+    "special_rules": [
+      "mighty-1"
+    ],
+    "power_level": 0,
+    "cost": 50
+  },
+  {
     "id": "pistol",
     "name": "Pistol",
     "type": "ranged",
@@ -241,6 +287,32 @@
     "cost": 20
   },
   {
+    "id": "rat-ogre-sheer-brutality",
+    "name": "Sheer Brutality",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 4,
+    "hit": 3,
+    "crit": 5,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 50
+  },
+  {
+    "id": "thief-shiv-and-club",
+    "name": "Shiv and Club",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 4,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 30
+  },
+  {
     "id": "sigmarite-warhammer",
     "name": "Sigmarite Warhammer",
     "type": "melee",
@@ -277,6 +349,19 @@
     "cost": 20
   },
   {
+    "id": "staff",
+    "name": "Staff",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 15
+  },
+  {
     "id": "steel-whip",
     "name": "Steel Whip",
     "type": "melee",
@@ -301,6 +386,19 @@
       "parry"
     ],
     "cost": 25
+  },
+  {
+    "id": "thief-throwing-dagger",
+    "name": "Throwing Dagger",
+    "type": "ranged",
+    "exclusive": "yes",
+    "range": 6,
+    "attacks": 2,
+    "hit": 1,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 0
   },
   {
     "id": "throwing-stars",

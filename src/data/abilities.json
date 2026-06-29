@@ -140,13 +140,6 @@
     "description": "Until the end of the battle round, add (X/2) to the Defense characteristic of all friendly fighters within 1\" of this fighter when targeted by ranged attack actions."
   },
   {
-    "id": "bodyguard",
-    "name": "Bodyguard",
-    "category": "toughness",
-    "ability_type": "double",
-    "description": "Select a friendly Hero within 1\" of this fighter. Until the end of the battle round, that Hero cannot be targeted while they are within 1\" of this fighter."
-  },
-  {
     "id": "duelist",
     "name": "Duelist",
     "category": "agility",
@@ -179,7 +172,7 @@
     "name": "Disengage",
     "category": "agility",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if they are within 1\" of an enemy fighter. This fighter makes a free Retreat action."
+    "description": "A fighter can only use this ability if they are\nwithin 1\" of an enemy fighter. This fighter makes a free Retreat action."
   },
   {
     "id": "trip",
@@ -242,21 +235,21 @@
     "name": "Arcane Attunement",
     "category": "wits",
     "ability_type": "trait",
-    "description": "Wizard only. Start each battle with one additional Wyrd Dice."
+    "description": "`Wizard` only. Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "tactician",
     "name": "Tactician",
     "category": "wits",
     "ability_type": "trait",
-    "description": "LEADER only. Start each battle with one additional Wyrd Dice."
+    "description": "`LEADER` only. Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "pious",
     "name": "Pious",
     "category": "wits",
     "ability_type": "trait",
-    "description": "Priest only. Start each battle with one additional Wyrd Dice."
+    "description": "`Priest` only.Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "charismatic",
@@ -270,14 +263,14 @@
     "name": "Underground Contacts",
     "category": "wits",
     "ability_type": "trait",
-    "description": "When employing a hired sword, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up)."
+    "description": "When employing a `hired sword`, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up)."
   },
   {
     "id": "maintain-momentum-wits",
     "name": "Maintain Momentum",
     "category": "wits",
     "ability_type": "trait",
-    "description": "Leader only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
+    "description": "`Leader` only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
   },
   {
     "id": "fall-back",
@@ -495,5 +488,145 @@
     "category": "undead",
     "ability_type": "triple",
     "description": "Until the end of the battle round, enemy fighters within 6\" of this fighter must pass a Bravery Test to make reactions or use abilities."
+  },
+  {
+    "id": "whack",
+    "name": "Whack",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "Select an enemy fighter within 1\" of this fighter. That fighter makes a free move action directly away from this fighter, as if it jumped. When making that move action, it can move up to (X\"). If it cannot move away from this fighter, allocate (X/2) damage points to that fighter instead."
+  },
+  {
+    "id": "bodyguard",
+    "name": "Bodyguard",
+    "category": "hired-sword",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction when a friendly `HERO` within 1\" is targeted by an attack action. That attack action targets this fighter instead."
+  },
+  {
+    "id": "slayer-deathwish",
+    "name": "Deathwish",
+    "category": "hired-sword",
+    "ability_type": "reaction",
+    "description": "When this warrior is targeted by a melee attack action that inflicts enough damage to take this warrior out of action, before it is removed from the battlefield, this warrior makes a free attack action."
+  },
+  {
+    "id": "frenzy",
+    "name": "Frenzy",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "A fighter can only use this ability if it has been allocated 8 or more damage points. This fighter makes a free melee attack action."
+  },
+  {
+    "id": "guard",
+    "name": "Guard",
+    "category": "hired-sword",
+    "ability_type": "trait",
+    "description": "When this fighter makes the Wait action, increase it's Defense characteristic by 2 until its next activation."
+  },
+  {
+    "id": "heckle",
+    "name": "Heckle",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "Select (X/2) enemy fighters that is within 6\" of this fighter. Until the end of the battle round, when making attack actions, those fighters must reduce their Fight and Shoot characteristics by 3, unless those attack actions target this fighter."
+  },
+  {
+    "id": "snatch",
+    "name": "Snatch",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "A fighter can use this ability while within 1\" of an enemy fighter carrying a treasure or wyrdstone token. Roll a d6: on a 2+, this fighter steals the token. Then, this fighter makes a free Retreat action."
+  },
+  {
+    "id": "wither",
+    "name": "Wither",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "Select a visible enemy fighter within 12”. That fighter must reduce its Move, Fight and Shoot characteristic by (X/2) until the end of the battle\nround."
+  },
+  {
+    "id": "flight-of-zimmerman",
+    "name": "Flight of Zimmerman",
+    "category": "hired-sword",
+    "ability_type": "triple",
+    "description": "*Magical Ability.* This fighter makes a free move action, and for that move action, they count as flying. However, while flying, they cannot move vertically upwards more\nthan (X)\"."
+  },
+  {
+    "id": "fires-of-uzhul",
+    "name": "Fires of U'Zhul",
+    "category": "hired-sword",
+    "ability_type": "triple",
+    "description": "Select an enemy fighter within 12\" of this fighter to be the target and roll three d6. For each roll of 3+, allocate (X/2) damage to the target. For each roll of 6, allocate (X/2) damage points to all visible fighters within 2\" of the target."
+  },
+  {
+    "id": "stupidity",
+    "name": "Stupidity",
+    "category": "unique",
+    "ability_type": "trait",
+    "description": "Unless activated within 3\" of a visible friendly `HERO` or enemy fighter, roll a die. On a 1-4, this fighter makes a Wait action. On a 5+, this fighter may activate as normal."
+  },
+  {
+    "id": "bounding-leaps",
+    "name": "Bounding Leaps",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "A fighter can only use this ability if there is a visible enemy fighter within 6\" of them. This fighter makes a bonus move action and must finish closer to the closest visible enemy fighter than they were at the start of that move action."
+  },
+  {
+    "id": "savage-mauling",
+    "name": "Savage Mauling",
+    "category": "hired-sword",
+    "ability_type": "triple",
+    "description": "This fighter makes a free melee attack action. Then, you may remove the target of that attack action from the battlefield, and place it back anywhere within 1\" of this fighter."
+  },
+  {
+    "id": "bestial-rage",
+    "name": "Bestial Rage",
+    "category": "unique",
+    "ability_type": "trait",
+    "description": "Whenever this fighter has any damage points allocated to it, you must increase its Attacks characteristic by 1, and reduce its Defense characteristic by 1."
+  },
+  {
+    "id": "headlong-charge",
+    "name": "Headlong Charge",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "A fighter can only use this ability if there is an enemy fighter within 6” of it. This fighter makes a free Move action, and must end that move action within 1” of that enemy fighter. Then, inflict (X/2) damage points to that enemy fighter."
+  },
+  {
+    "id": "denounce",
+    "name": "Denounce",
+    "category": "hired-sword",
+    "ability_type": "reaction",
+    "description": "A fighter may use this reaction when a visible fighter within 6” is the target of a magical ability. Roll a d6: if the result is higher than this fighter’s Bravery characteristic, the ability is cancelled and the ability dice discarded."
+  },
+  {
+    "id": "voice-of-sigmar",
+    "name": "Voice of Sigmar",
+    "category": "hired-sword",
+    "ability_type": "trait",
+    "description": "Increase the Bravery characteristic of all visible friendly fighters within 3” of this fighter by 1. In addition, if this fighter is recruited by a `Witch Hunter` warband, you may increase the warband's Zeal by 1 whenever this fighter uses an ability."
+  },
+  {
+    "id": "raise-dead",
+    "name": "Raise Dead",
+    "category": "hired-sword",
+    "ability_type": "double",
+    "description": "Set up a new Zombie wholly within 3\" of this fighter, on a platform or the battlefield floor. That Zombie is considered to be a friendly fighter, and can be activated as normal in this battleround. It has (X) damage points remaining. Raised Zombies are not added to the warband roster and crumble to dust at the end of the battle."
+  },
+  {
+    "id": "transference",
+    "name": "Transference",
+    "category": "hired-sword",
+    "ability_type": "triple",
+    "description": "Allocate up to (X) damage points to a fighter within 12” of this fighter, and then remove the same amount of damage points from a friendly fighter within 3” of this fighter."
+  },
+  {
+    "id": "vanhels-danse-macabre",
+    "name": "Vanhel’s Danse Macabre",
+    "category": "hired-sword",
+    "ability_type": "triple",
+    "description": "Until the end of the battle round, `THRALLS` activated within (X)” of this fighter may increase their Move characteristic by 2, and their Attacks characteristics by 1."
   }
 ]
