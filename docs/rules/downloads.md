@@ -6,11 +6,11 @@ title: Appendix - Downloads
 # Downloads
 ## Rules
 The following rules are scraped from the wiki. They look rough, but can be printed out as a handy reference for your games.
-- [Wyrdcry Rulebook 0.5 Playtest](/files/wyrdcry-rulebook-v0-5-playtest.pdf)
+- [Wyrdcry Rulebook 0.5 Playtest](pathname:///files/wyrdcry-rulebook-v0-5-playtest.pdf)
 
 ## Game Aides
-- [Warband Roster](/files/warband-roster.pdf)
-- [Game Reference](/files/game-reference.pdf)
+- [Warband Roster](pathname:///files/warband-roster.pdf)
+- [Game Reference](pathname:///files/game-reference.pdf)
 
 ## Archived 
 The following files are from the 0.4 playtest. While the rules are outdated, the PDFs best represent what the final product will look like.
