@@ -36,7 +36,7 @@ export default function WarbandSidebar({ savedWarbands, activeId, onSelect, onCr
         <button
           type="button"
           className="button button--primary button--md"
-          onClick={onCreate}
+          onClick={() => { (window as any).gtag?.('event', 'create_warband'); onCreate(); }}
           disabled={disableCreate}
           title={disableCreate ? 'Name your current warband before creating a new one' : undefined}
         >

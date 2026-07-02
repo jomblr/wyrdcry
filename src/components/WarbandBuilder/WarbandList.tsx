@@ -25,7 +25,7 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
         </p>
 
         <div className={styles.warbandListActions}>
-          <button type="button" className="button button--primary button--md" onClick={onCreate}>
+          <button type="button" className="button button--primary button--md" onClick={() => { (window as any).gtag?.('event', 'create_warband'); onCreate(); }}>
             Create new warband
           </button>
           <button type="button" className="button button--secondary button--md" onClick={() => fileRef.current?.click()}>

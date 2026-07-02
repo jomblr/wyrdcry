@@ -63,6 +63,13 @@ const config = {
       },
     ],
     'docusaurus-plugin-image-zoom',
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'G-M14YF24G0C',
+        anonymizeIP: true,
+      },
+    ],
   ],
 
   presets: [

@@ -175,7 +175,7 @@ export default function WarbandBuilder() {
                     <div ref={menuRef} className={styles.dropdown} style={dropdownStyle(menuPos, true)}>
                       <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                       <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
-                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); window.print(); }}>Print</button>
+                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
                     </div>,
                     document.body,
                   )
@@ -208,7 +208,7 @@ export default function WarbandBuilder() {
                 <div className={styles.actions}>
                   <button type="button" className="button button--secondary button--md" onClick={handleDelete}>Delete Warband</button>
                   <button type="button" className="button button--secondary button--md" onClick={exportWarband}>Export</button>
-                  <button type="button" className="button button--secondary button--md" onClick={() => window.print()}>Print</button>
+                  <button type="button" className="button button--secondary button--md" onClick={() => (window as any).gtag?.('event', 'print_warband'); window.print()}>Print</button>
                   {hasPending && (
                     <button type="button" className="button button--primary button--md" onClick={purchasePending}>Purchase</button>
                   )}
