@@ -1,4 +1,13 @@
 import React, { useMemo } from 'react';
+
+function renderWithKeywords(text: string): React.ReactNode {
+  const parts = text.split(/(`[^`]+`)/g);
+  return parts.map((part, i) =>
+    part.startsWith('`') && part.endsWith('`')
+      ? <code key={i}>{part.slice(1, -1)}</code>
+      : part
+  );
+}
 import Heading from '@theme/Heading';
 import weaponsData from '@site/src/data/weapons.json';
 import weaponRulesData from '@site/src/data/weapon-rules.json';
@@ -46,7 +55,7 @@ export function SpecialRuleLinks({ rules }: { rules: string[] }) {
           desc ? (
             <Tooltip
               content={
-                <div className="tooltip-breakdown weapon-rule-tooltip-content">{desc}</div>
+                <div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithKeywords(desc)}</div>
               }>
               <span className="equip-tooltip-trigger">
                 <a href={`#${r}`}>{humanizeRule(r)}</a>
