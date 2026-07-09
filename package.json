@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "copy:forge-data": "node scripts/copy-forge-data.js",
+    "prestart": "npm run copy:forge-data",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "npm run copy:forge-data && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
