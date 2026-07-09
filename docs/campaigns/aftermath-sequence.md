@@ -31,7 +31,7 @@ If your `Leader` dies or is removed from the warband for any other reason, you m
 
 |D6|Result|
 |:---:|:---|
-|1-2|<span id="hench-dead">**Dead**</span>: The warrior has been killed (or badly crippled) and must be removed from the warband roster.|
+|1-2|<span id="hench-dead">**Dead**</span>: The warrior has been killed (or badly crippled) and must be removed from the warband roster. Roll a D6 for their equipment; on a 5+, it is recovered and added to your warband stash.|
 |3-6|<span id="hench-full-recovery">**Full Recovery**</span>: The warrior suffers no lasting effects|
 
 ### Hero Injuries
@@ -74,7 +74,7 @@ Each fighter in your warband earn 1 **experience point** for:
 - Not being taken out of action during the battle
 - Taking an enemy fighter out of action during the battle.
 
-In addition, each player must select 1 fighter to earn one additional experience point. When a fighter accumulates enough experience points, they gain renown. 
+In addition, each player must select 1 fighter to earn one additional experience point. When a fighter accumulates 4 experience points, they gain renown ([see Renown](/docs/campaigns/renown)).
 
 Finally, A fighter with the `Beast` keyword never earn experience.
 

@@ -8,21 +8,23 @@
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "blunderbuss",
     "name": "Blunderbuss",
     "type": "ranged",
+    "exclusive": "no",
     "range": 6,
     "attacks": 6,
-    "hit": 1,
+    "hit": 2,
     "crit": 3,
     "special_rules": [
       "blast",
       "one-use"
     ],
-    "cost": 50
+    "power_level": 0,
+    "cost": 55
   },
   {
     "id": "bow",
@@ -33,7 +35,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "club",
@@ -44,7 +46,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "crossbow",
@@ -58,7 +60,7 @@
       "mighty-1",
       "reload"
     ],
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "crossbow-pistol",
@@ -73,7 +75,7 @@
       "reload",
       "brace"
     ],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "possessed-daemonic-appendage",
@@ -86,17 +88,19 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "dagger",
     "name": "Dagger",
     "type": "melee",
+    "exclusive": "no",
     "range": 1,
     "attacks": 3,
     "hit": 1,
     "crit": 3,
     "special_rules": [],
+    "power_level": 5,
     "cost": 5
   },
   {
@@ -110,7 +114,7 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 35
+    "cost": 30
   },
   {
     "id": "elf-ranger-bow",
@@ -123,7 +127,7 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "fighting-claws",
@@ -137,7 +141,7 @@
       "parry",
       "two-handed"
     ],
-    "cost": 45
+    "cost": 40
   },
   {
     "id": "flail",
@@ -153,7 +157,7 @@
       "two-handed"
     ],
     "power_level": 0,
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "great-weapon",
@@ -167,7 +171,7 @@
       "mighty-2",
       "two-handed"
     ],
-    "cost": 60
+    "cost": 55
   },
   {
     "id": "halberd",
@@ -180,7 +184,7 @@
     "special_rules": [
       "two-handed"
     ],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "handgun",
@@ -197,7 +201,7 @@
       "unreliable"
     ],
     "power_level": 0,
-    "cost": 65
+    "cost": 60
   },
   {
     "id": "zombie-infectious-bite",
@@ -210,7 +214,7 @@
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "mastercrafted-sword",
@@ -225,7 +229,7 @@
       "parry"
     ],
     "power_level": 0,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "ogre-great-weapon",
@@ -240,7 +244,7 @@
       "mighty-1"
     ],
     "power_level": 0,
-    "cost": 50
+    "cost": 45
   },
   {
     "id": "pistol",
@@ -258,7 +262,7 @@
       "brace"
     ],
     "power_level": 0,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "direwolf-rotten-fangs",
@@ -271,7 +275,7 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "warhound-savage-bite",
@@ -284,7 +288,7 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "rat-ogre-sheer-brutality",
@@ -297,7 +301,7 @@
     "crit": 5,
     "special_rules": [],
     "power_level": 0,
-    "cost": 50
+    "cost": 45
   },
   {
     "id": "thief-shiv-and-club",
@@ -310,7 +314,7 @@
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "sigmarite-warhammer",
@@ -324,7 +328,7 @@
       "mighty-2",
       "blessed"
     ],
-    "cost": 50
+    "cost": 45
   },
   {
     "id": "sling",
@@ -335,7 +339,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "spear",
@@ -346,7 +350,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "staff",
@@ -359,7 +363,7 @@
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "steel-whip",
@@ -372,7 +376,7 @@
     "special_rules": [
       "whipcrack"
     ],
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "sword",
@@ -385,7 +389,7 @@
     "special_rules": [
       "parry"
     ],
-    "cost": 25
+    "cost": 20
   },
   {
     "id": "thief-throwing-dagger",
@@ -409,7 +413,7 @@
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "cost": 20
+    "cost": 15
   },
   {
     "id": "troll-slayer-thrown-axe",
@@ -422,7 +426,7 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "troll-slayer-axes",
@@ -437,7 +441,7 @@
       "parry"
     ],
     "power_level": 0,
-    "cost": 55
+    "cost": 50
   },
   {
     "id": "vicious-teeth",
@@ -450,7 +454,7 @@
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 5
+    "cost": 0
   },
   {
     "id": "warhammer",
@@ -463,7 +467,7 @@
     "special_rules": [
       "mighty-2"
     ],
-    "cost": 35
+    "cost": 30
   },
   {
     "id": "warplock-pistol",
@@ -481,7 +485,7 @@
       "brace"
     ],
     "power_level": 0,
-    "cost": 45
+    "cost": 40
   },
   {
     "id": "weeping-blades",
@@ -496,6 +500,6 @@
       "two-handed"
     ],
     "power_level": 10,
-    "cost": 70
+    "cost": 55
   }
 ]

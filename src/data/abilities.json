@@ -343,18 +343,18 @@
     "description": "Select up to (X/2) visible enemy fighters without an Accused token and assign each one an Accused token. Increase Zeal by 1 for each token assigned this way, or by 3 if that fighter has the `WIZARD`, `DAEMON`, or `VAMPIRE` keyword."
   },
   {
-    "id": "sudden-accusation",
-    "name": "Sudden Accusation",
+    "id": "incite-rabble",
+    "name": "Incite Rabble",
     "category": "witch-hunters",
-    "ability_type": "reaction",
-    "description": "A fighter can make this reaction when a visible friendly fighter is taken out of action or targeted by a magical ability. Give an accused token to the enemy fighter making the attack action or using the magical ability (unless they already have one), and increase Zeal by 1."
+    "ability_type": "double",
+    "description": "Select a friendly `Henchman` within 6”. That `Henchman` makes a free move action. Increase Zeal by 1."
   },
   {
     "id": "self-flagellation",
     "name": "Self-Flagellation",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "Allocate (X/2) damage points to this fighter and increase Zeal by (X/2). Then, this fighter makes a free move action."
+    "description": "Allocate (X/2) damage points to this fighter. Then, this fighter makes a free attack action. Increase Zeal by 1."
   },
   {
     "id": "death-grip",
@@ -628,5 +628,12 @@
     "category": "hired-sword",
     "ability_type": "triple",
     "description": "Until the end of the battle round, `THRALLS` activated within (X)” of this fighter may increase their Move characteristic by 2, and their Attacks characteristics by 1."
+  },
+  {
+    "id": "sudden-accusation",
+    "name": "Sudden Accusation",
+    "category": "witch-hunters",
+    "ability_type": "reaction",
+    "description": "Make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter gains an accused token. Increase Zeal by 1."
   }
 ]

@@ -10,7 +10,7 @@
     "health": 12,
     "bravery": 5,
     "power_level": 25,
-    "cost": 120,
+    "cost": 130,
     "ability_preamble": "",
     "faction_ability_ids": [
       "murder-stab",
@@ -38,7 +38,7 @@
     "health": 8,
     "bravery": 6,
     "power_level": 0,
-    "cost": 45,
+    "cost": 55,
     "abilities": "",
     "faction_ability_ids": [
       "pack-tactics"
@@ -64,7 +64,7 @@
     "health": 14,
     "bravery": 5,
     "power_level": -5,
-    "cost": 90,
+    "cost": 100,
     "abilities": "",
     "race": [
       "SKAVEN"
@@ -87,15 +87,15 @@
     "defense": 3,
     "health": 12,
     "bravery": 5,
-    "power_level": 25,
-    "cost": 100,
+    "power_level": 20,
+    "cost": 105,
     "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "skitterleap",
       "gnawdoom",
       "enshrouding-darkness"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "SKAVEN"
     ],
@@ -104,6 +104,7 @@
       "HERO",
       "WIZARD"
     ],
+    "recruitable_by": [],
     "limit": 1
   },
   {
@@ -117,7 +118,7 @@
     "health": 6,
     "bravery": 6,
     "power_level": 0,
-    "cost": 35,
+    "cost": 45,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [
@@ -143,14 +144,14 @@
     "health": 14,
     "bravery": 3,
     "power_level": 10,
-    "cost": 110,
+    "cost": 120,
     "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "words-of-healing",
       "hammer-of-sigmar",
       "soulfire"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -159,6 +160,7 @@
       "HERO",
       "LEADER"
     ],
+    "recruitable_by": [],
     "limit": 1
   },
   {
@@ -172,7 +174,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 20,
-    "cost": 120,
+    "cost": 130,
     "ability_preamble": "",
     "faction_ability_ids": [
       "strategize",
@@ -200,13 +202,13 @@
     "health": 14,
     "bravery": 4,
     "power_level": 15,
-    "cost": 95,
+    "cost": 105,
     "ability_preamble": "",
     "faction_ability_ids": [
       "martial-exemplar",
       "lead-by-example"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -214,6 +216,7 @@
     "keywords": [
       "HERO"
     ],
+    "recruitable_by": [],
     "limit": 3
   },
   {
@@ -227,7 +230,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
       "driven-by-greed"
@@ -253,7 +256,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
       "hunters-eye"
@@ -279,7 +282,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 10,
-    "cost": 40,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
@@ -303,7 +306,7 @@
     "health": 10,
     "bravery": 3,
     "power_level": 20,
-    "cost": 70,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [
       "blessed-sight",
@@ -327,15 +330,15 @@
     "fight": 4,
     "shoot": 3,
     "defense": 3,
-    "health": 12,
+    "health": 14,
     "bravery": 4,
-    "power_level": 15,
-    "cost": 95,
+    "power_level": 5,
+    "cost": 105,
     "ability_preamble": "",
     "faction_ability_ids": [
       "lead-by-example"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -343,6 +346,7 @@
     "keywords": [
       "HERO"
     ],
+    "recruitable_by": [],
     "limit": 3
   },
   {
@@ -356,7 +360,7 @@
     "health": 10,
     "bravery": 4,
     "power_level": -5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
@@ -380,7 +384,7 @@
     "health": 8,
     "bravery": 4,
     "power_level": 10,
-    "cost": 40,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
@@ -404,7 +408,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 30,
-    "cost": 100,
+    "cost": 110,
     "ability_preamble": "When recruiting this fighter, you must select one of the following abilities:",
     "faction_ability_ids": [
       "puppet-master",
@@ -434,7 +438,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 10,
-    "cost": 100,
+    "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
       "hollowed"
@@ -460,7 +464,7 @@
     "health": 18,
     "bravery": 4,
     "power_level": 30,
-    "cost": 165,
+    "cost": 175,
     "ability_preamble": "",
     "faction_ability_ids": [
       "ascended"
@@ -489,7 +493,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
@@ -513,7 +517,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 15,
-    "cost": 65,
+    "cost": 75,
     "ability_preamble": "",
     "faction_ability_ids": [
       "anointed"
@@ -540,7 +544,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 10,
-    "cost": 110,
+    "cost": 120,
     "ability_preamble": "",
     "faction_ability_ids": [
       "condemn",
@@ -568,7 +572,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 10,
-    "cost": 80,
+    "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [
       "sudden-accusation"
@@ -591,17 +595,17 @@
     "fight": 4,
     "shoot": 3,
     "defense": 3,
-    "health": 12,
+    "health": 14,
     "bravery": 4,
     "power_level": 0,
-    "cost": 80,
+    "cost": 100,
     "ability_preamble": "",
     "faction_ability_ids": [
       "self-flagellation",
       "unshakeable",
       "penitent"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -609,6 +613,7 @@
     "keywords": [
       "HENCHMAN"
     ],
+    "recruitable_by": [],
     "limit": 5
   },
   {
@@ -622,7 +627,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
@@ -645,7 +650,7 @@
     "defense": 3,
     "health": 8,
     "bravery": 5,
-    "power_level": 0,
+    "power_level": -10,
     "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
@@ -661,6 +666,7 @@
     "keywords": [
       "HENCHMAN"
     ],
+    "recruitable_by": [],
     "limit": null
   },
   {
@@ -674,7 +680,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 5,
-    "cost": 55,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
       "for-the-master"
@@ -700,13 +706,13 @@
     "health": 20,
     "bravery": 3,
     "power_level": 15,
-    "cost": 180,
+    "cost": 190,
     "ability_preamble": "",
     "faction_ability_ids": [
       "the-beast-within",
       "feed"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "VAMPIRE"
     ],
@@ -716,6 +722,7 @@
       "LEADER",
       "TERRIFYING"
     ],
+    "recruitable_by": [],
     "limit": null
   },
   {
@@ -729,10 +736,10 @@
     "health": 12,
     "bravery": 5,
     "power_level": 0,
-    "cost": 70,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "GHOUL"
     ],
@@ -741,20 +748,21 @@
       "HENCHMAN",
       "TERRIFYING"
     ],
+    "recruitable_by": [],
     "limit": 5
   },
   {
     "id": "dire",
     "name": "Dire Wolf",
     "description": "",
-    "move": 6,
+    "move": 8,
     "fight": 4,
     "shoot": 3,
     "defense": 3,
     "health": 12,
     "bravery": 5,
-    "power_level": 0,
-    "cost": 85,
+    "power_level": -15,
+    "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
       "chilling-howl"
@@ -770,6 +778,7 @@
       "HENCHMAN",
       "TERRIFYING"
     ],
+    "recruitable_by": [],
     "limit": 3
   },
   {
@@ -782,8 +791,8 @@
     "defense": 3,
     "health": 10,
     "bravery": 5,
-    "power_level": 15,
-    "cost": 30,
+    "power_level": 20,
+    "cost": 45,
     "ability_preamble": "",
     "faction_ability_ids": [
       "shambling-horde"
@@ -799,6 +808,7 @@
       "HENCHMAN",
       "TERRIFYING"
     ],
+    "recruitable_by": [],
     "limit": null
   },
   {
@@ -812,7 +822,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 80,
+    "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
@@ -836,7 +846,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 70,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",

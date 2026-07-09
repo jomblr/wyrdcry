@@ -2132,4 +2132,20 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
+  .gridRow {
+    break-inside: avoid;
+  }
+
+  .tableScrollOuter {
+    break-inside: avoid;
+  }
+
+  .fighterCard {
+    break-inside: avoid;
+  }
+
+  .infoPanel {
+    break-inside: avoid;
+  }
 }
