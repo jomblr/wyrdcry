@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WyrdForge</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="stylesheet" href="wyrdforge.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <span>WyrdForge</span>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Toggle dark mode">
+      <svg id="theme-icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="theme-icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+  <a class="nav-item" onclick="showView('factions')">Factions</a>
+  <a class="nav-item" onclick="showView('fighters')">Fighters</a>
+  <a class="nav-item" onclick="showView('weapons')">Weapons</a>
+  <a class="nav-item" onclick="showView('weapon-rules')">Weapon Rules</a>
+  <a class="nav-item" onclick="showView('items')">Items</a>
+  <a class="nav-item" onclick="showView('abilities')">Abilities</a>
+  <a class="nav-item" onclick="showView('cost-profiles')">Cost Profiles</a>
+  <div class="sidebar-footer local-only">
+    <div class="sidebar-footer-label">Data</div>
+    <button class="sidebar-footer-btn" onclick="data_exportAll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export all
+    </button>
+    <button class="sidebar-footer-btn" onclick="document.getElementById('data-import-input').click()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Import all
+    </button>
+    <input type="file" id="data-import-input" accept=".zip" style="display:none" onchange="data_importAll(this)" />
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- FACTIONS VIEW -->
+  <div class="view active" id="view-factions">
+    <div class="main-header">
+      <h1 class="main-title">Factions</h1>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="factions_openPanel()">Add faction</button>
+        <button class="btn btn-outline local-only" onclick="factions_export()">Export factions.json</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-table="factions" data-sort="name" style="width:40%">Faction</th>
+              <th class="sortable" data-table="factions" data-sort="fighters" style="width:25%">Fighter Types</th>
+              <th class="sortable" data-table="factions" data-sort="weapons" style="width:25%">Weapons</th>
+              <th style="width:10%"></th>
+            </tr>
+          </thead>
+          <tbody id="factions-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIGHTERS VIEW -->
+  <div class="view" id="view-fighters">
+    <div class="main-header">
+      <h1 class="main-title">Fighters</h1>
+      <div class="header-actions">
+        <input class="search-input" id="fighters-search" placeholder="Search fighters…" oninput="fighters_render()">
+        <select class="filter-select" id="fighters-faction-filter" onchange="fighters_render()">
+          <option value="">All Factions</option>
+        </select>
+        <button class="btn btn-primary" onclick="fighters_openPanel()">Add fighter</button>
+        <button class="btn btn-outline local-only" onclick="fighters_export()">Export fighters.json</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-table="fighters" data-sort="name" style="width:22%">Fighter</th>
+              <th class="sortable" data-table="fighters" data-sort="move" style="width:5%;text-align:center" data-tip="Move">Move</th>
+              <th class="sortable" data-table="fighters" data-sort="fight" style="width:5%;text-align:center" data-tip="Fight">Fight</th>
+              <th class="sortable" data-table="fighters" data-sort="shoot" style="width:5%;text-align:center" data-tip="Shoot">Shoot</th>
+              <th class="sortable" data-table="fighters" data-sort="defense" style="width:5%;text-align:center" data-tip="Defense">Defense</th>
+              <th class="sortable" data-table="fighters" data-sort="health" style="width:5%;text-align:center" data-tip="Health">Health</th>
+              <th class="sortable" data-table="fighters" data-sort="bravery" style="width:6%;text-align:center" data-tip="Bravery">Bravery</th>
+              <th class="sortable" data-table="fighters" data-sort="cost" style="width:7%;text-align:center">Cost</th>
+              <th style="width:30%">Keywords</th>
+              <th style="width:10%"></th>
+            </tr>
+          </thead>
+          <tbody id="fighters-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEAPONS VIEW -->
+  <div class="view" id="view-weapons">
+    <div class="main-header">
+      <h1 class="main-title">Weapons</h1>
+      <div class="header-actions">
+        <!-- MATHHAMMER CONTROLS (hidden by default) -->
+        <div id="mh-controls" style="display:none;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap" id="mh-atk-label">Fight:</span>
+          <div class="stepper" style="height:34px">
+            <button class="stepper-btn" onclick="mh_step('atk',-1)">−</button>
+            <div class="stepper-val" id="mh-atk-val" style="min-width:32px">3</div>
+            <button class="stepper-btn" onclick="mh_step('atk',1)">+</button>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap">Def:</span>
+          <div class="stepper" style="height:34px">
+            <button class="stepper-btn" onclick="mh_step('def',-1)">−</button>
+            <div class="stepper-val" id="mh-def-val" style="min-width:32px">3</div>
+            <button class="stepper-btn" onclick="mh_step('def',1)">+</button>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap">+Atk</span>
+          <div class="stepper" style="height:34px">
+            <button class="stepper-btn" onclick="mh_step('bonus',-1)">−</button>
+            <div class="stepper-val" id="mh-bonus-val" style="min-width:32px">0</div>
+            <button class="stepper-btn" onclick="mh_step('bonus',1)">+</button>
+          </div>
+        </div>
+        <input class="search-input" id="weapons-search" placeholder="Search weapons…" oninput="weapons_render()">
+        <select class="filter-select" id="weapons-type-filter" onchange="weapons_render()">
+          <option value="">All Weapons</option>
+          <option value="melee">Melee</option>
+          <option value="ranged">Ranged</option>
+          <option value="natural">Natural</option>
+        </select>
+        <button class="btn btn-primary" id="mh-toggle-btn" onclick="mh_toggle()" title="Toggle Mathhammer">
+          <i data-lucide="dice-5" style="width:13px;height:13px;vertical-align:middle;margin-right:5px;pointer-events:none"></i>Mathhammer
+        </button>
+        <button class="btn btn-primary" id="wx-toggle-btn" onclick="wx_toggle()" title="Toggle Damage Matrix">
+          <i data-lucide="table-2" style="width:13px;height:13px;vertical-align:middle;margin-right:5px;pointer-events:none"></i>Matrix
+        </button>
+        <button class="btn btn-primary" onclick="weapons_openPanel()">Add weapon</button>
+        <button class="btn btn-outline local-only" onclick="weapons_export()">Export weapons.json</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table id="weapons-table">
+          <thead>
+            <tr id="weapons-thead-row">
+              <th class="sortable" data-table="weapons" data-sort="name" style="width:28%">Weapon</th>
+              <th class="sortable" data-table="weapons" data-sort="type" style="width:8%">Type</th>
+              <th class="sortable" data-table="weapons" data-sort="range" style="width:6%;text-align:center" data-tip="Range">Range</th>
+              <th class="sortable" data-table="weapons" data-sort="attacks" style="width:6%;text-align:center" data-tip="Attacks">Attacks</th>
+              <th class="sortable" data-table="weapons" data-sort="hit" style="width:8%;text-align:center" data-tip="Hit / Crit Damage">Damage</th>
+              <th class="sortable" data-table="weapons" data-sort="cost" style="width:8%;text-align:center" id="wth-cost">Cost</th>
+              <th style="width:26%" id="wth-rules">Weapon Rules</th>
+              <th style="width:10%"></th>
+            </tr>
+          </thead>
+          <tbody id="weapons-tbody"></tbody>
+        </table>
+      </div>
+      <div id="weapon-matrix-wrap" style="display:none">
+        <div class="table-wrap">
+          <table id="wx-table" style="font-size:12px"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEAPON RULES VIEW -->
+  <div class="view" id="view-weapon-rules">
+    <div class="main-header">
+      <h1 class="main-title">Weapon Rules</h1>
+      <div class="header-actions">
+        <input class="search-input" id="wr-search" placeholder="Search weapon rules…" oninput="wr_render()">
+        <button class="btn btn-primary" onclick="wr_openPanel()">Add weapon rule</button>
+        <button class="btn btn-outline local-only" onclick="wr_export()">Export weapon-rules.json</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-table="wr" data-sort="name" style="width:25%">Weapon Rule</th>
+              <th style="width:45%">Description</th>
+              <th class="sortable" data-table="wr" data-sort="effect" style="width:15%">Mechanical Effect</th>
+              <th class="sortable" data-table="wr" data-sort="cost" style="width:8%;text-align:center">Cost</th>
+              <th style="width:7%"></th>
+            </tr>
+          </thead>
+          <tbody id="wr-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITEMS VIEW -->
+  <div class="view" id="view-items">
+    <div class="main-header">
+      <h1 class="main-title">Items</h1>
+      <div class="header-actions">
+        <input class="search-input" id="items-search" placeholder="Search items…" oninput="items_render()">
+        <button class="btn btn-primary" onclick="items_openPanel()">Add item</button>
+        <button class="btn btn-outline local-only" onclick="items_export()">Export items.json</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-table="items" data-sort="name" style="width:22%">Item</th>
+              <th class="sortable" data-table="items" data-sort="type" style="width:12%">Type</th>
+              <th style="width:36%">Description</th>
+              <th class="sortable" data-table="items" data-sort="effect" style="width:15%">Effect</th>
+              <th class="sortable" data-table="items" data-sort="cost" style="width:8%;text-align:center">Cost</th>
+              <th style="width:7%"></th>
+            </tr>
+          </thead>
+          <tbody id="items-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABILITIES VIEW -->
+  <div class="view" id="view-abilities">
+    <div class="main-header">
+      <h1 class="main-title">Abilities</h1>
+      <div class="header-actions">
+        <input class="search-input" id="abilities-search" placeholder="Search abilities…" oninput="abilities_render()">
+        <select class="filter-select" id="abilities-category-filter" onchange="abilities_render()">
+          <option value="">All Categories</option>
+        </select>
+        <select class="filter-select" id="abilities-type-filter" onchange="abilities_render()">
+          <option value="">All Types</option>
+          <option value="trait">Trait</option>
+          <option value="reaction">Reaction</option>
+          <option value="double">Double</option>
+          <option value="triple">Triple</option>
+          <option value="quad">Quad</option>
+        </select>
+        <button class="btn btn-primary" onclick="abilities_openPanel()">Add ability</button>
+        <button class="btn btn-outline local-only" onclick="abilities_export()">Export abilities.xml</button>
+        <label class="btn btn-outline local-only" style="cursor:pointer">Import abilities.xml<input type="file" accept=".xml" style="display:none" onchange="abilities_import(this)"></label>
+      </div>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-table="abilities" data-sort="name" style="width:28%">Ability</th>
+              <th class="sortable" data-table="abilities" data-sort="category" style="width:14%">Category</th>
+              <th style="width:51%">Description</th>
+              <th style="width:7%"></th>
+            </tr>
+          </thead>
+          <tbody id="abilities-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST PROFILES VIEW -->
+  <div class="view" id="view-cost-profiles">
+    <div class="main-header">
+      <h1 class="main-title">Cost Profiles</h1>
+      <div class="header-actions">
+        <button class="btn btn-outline local-only" onclick="cp_export()">Export cost-profiles.json</button>
+      </div>
+    </div>
+    <div class="content" style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+
+      <!-- FIGHTER CARD -->
+      <div class="cp-card">
+        <div class="cp-card-title">Fighter Profile</div>
+        <div class="cp-card-hint">Base cost covers the baseline stats. You only pay for deviation.</div>
+
+        <div class="cp-row"><span class="cp-label">Base cost</span><input class="cp-input" type="number" id="cp-f-base" value="40" min="0" /></div>
+        <div class="cp-divider"></div>
+        <div class="cp-section-label">Baselines</div>
+        <div class="cp-row"><span class="cp-label">Move</span><input class="cp-input" type="number" id="cp-f-bl-move" value="5" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Fight</span><input class="cp-input" type="number" id="cp-f-bl-fight" value="3" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Shoot</span><input class="cp-input" type="number" id="cp-f-bl-shoot" value="3" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Defense</span><input class="cp-input" type="number" id="cp-f-bl-defense" value="3" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Health</span><input class="cp-input" type="number" id="cp-f-bl-health" value="8" min="2" step="2" /></div>
+        <div class="cp-row"><span class="cp-label">Bravery</span><input class="cp-input" type="number" id="cp-f-bl-bravery" value="5" min="2" max="6" /></div>
+        <div class="cp-divider"></div>
+        <div class="cp-section-label">Cost per point of deviation</div>
+        <div class="cp-row"><span class="cp-label">Move</span><input class="cp-input" type="number" id="cp-f-move" value="15" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Fight</span><input class="cp-input" type="number" id="cp-f-fight" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Shoot</span><input class="cp-input" type="number" id="cp-f-shoot" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Defense</span><input class="cp-input" type="number" id="cp-f-defense" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Health</span><input class="cp-input" type="number" id="cp-f-health" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Bravery</span><input class="cp-input" type="number" id="cp-f-bravery" value="10" min="0" /></div>
+        <div class="cp-divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <button class="btn btn-primary local-only" onclick="cp_save('fighter')">Save profile</button>
+          <span id="cp-f-saved" class="cp-saved"></span>
+        </div>
+      </div>
+
+      <!-- WEAPON CARD -->
+      <div class="cp-card">
+        <div class="cp-card-title">Weapon Profile</div>
+        <div class="cp-card-hint">Separate baselines for melee and ranged weapons.</div>
+
+        <div class="cp-row"><span class="cp-label">Base cost</span><input class="cp-input" type="number" id="cp-w-base" value="15" min="0" /></div>
+        <div class="cp-divider"></div>
+        <div class="cp-section-label">Melee baselines</div>
+        <div class="cp-row"><span class="cp-label">Range</span><input class="cp-input" type="number" id="cp-w-bl-range-melee" value="1" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Attacks</span><input class="cp-input" type="number" id="cp-w-bl-attacks-melee" value="3" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Hit damage</span><input class="cp-input" type="number" id="cp-w-bl-hit-melee" value="2" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Crit damage</span><input class="cp-input" type="number" id="cp-w-bl-crit-melee" value="3" min="1" /></div>
+        <div class="cp-divider"></div>
+        <div class="cp-section-label">Ranged baselines</div>
+        <div class="cp-row"><span class="cp-label">Range</span><input class="cp-input" type="number" id="cp-w-bl-range-ranged" value="6" min="6" step="6" /></div>
+        <div class="cp-row"><span class="cp-label">Attacks</span><input class="cp-input" type="number" id="cp-w-bl-attacks-ranged" value="3" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Hit damage</span><input class="cp-input" type="number" id="cp-w-bl-hit-ranged" value="2" min="1" /></div>
+        <div class="cp-row"><span class="cp-label">Crit damage</span><input class="cp-input" type="number" id="cp-w-bl-crit-ranged" value="3" min="1" /></div>
+        <div class="cp-divider"></div>
+        <div class="cp-section-label">Cost per increment of deviation</div>
+        <div class="cp-row"><span class="cp-label">Range</span><input class="cp-input" type="number" id="cp-w-range" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Attacks</span><input class="cp-input" type="number" id="cp-w-attacks" value="15" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Hit damage</span><input class="cp-input" type="number" id="cp-w-hit" value="10" min="0" /></div>
+        <div class="cp-row"><span class="cp-label">Crit damage</span><input class="cp-input" type="number" id="cp-w-crit" value="5" min="0" /></div>
+        <div class="cp-divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <button class="btn btn-primary local-only" onclick="cp_save('weapon')">Save profile</button>
+          <span id="cp-w-saved" class="cp-saved"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div class="overlay" id="overlay"></div>
+<div class="side-panel" id="faction-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <i data-lucide="flag" style="width:14px;height:14px"></i>
+      Faction Builder
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-tabs">
+    <button class="tab active" onclick="factions_switchTab('information',this)">Information</button>
+    <button class="tab" onclick="factions_switchTab('fig',this)">Fighters</button>
+    <button class="tab" onclick="factions_switchTab('weap',this)">Equipment</button>
+  </div>
+  <div class="panel-body">
+    <div class="tab-content active" id="ftab-information">
+      <div class="field">
+        <label>Faction Name</label>
+        <input type="text" id="f-name" placeholder="e.g. Sisters of Sigmar" oninput="factions_onNameInput(this.value)" />
+      </div>
+      <div class="field">
+        <label>Faction ID</label>
+        <input type="text" id="f-id" placeholder="auto-generated from name" oninput="factions_scheduleSave()" />
+        <div class="field-hint">Generated from faction name. Edit at your own risk.</div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="f-desc" rows="4" placeholder="A brief description..." oninput="factions_scheduleSave()"></textarea>
+      </div>
+      <div class="field">
+        <label>Warband Size</label>
+        <input type="number" id="f-warband-size" placeholder="e.g. 10" min="1" step="1"
+          oninput="factions_scheduleSave()"
+          style="width:100%;font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;" />
+        <div class="field-hint">Maximum number of fighters allowed in this faction's warband.</div>
+      </div>
+      <div class="field">
+        <label>Special Rules (Markdown)</label>
+        <textarea id="f-rules" rows="8" placeholder="## Special Rules&#10;&#10;**Rule** — Description..." oninput="factions_scheduleSave()"></textarea>
+        <div class="field-hint">Supports markdown formatting.</div>
+      </div>
+      <div class="field">
+        <label style="display:flex;justify-content:space-between;align-items:center">
+          Faction Abilities
+          <button class="icon-btn" onclick="factions_newAbility()" title="Create new ability for this faction"
+            style="text-transform:none;letter-spacing:normal;font-weight:400;font-size:10px;gap:3px;padding:0 2px;color:var(--accent);display:flex;align-items:center">
+            <i data-lucide="plus" style="width:11px;height:11px"></i> New Ability
+          </button>
+        </label>
+        <div class="tag-input-wrap" id="f-ability-wrap" onclick="focusTagInput('f-ability-input')">
+          <div style="position:relative;display:contents">
+            <input class="tag-input" id="f-ability-input" placeholder="Type to search abilities..."
+              oninput="factions_abilityAutocomplete(this)"
+              onkeydown="factions_abilityKeydown(event)"
+              onfocus="factions_abilityAutocomplete(this)"
+              onblur="setTimeout(()=>factions_hideAbilityAc(),150)" />
+            <div class="autocomplete-list" id="f-ability-ac" style="display:none"></div>
+          </div>
+        </div>
+        <div class="field-hint" id="f-ability-hint">Abilities whose category matches this faction.</div>
+      </div>
+    </div>
+    <div class="tab-content" id="ftab-fig">
+      <div id="ftab-fig-list"></div>
+    </div>
+    <div class="tab-content" id="ftab-weap">
+      <div id="ftab-weap-list"></div>
+    </div>
+  </div>
+  <div class="save-indicator" id="f-save-ind"></div>
+</div>
+
+<!-- FIGHTER PANEL -->
+<div class="side-panel" id="fighter-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <i data-lucide="shield" style="width:14px;height:14px"></i>
+      Fighter Builder
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-tabs">
+    <button class="tab active" id="fitab-btn-characteristics">Characteristics</button>
+    <button class="tab" id="fitab-btn-keywords">Keywords</button>
+    <button class="tab" id="fitab-btn-abilities">Abilities</button>
+  </div>
+
+  <div class="panel-body" style="padding-bottom:0">
+
+    <!-- TAB: Characteristics -->
+    <div class="tab-content active" id="fitab-characteristics">
+      <div class="field">
+        <label>Fighter Name</label>
+        <input type="text" id="fi-name" placeholder="e.g. Warrior Priest" oninput="fighters_onNameInput(this.value)" />
+      </div>
+      <div class="field">
+        <label>Fighter Type</label>
+        <select id="fi-fighter-type" onchange="fighters_onFighterTypeChange()">
+          <option value="regular">Regular</option>
+          <option value="hired-sword">Hired Sword</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fighter ID</label>
+        <input type="text" id="fi-id" placeholder="auto-generated from name" oninput="fi_idTouched=true" />
+        <div class="field-hint">Generated from fighter name. Edit at your own risk.</div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="fi-desc" rows="3" placeholder="A brief description of this fighter..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Default Equipment</label>
+        <div class="tag-input-wrap" id="default-equip-wrap" onclick="focusTagInput('default-equip-input')">
+          <div style="position:relative;display:contents">
+            <input class="tag-input" id="default-equip-input" placeholder="Type to search weapons &amp; items..."
+              oninput="fighters_defaultEquipAutocomplete(this)"
+              onkeydown="fighters_defaultEquipKeydown(event)"
+              onfocus="fighters_defaultEquipAutocomplete(this)"
+              onblur="setTimeout(()=>fighters_hideDefaultEquipAc(),150)" />
+            <div class="autocomplete-list" id="default-equip-ac" style="display:none"></div>
+          </div>
+        </div>
+        <div class="field-hint">Weapons and items this fighter type carries by default.</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-group">
+          <label>Move (inches)</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('move',-1)">−</button>
+            <div class="stepper-val" id="stat-move">5"</div>
+            <button class="stepper-btn" onclick="stepStat('move',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Fight</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('fight',-1)">−</button>
+            <div class="stepper-val" id="stat-fight">3</div>
+            <button class="stepper-btn" onclick="stepStat('fight',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Shoot</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('shoot',-1)">−</button>
+            <div class="stepper-val" id="stat-shoot">3</div>
+            <button class="stepper-btn" onclick="stepStat('shoot',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Defense</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('defense',-1)">−</button>
+            <div class="stepper-val" id="stat-defense">3</div>
+            <button class="stepper-btn" onclick="stepStat('defense',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Health</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('health',-1)">−</button>
+            <div class="stepper-val" id="stat-health">10</div>
+            <button class="stepper-btn" onclick="stepStat('health',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Bravery</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepStat('bravery',-1)">−</button>
+            <div class="stepper-val" id="stat-bravery">5+</div>
+            <button class="stepper-btn" onclick="stepStat('bravery',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="fi-regular-fields">
+        <div class="field power-level-wrap">
+          <label>Power Level Adjustment</label>
+          <div class="power-level-labels">
+            <span>Weaker</span>
+            <span class="power-level-badge" id="pl-badge">+0</span>
+            <span>Stronger</span>
+          </div>
+          <input type="range" id="fi-power" min="-30" max="30" step="5" value="0" oninput="fighters_onPowerChange(this.value)" />
+        </div>
+
+        <div class="field">
+          <label>Roster Limit</label>
+          <div style="display:flex;align-items:center;gap:10px">
+            <select id="fi-limit-type" onchange="fighters_onLimitTypeChange()" style="width:140px">
+              <option value="unlimited">Unlimited</option>
+              <option value="limited">Maximum</option>
+            </select>
+            <div id="fi-limit-num-wrap" style="display:none;align-items:center;gap:6px">
+              <div class="stepper">
+                <button class="stepper-btn" onclick="fighters_stepLimit(-1)">−</button>
+                <div class="stepper-val" id="fi-limit-val" style="min-width:36px">1</div>
+                <button class="stepper-btn" onclick="fighters_stepLimit(1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="field-hint">Maximum number of this fighter type allowed in a roster.</div>
+        </div>
+
+        <div class="cost-inline">
+          <div class="cost-inline-total" id="cost-total-label">Recruitment Cost: 40gc</div>
+          <div id="cost-breakdown"></div>
+        </div>
+      </div>
+
+      <div id="fi-hired-cost-wrap" style="display:none">
+        <div class="field">
+          <label>Recruitment Cost</label>
+          <input type="number" id="fi-hired-cost" min="0" step="1" value="0"
+            style="width:100%;font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;"
+            oninput="fighters_onHiredCostChange(this.value)" />
+          <div class="field-hint">Custom recruitment cost for this hired sword.</div>
+        </div>
+      </div>
+
+      <div id="fi-recruitable-wrap" style="display:none">
+        <div class="field">
+          <label>Recruitable By</label>
+          <div class="tag-input-wrap" id="recruitable-wrap" onclick="focusTagInput('recruitable-input')">
+            <div style="position:relative;display:contents">
+              <input class="tag-input" id="recruitable-input" placeholder="Type to search warbands..."
+                oninput="fighters_recruitableAutocomplete(this)"
+                onkeydown="fighters_recruitableKeydown(event)"
+                onfocus="fighters_recruitableAutocomplete(this)"
+                onblur="setTimeout(()=>document.getElementById('recruitable-ac').style.display='none',150)" />
+              <div class="autocomplete-list" id="recruitable-ac" style="display:none"></div>
+            </div>
+          </div>
+          <div class="field-hint">Warbands that can recruit this hired sword. Leave empty for all.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Keywords -->
+    <div class="tab-content" id="fitab-keywords">
+      <div class="field">
+        <label>Race</label>
+        <div class="tag-input-wrap" id="race-wrap" onclick="focusTagInput('race-input')">
+          <div style="position:relative;display:contents">
+            <input class="tag-input" id="race-input" placeholder="Type &amp; press Enter..." />
+            <div class="autocomplete-list" id="race-ac" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Faction</label>
+        <select id="fi-faction" onchange="fighters_onFactionChange()">
+          <option value="">— Select faction —</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Keywords</label>
+        <div class="tag-input-wrap" id="kw-wrap" onclick="focusTagInput('kw-input')">
+          <div style="position:relative;display:contents">
+            <input class="tag-input" id="kw-input" placeholder="HERO, LEADER, WIZARD..." />
+            <div class="autocomplete-list" id="kw-ac" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Abilities -->
+    <div class="tab-content" id="fitab-abilities">
+      <div class="field">
+        <label>Ability preamble</label>
+        <textarea id="fi-abilities" rows="4" placeholder="### [Trait] Steadfast&#10;This fighter may re-roll..."></textarea>
+        <div class="field-hint">Supports markdown formatting.</div>
+      </div>
+
+      <div class="field">
+        <label>Abilities</label>
+        <div class="tag-input-wrap" id="ability-wrap" onclick="focusTagInput('ability-input')">
+          <div style="position:relative;display:contents">
+            <input class="tag-input" id="ability-input" placeholder="Type to search abilities..."
+              oninput="fighters_abilityAutocomplete(this)"
+              onkeydown="fighters_abilityKeydown(event)"
+              onfocus="fighters_abilityAutocomplete(this)"
+              onblur="setTimeout(()=>fighters_hideAbilityAc(),150)" />
+            <div class="autocomplete-list" id="ability-ac" style="display:none"></div>
+          </div>
+        </div>
+        <div class="field-hint" id="fi-faction-abilities-hint">Select a faction above to list abilities whose category matches that faction.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="fighters_save()">Save</button>
+    <button class="btn btn-primary" onclick="fighters_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="fi-save-ind"></span>
+  </div>
+</div>
+
+<!-- WEAPON PANEL -->
+<div class="side-panel" id="weapon-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <i data-lucide="swords" style="width:14px;height:14px"></i>
+      Weapon Builder
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-body">
+      <div class="field">
+        <label>Weapon Name</label>
+        <input type="text" id="w-name" placeholder="e.g. Blessed Warhammer" oninput="weapons_onNameInput(this.value)" />
+      </div>
+      <div class="field">
+        <label>Weapon ID</label>
+        <input type="text" id="w-id" placeholder="auto-generated from name" />
+        <div class="field-hint">Generated from weapon name. Edit at your own risk.</div>
+      </div>
+      <div class="field">
+        <label>Weapon Type</label>
+        <select id="w-type" onchange="weapons_onTypeChange()">
+          <option value="melee">Melee</option>
+          <option value="ranged">Ranged</option>
+          <option value="natural">Natural</option>
+        </select>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:12px;letter-spacing:normal;font-weight:400">
+          <input type="checkbox" id="w-exclusive" style="width:auto;margin:0" />
+          Exclusive
+        </label>
+        <div class="field-hint">Mark this weapon as exclusive.</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-group">
+          <label><span id="w-range-label">Range</span> <span id="w-range-unit" style="text-transform:none;font-size:10px">(inches)</span></label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepWeaponStat('range',-1)">−</button>
+            <div class="stepper-val" id="wstat-range">1"</div>
+            <button class="stepper-btn" onclick="stepWeaponStat('range',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group" id="wstat-min-range-group" style="display:none">
+          <label>Min Range <span style="text-transform:none;font-size:10px">(inches)</span></label>
+          <select id="wstat-min-range" onchange="w_stats.min_range=parseInt(this.value)" style="font-family:var(--font-mono);font-size:12px;padding:6px 8px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;width:100%">
+            <option value="0">None</option>
+            <option value="1">1"</option>
+            <option value="3">3"</option>
+          </select>
+        </div>
+        <div class="stat-group">
+          <label>Attacks</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepWeaponStat('attacks',-1)">−</button>
+            <div class="stepper-val" id="wstat-attacks">3</div>
+            <button class="stepper-btn" onclick="stepWeaponStat('attacks',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Hit Damage</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepWeaponStat('hit',-1)">−</button>
+            <div class="stepper-val" id="wstat-hit">2</div>
+            <button class="stepper-btn" onclick="stepWeaponStat('hit',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label>Crit Damage</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="stepWeaponStat('crit',-1)">−</button>
+            <div class="stepper-val" id="wstat-crit">3</div>
+            <button class="stepper-btn" onclick="stepWeaponStat('crit',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Weapon Rules</label>
+        <div class="field-hint" style="margin-top:0;margin-bottom:8px">Select from rules defined in the Weapon Rules section.</div>
+        <select id="w-rules-select" disabled>
+          <option value="">No weapon rules available</option>
+        </select>
+      </div>
+
+      <!-- applied rules list -->
+      <div id="w-rules-applied" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+
+      <div class="field power-level-wrap" style="margin-top:18px">
+        <label>Power Level Adjustment</label>
+        <div class="power-level-labels">
+          <span>Weaker</span>
+          <span class="power-level-badge" id="w-pl-badge">+0</span>
+          <span>Stronger</span>
+        </div>
+        <input type="range" id="w-power" min="-30" max="30" step="5" value="0" oninput="weapons_onPowerChange(this.value)" />
+      </div>
+  </div>
+
+  <!-- STICKY COST FOOTER -->
+  <div class="cost-summary">
+    <div class="cost-summary-bar" onclick="toggleWeaponCostBreakdown()">
+      <span class="cost-summary-label" id="w-cost-total-label">Weapon Cost: 15gc</span>
+      <span class="cost-summary-toggle" id="w-cost-toggle-label">▲ Show breakdown</span>
+    </div>
+    <div class="cost-breakdown" id="w-cost-breakdown"></div>
+  </div>
+
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="weapons_save()">Save</button>
+    <button class="btn btn-primary" onclick="weapons_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="w-save-ind"></span>
+  </div>
+</div>
+
+<!-- WEAPON RULES PANEL -->
+<div class="side-panel" id="wr-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Weapon Rules
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="field">
+      <label>Weapon Rule Name</label>
+      <input type="text" id="wr-name" placeholder="e.g. Parry" oninput="wr_onNameInput(this.value)" />
+    </div>
+    <div class="field">
+      <label>Weapon Rule ID</label>
+      <input type="text" id="wr-id" placeholder="auto-generated from name" />
+      <div class="field-hint">Generated from rule name. Edit at your own risk.</div>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="wr-desc" rows="5" placeholder="When this fighter is the target of a melee attack..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Characteristic Bonus (Optional)</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select id="wr-char" style="flex:1">
+          <option value="">None</option>
+          <option value="fight_shoot">Fight &amp; Shoot</option>
+          <option value="defense">Defense</option>
+        </select>
+        <div class="stepper">
+          <button class="stepper-btn" onclick="wr_stepBonus(-1)">−</button>
+          <div class="stepper-val" id="wr-bonus-val" style="min-width:36px">0</div>
+          <button class="stepper-btn" onclick="wr_stepBonus(1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="wr-conditional"
+        style="width:16px;height:16px;accent-color:var(--text);cursor:pointer;flex-shrink:0" />
+      <label for="wr-conditional" style="text-transform:none;font-size:12px;color:var(--text);cursor:pointer;margin:0">
+        Conditional
+      </label>
+    </div>
+
+    <div class="field power-level-wrap" style="margin-top:8px">
+      <label>Value (GC)</label>
+      <div class="power-level-labels">
+        <span>Negative</span>
+        <span class="power-level-badge" id="wr-cost-badge">+0</span>
+        <span>Positive</span>
+      </div>
+      <input type="range" id="wr-cost-slider" min="-30" max="30" step="5" value="0"
+        oninput="wr_onCostChange(this.value)" />
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="wr_save()">Save</button>
+    <button class="btn btn-primary" onclick="wr_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="wr-save-ind"></span>
+  </div>
+</div>
+
+<!-- ITEMS PANEL -->
+<div class="side-panel" id="items-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Item Builder
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="field">
+      <label>Item Name</label>
+      <input type="text" id="it-name" placeholder="e.g. Shield" oninput="items_onNameInput(this.value)" />
+    </div>
+    <div class="field">
+      <label>Item ID</label>
+      <input type="text" id="it-id" placeholder="auto-generated from name" />
+      <div class="field-hint">Generated from item name. Edit at your own risk.</div>
+    </div>
+    <div class="field">
+      <label>Type</label>
+      <select id="it-type">
+        <option value="armour">Armour</option>
+        <option value="miscellaneous">Miscellaneous</option>
+        <option value="single-use">Single-Use</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="it-desc" rows="5" placeholder="What does this item do..."></textarea>
+    </div>
+    <div class="field">
+      <label>Characteristic Bonus (Optional)</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select id="it-char" style="flex:1">
+          <option value="">None</option>
+          <option value="fight_shoot">Fight &amp; Shoot</option>
+          <option value="defense">Defense</option>
+        </select>
+        <div class="stepper">
+          <button class="stepper-btn" onclick="items_stepBonus(-1)">−</button>
+          <div class="stepper-val" id="it-bonus-val" style="min-width:36px">0</div>
+          <button class="stepper-btn" onclick="items_stepBonus(1)">+</button>
+        </div>
+      </div>
+      <div class="field-hint">Fight &amp; Shoot affects both. Defense affects the wielder.</div>
+    </div>
+    <div class="field">
+      <label>Cost (gc)</label>
+      <input type="number" id="it-cost" placeholder="0" min="0" step="1"
+        style="width:100%;font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;" />
+    </div>
+    <div class="field" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="it-rare"
+        style="width:16px;height:16px;accent-color:var(--text);cursor:pointer;flex-shrink:0" />
+      <label for="it-rare" style="text-transform:none;font-size:12px;color:var(--text);cursor:pointer;margin:0">
+        Rare item
+      </label>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="items_save()">Save</button>
+    <button class="btn btn-primary" onclick="items_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="it-save-ind"></span>
+  </div>
+</div>
+
+<!-- ABILITIES PANEL -->
+<div class="side-panel" id="abilities-panel">
+  <div class="panel-header">
+    <div class="panel-title">
+      <i data-lucide="sparkles" style="width:14px;height:14px"></i>
+      Ability Builder
+    </div>
+    <button class="close-btn" onclick="closeAllPanels()">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="field">
+      <label>Ability Name</label>
+      <input type="text" id="ab-name" placeholder="e.g. Steady Aim" oninput="abilities_onNameInput(this.value)" />
+    </div>
+    <div class="field">
+      <label>Ability ID</label>
+      <input type="text" id="ab-id" placeholder="auto-generated from name" />
+      <div class="field-hint">Generated from ability name. Edit at your own risk.</div>
+    </div>
+    <div class="field">
+      <label>Ability Category</label>
+      <select id="ab-category"></select>
+      <div class="field-hint">Unique, a specialization stat, or a specific faction. Factions list updates when you add or edit factions.</div>
+    </div>
+    <div class="field">
+      <label>Ability Type</label>
+      <select id="ab-ability-type">
+        <option value="trait">Trait</option>
+        <option value="reaction">Reaction</option>
+        <option value="double">Double</option>
+        <option value="triple">Triple</option>
+        <option value="quad">Quad</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Ability Description</label>
+      <textarea id="ab-desc" rows="8" placeholder="Full rules text for this ability..."></textarea>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="abilities_save()">Save</button>
+    <button class="btn btn-primary" onclick="abilities_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="ab-save-ind"></span>
+  </div>
+</div>
+
+<script src="wyrdforge.js"></script>
+</body>
+</html>
