@@ -38,23 +38,7 @@ Instructions for running the Wyrdcry Docusaurus site on your machine.
 | `npm run build` | Build the site for production (output in `build/`) |
 | `npm run serve` | Serve the production build locally (run after `build`) |
 | `npm run clear` | Clear Docusaurus cache (`.docusaurus/`). Use if content or routes seem stuck. |
-| `npm run import-profiles` | Import fighter and weapon profiles from `fighter-profiles.json` and `weapon-profiles.json` (optional). |
-
-## Optional: profile import
-
-If you use the fighter/weapon export/import workflow:
-
-```bash
-npm run import-profiles
-```
-
-Imports fighters from `fighter-profiles.json` into `src/fighters/`, and weapons from `weapon-profiles.json` into `docs/warbands/equipment/weapons.md`. Custom fighter JSON path:
-
-```bash
-npm run import-profiles -- "/path/to/your-fighter-profiles.json"
-```
-
-See `docs/warbands/ADDING-FIGHTERS.md` for the full workflow.
+| `npm run pdf` | Generate `wyrdcry.pdf` from the docs (run after `build` + `serve`). |
 
 ## If something breaks
 
