@@ -23,6 +23,6 @@ Finally, only 1 reaction can be made for each action an enemy fighter makes.
 ## Universal Reactions
 |Keyword|Reaction|
 |:---:|---|
-|`Any`|**[Reaction] Counter:** Use this reaction when targeted by a melee attack action but before the hit rolls are made. If any hit rolls from that attack action misses, inflict 2 damage points to the attacking fighter. If any hit rolls from that attack action is a 1, inflict 3 damage to the attacking fighter instead.|
-|`Any`|**[Reaction] Take cover:** A fighter that is in cover can make this reaction after they are targeted by a missile attack action but before the hit rolls are made. After the hit rolls have been made, roll a dice for each critical hit. On a 4+, that critical hit becomes a hit instead.|
+|`Any`|**[Reaction] Counter:** Use this reaction when targeted by a melee attack action but before the hit rolls are made. If one or more hit rolls from that attack action misses, inflict 2 damage points to the attacking fighter. If any hit rolls from that attack action is a 1, inflict 3 damage to the attacking fighter instead.|
+|`Any`|**[Reaction] Hunker Down:** A fighter that is in cover can make this reaction after they are targeted by a ranged attack action but before the hit rolls are made. For that attack action, increase this fighter's Defense characteristic by 2.|
 |`ANY`|**[Reaction] Strike them down:** A fighter can make this reaction when a visible enemy fighter within 1" of them makes a disengage action but before that fighter moves away. Roll a dice. On a 4+, allocate D6 damage points to that enemy fighter.|

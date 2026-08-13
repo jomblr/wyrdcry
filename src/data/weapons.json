@@ -30,11 +30,13 @@
     "id": "bow",
     "name": "Bow",
     "type": "ranged",
-    "range": 18,
+    "exclusive": "no",
+    "range": "3-18",
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
+    "power_level": 0,
     "cost": 20
   },
   {
@@ -52,7 +54,8 @@
     "id": "crossbow",
     "name": "Crossbow",
     "type": "ranged",
-    "range": 24,
+    "exclusive": "no",
+    "range": "3-24",
     "attacks": 2,
     "hit": 3,
     "crit": 5,
@@ -60,6 +63,7 @@
       "mighty-1",
       "reload"
     ],
+    "power_level": 0,
     "cost": 35
   },
   {
@@ -121,7 +125,7 @@
     "name": "Elven bow",
     "type": "ranged",
     "exclusive": "yes",
-    "range": 18,
+    "range": "3-18",
     "attacks": 3,
     "hit": 3,
     "crit": 4,
@@ -191,7 +195,7 @@
     "name": "Handgun",
     "type": "ranged",
     "exclusive": "no",
-    "range": 24,
+    "range": "3-24",
     "attacks": 2,
     "hit": 4,
     "crit": 8,
@@ -334,11 +338,13 @@
     "id": "sling",
     "name": "Sling",
     "type": "ranged",
-    "range": 12,
+    "exclusive": "no",
+    "range": "3-12",
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
+    "power_level": 0,
     "cost": 15
   },
   {
@@ -501,5 +507,18 @@
     ],
     "power_level": 10,
     "cost": 55
+  },
+  {
+    "id": "unarmed",
+    "name": "Unarmed",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 2,
+    "hit": 1,
+    "crit": 2,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 0
   }
 ]

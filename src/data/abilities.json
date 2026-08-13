@@ -88,7 +88,7 @@
     "name": "Staggering Blows",
     "category": "strength",
     "ability_type": "double",
-    "description": "A fighter can use this ability after allocating damage points to an enemy fighter with a melee attack action. That enemy fighter cannot use reactions for the rest of the battle round. In addition, if the melee attack action allocated damage points from a critical hit, the target cannot use abilities for the rest of the battle round."
+    "description": "For this fighter's activation, when making Melee Attack actions, enemy fighters cannot make reactions."
   },
   {
     "id": "shield-bash",
@@ -98,10 +98,10 @@
     "description": "This ability requires the fighter being equipped with a shield. Select an enemy fighter within 1\" of this fighter. That fighter makes a free retreat action directly away from this fighter. If it cannot move away from this fighter, allocate (X/2) damage points to that fighter instead."
   },
   {
-    "id": "maintain-momentum",
-    "name": "Maintain Momentum",
+    "id": "press-the-advantage",
+    "name": "Press the Advantage",
     "category": "strength",
-    "ability_type": "triple",
+    "ability_type": "double",
     "description": "A fighter can only use this ability if an enemy fighter has been taken down by an attack action made by them this activation. This fighter makes a bonus move action or a bonus attack action."
   },
   {
@@ -273,8 +273,8 @@
     "description": "`Leader` only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
   },
   {
-    "id": "fall-back",
-    "name": "Fall Back!",
+    "id": "cut-and-run",
+    "name": "Cut and run",
     "category": "wits",
     "ability_type": "reaction",
     "description": "A fighter can make this reaction after they have been allocated the total damage points by a melee attack action. This fighter makes a free Retreat action."
@@ -290,8 +290,8 @@
     "id": "warcry",
     "name": "Warcry",
     "category": "wits",
-    "ability_type": "triple",
-    "description": "Friendly fighters within 6\" of this fighter are no longer panicked, and do not have to take panic tests until the end of the battleround."
+    "ability_type": "double",
+    "description": "Friendly fighters within 6\" of this fighter are no longer panicked, and do not have to take Bravery tests until the end of the battleround."
   },
   {
     "id": "strategize",
@@ -354,7 +354,7 @@
     "name": "Self-Flagellation",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "Allocate (X/2) damage points to this fighter. Then, this fighter makes a free attack action. Increase Zeal by 1."
+    "description": "Allocate (X/2) damage points to this fighter and increase Zeal by 1. Then, this fighter makes a free attack action."
   },
   {
     "id": "death-grip",
@@ -635,5 +635,19 @@
     "category": "witch-hunters",
     "ability_type": "reaction",
     "description": "Make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter gains an accused token. Increase Zeal by 1."
+  },
+  {
+    "id": "distracting-shot",
+    "name": "Distracting Shot",
+    "category": "agility",
+    "ability_type": "double",
+    "description": "For this fighter’s next ranged attack action, it may target an enemy fighter within 1” of friendly fighters. If the attack hits, one of those friendly fighters can make a free Retreat action."
+  },
+  {
+    "id": "display-of-brutality",
+    "name": "Display of Brutality",
+    "category": "possessed",
+    "ability_type": "triple",
+    "description": "A fighter can use this ability only if an enemy fighter has been taken down by an attack action made by them this activation. Until the end of the battle round, add 1 to the Attacks characteristic of melee attack action made by friendly fighters while they are within 6\" of this fighter."
   }
 ]
