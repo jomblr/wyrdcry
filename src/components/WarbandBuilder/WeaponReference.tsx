@@ -27,7 +27,7 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
     ...warband.stash,
   ];
   const seenIds = new Set<string>();
-  const weapons = allEquipment
+  const weapons = ['unarmed', ...allEquipment]
     .filter(id => {
       const w = weaponsData.find(x => x.id === id);
       if (!w) return false;

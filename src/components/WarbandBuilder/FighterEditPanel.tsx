@@ -87,8 +87,7 @@ export default function FighterEditPanel({
     return sum;
   }, 0);
 
-  const equipCost = instance.equipment.reduce((sum, eid, idx) => {
-    if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum;
+  const equipCost = instance.equipment.reduce((sum, eid) => {
     const w = weaponsData.find(x => x.id === eid);
     if (w) return sum + w.cost;
     const item = itemsData.find(x => x.id === eid);

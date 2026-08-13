@@ -93,8 +93,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     ? instance.equipment
     : [...instance.equipment, ...instance.pendingEquipment];
 
-  const equipCost = instance.equipment.reduce((sum, eid, idx) => {
-    if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum; // first dagger is free
+  const equipCost = instance.equipment.reduce((sum, eid) => {
     const w = weaponsData.find(x => x.id === eid);
     if (w) return sum + w.cost;
     const item = itemsData.find(x => x.id === eid);
@@ -105,8 +104,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   function buildCostBreakdown(): string | undefined {
     const lines: string[] = [`Fighter: ${baseCost}gc`];
-    instance.equipment.forEach((eid, idx) => {
-      if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return;
+    instance.equipment.forEach(eid => {
       const w = weaponsData.find(x => x.id === eid);
       const item = itemsData.find(x => x.id === eid);
       const name = w?.name ?? item?.name ?? eid;

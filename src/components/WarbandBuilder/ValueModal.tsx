@@ -47,10 +47,10 @@ export default function ValueModal({ fighterName, baseCost, equipment, onCostCha
     }
   }
 
-  const lineItems: { label: string; cost: number; free?: boolean }[] = equipment.map((id, idx) => {
-    const isFirstDagger = id === 'dagger' && equipment.indexOf('dagger') === idx;
-    return { label: equipmentName(id), cost: isFirstDagger ? 0 : equipmentCost(id), free: isFirstDagger };
-  });
+  const lineItems: { label: string; cost: number }[] = equipment.map(id => ({
+    label: equipmentName(id),
+    cost: equipmentCost(id),
+  }));
 
   const equipTotal = lineItems.reduce((s, li) => s + li.cost, 0);
   const parsedBase = parseInt(draft, 10);
@@ -85,9 +85,7 @@ export default function ValueModal({ fighterName, baseCost, equipment, onCostCha
               <div key={i} className={styles.modalRow}>
                 <span className={styles.modalLabel}>{li.label}</span>
                 <span className={styles.modalCostCell}>
-                  <span className={`${styles.modalCostValue} ${li.free ? styles.modalFree : ''}`}>
-                    {li.free ? 'free' : `${li.cost}gc`}
-                  </span>
+                  <span className={styles.modalCostValue}>{`${li.cost}gc`}</span>
                 </span>
               </div>
             ))}

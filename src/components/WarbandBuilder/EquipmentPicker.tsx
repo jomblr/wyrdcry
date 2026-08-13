@@ -42,14 +42,14 @@ interface Props {
   onRemoveLast: (id: string) => void;
 }
 
-function EquipRow({ name, cost, qty, isFree, addDisabled, onAdd, onRemove }: {
-  name: string; cost: number; qty: number; isFree: boolean;
+function EquipRow({ name, cost, qty, addDisabled, onAdd, onRemove }: {
+  name: string; cost: number; qty: number;
   addDisabled: boolean; onAdd: () => void; onRemove: () => void;
 }) {
   return (
     <div className={`${styles.equipPickerRow} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
       <span className={styles.equipPickerName}>{name}</span>
-      <span className={styles.equipPickerCost}>{isFree ? 'Free' : `${cost}gc`}</span>
+      <span className={styles.equipPickerCost}>{`${cost}gc`}</span>
       <div className={styles.panelStatControl}>
         <button type="button" className={styles.panelStatBtn} onClick={onRemove} disabled={qty === 0}>−</button>
         <span className={styles.panelStatValue}>{qty}</span>
@@ -84,13 +84,8 @@ export default function EquipmentPicker({
   function editableQty(id: string) { return allEquipment.filter(x => x === id).length; }
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
-  function isDaggerFree(id: string) {
-    return id === 'dagger' && !combinedIds.includes('dagger');
-  }
-
   function canAddMelee(w: (typeof weaponsData)[0]): boolean {
-    const isFree = isDaggerFree(w.id);
-    if (!isFree && w.cost > remainingGold) return false;
+    if (w.cost > remainingGold) return false;
     if (w.special_rules.includes('two-handed'))
       return !combinedIds.includes(w.id) && slots.melee + 2 <= MELEE_SLOTS;
     return combinedQty(w.id) < MELEE_SLOTS && slots.melee + 1 <= MELEE_SLOTS;
@@ -133,7 +128,6 @@ export default function EquipmentPicker({
               name={w.name}
               cost={w.cost}
               qty={editableQty(w.id)}
-              isFree={isDaggerFree(w.id)}
               addDisabled={!canAddMelee(w)}
               onAdd={() => onAdd(w.id)}
               onRemove={() => onRemoveLast(w.id)}
@@ -153,7 +147,6 @@ export default function EquipmentPicker({
               name={w.name}
               cost={w.cost}
               qty={editableQty(w.id)}
-              isFree={false}
               addDisabled={!canAddRanged(w)}
               onAdd={() => onAdd(w.id)}
               onRemove={() => onRemoveLast(w.id)}
@@ -173,7 +166,6 @@ export default function EquipmentPicker({
               name={item.name}
               cost={item.cost}
               qty={editableQty(item.id)}
-              isFree={false}
               addDisabled={!canAddArmour(item)}
               onAdd={() => onAdd(item.id)}
               onRemove={() => onRemoveLast(item.id)}

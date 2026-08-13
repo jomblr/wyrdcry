@@ -213,7 +213,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   const flatList: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[] = [
     ...stashGroup,
     ...filteredNatural.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
-    ...filteredMelee.map(w  => { const cost = w.id === 'dagger' && !equipment.includes('dagger') ? 0 : w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
+    ...filteredMelee.map(w  => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
     ...filteredRanged.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
     ...filteredArmour.map(i => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: armourDisabled(i, equipment, slots, isWizard) || cost > remainingGold }; }),
   ];
@@ -555,7 +555,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
             onClick={e => handleTagClick(e, idx)}
             title={undefined}
           >
-            {labelFor(id)}{isFighterPurchased && isPendingTag ? (() => { const isFreeFirstDagger = id === 'dagger' && equipment.indexOf('dagger') === idx; const c = isFreeFirstDagger ? 0 : costFor(id); return c > 0 ? ` (${c}gc)` : ''; })() : ''}
+            {labelFor(id)}{isFighterPurchased && isPendingTag ? (() => { const c = costFor(id); return c > 0 ? ` (${c}gc)` : ''; })() : ''}
           </span>
         );
       })}

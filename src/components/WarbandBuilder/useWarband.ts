@@ -204,11 +204,7 @@ export function calcValue(warband: Warband, fightersData: { id: string; cost: nu
     if (fi.isPending) return sum;
     const profile = fightersData.find(f => f.id === fi.fighterId);
     const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-    const equipCost = fi.equipment.reduce((s, eid, idx) => {
-      // First dagger per fighter is free
-      const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-      return s + cost;
-    }, 0);
+    const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
     return sum + baseCost + equipCost;
   }, 0);
   const stashCost = warband.stash.reduce((s, id) => s + itemCost(id), 0);
@@ -220,17 +216,10 @@ export function calcPendingCost(warband: Warband, fightersData: { id: string; co
     if (fi.isPending) {
       const profile = fightersData.find(f => f.id === fi.fighterId);
       const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-      const equipCost = fi.equipment.reduce((s, eid, idx) => {
-        const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-        return s + cost;
-      }, 0);
+      const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
       return sum + baseCost + equipCost;
     }
-    return sum + fi.pendingEquipment.reduce((s, eid, idx) => {
-      const alreadyHasDagger = fi.equipment.includes('dagger');
-      const isFreeFirstDagger = eid === 'dagger' && !alreadyHasDagger && fi.pendingEquipment.indexOf('dagger') === idx;
-      return s + (isFreeFirstDagger ? 0 : itemCost(eid));
-    }, 0);
+    return sum + fi.pendingEquipment.reduce((s, eid) => s + itemCost(eid), 0);
   }, 0);
 }
 
@@ -321,10 +310,7 @@ function reducer(state: WarbandState, action: Action): WarbandState {
       if (fi && !fi.isPending) {
         const profile = fightersData.find(f => f.id === fi.fighterId);
         const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-        const equipCost = fi.equipment.reduce((s, eid, idx) => {
-          const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-          return s + cost;
-        }, 0);
+        const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
         goldDeduct = baseCost + equipCost;
       }
       return {
