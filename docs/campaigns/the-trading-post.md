@@ -31,7 +31,7 @@ Friendly fighters may re-roll failed Bravery tests while within 3” of this fig
 ### Lucky Charm (35gc)
 Once per battle, when the bearer is targeted by an attack action and after hit rolls have been made, you may turn one critical hit into a hit.
 
-### Rope and Hook (20gc)
+### Rope and Hook (10gc)
 When the bearer makes a move action, count the vertical distance of climbing as half (rounding up).
 
 ### <Crow /> Master-Crafted Weapon (+100gc)
