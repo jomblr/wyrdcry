@@ -12,6 +12,7 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
+    "typecheck": "tsc --noEmit",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "pdf": "PUPPETEER_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' docusaurus-docs-to-pdf --docs-url='http://localhost:3000/docs/rules/introduction' --pdf-path='wyrdcry.pdf'"
@@ -39,7 +40,9 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.9.2",
-    "@docusaurus/types": "3.9.2"
+    "@docusaurus/tsconfig": "3.9.2",
+    "@docusaurus/types": "3.9.2",
+    "typescript": "5.9.3"
   },
   "browserslist": {
     "production": [
