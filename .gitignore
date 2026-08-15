@@ -11,6 +11,9 @@
 # WyrdForge sandbox data — generated from src/data by scripts/copy-forge-data.js
 /static/forge/data
 
+# Editor / workspace state
+.obsidian/
+
 # Misc
 .DS_Store
 .env.local
