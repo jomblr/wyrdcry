@@ -32,7 +32,7 @@ Friendly fighters may re-roll failed Bravery tests while within 3” of this fig
 Once per battle, when the bearer is targeted by an attack action and after hit rolls have been made, you may turn one critical hit into a hit.
 
 ### Rope and Hook (10gc)
-When the bearer makes a move action, count the vertical distance of climbing as half (rounding up).
+When the bearer climbs during a move action, do not count the vertical distance as double.
 
 ### <Crow /> Master-Crafted Weapon (+100gc)
 Purchase a weapon from the fighter’s faction entry, and increase its gold coin cost by 100 gold coin. Then, add 1 to the hit and critical hit characteristics of that weapon.
