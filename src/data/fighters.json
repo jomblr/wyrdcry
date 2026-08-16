@@ -118,7 +118,7 @@
     "health": 6,
     "bravery": 6,
     "power_level": 0,
-    "cost": 45,
+    "cost": 40,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [
@@ -441,9 +441,10 @@
     "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "hollowed"
+      "hollowed",
+      "display-of-brutality"
     ],
-    "natural_weapon": "",
+    "default_equipment": [],
     "race": [
       "HUMAN"
     ],
@@ -451,6 +452,7 @@
     "keywords": [
       "HERO"
     ],
+    "recruitable_by": [],
     "limit": 3
   },
   {
@@ -464,7 +466,7 @@
     "health": 18,
     "bravery": 4,
     "power_level": 30,
-    "cost": 175,
+    "cost": 180,
     "ability_preamble": "",
     "faction_ability_ids": [
       "ascended"
@@ -706,7 +708,7 @@
     "health": 20,
     "bravery": 3,
     "power_level": 15,
-    "cost": 190,
+    "cost": 195,
     "ability_preamble": "",
     "faction_ability_ids": [
       "the-beast-within",
@@ -723,7 +725,7 @@
       "TERRIFYING"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": 1
   },
   {
     "id": "ghoul",
@@ -822,7 +824,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 90,
+    "cost": 95,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "natural_weapon": "",
