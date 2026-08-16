@@ -14,6 +14,9 @@
 # Editor / workspace state
 .obsidian/
 
+# Claude Code local settings (per-machine permissions)
+.claude/settings.local.json
+
 # Misc
 .DS_Store
 .env.local
