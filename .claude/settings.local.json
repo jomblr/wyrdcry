@@ -25,7 +25,19 @@
       "Bash(yarn build *)",
       "Bash(git -C \"/Users/johan.markstrom/Documents/Code Projects/Wyrdcryer/wyrdcry-site/.claude/worktrees/inspiring-mendeleev-3a30cc\" diff --name-only HEAD)",
       "Bash(grep -v \"^\\\\[webpackbar\\\\]\\\\|^\\\\[INFO\\\\]\\\\|^\\\\[WARNING\\\\]\\\\|^$\\\\|Update available\\\\|upgrade\\\\|npm i \\\\|^\\\\-\\\\-\\\\-\")",
-      "Bash(./node_modules/.bin/tsc --noEmit --skipLibCheck)"
+      "Bash(./node_modules/.bin/tsc --noEmit --skipLibCheck)",
+      "Bash(gh pr *)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -sL https://deploy-preview-2--wyrdcry.netlify.app/)",
+      "Bash(trash \"/Users/hendrikberends/.claude/projects/-Users-hendrikberends-Sites-wyrdcry/memory/wyrdcry-kein-push-zugriff.md\")",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)",
+      "Bash(git merge-tree *)",
+      "Bash(python3 -c ' *)",
+      "Bash(cd *)",
+      "Bash(mkdir -p Wyrdcry)",
+      "Bash(mv Wyrdcry.md \"Wyrdcry/Übersicht.md\")",
+      "Bash(mkdir *)"
     ]
   }
 }
