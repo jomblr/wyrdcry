@@ -18,7 +18,12 @@ export default function Root({children}: Props) {
   return <>{children}</>;
 }
 
-/** Same idea as Docusaurus normalizeLocation: strip trailing `/index.html` etc. */
+/**
+ * Keeps `html[data-wyrd-page="home"]` in sync on client-side navigation; the inline
+ * script in `docusaurus.config.js` sets it before first paint.
+ *
+ * Same idea as Docusaurus normalizeLocation: strip trailing `/index.html` etc.
+ */
 function stripIndexHtml(path: string): string {
   return path.replace(/(?:\/index)?\.html$/, '') || '/';
 }

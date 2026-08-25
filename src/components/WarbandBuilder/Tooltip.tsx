@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 
 const SHOW_DELAY_MS = 300;
 
+/** What Tooltip needs from its child: a ref to measure, and the handlers it wraps. */
+interface TooltipChildProps {
+  ref?: React.Ref<HTMLElement>;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
+}
+
 interface Props {
   content: React.ReactNode;
-  children: React.ReactElement;
+  children: React.ReactElement<TooltipChildProps>;
 }
 
 export default function Tooltip({ content, children }: Props) {
