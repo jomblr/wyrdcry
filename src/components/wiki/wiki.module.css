@@ -1,32 +1,5 @@
-.refTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.refTable th,
-.refTable td {
-  border: 1px solid var(--ifm-table-border-color);
-  padding: 0.4rem 0.5rem;
-  text-align: left;
-}
-
-.refTable th {
-  background: var(--ifm-table-stripe-background);
-  font-weight: 600;
-}
-
-.refTableWrap {
-  overflow-x: auto;
-  margin: 1rem 0;
-}
-
 .factionHeader {
   margin-top: 1.5rem;
-}
-
-.limitCell {
-  white-space: nowrap;
 }
 
 .ruleGlossary {
