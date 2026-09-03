@@ -112,7 +112,7 @@ export default function FighterEditPanel({
     <>
       <div className={styles.editPanelOverlay} onClick={onClose} />
       <div className={styles.editPanel}>
-        <div className={styles.editPanelHandle} role="button" aria-label="Close panel" onClick={onClose} />
+        <div className={styles.editPanelHandle} aria-hidden="true" onClick={onClose} />
 
         {/* Header */}
         <div className={styles.editPanelTop}>

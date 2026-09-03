@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import weaponsData from '@site/src/data/weapons.json';
 import itemsData from '@site/src/data/items.json';
+import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -27,64 +28,76 @@ function costFor(id: string): number {
 }
 
 export default function WarbandStash({ stash, onRemove, onSell }: Props) {
-  const [modHeld, setModHeld] = useState(false);
-  const [cursor, setCursor] = useState<{ x: number; y: number; text: string } | null>(null);
-  const hoveredRef = useRef<{ idx: number; x: number; y: number; text: string } | null>(null);
+  const [menu, setMenu] = useState<{ idx: number; pos: DropdownPos } | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+
+  function toggleMenu(idx: number, el: HTMLButtonElement) {
+    if (menu?.idx === idx) { setMenu(null); return; }
+    setMenu({ idx, pos: calcDropdownPos(el.getBoundingClientRect()) });
+  }
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        setModHeld(true);
-        if (hoveredRef.current) setCursor(hoveredRef.current);
+    if (!menu) return;
+    function handler(e: MouseEvent) {
+      if (!menuRef.current?.contains(e.target as Node) && !btnRefs.current[menu.idx]?.contains(e.target as Node)) {
+        setMenu(null);
       }
-    };
-    const up = (e: KeyboardEvent) => { if (!e.ctrlKey && !e.metaKey) { setModHeld(false); setCursor(null); } };
-    const blur = () => { setModHeld(false); setCursor(null); };
-    window.addEventListener('keydown', down);
-    window.addEventListener('keyup', up);
-    window.addEventListener('blur', blur);
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [menu]);
+
+  useEffect(() => {
+    if (!menu) return;
+    const close = () => setMenu(null);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
     return () => {
-      window.removeEventListener('keydown', down);
-      window.removeEventListener('keyup', up);
-      window.removeEventListener('blur', blur);
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
     };
-  }, []);
+  }, [menu]);
+
+  const salePrice = menu ? Math.floor(costFor(stash[menu.idx]) / 2) : 0;
 
   return (
     <div className={`${styles.infoPanel} ${styles.stashPanel}`}>
-      <h3 className={styles.stashTitle}>Warband Stash <span className={styles.stashItemHint}>(Ctrl/Cmd click to sell)</span></h3>
+      <h3 className={styles.stashTitle}>Warband Stash</h3>
       <div className={styles.stashItems}>
         {stash.length === 0 && (
           <span className={styles.stashEmpty}>The stash is empty</span>
         )}
-        {stash.map((id, idx) => {
-          const salePrice = Math.floor(costFor(id) / 2);
-          const label = `Sell for ${salePrice}gc`;
-          return (
-            <span
-              key={`${id}-${idx}`}
-              className={`${styles.equipmentTag} ${styles.stashItemTag}`}
-              onMouseEnter={e => {
-                hoveredRef.current = { idx, x: e.clientX, y: e.clientY, text: label };
-                if (modHeld) setCursor(hoveredRef.current);
-              }}
-              onMouseMove={e => {
-                hoveredRef.current = { idx, x: e.clientX, y: e.clientY, text: label };
-                if (modHeld) setCursor(hoveredRef.current);
-              }}
-              onMouseLeave={() => { hoveredRef.current = null; setCursor(null); }}
-              onClick={e => {
-                if (e.ctrlKey || e.metaKey) { setCursor(null); onSell(idx, salePrice); }
-              }}
-            >
-              {labelFor(id)}
-            </span>
-          );
-        })}
+        {stash.map((id, idx) => (
+          <button
+            key={`${id}-${idx}`}
+            type="button"
+            ref={el => { btnRefs.current[idx] = el; }}
+            className={`${styles.equipmentTag} ${styles.stashItemTag}`}
+            aria-haspopup="menu"
+            aria-expanded={menu?.idx === idx}
+            onClick={e => toggleMenu(idx, e.currentTarget)}
+          >
+            {labelFor(id)}
+          </button>
+        ))}
       </div>
-      {cursor && modHeld && ReactDOM.createPortal(
-        <div className={styles.cursorLabel} style={{ left: cursor.x + 12, top: cursor.y + 16 }}>
-          {cursor.text}
+      {menu && ReactDOM.createPortal(
+        <div ref={menuRef} className={styles.dropdown} style={dropdownStyle(menu.pos)}>
+          <button
+            type="button"
+            className={styles.dropdownItem}
+            onClick={() => { const { idx } = menu; setMenu(null); onSell(idx, salePrice); }}
+          >
+            Sell<span className={styles.dropdownCost}>{salePrice}gc</span>
+          </button>
+          <button
+            type="button"
+            className={styles.dropdownItem}
+            onClick={() => { const { idx } = menu; setMenu(null); onRemove(idx); }}
+          >
+            Remove
+          </button>
         </div>,
         document.body,
       )}
