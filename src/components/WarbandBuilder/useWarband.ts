@@ -108,6 +108,9 @@ type Action =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
+/** “Starting a warband”, step 3 */
+const MIN_FIGHTERS = 3;
+
 const STORAGE_INDEX_KEY = 'wyrdcry-warbands';
 const storageKey = (id: string) => `wyrdcry-warband-${id}`;
 
@@ -176,14 +179,6 @@ export function calcReputation(warband: Warband): number {
   return warband.fighters.reduce((sum, f) => sum + f.renown, 0) + warband.favour;
 }
 
-export function calcStanding(reputation: number): string {
-  const thresholds = campaignRules.standing_thresholds;
-  for (const tier of thresholds) {
-    if (reputation >= tier.min && reputation <= tier.max) return tier.label;
-  }
-  return thresholds[thresholds.length - 1]?.label ?? '—';
-}
-
 export function getFavourTier(favour: number): { label: string; defaultGold: number } {
   const tiers = campaignRules.favour_tiers;
   for (const tier of tiers) {
@@ -209,6 +204,31 @@ export function calcValue(warband: Warband, fightersData: { id: string; cost: nu
   }, 0);
   const stashCost = warband.stash.reduce((s, id) => s + itemCost(id), 0);
   return fightersCost + stashCost;
+}
+
+/**
+ * Roster restrictions from “Starting a warband”, step 3: at least three fighters,
+ * exactly one `Leader`, and no more fighters than the faction's warband size.
+ * Returns one short label per broken rule, empty while the warband is legal.
+ */
+export function getWarbandIssues(warband: Warband): string[] {
+  if (!warband.factionId) return [];
+
+  const issues: string[] = [];
+  const count = warband.fighters.length;
+
+  if (count < MIN_FIGHTERS) issues.push(`Needs ${MIN_FIGHTERS} fighters`);
+
+  const maxFighters = factionsData.find(f => f.id === warband.factionId)?.warband_size;
+  if (maxFighters && count > maxFighters) issues.push(`Max ${maxFighters} fighters`);
+
+  const leaders = warband.fighters.filter(fi =>
+    fightersData.find(f => f.id === fi.fighterId)?.keywords.includes('LEADER'),
+  ).length;
+  if (leaders === 0) issues.push('No leader');
+  else if (leaders > 1) issues.push('More than one leader');
+
+  return issues;
 }
 
 export function calcPendingCost(warband: Warband, fightersData: { id: string; cost: number }[]): number {
