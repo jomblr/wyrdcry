@@ -984,8 +984,16 @@
   transition: opacity 0.12s, color 0.12s;
 }
 
-.customWeaponRow:hover .customWeaponRemove {
+.customWeaponRow:hover .customWeaponRemove,
+.customWeaponRemove:focus-visible {
   opacity: 1;
+}
+
+/* Touch devices never hover, so the button would stay invisible for good */
+@media (hover: none) {
+  .customWeaponRemove {
+    opacity: 1;
+  }
 }
 
 .customWeaponRemove:hover {
@@ -1057,26 +1065,8 @@
 
 .stashItemTag {
   cursor: pointer;
-}
-
-.stashItemHint {
-  font-size: 0.75em;
-  opacity: 0.55;
-}
-
-.cursorLabel {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--wyrd-border);
-  border-radius: 4px;
-  padding: 0.2rem 0.45rem;
-  font-size: 0.78rem;
-  font-family: var(--wyrd-font-body);
-  color: var(--ifm-color-content);
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border: none;
+  min-height: 2rem;
 }
 
 /* ── Faction Rules panel ────────────────────────────────────────────── */
@@ -1582,13 +1572,24 @@
 }
 
 .editPanelHandle {
+  width: 72px;
+  height: 24px;
+  margin: 0 auto;
+  padding: 10px 18px;
+  box-sizing: content-box;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editPanelHandle::before {
+  content: '';
   width: 36px;
   height: 4px;
   border-radius: 2px;
   background: var(--ifm-color-emphasis-300);
-  margin: 10px auto 0;
-  flex-shrink: 0;
-  cursor: pointer;
 }
 
 .editPanelTop {
