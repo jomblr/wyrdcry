@@ -1067,7 +1067,6 @@
   cursor: pointer;
   border: none;
   min-height: 2rem;
-  padding: 0.2rem 0.5rem;
 }
 
 /* ── Faction Rules panel ────────────────────────────────────────────── */
@@ -1582,6 +1581,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .editPanelHandle::before {

@@ -31,10 +31,23 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
   const [menu, setMenu] = useState<{ idx: number; pos: DropdownPos } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const focusAfterChange = useRef<number | null>(null);
 
   function toggleMenu(idx: number, el: HTMLButtonElement) {
     if (menu?.idx === idx) { setMenu(null); return; }
     setMenu({ idx, pos: calcDropdownPos(el.getBoundingClientRect()) });
+  }
+
+  /** Closes the menu and puts focus back where it was opened from */
+  function closeMenu(idx: number) {
+    setMenu(null);
+    btnRefs.current[idx]?.focus();
+  }
+
+  /** An item leaving the stash takes its button with it — focus the one that moves up */
+  function closeAfterAction(idx: number) {
+    setMenu(null);
+    focusAfterChange.current = idx;
   }
 
   useEffect(() => {
@@ -51,13 +64,23 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
   useEffect(() => {
     if (!menu) return;
     const close = () => setMenu(null);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu(menu.idx); };
     window.addEventListener('scroll', close, true);
     window.addEventListener('resize', close);
+    document.addEventListener('keydown', onKey);
     return () => {
       window.removeEventListener('scroll', close, true);
       window.removeEventListener('resize', close);
+      document.removeEventListener('keydown', onKey);
     };
   }, [menu]);
+
+  useEffect(() => {
+    const idx = focusAfterChange.current;
+    if (idx === null) return;
+    focusAfterChange.current = null;
+    btnRefs.current[Math.min(idx, stash.length - 1)]?.focus();
+  }, [stash]);
 
   const salePrice = menu ? Math.floor(costFor(stash[menu.idx]) / 2) : 0;
 
@@ -72,9 +95,8 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
           <button
             key={`${id}-${idx}`}
             type="button"
-            ref={el => { btnRefs.current[idx] = el; }}
+            ref={el => { if (el) btnRefs.current[idx] = el; else delete btnRefs.current[idx]; }}
             className={`${styles.equipmentTag} ${styles.stashItemTag}`}
-            aria-haspopup="menu"
             aria-expanded={menu?.idx === idx}
             onClick={e => toggleMenu(idx, e.currentTarget)}
           >
@@ -87,14 +109,14 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
           <button
             type="button"
             className={styles.dropdownItem}
-            onClick={() => { const { idx } = menu; setMenu(null); onSell(idx, salePrice); }}
+            onClick={() => { const { idx } = menu; closeAfterAction(idx); onSell(idx, salePrice); }}
           >
             Sell<span className={styles.dropdownCost}>{salePrice}gc</span>
           </button>
           <button
             type="button"
             className={styles.dropdownItem}
-            onClick={() => { const { idx } = menu; setMenu(null); onRemove(idx); }}
+            onClick={() => { const { idx } = menu; closeAfterAction(idx); onRemove(idx); }}
           >
             Remove
           </button>
