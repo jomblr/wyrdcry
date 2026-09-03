@@ -210,8 +210,14 @@ export function calcValue(warband: Warband, fightersData: { id: string; cost: nu
  * Roster restrictions from “Starting a warband”, step 3: at least three fighters,
  * exactly one `Leader`, and no more fighters than the faction's warband size.
  * Returns one short label per broken rule, empty while the warband is legal.
+ *
+ * Counts every fighter on the roster, pending ones included — the same figure the
+ * summary shows in its Fighters column.
  */
-export function getWarbandIssues(warband: Warband): string[] {
+export function getWarbandIssues(
+  warband: Warband,
+  fightersData: { id: string; keywords: string[] }[],
+): string[] {
   if (!warband.factionId) return [];
 
   const issues: string[] = [];
@@ -219,6 +225,8 @@ export function getWarbandIssues(warband: Warband): string[] {
 
   if (count < MIN_FIGHTERS) issues.push(`Needs ${MIN_FIGHTERS} fighters`);
 
+  // Adding past the limit is already blocked in FighterTable; an oversized roster
+  // can only arrive through an import or a hand-edited export.
   const maxFighters = factionsData.find(f => f.id === warband.factionId)?.warband_size;
   if (maxFighters && count > maxFighters) issues.push(`Max ${maxFighters} fighters`);
 

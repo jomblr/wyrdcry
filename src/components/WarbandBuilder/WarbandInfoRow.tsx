@@ -29,7 +29,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
   const maxFighters = selectedFaction?.warband_size ?? null;
   const locked = !warband.factionId;
   const hasPending = warband.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
-  const issues = getWarbandIssues(warband);
+  const issues = getWarbandIssues(warband, fightersData);
 
   function handleConfirmAddGold() {
     const amount = Math.max(0, parseInt(amountInput, 10) || 0);
@@ -98,7 +98,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         {/* Data row */}
         <div className={styles.gridRow}>
           {/* Warband Name */}
-          <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`} data-label="Warband Name">
+          <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Warband Name</span>
             <input
               className={styles.infoInput}
               type="text"
@@ -110,29 +111,34 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           </div>
 
           {/* Faction — read-only */}
-          <div className={styles.cell} data-label="Faction">
+          <div className={styles.cell}>
+            <span className={styles.cellLabel}>Faction</span>
             {selectedFaction ? selectedFaction.name : <span className={styles.lockedCell}>—</span>}
           </div>
 
           {/* Favour */}
-          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`} data-label="Favour">
+          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Favour</span>
             {locked ? '—' : (
               <StatSpinner value={warband.favour} min={0} onChange={onSetFavour} />
             )}
           </div>
 
           {/* Standing */}
-          <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`} data-label="Standing">
+          <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Standing</span>
             {locked ? '—' : favourTier.label}
           </div>
 
           {/* Reputation */}
-          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`} data-label="Reputation">
+          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Reputation</span>
             {locked ? '—' : reputation}
           </div>
 
           {/* Fighters */}
-          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`} data-label="Fighters">
+          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Fighters</span>
             {locked ? '—' : maxFighters ? `${fighterCount} / ${maxFighters}` : fighterCount}
           </div>
 
@@ -142,8 +148,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
             onMouseEnter={() => !locked && !hasPending && setGoldHovered(true)}
             onMouseLeave={() => setGoldHovered(false)}
             onClick={() => { if (!locked && !hasPending) { setAmountInput(String(favourTier.defaultGold)); setAddGoldOpen(true); } }}
-            data-label="Gold"
           >
+            <span className={styles.cellLabel}>Gold</span>
             {locked ? '—' : goldHovered && !hasPending
               ? 'Add Gold'
               : pendingCost > 0
@@ -153,7 +159,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           </div>
 
           {/* Value */}
-          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`} data-label="Value">
+          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Value</span>
             {locked ? '—' : `${spent}gc`}
           </div>
         </div>
