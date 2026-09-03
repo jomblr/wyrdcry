@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
-import { calcReputation, calcStanding, calcValue, calcPendingCost, getFavourTier } from './useWarband';
+import { calcReputation, calcValue, calcPendingCost, getFavourTier, getWarbandIssues } from './useWarband';
 import styles from './warband-builder.module.css';
 import factionsData from '@site/src/data/factions.json';
 import fightersData from '@site/src/data/fighters.json';
@@ -20,7 +20,6 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
   const [amountInput, setAmountInput] = useState('');
 
   const reputation = calcReputation(warband);
-  const standing = calcStanding(reputation);
   const favourTier = getFavourTier(warband.favour);
   const spent = calcValue(warband, fightersData);
   const pendingCost = calcPendingCost(warband, fightersData);
@@ -30,6 +29,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
   const maxFighters = selectedFaction?.warband_size ?? null;
   const locked = !warband.factionId;
   const hasPending = warband.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
+  const issues = getWarbandIssues(warband, fightersData);
 
   function handleConfirmAddGold() {
     const amount = Math.max(0, parseInt(amountInput, 10) || 0);
@@ -80,7 +80,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
 
   return (
     <>
-    <div className={styles.tableScrollOuter}>
+    <div className={`${styles.tableScrollOuter} ${styles.infoScrollOuter}`}>
     <div className={styles.tableWrapper}>
       <div className={`${styles.wbGrid} ${styles.infoGrid}`}>
         {/* Header */}
@@ -99,6 +99,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         <div className={styles.gridRow}>
           {/* Warband Name */}
           <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Warband Name</span>
             <input
               className={styles.infoInput}
               type="text"
@@ -111,11 +112,13 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
 
           {/* Faction — read-only */}
           <div className={styles.cell}>
+            <span className={styles.cellLabel}>Faction</span>
             {selectedFaction ? selectedFaction.name : <span className={styles.lockedCell}>—</span>}
           </div>
 
           {/* Favour */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Favour</span>
             {locked ? '—' : (
               <StatSpinner value={warband.favour} min={0} onChange={onSetFavour} />
             )}
@@ -123,16 +126,19 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
 
           {/* Standing */}
           <div className={`${styles.cell} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Standing</span>
             {locked ? '—' : favourTier.label}
           </div>
 
           {/* Reputation */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Reputation</span>
             {locked ? '—' : reputation}
           </div>
 
           {/* Fighters */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Fighters</span>
             {locked ? '—' : maxFighters ? `${fighterCount} / ${maxFighters}` : fighterCount}
           </div>
 
@@ -143,6 +149,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
             onMouseLeave={() => setGoldHovered(false)}
             onClick={() => { if (!locked && !hasPending) { setAmountInput(String(favourTier.defaultGold)); setAddGoldOpen(true); } }}
           >
+            <span className={styles.cellLabel}>Gold</span>
             {locked ? '—' : goldHovered && !hasPending
               ? 'Add Gold'
               : pendingCost > 0
@@ -153,12 +160,16 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
 
           {/* Value */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
+            <span className={styles.cellLabel}>Value</span>
             {locked ? '—' : `${spent}gc`}
           </div>
         </div>
       </div>
     </div>
     </div>
+    {issues.length > 0 && (
+      <div className={styles.warbandIssues}>{issues.join(' · ')}</div>
+    )}
     {modal}
     </>
   );

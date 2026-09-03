@@ -3,10 +3,10 @@
     "id": "familiar",
     "name": "Familiar",
     "type": "single-use",
-    "description": "",
+    "description": "A `Wizard` may discard their Familiar to ignore the effects of a single roll on the magical calamity table. Declare this after making the calamity roll but before resolving its effects.",
     "effect": null,
-    "cost": 50,
-    "rare": true
+    "cost": 40,
+    "rare": false
   },
   {
     "id": "heavy-armour",

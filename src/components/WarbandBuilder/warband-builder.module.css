@@ -543,6 +543,32 @@
   color: var(--wyrd-text4);
 }
 
+/* Column label inside the cell — carries the heading below the breakpoint,
+   where .gridHeader is hidden. Real text, so screen readers reach it. */
+.cellLabel {
+  display: none;
+  color: var(--wyrd-text3);
+  font-family: 'Alegreya', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Rule violations under the summary — “Starting a warband”, step 3.
+   Colours follow .goldPending: warning yellow only carries on the dark
+   background, on white it drops to 1.7:1. The negative top margin pulls the
+   line up against the summary, whose wrapper ends on a 1rem bottom margin. */
+.warbandIssues {
+  margin: -0.6rem 0 1rem;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.85rem;
+  color: var(--ifm-color-primary);
+}
+
+:global(html[data-theme='dark']) .warbandIssues {
+  color: var(--ifm-color-warning, #f0ad4e);
+}
+
 /* ─── Fighter grid ──────────────────────────────────────────────────────────── */
 /*    Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
 
@@ -606,6 +632,49 @@
 .tableScrollOuter .tableWrapper {
   margin-bottom: 0;
   min-width: 780px;
+}
+
+/* Below the fighter-card breakpoint the summary stacks into label/value pairs.
+   Side-scrolling eight columns hides gold and value behind a gesture nothing hints at. */
+@media (max-width: 799px) {
+  .infoScrollOuter {
+    overflow-x: visible;
+  }
+
+  .infoScrollOuter .tableWrapper,
+  .infoScrollOuter .infoGrid {
+    min-width: 0;
+  }
+
+  .infoScrollOuter .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoScrollOuter .gridHeader {
+    display: none;
+  }
+
+  .infoScrollOuter .gridRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: none;
+  }
+
+  .infoScrollOuter .cell {
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid var(--wyrd-border);
+  }
+
+  .infoScrollOuter .cellLabel {
+    display: inline;
+  }
+
+  /* Name holds a text input, Value closes the odd column count — both span full width
+     so every separator runs edge to edge */
+  .infoScrollOuter .cell:first-child,
+  .infoScrollOuter .cell:last-child {
+    grid-column: 1 / -1;
+  }
 }
 
 /* Wiki / docs reference tables — same grid + header styling as builder */
