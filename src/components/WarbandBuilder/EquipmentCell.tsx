@@ -11,13 +11,15 @@ import styles from './warband-builder.module.css';
 const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 
-// Only armour-type items are equippable (skip single-use, familiar, etc.)
 const armourItems = itemsData.filter(i => i.type === 'armour');
 // Light / heavy armour are mutually exclusive (shield is a melee slot, not armour)
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
+// Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
+const gearItems = itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
 
 type Weapon = (typeof weaponsData)[number];
 type ArmourItem = (typeof armourItems)[number];
+type GearItem = (typeof gearItems)[number];
 
 // ─── Slot accounting ──────────────────────────────────────────────────────────
 
@@ -70,6 +72,11 @@ function armourDisabled(item: ArmourItem, equipment: string[], slots: { melee: n
   }
   // Light / heavy armour: mutually exclusive; can only have one
   return hasArmour(equipment);
+}
+
+// Gear (single-use / miscellaneous) has no slot cost and can be bought more than once
+function gearDisabled(item: GearItem, remainingGold: number): boolean {
+  return item.cost > remainingGold;
 }
 
 // ─── Label lookup (weapons + items) ──────────────────────────────────────────
@@ -184,11 +191,14 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   const baseArmour = isBeast ? [] : armourItems.filter(i =>
     !equipment.includes(i.id) && factionAllowsArmour(i.id),
   );
+  // Gear: no faction gating, available to every warband, unavailable to beasts
+  const baseGear = isBeast ? [] : gearItems;
 
   const filteredNatural = q ? baseNatural.filter(w => w.name.toLowerCase().includes(q)) : baseNatural;
   const filteredMelee   = q ? baseMelee.filter(w => w.name.toLowerCase().includes(q))   : baseMelee;
   const filteredRanged  = q ? baseRanged.filter(w => w.name.toLowerCase().includes(q))  : baseRanged;
   const filteredArmour  = q ? baseArmour.filter(i => i.name.toLowerCase().includes(q))  : baseArmour;
+  const filteredGear    = q ? baseGear.filter(i => i.name.toLowerCase().includes(q))    : baseGear;
 
   // Stash items eligible for this fighter (shown first in dropdown)
   const stashGroup: { id: string; name: string; cost: number; disabled: boolean; fromStash: true }[] =
@@ -206,6 +216,12 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         if (q && !item.name.toLowerCase().includes(q)) return [];
         return [{ id, name: item.name, cost: item.cost, disabled: armourDisabled(item, equipment, slots, isWizard), fromStash: true as const }];
       }
+      const gear = gearItems.find(x => x.id === id);
+      if (gear) {
+        if (isBeast) return [];
+        if (q && !gear.name.toLowerCase().includes(q)) return [];
+        return [{ id, name: gear.name, cost: gear.cost, disabled: false, fromStash: true as const }];
+      }
       return [];
     });
 
@@ -216,6 +232,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
     ...filteredMelee.map(w  => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
     ...filteredRanged.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
     ...filteredArmour.map(i => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: armourDisabled(i, equipment, slots, isWizard) || cost > remainingGold }; }),
+    ...filteredGear.map(i   => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: gearDisabled(i, remainingGold) }; }),
   ];
 
   // ── Helpers ──
@@ -356,6 +373,8 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
     }
     const item = armourItems.find(x => x.id === itemId);
     if (item) return !isBeast && factionAllowsArmour(itemId) && !armourDisabled(item, equipment, slots, isWizard);
+    const gear = gearItems.find(x => x.id === itemId);
+    if (gear) return !isBeast;
     return false;
   }
 
@@ -478,11 +497,13 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   const meleeOffset   = naturalOffset + filteredNatural.length;
   const rangedOffset  = meleeOffset   + filteredMelee.length;
   const armourOffset  = rangedOffset  + filteredRanged.length;
+  const gearOffset    = armourOffset  + filteredArmour.length;
 
   const naturalItems    = flatList.slice(naturalOffset, meleeOffset);
   const meleeItems      = flatList.slice(meleeOffset,   rangedOffset);
   const rangedItems     = flatList.slice(rangedOffset,  armourOffset);
-  const armourItemsFlat = flatList.slice(armourOffset);
+  const armourItemsFlat = flatList.slice(armourOffset,  gearOffset);
+  const gearItemsFlat   = flatList.slice(gearOffset);
 
   const dropdown =
     open && pos
@@ -493,6 +514,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
             {renderGroup('Melee',   meleeItems,   meleeOffset)}
             {renderGroup('Ranged',  rangedItems,  rangedOffset)}
             {renderGroup('Armour',  armourItemsFlat, armourOffset)}
+            {renderGroup('Items',   gearItemsFlat, gearOffset)}
             {flatList.length === 0 && (
               <div className={styles.dropdownEmpty}>No items available</div>
             )}

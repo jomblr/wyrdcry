@@ -5,6 +5,8 @@ import itemsData from '@site/src/data/items.json';
 import factionsData from '@site/src/data/factions.json';
 
 const armourItems = itemsData.filter(i => i.type === 'armour');
+// Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
+const gearItems = itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
 const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
@@ -109,6 +111,11 @@ export default function EquipmentPicker({
     return !hasExclusiveArmour && item.cost <= remainingGold;
   }
 
+  // Gear has no slot cost and can be bought more than once
+  function canAddGear(item: (typeof gearItems)[0]): boolean {
+    return item.cost <= remainingGold;
+  }
+
   const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
   const rangedWeapons = weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
   const availableArmour = armourItems.filter(i => factionAllowsArmour(i.id));
@@ -167,6 +174,23 @@ export default function EquipmentPicker({
               cost={item.cost}
               qty={editableQty(item.id)}
               addDisabled={!canAddArmour(item)}
+              onAdd={() => onAdd(item.id)}
+              onRemove={() => onRemoveLast(item.id)}
+            />
+          ))}
+        </div>
+      )}
+
+      {gearItems.length > 0 && (
+        <div>
+          <div className={styles.editPanelSectionTitle}>Items</div>
+          {gearItems.map(item => (
+            <EquipRow
+              key={item.id}
+              name={item.name}
+              cost={item.cost}
+              qty={editableQty(item.id)}
+              addDisabled={!canAddGear(item)}
               onAdd={() => onAdd(item.id)}
               onRemove={() => onRemoveLast(item.id)}
             />
