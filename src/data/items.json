@@ -1,18 +1,9 @@
 [
   {
-    "id": "familiar",
-    "name": "Familiar",
-    "type": "single-use",
-    "description": "",
-    "effect": null,
-    "cost": 50,
-    "rare": true
-  },
-  {
     "id": "heavy-armour",
     "name": "Heavy Armour",
     "type": "armour",
-    "description": "Increase the Defense characteristic of the bearer by 2. The bearer can never move further than 4” in a single action.",
+    "description": "Increase the Defense characteristic of the bearer by 2, and decrease their Move characteristic by 1.",
     "effect": {
       "characteristic": "defense",
       "bonus": 2
@@ -41,6 +32,141 @@
       "characteristic": "defense",
       "bonus": 1
     },
+    "cost": 20,
+    "rare": false
+  },
+  {
+    "id": "rope-and-hook",
+    "name": "Rope and Hook",
+    "type": "miscellaneous",
+    "description": "When the bearer climbs during a move action, do not count the vertical distance as double.",
+    "effect": null,
+    "cost": 10,
+    "rare": false
+  },
+  {
+    "id": "lucky-charm",
+    "name": "Lucky Charm",
+    "type": "miscellaneous",
+    "description": "Once per battle, when the bearer is targeted by an attack action and after hit rolls have been made, you may turn one critical hit into a hit.",
+    "effect": null,
+    "cost": 35,
+    "rare": false
+  },
+  {
+    "id": "lantern",
+    "name": "Lantern",
+    "type": "miscellaneous",
+    "description": "Friendly fighters may re-roll failed Bravery tests while within 3” of this fighter. However, this fighter must reduce their Defense characteristic by 1 when targeted by ranged attacks.",
+    "effect": null,
+    "cost": 30,
+    "rare": false
+  },
+  {
+    "id": "elven-cloak",
+    "name": "Elven Cloak",
+    "type": "miscellaneous",
+    "description": "While wearing this cloak, a fighter is considered to have the 'Stealthy' trait.",
+    "effect": null,
+    "cost": 50,
+    "rare": true
+  },
+  {
+    "id": "mordheim-map",
+    "name": "Mordheim Map",
+    "type": "miscellaneous",
+    "description": "The player controlling this warband can always decide which battlefield edge to deploy their warband from, regardless of being the Attacker or the Defender. If both players have a Mordheim Map, roll off. ",
+    "effect": null,
+    "cost": 80,
+    "rare": true
+  },
+  {
+    "id": "holy-relic",
+    "name": "Holy Relic",
+    "type": "miscellaneous",
+    "description": "Start each battle with one additional Wyrd Dice.",
+    "effect": null,
+    "cost": 100,
+    "rare": true
+  },
+  {
+    "id": "master-wrought-weapon",
+    "name": "Master Wrought Weapon",
+    "type": "miscellaneous",
+    "description": "Purchase a weapon from the fighter’s faction entry, and increase its gold coin cost by 100 gold coin. Then, add 1 to the hit and critical hit characteristics of that weapon.",
+    "effect": null,
+    "cost": 100,
+    "rare": true
+  },
+  {
+    "id": "blessed-water",
+    "name": "Blessed Water",
+    "type": "single-use",
+    "description": "Use this item in the 'Present Warbands' step. Select a weapon equipped by the bearer. Until the end of the battle, that weapon gains the blessed weapon rule.",
+    "effect": null,
+    "cost": 10,
+    "rare": false
+  },
+  {
+    "id": "crimson-shade",
+    "name": "Crimson Shade",
+    "type": "single-use",
+    "description": "Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Move and Fight characteristics by 1. In the aftermath sequence, roll a dice. On a 1-2, the fighter gains the Kleptomaniac trait.",
+    "effect": null,
+    "cost": 20,
+    "rare": false
+  },
+  {
+    "id": "dark-venom",
+    "name": "Dark Venom",
+    "type": "single-use",
+    "description": "Use this item after allocating damage to an enemy fighter with a critical hit. That fighter must forfeit one action or suffer d6 damage points.",
+    "effect": null,
+    "cost": 20,
+    "rare": false
+  },
+  {
+    "id": "familiar",
+    "name": "Familiar",
+    "type": "single-use",
+    "description": "A Wizard may discard their Familiar to ignore the effects of a single roll on the magical calamity table. Declare this after making the calamity roll but before resolving its effects.",
+    "effect": null,
+    "cost": 40,
+    "rare": false
+  },
+  {
+    "id": "healing-draught",
+    "name": "Healing Draught",
+    "type": "single-use",
+    "description": "Use this item when making a Wait action  to immediately use the ‘Respite’ ability without needing or spending ability dice to do so. Treat the value of that ability as a 6.",
+    "effect": null,
+    "cost": 40,
+    "rare": false
+  },
+  {
+    "id": "mad-cap-mushrooms",
+    "name": "Mad Cap Mushrooms",
+    "type": "single-use",
+    "description": "Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Fight characteristic by 3. It also gains the Stupidity trait for the duration of the battle.",
+    "effect": null,
+    "cost": 20,
+    "rare": false
+  },
+  {
+    "id": "smoke-bomb",
+    "name": "Smoke Bomb",
+    "type": "single-use",
+    "description": "A fighter may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.",
+    "effect": null,
+    "cost": 20,
+    "rare": false
+  },
+  {
+    "id": "superior-blackpowder",
+    "name": "Superior Blackpowder",
+    "type": "single-use",
+    "description": "Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the Unreliable weapon rule from all equipped weapons.",
+    "effect": null,
     "cost": 20,
     "rare": false
   }
