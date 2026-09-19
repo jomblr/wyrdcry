@@ -23,7 +23,7 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://wyrdcry.net',
   baseUrl,
 
   organizationName: 'wyrdcry',
