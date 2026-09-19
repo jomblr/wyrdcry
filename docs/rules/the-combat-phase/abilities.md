@@ -20,12 +20,5 @@ You can discard a **[triple]** for an ability that requires a **[double]**, or a
 When an ability mentions (X), it refers to the value shown on the ability dice combination used for that ability. For example, if a player has a **[double]** with both dice showing ‘5’, then the value (X) of that ability dice is 5. When a rule mentions (X/2), it means half of the ability dice’s value, rounded up.
 
 ## Universal Abilities
-|Keyword|Ability|
-|:---:|---|
-|`Any`|**[Double] Rush:** Add 1 to the Move characteristic of this fighter until the end of their activation.|
-|`Any`|**[Double] Respite:** A fighter cannot use this ability while within 1" of an enemy fighter. Remove (X) damage points from this fighter.|
-|`Any`|**[Double] Careful Aim:** Add 1 to the **Shoot** characteristic of this fighter for its next **Ranged Attack** action this activation.|
-|`Any`|**[Double] Diving Charge:** A fighter can use this ability after making a move action where it fell more than 2” vertically. Until the end of their activation, you may add 1 to their Fight characteristic for every full 2” they fell.|
-|`Hero`|**[Triple] Inspiring Presence:** Select a visible friendly fighter within 6” of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter’s activation ends.|
-|`Any`|**[Triple] Onslaught:** Add 1 to the Attacks characteristic of melee attack actions made by this fighter until the end of their activation.|
-|`Any`|**[Quad] Rampage:** This fighter makes a bonus move action. Then, they can make a bonus attack action.|
+
+<UniversalAbilities />

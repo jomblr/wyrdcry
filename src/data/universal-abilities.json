@@ -1,0 +1,56 @@
+[
+  {
+    "id": "rush",
+    "name": "Rush",
+    "ability_type": "double",
+    "keyword": "Any",
+    "description": "Add 1 to the Move characteristic of this fighter until the end of their activation."
+  },
+  {
+    "id": "respite",
+    "name": "Respite",
+    "ability_type": "double",
+    "keyword": "Any",
+    "description": "A fighter cannot use this ability while within 1\" of an enemy fighter. Remove (X) damage points from this fighter.",
+    "short": "The fighter must not be within 1\" of an enemy. Remove (X) damage from it."
+  },
+  {
+    "id": "careful-aim",
+    "name": "Careful Aim",
+    "ability_type": "double",
+    "keyword": "Any",
+    "description": "Add 1 to the **Shoot** characteristic of this fighter for its next **Ranged Attack** action this activation.",
+    "short": "Add 1 to this fighter's **Shoot** for its next **Ranged Attack** this activation."
+  },
+  {
+    "id": "diving-charge",
+    "name": "Diving Charge",
+    "ability_type": "double",
+    "keyword": "Any",
+    "description": "A fighter can use this ability after making a move action where it fell more than 2\" vertically. Until the end of their activation, you may add 1 to their Fight characteristic for every full 2\" they fell.",
+    "short": "Use this after a move where the fighter fell more than 2\". Add 1 to its Fight for every full 2\" it fell, until the end of its activation."
+  },
+  {
+    "id": "inspiring-presence",
+    "name": "Inspiring Presence",
+    "ability_type": "triple",
+    "keyword": "Hero",
+    "description": "Select a visible friendly fighter within 6\" of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter's activation ends.",
+    "short": "Pick a visible friendly fighter within 6\" that has not activated yet. It activates right after this fighter."
+  },
+  {
+    "id": "onslaught",
+    "name": "Onslaught",
+    "ability_type": "triple",
+    "keyword": "Any",
+    "description": "Add 1 to the Attacks characteristic of melee attack actions made by this fighter until the end of their activation.",
+    "short": "Add 1 to this fighter's Attacks for melee attacks, until the end of its activation."
+  },
+  {
+    "id": "rampage",
+    "name": "Rampage",
+    "ability_type": "quad",
+    "keyword": "Any",
+    "description": "This fighter makes a bonus move action. Then, they can make a bonus attack action."
+  }
+]
