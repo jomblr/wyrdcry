@@ -10,7 +10,7 @@ The following rules are scraped from the wiki. They look rough, but can be print
 
 ## Game Aides
 - [Warband Roster](pathname:///files/warband-roster.pdf)
-- [Game Reference](pathname:///files/game-reference.pdf)
+- <GameReferenceDownload /> — also readable [in the browser](pathname:///print/game-reference)
 
 ## Archived 
 The following files are from the 0.4 playtest. While the rules are outdated, the PDFs best represent what the final product will look like.

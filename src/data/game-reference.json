@@ -1,0 +1,518 @@
+[
+  {
+    "id": "setting-up",
+    "title": "Setting Up",
+    "source": "/docs/rules/starting-a-battle",
+    "blocks": [
+      {
+        "type": "steps",
+        "items": [
+          {
+            "title": "Present warbands",
+            "text": "Show each other your fighters. Go through their equipment and special rules."
+          },
+          {
+            "title": "Determine attacker",
+            "text": "Roll off. The winner picks who attacks and who defends."
+          },
+          {
+            "title": "Select a scenario",
+            "text": "Pick a scenario. It sets the victory conditions and any special rules."
+          },
+          {
+            "title": "Set up terrain",
+            "text": "Take turns placing terrain. Agree on what each piece is made of. Place objective markers and treasure tokens now too."
+          },
+          {
+            "title": "Deploy warbands",
+            "text": "Split each warband into three search parties, as even as you can. The defender picks a battlefield edge and sets up one search party within 3\" of it. The attacker sets up one within 3\" of the opposite edge. Keep taking turns until every fighter is on the battlefield. In a search party, each fighter after the first must be within 3\" of another fighter in that party."
+          },
+          {
+            "title": "Optional rules",
+            "text": "Both players may agree to add twists, contracts or hired swords."
+          },
+          {
+            "title": "First battle round",
+            "text": "Play the Initiative Phase, then the Combat Phase, then the End Phase."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "battle-round",
+    "title": "The Battle Round",
+    "source": "/docs/rules/the-battle-round",
+    "blocks": [
+      {
+        "type": "bullets",
+        "items": [
+          "**Initiative Phase:** Roll for initiative. Gather ability dice.",
+          "**Combat Phase:** Take turns activating fighters.",
+          "**End Phase:** Check victory conditions and morale.",
+          "Then start the next battle round."
+        ]
+      },
+      {
+        "type": "prose",
+        "heading": "Battle length",
+        "text": "A battle lasts at least four battle rounds. At the end of the fourth round, roll a d6. On a 1-2 the battle ends. On a 3+ you play a fifth round."
+      },
+      {
+        "type": "callout",
+        "text": "At the end of the last round, check the scenario victory conditions. Has neither warband met them? The battle is a draw. In a campaign, both players then play an aftermath sequence."
+      }
+    ]
+  },
+  {
+    "id": "initiative-phase",
+    "title": "Initiative Phase",
+    "source": "/docs/rules/the-initiative-phase",
+    "blocks": [
+      {
+        "type": "steps",
+        "items": [
+          {
+            "title": "Determine initiative",
+            "text": "Each player rolls 6 dice. Count your singles. A single is a dice that matches no other dice in your roll. Most singles takes the initiative. On a tie, roll off."
+          },
+          {
+            "title": "Ability dice",
+            "text": "Group your other dice by score. Two matching dice are a **[Double]**. Three are a **[Triple]**. Four are a **[Quad]**. You spend these on abilities in the Combat Phase."
+          },
+          {
+            "title": "Use wyrd dice",
+            "text": "Each player gets 1 wyrd dice. The player with initiative goes first. Use it to add a single. Or use it to improve one ability dice by one step: single > **[Double]** > **[Triple]** > **[Quad]**. The wyrd dice takes the score of the dice it improves. You may save wyrd dice for a later round, and use several in one round. But you can improve each ability dice only once."
+          },
+          {
+            "title": "Seize initiative",
+            "text": "Both players declare their wyrd dice. Then count singles again. Does the player without initiative now have more? They take the initiative. Is it a tie that was not a tie before? Roll off."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "combat-phase",
+    "title": "Combat Phase",
+    "source": "/docs/rules/the-combat-phase",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Players take turns activating fighters. The player with initiative decides who starts. Each fighter activates once. The phase ends when every fighter has activated."
+      },
+      {
+        "type": "bullets",
+        "items": [
+          "**Actions:** 2 per activation, one after the other. The same action may be taken twice.",
+          "**Free actions:** Abilities and reactions grant these. There is no limit.",
+          "**Abilities:** 1 per activation. Use it before the first action, or after the first or second.",
+          "**Reactions:** After each action, the other player may react with one fighter."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "move",
+    "title": "Move",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/actions/move-action",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Move the fighter up to its Move characteristic in inches. Move in straight lines. Round each part up to the next full inch."
+      },
+      {
+        "type": "bullets",
+        "items": [
+          "Do not move through terrain. Insignificant terrain is fine.",
+          "Do not move through an enemy base.",
+          "Is the fighter within 1\" of an enemy? It cannot start a Move action. Use Retreat instead.",
+          "The fighter may move to within 1\" of an enemy, but must stop there. It may move on if a friendly fighter is already within 1\" of that enemy."
+        ]
+      },
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "Climbing",
+            "text": "Climb an obstacle as part of a Move action. Vertical distance counts double. Stay within ½\" of the obstacle. You may end a Move action while climbing. A fighter that is still climbing at the end of its activation falls."
+          },
+          {
+            "term": "Jumping",
+            "text": "Jump from an obstacle or platform as part of a Move action. Only horizontal distance counts. Do you jump further than half your Move, rounded up? Take a jump test: roll a d6. On a 1 the fighter falls. On a 2-6 it may jump up to its full Move."
+          },
+          {
+            "term": "Dropping",
+            "text": "Drop more than 2\" straight down and the fighter falls. Ending a Move action in mid-jump also makes it fall."
+          },
+          {
+            "term": "Falling",
+            "text": "The other player picks a sensible spot below and places the fighter there. Allocate d3 damage for every full 2\" it fell."
+          },
+          {
+            "term": "Flying",
+            "text": "Only horizontal distance counts. The fighter passes over terrain and other fighters. It cannot end a Move action while flying."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "retreat",
+    "title": "Retreat",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/actions/retreat",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Is the fighter within 1\" of an enemy? It must Retreat to move away. Move up to 3\" in any direction. Do not end within 1\" of an enemy. Is there no such spot? Make another action instead."
+      }
+    ]
+  },
+  {
+    "id": "wait",
+    "title": "Wait",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/actions/wait",
+    "blocks": [
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "As the first action",
+            "text": "The fighter is waiting. Its activation ends now. It may activate once more later in the Combat Phase and use its second action then. It may use an ability in that second activation, even if it already used one."
+          },
+          {
+            "term": "As the last action",
+            "text": "The activation simply ends. Use this when the fighter has nothing left to do."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "channel",
+    "title": "Channel Magic",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/actions/channel-magic",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "`Wizards` only. Add a **[Double]** with a value of 3. Or pick one ability dice you already have and do one of these:"
+      },
+      {
+        "type": "bullets",
+        "items": [
+          "Improve it one tier: **[Double]** > **[Triple]** > **[Quad]**.",
+          "Raise its value by 3, up to a maximum of 6."
+        ]
+      },
+      {
+        "type": "prose",
+        "text": "Then roll a d6 on the calamity table. A `Wizard` may channel several times for the same ability dice. Use the channelled dice in this activation. You cannot pass it to another fighter. Unused, it is discarded."
+      },
+      {
+        "type": "table",
+        "heading": "Magical Calamity",
+        "columns": [
+          "D6",
+          "Effect"
+        ],
+        "align": [
+          "center",
+          "left"
+        ],
+        "rows": [
+          [
+            "1",
+            "**Calamitous Detonation:** the `Wizard` is taken out of action."
+          ],
+          [
+            "2-3",
+            "**Barely Controlled Power:** allocate (X) damage to the `Wizard`."
+          ],
+          [
+            "4-6",
+            "**Arcane Surge:** no ill effects."
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "end-phase",
+    "title": "End Phase",
+    "source": "/docs/rules/the-end-phase",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Have half your fighters been taken out of action? Round up. Your warband is now **wavering**, and stays that way for the rest of the battle. A fighter of a wavering warband must pass a Bravery test when it first activates. If it fails, it is panicked."
+      },
+      {
+        "type": "prose",
+        "heading": "Withdraw from battle",
+        "text": "Is your warband wavering? You may withdraw instead of starting a new battle round. Friendly fighters within 1\" of an enemy drop their wyrdstone. Then remove all your fighters. They do not count as taken out of action. The enemy warband wins, whatever the victory conditions say. It also takes any wyrdstone left on the battlefield."
+      }
+    ]
+  },
+  {
+    "id": "damage",
+    "title": "Damage",
+    "source": "/docs/rules/general-principles",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Allocate damage one point at a time. Has a fighter taken damage equal to its Health? It is taken **out of action**. Remove it from the battlefield. Discard any damage left over."
+      },
+      {
+        "type": "prose",
+        "heading": "Falling from a platform",
+        "text": "Is a fighter within ½\" of a platform edge when it takes damage? Roll a d6. On a 1 it falls. On a 2-6 nothing happens."
+      }
+    ]
+  },
+  {
+    "id": "attack",
+    "title": "Attack",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/actions/attack-action",
+    "blocks": [
+      {
+        "type": "steps",
+        "items": [
+          {
+            "title": "Select a weapon and target",
+            "text": "Pick a weapon. A melee weapon makes a Melee Attack. A ranged weapon makes a Ranged Attack. Pick a visible enemy inside the weapon's Range. Is an enemy within 1\"? One of them must be the target. A Ranged Attack cannot target an enemy within 1\" of a friendly fighter. Some weapons have a minimum range: a Range of 3-18\" cannot target within 3\"."
+          },
+          {
+            "title": "Roll to hit",
+            "text": "Roll dice equal to the weapon's Attacks. Compare your Fight (melee) or Shoot (ranged) to the target's Defense. Apply modifiers. Then read the hit table."
+          },
+          {
+            "title": "Allocate damage",
+            "text": "A hit deals the weapon's first Damage value. A critical hit deals the second."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "heading": "To-Hit Table",
+        "columns": [
+          "Fight / Shoot vs Defense",
+          "Miss",
+          "Hit",
+          "Crit"
+        ],
+        "align": [
+          "left",
+          "center",
+          "center",
+          "center"
+        ],
+        "rows": [
+          [
+            "Twice or greater",
+            "1-2",
+            "3-4",
+            "5-6"
+          ],
+          [
+            "Greater",
+            "1-2",
+            "3-5",
+            "6"
+          ],
+          [
+            "Equal",
+            "1-3",
+            "4-5",
+            "6"
+          ],
+          [
+            "Less",
+            "1-4",
+            "5",
+            "6"
+          ],
+          [
+            "Half or less",
+            "1-4",
+            "5-6",
+            "—"
+          ]
+        ]
+      },
+      {
+        "type": "table",
+        "heading": "Common Modifiers",
+        "columns": [
+          "Modifier",
+          "Attacker",
+          "Defender"
+        ],
+        "align": [
+          "left",
+          "center",
+          "center"
+        ],
+        "rows": [
+          [
+            "Attacker is panicked",
+            "−1 Fight/Shoot",
+            "—"
+          ],
+          [
+            "Weapon is **Mighty X**",
+            "+X Fight/Shoot",
+            "—"
+          ],
+          [
+            "Target is in cover",
+            "—",
+            "+1 Defense"
+          ],
+          [
+            "Target is flanked",
+            "—",
+            "−1 Defense"
+          ]
+        ]
+      },
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "Cover",
+            "text": "A fighter is in cover in two cases. The line between the closest points of both bases passes through an obstacle. Ignore obstacles within ½\" of the attacker. Or the target stands on a platform 2\" or more above the attacker."
+          },
+          {
+            "term": "Flanked",
+            "text": "This applies to melee attacks. Is a friendly fighter within 1\" of the target? Is at least one of them free of other enemies? Then the target is flanked."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reactions",
+    "title": "Reactions",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/reactions",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "A fighter reacts during an enemy activation. Only one reaction is allowed per enemy action. The reacting fighter must meet one of these: it has not activated yet, it is waiting, or it is a `Hero` with its heroic reaction left. Each reaction costs one of that fighter's actions this round. A fighter that gives up all its actions counts as activated. Once per battle a `Hero` may react without paying an action."
+      },
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "Counter",
+            "text": "Use this when a melee attack targets the fighter, before the hit rolls. Does one or more hit roll miss? Deal 2 damage to the attacker. Is any hit roll a 1? Deal 3 instead."
+          },
+          {
+            "term": "Hunker Down",
+            "text": "The fighter must be in cover. Use this after a ranged attack targets it, before the hit rolls. For that attack, add 2 to its Defense. This comes on top of the cover bonus."
+          },
+          {
+            "term": "Strike them down",
+            "text": "Use this when a visible enemy within 1\" makes a Retreat action, before it moves away. Roll a d6. On a 4+, allocate d6 damage to that fighter."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bravery",
+    "title": "Bravery & Panic",
+    "source": "/docs/rules/the-combat-phase/panic",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "Roll a d6. Is the result equal to or higher than the fighter's Bravery? The test is passed. Is it lower? The test is failed, and the rule that called for it says what happens."
+      },
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "Panicked",
+            "text": "This is the usual result of a failed test. A panicked fighter subtracts 1 from Fight and Shoot until the end of the battle round."
+          },
+          {
+            "term": "Terrifying",
+            "text": "Does a fighter attack an enemy with the `Terrifying` keyword? It must take a Bravery test or become panicked. If it passes, it takes no more Terrifying tests this activation."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "terrain",
+    "title": "Terrain",
+    "source": "/docs/rules/the-combat-phase/terrain",
+    "blocks": [
+      {
+        "type": "terms",
+        "items": [
+          {
+            "term": "Obstacles",
+            "text": "An obstacle blocks horizontal movement and rises more than ½\" above the floor or a platform. It gives cover, and fighters must climb it."
+          },
+          {
+            "term": "Doors & windows",
+            "text": "Fighters move through them freely, even when they are closed or too small for the base. The fighter needs enough movement to reach the other side. A fighter within 1\" of a closed door or window may make Melee Attacks against an enemy within 1\" on the other side."
+          },
+          {
+            "term": "Obscuring",
+            "text": "Some gaps are tiny, like a crack or a hole. You cannot draw visibility through them."
+          },
+          {
+            "term": "Ladders",
+            "text": "A ladder is an obstacle, but vertical distance does not count double on it. A fighter may end its activation while climbing a ladder. It risks falling if it takes damage."
+          },
+          {
+            "term": "Platforms",
+            "text": "A platform is a flat, level surface. It must be big enough for a fighter's base."
+          },
+          {
+            "term": "Insignificant",
+            "text": "Anything lower than ½\" is insignificant. It does not affect movement, cover or visibility."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "abilities",
+    "title": "Abilities",
+    "titleStyle": "tab",
+    "source": "/docs/rules/the-combat-phase/abilities",
+    "blocks": [
+      {
+        "type": "prose",
+        "text": "A fighter uses 1 ability per activation. Use it before the first action, or after the first or second. Discard the ability dice it needs. You may discard a higher tier for a lower-tier ability, but all dice in that combination are discarded. The ability value (X) is the score on the dice used. A **[Double]** showing 5s has a value of 5. (X/2) is half of that, rounded up."
+      },
+      {
+        "type": "data",
+        "source": "universal-abilities"
+      }
+    ]
+  },
+  {
+    "id": "weapon-rules",
+    "title": "Weapon Rules",
+    "titleStyle": "tab",
+    "source": "/docs/warbands/Equipment/weapons",
+    "blocks": [
+      {
+        "type": "data",
+        "source": "weapon-rules",
+        "exclude": [
+          "two-handed",
+          "brace"
+        ]
+      }
+    ]
+  }
+]
