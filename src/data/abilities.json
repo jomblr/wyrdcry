@@ -53,7 +53,7 @@
     "name": "Pack Tactics",
     "category": "clan-eshin",
     "ability_type": "double",
-    "description": "Select a visible friendly `Henchman` within 3\" of this fighter. That fighter makes a free move action or a free attack action."
+    "description": "Select a visible friendly `HENCHMAN` within 3\" of this fighter. That fighter makes a free move action or a free attack action."
   },
   {
     "id": "sigmars-blessing",
@@ -235,7 +235,7 @@
     "name": "Arcane Attunement",
     "category": "wits",
     "ability_type": "trait",
-    "description": "`Wizard` only. Start each battle with one additional Wyrd Dice."
+    "description": "`WIZARD` only. Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "tactician",
@@ -249,7 +249,7 @@
     "name": "Pious",
     "category": "wits",
     "ability_type": "trait",
-    "description": "`Priest` only.Start each battle with one additional Wyrd Dice."
+    "description": "`PRIEST` only. Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "charismatic",
@@ -263,14 +263,14 @@
     "name": "Underground Contacts",
     "category": "wits",
     "ability_type": "trait",
-    "description": "When employing a `hired sword`, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up)."
+    "description": "When employing a `HIRED SWORD`, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up)."
   },
   {
     "id": "maintain-momentum-wits",
     "name": "Maintain Momentum",
     "category": "wits",
     "ability_type": "trait",
-    "description": "`Leader` only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
+    "description": "`LEADER` only. When seizing the initiative, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative."
   },
   {
     "id": "cut-and-run",
@@ -347,7 +347,7 @@
     "name": "Incite Rabble",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "Select a friendly `Henchman` within 6”. That `Henchman` makes a free move action. Increase Zeal by 1."
+    "description": "Select a friendly `HENCHMAN` within 6”. That `HENCHMAN` makes a free move action. Increase Zeal by 1."
   },
   {
     "id": "self-flagellation",
@@ -396,7 +396,7 @@
     "name": "Soulfire",
     "category": "sisters-of-sigmar",
     "ability_type": "quad",
-    "description": "Allocate (X/2) damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `Vampire`, `Daemon` or `Thrall`, allocate (X) damage points instead."
+    "description": "Allocate (X/2) damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `VAMPIRE`, `DAEMON` or `THRALL`, allocate (X) damage points instead."
   },
   {
     "id": "touch-of-chaos",
@@ -480,7 +480,7 @@
     "name": "Shambling Horde",
     "category": "undead",
     "ability_type": "double",
-    "description": "Select up to 3 visible friendly fighters with the `Zombie` keyword. Those fighters can each immediately make a bonus move action of up to 3\", as long as they end that move action closer to this fighter."
+    "description": "Select up to 3 visible friendly fighters with the `THRALL` keyword. Those fighters can each immediately make a bonus move action of up to 3\", as long as they end that move action closer to this fighter."
   },
   {
     "id": "chilling-howl",
@@ -606,7 +606,7 @@
     "name": "Voice of Sigmar",
     "category": "hired-sword",
     "ability_type": "trait",
-    "description": "Increase the Bravery characteristic of all visible friendly fighters within 3” of this fighter by 1. In addition, if this fighter is recruited by a `Witch Hunter` warband, you may increase the warband's Zeal by 1 whenever this fighter uses an ability."
+    "description": "Increase the Bravery characteristic of all visible friendly fighters within 3” of this fighter by 1. In addition, if this fighter is recruited by a `WITCH HUNTERS` warband, you may increase the warband's Zeal by 1 whenever this fighter uses an ability."
   },
   {
     "id": "raise-dead",
