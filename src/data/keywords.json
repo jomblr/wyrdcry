@@ -6,7 +6,6 @@
     "DAEMON",
     "VAMPIRE",
     "GHOUL",
-    "ZOMBIE",
     "THRALL",
     "DWARF",
     "ELF",
@@ -19,6 +18,7 @@
     "LEADER",
     "HENCHMAN",
     "WIZARD",
+    "PRIEST",
     "MUTANT",
     "TERRIFYING"
   ]

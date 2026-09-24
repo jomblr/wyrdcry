@@ -10,10 +10,10 @@ The Trading Post offer warbands special equipment apart from that in their facti
 
 Rare items (symbolized with a <Crow />) are hard to find and usually requires knowing the right person or carrying a big purse (usually both). 
 
-- To find a rare item, you must make a **Rarity roll**: first select a `hero` and declare what rare item they are looking for, and then roll a d6.
-- On a 6+, the `Hero` has successfully found the item and may buy it for the listed gold cost. If the item is listed as Single Use, roll a d3 to see how many items are available.
-- You may send additional `heroes` to assist looking for the item. For each `hero` beyond the first, you may add 1 to the dice roll.
-- A `hero` can look for, or assist in looking for one rare item per Aftermath Sequence.
+- To find a rare item, you must make a **Rarity roll**: first select a `HERO` and declare what rare item they are looking for, and then roll a d6.
+- On a 6+, the `HERO` has successfully found the item and may buy it for the listed gold cost. If the item is listed as Single Use, roll a d3 to see how many items are available.
+- You may send additional `HEROES` to assist looking for the item. For each `HERO` beyond the first, you may add 1 to the dice roll.
+- A `HERO` can look for, or assist in looking for one rare item per Aftermath Sequence.
 - A roll of 1 always results in a failure.
 
 #### Single-Use Items
@@ -55,7 +55,7 @@ Use this item in the 'Present Warbands' step. Until the end of the battle, incre
 Use this item after allocating damage to an enemy fighter with a critical hit. That fighter must forfeit one action or suffer d6 damage points.
 
 ### Familiar (40gc)
-A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-combat-phase/actions/channel-magic#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
+A `WIZARD` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](/docs/rules/the-combat-phase/actions/channel-magic#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
 
 ### Healing Draught (40gc)
 Use this item when making a Wait action  to immediately use the ‘Respite’ ability without needing or spending ability dice to do so. Treat the value of that ability as a 6.

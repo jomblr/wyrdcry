@@ -16,12 +16,12 @@ Roll on the appropriate Injury table for each fighter that was taken out of acti
 
 When `Heroes` are taken out of action, they risk suffering a **permanent injury** (symbolised as a ▼). Permanent injuries are all [Traits], with the following special rules: 
 
-- A `Hero` can never have more than three permanent injuries. If they suffer a fourth one, treat that result as [11-12: Dead](#dead) instead.
-- If a `Hero` suffers a permanent injury they already have, treat that result as [41-56: Flesh Found instead](#flesh-wound).
+- A `HERO` can never have more than three permanent injuries. If they suffer a fourth one, treat that result as [11-12: Dead](#dead) instead.
+- If a `HERO` suffers a permanent injury they already have, treat that result as [41-56: Flesh Found instead](#flesh-wound).
 
 ### Death of a leader
 
-If your `Leader` dies or is removed from the warband for any other reason, you must select a `Hero` to gain the `Leader` keyword. If you do not have any fighters with the `Hero` keyword, you must disband the warband and create a new one.
+If your `LEADER` dies or is removed from the warband for any other reason, you must select a `HERO` to gain the `LEADER` keyword. If you do not have any fighters with the `HERO` keyword, you must disband the warband and create a new one.
 
 ### Henchman Injuries {#henchman-injuries}
 
@@ -60,7 +60,7 @@ If your `Leader` dies or is removed from the warband for any other reason, you m
 |62|<span id="captured">**Captured**</span>: The fighter is captured by your opponent's warband. You must offer your opponent half of the fighter's recruitment cost, or concede 1 favour to get them back.|
 |64|<span id="hardened">**Hardened**</span>: Increase the Bravery characteristic of this fighter by 1|
 |63|<span id="rival">**Hatred**</span>: This fighter **hates** the enemy fighter that took them out of action, and may turn a hit into a critical hit when making attack actions against that enemy fighter|
-|65|<span id="terrible-scars">**[Trait] Terrible scars**</span>: This fighter gains the `Terrifying` keyword|
+|65|<span id="terrible-scars">**[Trait] Terrible scars**</span>: This fighter gains the `TERRIFYING` keyword|
 |66|<span id="against-all-odds">**Against all odds**</span>: This warrior gains 1 level of Renown|
 
 </div>
@@ -76,7 +76,7 @@ Each fighter in your warband earn 1 **experience point** for:
 
 In addition, each player must select 1 fighter to earn one additional experience point. When a fighter accumulates 4 experience points, they gain renown ([see Renown](/docs/campaigns/renown)).
 
-Finally, A fighter with the `Beast` keyword never earn experience.
+Finally, A fighter with the `BEAST` keyword never earn experience.
 
 ## Step 3: Earn Favor
 ---
@@ -100,7 +100,7 @@ You may now add new fighters to your warband roster by spending gold coin, follo
 
 Unused equipment can be sold at half price, or stored in the Warband Stash on your warband roster.
 
-Fighters can be dismissed from your warband whenever you wish, and you can strip them of equipment when doing so. If you dismiss your `Leader`, you must elect a new `Leader` by following the steps for [Death of a leader](#death-of-a-leader)
+Fighters can be dismissed from your warband whenever you wish, and you can strip them of equipment when doing so. If you dismiss your `LEADER`, you must elect a new `LEADER` by following the steps for [Death of a leader](#death-of-a-leader)
 
 ## Step 6: Recalculate reputation
 ---

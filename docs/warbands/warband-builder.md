@@ -42,7 +42,7 @@ The warband builder supports fighters gaining experience and renown.
 - **Left-click** a fighter's experience value to increase it by 1.
 - **Right-click** to decrease it by 1.
 - At **4 XP**, Renown increases automatically and the experience value resets to 0.
-- At **4 Renown**, the fighter is promoted to a `Hero` and gains access to the faction's `Hero` weapon options.
+- At **4 Renown**, the fighter is promoted to a `HERO` and gains access to the faction's `HERO` weapon options.
 
 ### Characteristic Increases
 Fighter characteristics can be manually adjusted by **left-clicking** (increase) or **right-clicking** (decrease) the characteristic. Modified characteristics are colour-coded to indicate they have been altered from their default value. Hover over a characteristic to see a breakdown of how it has been modified.

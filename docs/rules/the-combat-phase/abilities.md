@@ -5,7 +5,7 @@ title: Abilities
 # Abilities
 Abilities are special powers that fighters can unleash by spending the ability dice generated in the Initiative Phase, and range from deadly strikes and cunning tactics to strange mutations and magical spells.
 
-Below is a list of **universal abilities** available to fighters from all factions as long as they have the correct keyword. For instance, to use **Inspiring Presence**, the fighter must be a `Hero`.
+Below is a list of **universal abilities** available to fighters from all factions as long as they have the correct keyword. For instance, to use **Inspiring Presence**, the fighter must be a `HERO`.
 
 Many fighters have unique abilities that are listed in their fighter profile, and may learn new ones as they gain Renown.
 
@@ -26,6 +26,6 @@ When an ability mentions (X), it refers to the value shown on the ability dice c
 |`Any`|**[Double] Respite:** A fighter cannot use this ability while within 1" of an enemy fighter. Remove (X) damage points from this fighter.|
 |`Any`|**[Double] Careful Aim:** Add 1 to the **Shoot** characteristic of this fighter for its next **Ranged Attack** action this activation.|
 |`Any`|**[Double] Diving Charge:** A fighter can use this ability after making a move action where it fell more than 2” vertically. Until the end of their activation, you may add 1 to their Fight characteristic for every full 2” they fell.|
-|`Hero`|**[Triple] Inspiring Presence:** Select a visible friendly fighter within 6” of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter’s activation ends.|
+|`HERO`|**[Triple] Inspiring Presence:** Select a visible friendly fighter within 6” of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter’s activation ends.|
 |`Any`|**[Triple] Onslaught:** Add 1 to the Attacks characteristic of melee attack actions made by this fighter until the end of their activation.|
 |`Any`|**[Quad] Rampage:** This fighter makes a bonus move action. Then, they can make a bonus attack action.|
