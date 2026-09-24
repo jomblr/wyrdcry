@@ -11,14 +11,14 @@ Each reaction states when the controlling player must declare that their fighter
 
 - The fighter has not activated yet in the battle round
 - The fighter has activated, but is [waiting](/docs/rules/the-combat-phase/actions/wait).
-- The fighter is a `Hero` with their **[heroic reaction](#heroic-reaction)** remaining.
+- The fighter is a `HERO` with their **[heroic reaction](#heroic-reaction)** remaining.
 
 Each time a fighter makes a reaction, they forfeit one of their actions in that battle round. If a fighter forfeits all of their actions to make reactions, they are treated as a fighter that has already activated and cannot be picked to activate in the battle round.
 
 Finally, only 1 reaction can be made for each action an enemy fighter makes.
 
 ### Heroic Reaction
-`Heroes` are extraordinary fighters that have learned to trust their instincts through countless near-death encounters. Once per battle, each `Hero` can make a reaction without spending an action to do so.
+`Heroes` are extraordinary fighters that have learned to trust their instincts through countless near-death encounters. Once per battle, each `HERO` can make a reaction without spending an action to do so.
 
 While in cover, a fighter may add 1 to their Defense characteristic.
 

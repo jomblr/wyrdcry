@@ -30,7 +30,7 @@ Each fighter has a set of **Characteristics** that describe their physical abili
 - **Bravery:** A fighter’s courage and mental resolve.
 
 ### Keywords
-Keywords describe distinctive features of the fighter, such as their race and faction, or what archetype the fighter  is. When referenced in a rule, keywords are always written in `UPPERCASE`. If a rule refers to a keyword in the plural (for example, `HEROES`), it is treated as a reference to the singular keyword (`Hero`).
+Keywords describe distinctive features of the fighter, such as their race and faction, or what archetype the fighter is. When referenced in a rule, keywords are always written in `UPPERCASE`. If a rule refers to a keyword in the plural (for example, `HEROES`), it is treated as a reference to the singular keyword (`HERO`).
 
 ### Talents
 Most fighters have one or more **Talents** that shape how they act on the battlefield and set them apart from their peers:

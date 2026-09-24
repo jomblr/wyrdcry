@@ -5,7 +5,7 @@ title: Strength
 # Strength Talents
 ---
 ### [Trait] Fearsome
-This fighter gains the `Terrifying` keyword.
+This fighter gains the `TERRIFYING` keyword.
 
 ### [Trait] Oppressor
 Once per battle round, when an enemy fighter makes the 'Retreat' action, this fighter can make the 'Cut Them Down' reaction without having to forfeit an action to do so.

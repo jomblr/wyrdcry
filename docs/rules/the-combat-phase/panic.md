@@ -15,4 +15,4 @@ To take a bravery test, roll a d6 and compare the result to the fighter's Braver
 The most common consequence for failing a Bravery test is for a fighter to become **panicked**. While a fighter is panicked, it must subtract 1 from its Fight and Shoot characteristics until the end of the battle round.
 
 ### Terrifying
-When a fighter makes an attack action against an enemy fighter with the `Terrifying` keyword, they must take a Bravery test or become Panicked. If the test is passed, that fighter does not have to take further Bravery tests caused by Terrifying enemies for the remainder of their activation.
+When a fighter makes an attack action against an enemy fighter with the `TERRIFYING` keyword, they must take a Bravery test or become Panicked. If the test is passed, that fighter does not have to take further Bravery tests caused by Terrifying enemies for the remainder of their activation.
