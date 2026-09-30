@@ -2,6 +2,11 @@
 
 These files are **imported at build time** by React components (`import ... from '@site/src/data/....json'`). There is no runtime API.
 
+They are also the source for **WyrdForge** (`static/forge/`): `scripts/copy-forge-data.js`
+copies them into `static/forge/data/` (generated, gitignored) before every `start` and
+`build`. Edit the files here — never the copies — and restart the dev server so the
+sandbox picks up the change.
+
 ## Fighter wiki cards (`FactionFighters`)
 
 - **File:** [`fighters.json`](./fighters.json)
@@ -25,5 +30,6 @@ If cards are empty or look wrong after editing:
 | `factions.json` | Faction overview, equipment tables, warband builder — optional `warband_keyword` overrides `name` in the warband-limit line on faction pages |
 | `weapons.json` / `items.json` | Equipment lists and builder |
 | `campaign-rules.json` | Warband builder rules |
-| `keywords.json`, `cost-profiles.json` | Limited / future use |
+| `abilities.json` | Fighter abilities on faction pages and in the builder's ability reference |
+| `keywords.json`, `cost-profiles.json` | Limited / future use — `cost-profiles.json` drives the cost calculations in WyrdForge |
 | `weapon-rules.json` | Weapons page glossary + faction equipment names — glossary only lists rules **present in this file** that are still referenced by `weapons.json` |

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# WyrdForge is an internal authoring tool for balancing game data, not site content.
+Disallow: /forge/

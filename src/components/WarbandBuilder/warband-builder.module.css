@@ -75,17 +75,6 @@
   font-weight: 600;
 }
 
-.tocCreate {
-  margin-top: 0.5rem;
-  color: var(--ifm-color-content-secondary);
-  opacity: 0.7;
-}
-
-.tocCreate:disabled {
-  cursor: not-allowed;
-  opacity: 0.35;
-}
-
 /* ─── Warband list (landing page) ───────────────────────────────────────────── */
 
 .warbandListShell {
@@ -156,12 +145,6 @@
   font-size: 1.6rem;
   font-weight: 700;
   margin: 0 0 1.25rem;
-}
-
-
-.warbandListEmpty {
-  color: var(--ifm-color-content-secondary);
-  margin-bottom: 1.25rem;
 }
 
 .warbandListRow {
@@ -419,11 +402,6 @@
   box-shadow: 0 1px 0 color-mix(in srgb, var(--wyrd-border) 85%, transparent);
 }
 
-/* Docs pages: viewport scroll — sit below fixed navbar */
-.gridHeaderDocs {
-  top: var(--ifm-navbar-height);
-}
-
 /* Data row: same subgrid trick, with border-top and hover */
 .gridRow {
   display: grid;
@@ -438,22 +416,6 @@
 
 .gridRowNoHover:hover {
   background: none;
-}
-
-.fighterRowPending {
-  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
-}
-
-.fighterRowPending:hover {
-  background: color-mix(in srgb, var(--ifm-color-primary) 11%, var(--ifm-hover-overlay));
-}
-
-:global(html[data-theme='dark']) .fighterRowPending {
-  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 9%, transparent);
-}
-
-:global(html[data-theme='dark']) .fighterRowPending:hover {
-  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 13%, var(--ifm-hover-overlay));
 }
 
 .goldPending {
@@ -674,13 +636,6 @@
   min-width: 360px;
 }
 
-.factionFighterRefGrid {
-  grid-template-columns:
-    minmax(6rem, 1.4fr) minmax(3rem, 0.75fr) minmax(4.5rem, 0.9fr) repeat(6, minmax(2rem, 0.55fr))
-    minmax(6rem, 1.1fr) minmax(10rem, 2fr);
-  min-width: 920px;
-}
-
 .factionEquipRefGrid {
   --faction-equip-cols: minmax(6rem, 2fr) minmax(4rem, 0.9fr);
   grid-template-columns: var(--faction-equip-cols);
@@ -692,27 +647,12 @@
   font-weight: 700;
 }
 
-/* Single-row stat line: full names (wiki faction fighter sections, same as builder look) */
-.fighterStatsRefGrid {
-  grid-template-columns:
-    minmax(3.5rem, 1fr) minmax(3.25rem, 1fr) minmax(3.5rem, 1fr) minmax(4.75rem, 1.1fr) minmax(3.75rem, 1fr)
-    minmax(4.75rem, 1.1fr);
-  min-width: 520px;
-}
-
 .fighterStatsRefGrid3 {
   grid-template-columns: repeat(3, 1fr);
 }
 
 
 /* Fighter name + type stacked */
-.fighterName {
-  font-weight: 600;
-  font-size: 0.88rem;
-  line-height: 1.2;
-  white-space: normal;
-}
-
 .fighterType {
   font-weight:600;
   font-size: 0.8rem;
@@ -739,24 +679,6 @@
   font-size: 10px;
   margin-bottom: 0;
   margin-right: 0.05rem;
-}
-
-/* Inline editable inputs inside cells */
-.statInput {
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: center;
-  font-family: var(--wyrd-font-body);
-  font-size: 1rem;
-  color: inherit;
-  padding: 0;
-  min-width: 0;
-}
-
-.statInput:focus {
-  outline: 1px solid var(--wyrd-border2);
-  border-radius: 2px;
 }
 
 /* Tooltip visuals: src/css/custom.css (.tooltip, .tooltip-breakdown, …) */
@@ -790,10 +712,6 @@
 /* Stat modified from base value (manual override or armour bonus) */
 .statModified {
   font-weight: 600;
-}
-
-.defenseCell {
-  position: relative;
 }
 
 .nameInput {
@@ -890,16 +808,6 @@
   cursor: not-allowed;
 }
 
-.dropdownItemDanger {
-  color: var(--ifm-color-danger, #e53935);
-}
-
-.dropdownLimit {
-  font-size: 0.75rem;
-  color: var(--wyrd-text3);
-  margin-left: 0.5rem;
-}
-
 .dropdownCost {
   font-size: 0.9rem;
   color: var(--wyrd-text3);
@@ -976,15 +884,6 @@
   border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
   border-radius: var(--ifm-global-radius);
   overflow: hidden;
-}
-
-.infoPanelTitle {
-  font-family: 'Alegreya', serif;
-  font-weight: 600;
-  font-size: 1rem;
-  margin: 0;
-  padding: 0.85rem 1rem;
-  color: var(--ifm-color-content-secondary);
 }
 
 /* Weapon reference table: Weapon | R | A | D | Special (builder + wiki docs) */
@@ -1180,42 +1079,6 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.stashTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.45rem;
-  border-radius: 3px;
-  background: var(--ifm-color-emphasis-200);
-  font-size: 0.75rem;
-  line-height: 1.4;
-}
-
-.stashTagName {
-  font-weight: 500;
-}
-
-.stashTagCost {
-  color: var(--ifm-color-content-secondary);
-  font-size: 0.7rem;
-}
-
-.stashTagRemove {
-  background: none;
-  border: none;
-  padding: 0 0 0 0.1rem;
-  cursor: pointer;
-  font-size: 0.95rem;
-  line-height: 1;
-  color: var(--ifm-color-content-secondary);
-  display: flex;
-  align-items: center;
-}
-
-.stashTagRemove:hover {
-  color: var(--ifm-color-danger, #e03e3e);
-}
-
 /* ── Faction Rules panel ────────────────────────────────────────────── */
 .factionRulesPanel {
   border-width: 2px;
@@ -1290,85 +1153,6 @@
 .notesPlaceholder {
   font-size: 1rem;
   color: var(--ifm-color-content-secondary);
-}
-
-.factionAbilities {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.factionAbility {
-  background: color-mix(in srgb, var(--ifm-color-emphasis-200) 60%, transparent);
-  border: 1px solid var(--wyrd-border);
-  border-radius: var(--ifm-global-radius);
-  padding: 0.45rem 0.65rem;
-}
-
-.factionAbilityHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.25rem;
-}
-
-.factionAbilityName {
-  font-weight: 600;
-  font-size: 0.82rem;
-  font-family: 'Alegreya', serif;
-}
-
-.factionAbilityDesc {
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--ifm-color-content-secondary);
-  margin: 0;
-}
-
-/* Ability type tags */
-.abilityTypeTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.05rem 0.35rem;
-  border-radius: 3px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  line-height: 1.5;
-  background: rgba(128, 128, 128, 0.14);
-  color: var(--ifm-color-content-secondary);
-}
-
-.abilityType_trait {
-  background: color-mix(in srgb, var(--ifm-color-emphasis-400) 25%, transparent);
-  color: var(--ifm-color-content-secondary);
-}
-
-.abilityType_double {
-  background: color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
-  color: var(--ifm-color-primary);
-}
-
-.abilityType_triple {
-  background: color-mix(in srgb, #3b9e5a 18%, transparent);
-  color: #3b9e5a;
-}
-
-[data-theme='dark'] .abilityType_triple {
-  background: color-mix(in srgb, #5ecf7c 15%, transparent);
-  color: #5ecf7c;
-}
-
-.abilityType_quadruple {
-  background: color-mix(in srgb, #c87c1a 18%, transparent);
-  color: #c87c1a;
-}
-
-[data-theme='dark'] .abilityType_quadruple {
-  background: color-mix(in srgb, #f0a040 15%, transparent);
-  color: #f0a040;
 }
 
 /* Placeholder hidden by default; shown on row hover or when focused/open */
@@ -1520,11 +1304,6 @@
   display: inline-block;
 }
 
-.modalFree {
-  color: var(--wyrd-text3);
-  font-style: italic;
-}
-
 .modalDivider {
   border-top: 1px solid var(--wyrd-border);
   margin: 0.15rem 0;
@@ -1631,49 +1410,6 @@
 .ellipsisBtn:hover {
   background: var(--ifm-hover-overlay);
   color: var(--ifm-color-content);
-}
-
-.ellipsisMenu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  z-index: 200;
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--wyrd-border);
-  border-radius: var(--wyrd-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 140px;
-  padding: 0.25rem 0;
-}
-
-.ellipsisMenuItem {
-  display: block;
-  width: 100%;
-  padding: 0.35rem 0.75rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--wyrd-font-body);
-  font-size: 0.9rem;
-  color: var(--ifm-color-content);
-  text-align: left;
-}
-
-.ellipsisMenuItem:hover {
-  background: var(--ifm-hover-overlay);
-}
-
-.ellipsisMenuItemDanger {
-  color: var(--ifm-color-danger, #e53935);
-}
-
-/* ─── Empty state ───────────────────────────────────────────────────────────── */
-
-.emptyState {
-  text-align: center;
-  padding: 2rem;
-  color: var(--wyrd-text3);
-  font-size: 0.95rem;
 }
 
 .tabPanel {

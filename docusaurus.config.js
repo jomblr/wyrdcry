@@ -9,7 +9,7 @@ import remarkHighlight from './src/remark/highlight.mjs';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-/** Must match `baseUrl` below (used in head script for `html.wyrd-homepage` before paint). */
+/** Must match `baseUrl` below (used in the head script that sets `data-wyrd-page` before paint). */
 const baseUrl = '/';
 
 /** @type {import('@docusaurus/types').Config} */
@@ -24,7 +24,7 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://wyrdcry.net',
   baseUrl,
 
   organizationName: 'wyrdcry',
@@ -43,7 +43,8 @@ const config = {
   },
 
   /**
-   * Landing page: `html.wyrd-homepage` toggles transparent navbar (see `src/theme/Root.tsx` too).
+   * Landing page: `html[data-wyrd-page="home"]` toggles the transparent navbar
+   * (see `src/theme/Root.tsx` too).
    * Inline script runs before paint; must respect `baseUrl` (not only `/`).
    */
   headTags: [
@@ -128,8 +129,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/wyrdcry-bg.png',
       colorMode: {
         respectPrefersColorScheme: true,
       },
