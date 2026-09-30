@@ -5,6 +5,7 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import remarkHighlight from './src/remark/highlight.mjs';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -53,6 +54,8 @@ const config = {
     },
   ],
 
+  clientModules: [require.resolve('./src/clientModules/gtagFallback.js')],
+
   plugins: [
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
@@ -60,6 +63,7 @@ const config = {
         hashed: true,
         docsRouteBasePath: '/docs',
         indexBlog: false,
+        docsPluginIdForPreferredVersion: 'default',
       },
     ],
     'docusaurus-plugin-image-zoom',
@@ -79,6 +83,29 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          // Custom admonition keywords; appended to the defaults (note/tip/info/...).
+          // Each needs a renderer in src/theme/Admonition/Types.tsx.
+          admonitions: { keywords: ['encounter', 'inverse'] },
+          // Obsidian-style ==highlight== -> <mark>.
+          // Must run *before* the default plugins: the TOC extractor is one of them,
+          // and it reads heading text via mdast-util-to-string. If this ran after
+          // (plain `remarkPlugins`), a highlighted heading would show the literal
+          // `==text==` in the right-hand nav.
+          beforeDefaultRemarkPlugins: [remarkHighlight],
+          // 0.5 is the live playtest and stays the default at /docs/.
+          // The in-progress 0.9 draft is opt-in at /docs/next/ via the navbar dropdown.
+          // When 0.9 leaves beta: run `docs:version 0.9`, then flip lastVersion.
+          lastVersion: '0.5',
+          versions: {
+            current: {
+              label: '0.9 (draft)',
+              path: 'next',
+              banner: 'unreleased',
+            },
+            '0.5': {
+              label: '0.5 (stable)',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
@@ -146,6 +173,10 @@ const config = {
             to: '/warband-builder',
             label: 'Warband Builder',
             position: 'left',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
           },
           {
             to: '/blog',

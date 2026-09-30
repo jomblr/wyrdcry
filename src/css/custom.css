@@ -266,6 +266,20 @@ h4 {
   font-family: var(--wyrd-font-heading);
 }
 
+/* Infima leaves h4 at 1rem — the same size as body text, so it reads as bold prose
+ * rather than a heading. One step below h3 instead. */
+.markdown h4,
+.theme-doc-markdown h4 {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 576px) {
+  .markdown h4,
+  .theme-doc-markdown h4 {
+    font-size: 1.1rem;
+  }
+}
+
 a {
   font-weight: 600;
 }
@@ -283,8 +297,11 @@ p {
   font-family: var(--wyrd-font-body);
 }
 
-/* ----- Inline / code: Inconsolata, uppercase ----- */
+/* ----- Inline / code: Inconsolata, uppercase -----
+ * `.markdown` covers blog posts (the Updates page), which use `.markdown` but not
+ * `.theme-doc-markdown`; docs pages carry both classes. */
 .code,
+.markdown code,
 .theme-doc-markdown code {
   font-family: 'Inconsolata', monospace;
   text-transform: uppercase;
@@ -579,14 +596,6 @@ pre code {
   margin-bottom: 0;
 }
 
-/* Hero injury roller layout */
-.hero-injury-roller {
-  margin: 0.75rem 0 1rem 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
 /* Keep anchor targets (spans with id) and scrolled-to rows from hiding under navbar */
 .injury-tables [id],
 .injury-tables tr {
@@ -673,6 +682,13 @@ pre code {
   --ifm-color-primary-lightest: #22ad70;
   --ifm-link-color: #0d9660;
   --ifm-link-hover-color: #0a7a4d;
+  /* Same values, kept separately so components can restore them where Infima
+     shadows --ifm-link-color (e.g. inside .alert). --wyrd-link-on-dark is the
+     colour the site uses for links on a dark background. */
+  --wyrd-link: #0d9660;
+  --wyrd-link-hover: #0a7a4d;
+  --wyrd-link-on-dark: #e6c229;
+  --wyrd-link-on-dark-hover: #f0d24a;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
@@ -713,6 +729,11 @@ pre code {
   --ifm-color-primary-lightest: #f5dc6b;
   --ifm-link-color: #e6c229;
   --ifm-link-hover-color: #f0d24a;
+  --wyrd-link: #e6c229;
+  --wyrd-link-hover: #f0d24a;
+  /* Dark theme's inverse card sits on white, so it needs the light-theme link colour. */
+  --wyrd-link-on-light: #0d9660;
+  --wyrd-link-on-light-hover: #0a7a4d;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
   --ifm-background-color: var(--wyrd-bg);
@@ -921,3 +942,329 @@ html[data-theme='dark'] .navbar {
   filter: brightness(0) invert(1);
 }
 
+
+/* ----- Version banner ("This is unreleased documentation…") ----- *
+ * Inverted block: black on light theme, white on dark. Infima drives the alert's
+ * text, links and borders from these custom properties, so overriding them here
+ * covers the bold version name and the "latest version" link too. */
+
+.theme-doc-version-banner {
+  --ifm-alert-background-color: #000;
+  --ifm-alert-background-color-highlight: rgba(255, 255, 255, 0.12);
+  --ifm-alert-foreground-color: #fff;
+  --ifm-alert-border-color: #000;
+  --ifm-alert-shadow: none;
+}
+
+[data-theme='dark'] .theme-doc-version-banner {
+  --ifm-alert-background-color: #fff;
+  --ifm-alert-background-color-highlight: rgba(0, 0, 0, 0.1);
+  --ifm-alert-foreground-color: #000;
+  --ifm-alert-border-color: #fff;
+}
+
+/* Version banner: crow icon left, text right, both vertically centred.
+ * crow.svg has a baked-in dark fill and loads as <img>, so it can only be
+ * recoloured with a filter — inverted to sit on the banner's flipped background. */
+
+.wyrd-version-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.wyrd-version-banner-icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: auto;
+  filter: brightness(0) invert(1); /* white on light theme */
+}
+
+[data-theme='dark'] .wyrd-version-banner-icon {
+  filter: brightness(0); /* black on dark theme */
+}
+
+/* ----- Card admonitions: `:::encounter` and `:::inverse` -----
+ * Keywords registered in docusaurus.config.js, rendered by src/theme/Admonition/Types.tsx.
+ * Inherit Infima's `alert alert--info` typography, but take their box treatment from
+ * .fighterCard so they read as the same kind of card. No icon by design. */
+
+.wyrd-card {
+  border: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: none;
+  /* Infima's `.alert` sets --ifm-link-color to the alert foreground; restore the
+     site's own link colour so links look the same inside a card as outside one. */
+  --ifm-link-color: var(--wyrd-link);
+  --ifm-link-hover-color: var(--wyrd-link-hover);
+}
+
+.wyrd-card__title {
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+/* Headings inside still reach the right-hand TOC — keep them tight to the box. */
+.wyrd-card__content > *:first-child {
+  margin-top: 0;
+}
+
+.wyrd-card__content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* h3 inside an encounter reads as a section heading, so size it like a `.markdown > h2`.
+ * Nested headings miss Infima's `.markdown > h2` rule (it targets direct children only) —
+ * same workaround as the weapon-rules glossary above. Mirrors the 2rem/1.5rem responsive step.
+ * Scoped to .wyrd-encounter only — `:::inverse` keeps normal h3 sizing. */
+.wyrd-card.wyrd-encounter h3 {
+  font-size: 2rem;
+}
+
+@media (max-width: 576px) {
+  .wyrd-card.wyrd-encounter h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* `:::inverse` — same card, flipped against the page. Headings and links are driven
+ * by Infima custom properties, so override those rather than each element. */
+.wyrd-inverse {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  --ifm-heading-color: #fff;
+  /* Tables invert with the card: page tables have a black header on white, so here
+     the header is white on black, and borders go white so they stay visible. */
+  --ifm-table-head-background: #fff;
+  --ifm-table-head-color: #000;
+  --ifm-table-border-color: #fff;
+  --ifm-table-stripe-background: rgba(255, 255, 255, 0.07);
+  /* Card is dark here, so use the site's on-dark link colour (the yellow). */
+  --ifm-link-color: var(--wyrd-link-on-dark);
+  --ifm-link-hover-color: var(--wyrd-link-on-dark-hover);
+}
+
+[data-theme='dark'] .wyrd-inverse {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+  --ifm-heading-color: #000;
+  --ifm-table-head-background: #000;
+  --ifm-table-head-color: #fff;
+  --ifm-table-border-color: #000;
+  --ifm-table-stripe-background: rgba(0, 0, 0, 0.03);
+  /* Card is light here, so use the site's on-light link colour (the green). */
+  --ifm-link-color: var(--wyrd-link-on-light);
+  --ifm-link-hover-color: var(--wyrd-link-on-light-hover);
+}
+
+/* ----- `:::info` -----
+ * Same card treatment as the encounter cards above, but a hairline square border
+ * so it reads as a lighter-weight aside. Targets the theme class (not `.alert--info`)
+ * so the custom cards, which borrow `alert alert--info` for typography, are unaffected. */
+
+.theme-admonition-info {
+  border: 1px dotted var(--ifm-color-emphasis-300);
+  border-radius: 0;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: none;
+  /* Infima's `.alert` repoints --ifm-link-color at the alert foreground; restore ours. */
+  --ifm-link-color: var(--wyrd-link);
+  --ifm-link-hover-color: var(--wyrd-link-hover);
+}
+
+/* h2 and h3 inside any admonition need restating: nested headings miss Infima's
+ * `.markdown > h2` / `.markdown > h3` rules, which target direct children only, so
+ * untouched ones collapse onto the next size down (h2 renders like h3, h3 like h4).
+ * `.theme-admonition` is on every admonition — built-ins (note/tip/info/warning/
+ * danger/caution) and the custom cards — so one rule keeps them all on the page's scale.
+ * Values mirror Infima's desktop/mobile steps. h4 comes from the global rule above. */
+.theme-admonition h2 {
+  font-size: 2rem;
+}
+
+.theme-admonition h3 {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .theme-admonition h2 {
+    font-size: 1.5rem;
+  }
+
+  .theme-admonition h3 {
+    font-size: 1.25rem;
+  }
+}
+
+
+/* ----- Highlighted text -----
+ * Marker-pen effect. Light theme uses a brighter lemon yellow so it reads as a real
+ * highlighter on white; dark theme keeps the site's interaction yellow, which is
+ * calmer against a dark page. Text stays black in both — the yellow only has real
+ * contrast against black, so flipping the text colour would make it unreadable.
+ *
+ * The uneven border-radius is what makes it look hand-drawn: each corner gets a
+ * different horizontal/vertical radius, so the swipe is lopsided rather than a
+ * tidy rounded rectangle. nth-of-type variants stop repeated marks on one page
+ * from looking mechanically identical. */
+
+:root {
+  --wyrd-highlight: #ffe84d;
+}
+
+[data-theme='dark'] {
+  --wyrd-highlight: #e6c229;
+}
+
+mark {
+  background-color: var(--wyrd-highlight);
+  color: #000;
+  /* Tight horizontally so the swipe hugs the words; a little vertical breathing room. */
+  padding: 0.1em 0.1em;
+  /* horizontal radii / vertical radii — deliberately mismatched */
+  border-radius: 0.5em 0.15em 0.6em 0.2em / 0.7em 0.3em 0.4em 0.5em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Shape variants. The remark plugin picks one per highlight by hashing its text —
+ * :nth-of-type can't do this, since it counts siblings within a single parent and
+ * a lone <mark> in its own paragraph is always "the first". Each variant mismatches
+ * its horizontal and vertical radii so the swipe sits lopsided, like a real pen. */
+
+mark.mark-v0,
+.markdown a.mark-v0 {
+  border-radius: 0.5em 0.15em 0.6em 0.2em / 0.7em 0.3em 0.4em 0.5em;
+}
+
+mark.mark-v1,
+.markdown a.mark-v1 {
+  border-radius: 0.15em 0.6em 0.2em 0.55em / 0.4em 0.5em 0.7em 0.25em;
+}
+
+mark.mark-v2,
+.markdown a.mark-v2 {
+  border-radius: 0.6em 0.25em 0.45em 0.15em / 0.25em 0.6em 0.3em 0.6em;
+}
+
+mark.mark-v3,
+.markdown a.mark-v3 {
+  border-radius: 0.25em 0.5em 0.6em 0.3em / 0.6em 0.2em 0.5em 0.35em;
+}
+
+mark.mark-v4,
+.markdown a.mark-v4 {
+  border-radius: 0.55em 0.2em 0.25em 0.6em / 0.3em 0.55em 0.6em 0.2em;
+}
+
+/* Links and code keep working inside a highlight. */
+mark a {
+  color: #000;
+  text-decoration-color: #000;
+}
+
+mark code {
+  color: #000;
+}
+
+/* A highlighted heading carries its <mark> into the right-hand nav, where a yellow
+ * swipe is noise rather than emphasis. Render it as plain text there (desktop and
+ * mobile TOC), while the heading itself stays highlighted in the body. */
+.table-of-contents mark,
+.theme-doc-toc-desktop mark,
+.theme-doc-toc-mobile mark {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ----- Links as highlighter marks -----
+ * Doc-content links get the same marker treatment as <mark>, bold, instead of the
+ * green/yellow text colour. Scoped to .markdown so the navbar, sidebar, TOC,
+ * breadcrumbs and pagination keep normal link styling.
+ *
+ * The exclusions sit inside :where() so they add no specificity — that lets the
+ * component overrides below (weapon tables, fighter cards, equipment lists) win
+ * with a plain descendant selector instead of an escalating :not() chain.
+ *
+ * Unlike <mark>, links use one consistent shape: varied shapes read as hand-drawn
+ * emphasis, whereas links should look like a uniform, tappable thing. */
+
+.markdown a:not(:where(.hash-link, .button, .card)) {
+  background-color: var(--wyrd-highlight);
+  color: #000;
+  font-weight: 700;
+  padding: 0.1em 0.1em;
+  /* Default shape; the remark plugin adds a .mark-vN class per link for variety,
+     reusing the same variants as <mark> (defined with the highlight rules above). */
+  border-radius: 0.4em 0.18em 0.5em 0.22em / 0.55em 0.3em 0.4em 0.45em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-decoration: none;
+}
+
+.markdown a:not(:where(.hash-link, .button, .card)):hover {
+  color: #000;
+  text-decoration: underline;
+  text-decoration-color: #000;
+}
+
+/* Component-rendered links are data, not prose emphasis — highlighting every weapon
+ * name in a stat table drowns the page. Opt them back out. */
+.markdown .weapon-table a,
+.markdown .fighterCard a,
+.markdown .weapon-rules-glossary a {
+  background: none;
+  color: var(--ifm-link-color);
+  font-weight: 600;
+  padding: 0;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+/* Faction equipment tables already style their links to match body text until hover. */
+.markdown .equip-tooltip-trigger a {
+  background: none;
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  padding: 0;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.markdown .equip-tooltip-trigger a:hover {
+  color: var(--ifm-link-color);
+  text-decoration: underline;
+}
+
+/* Hero-only marker after an equipment name in faction tables (replaces the cross icon).
+ * Same treatment as inline keywords (`.theme-doc-markdown code`: Inconsolata, uppercase,
+ * 800 weight, code font size), except greyed so it reads as a qualifier. */
+.hero-only-tag {
+  /* No margin: the name cell (.equipNameCell) already puts a 0.25rem flex gap between them. */
+  font-family: 'Inconsolata', monospace;
+  font-size: var(--ifm-code-font-size);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  white-space: nowrap;
+}
+
+/* Ability preamble on fighter cards ("When recruiting this fighter, you must select…").
+ * Rendered as its own block by FactionFighters.tsx so the whole thing italicises cleanly. */
+.fighter-ability-preamble {
+  font-style: italic;
+  font-weight: 700;
+}

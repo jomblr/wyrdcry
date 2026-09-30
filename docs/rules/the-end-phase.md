@@ -1,22 +1,21 @@
 ---
 sidebar_position: 6
-title: The End Phase
+title: The Morale Phase
 ---
-# The End Phase
+# The Morale Phase
+---
+## Step 1: Check warband morale
 
-## Step 1: Count fighters taken out of action
+In this step, each player must count the number of friendly fighters taken out of action during the battle. If more than half of a warband’s fighters (rounding up) has been taken out of action, the warband is **wavering**.
 
-As your warband suffer casualties in battle, your warband’s morale will start to waver, causing fighters to panic and eventually break and run.
+## Step 2: Take Bravery Tests
 
-The warband morale starts **wavering** once half your fighters (rounding up) has been taken out of action, and will continue to do so until the battle ends. While wavering, your fighters must pass a Bravery test when they are first activated, or become panicked.
+If a warband is wavering, each fighter in that warband must take a Bravery test. If the test fails, that fighter is panicked until the beginning of the next morale phase. Like with all Bravery tests, a fighter within 6” of their `LEADER` may use the `LEADER`'s Bravery characteristic when taking the test.
 
 ### Withdraw from battle
 
-If your warband is wavering, instead of starting a new battle round, you can decide to **voluntarily withdraw** from the battle:
+If your warband is wavering, instead of taking bravery tests, you can decide to voluntarily withdraw from the battle:
 
-- Friendly fighters within 1” of enemy fighters immediately drop any wyrdstone tokens they are carrying, and are then removed from the battlefield.
-- Fighters removed in this manner are not considered to be taken out of action and do not suffer from injuries.
-
-The battle ends, and the enemy warband is the winner regardless of the victory conditions. Any wyrdstone tokens left on battlefield are recovered by the enemy warband.
-
-## Step 2: Start a new battle round
+- Friendly fighters within 1” of enemy fighters immediately drop any tokens they are carrying, and are then removed from the battlefield.
+- Fighters removed in this manner are not considered to be taken out of action and do not roll for injuries in the aftermath sequence.
+- If there is anything your opponent still needs to achieve (such as fulling the victory condition of the scenario), the remaining battle rounds are played through to their conclusion. If not, the battle immediately ends.

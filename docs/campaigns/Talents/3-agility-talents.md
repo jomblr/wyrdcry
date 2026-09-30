@@ -8,7 +8,7 @@ title: Agility
 Once per battle round, this fighter can make the 'Counter' reaction without having to forfeit an action to do so.
 
 ### [Trait] Infiltrator
-At the beginning of the first battle round, this fighter can make a free move action.
+When this fighter is set up on the battlefield, it may immediately make a free move action, as long as it ends that move action more than 6" from enemy fighters.
 
 ### [Trait] Stealthy
 Whenever this fighter is targeted by an enemy fighter, it is considered to be  in cover if both of the following are true:

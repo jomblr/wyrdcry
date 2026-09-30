@@ -3,13 +3,9 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import ReactMarkdown from 'react-markdown';
-import factionsData from '@site/src/data/factions.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
-import weaponRulesData from '@site/src/data/weapon-rules.json';
-import HeroOnlyIcon from '@site/src/components/HeroOnlyIcon';
+import { useGameData, type GameData } from '@site/src/data/gameData';
 import Tooltip from '../WarbandBuilder/Tooltip';
-import { DOC_ARMOUR, DOC_WEAPONS, armourAnchorId, weaponAnchorId } from './wikiPaths';
+import { armourAnchorId, useEquipmentDocPaths, weaponAnchorId } from './wikiPaths';
 import styles from './wiki.module.css';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
@@ -58,14 +54,23 @@ interface EquipmentRow {
   tooltipContent: React.ReactNode;
 }
 
-type WeaponProfile = (typeof weaponsData)[number];
+type WeaponProfile = GameData['weapons'][number];
 
-function weaponSpecialRuleLabel(id: string): string {
-  return weaponRulesData.find(r => r.id === id)?.name ?? id.replace(/-/g, ' ');
+/** Data + version-resolved routes needed to build equipment rows. */
+interface EquipContext {
+  items: GameData['items'];
+  weapons: GameData['weapons'];
+  docWeapons: string;
+  docArmour: string;
+}
+
+function weaponSpecialRuleLabel(id: string, weaponRules: GameData['weaponRules']): string {
+  return weaponRules.find(r => r.id === id)?.name ?? id.replace(/-/g, ' ');
 }
 
 function WeaponTooltipBody({ w }: { w: WeaponProfile }) {
-  const rules = w.special_rules.map(weaponSpecialRuleLabel).join(', ');
+  const { weaponRules } = useGameData();
+  const rules = w.special_rules.map(id => weaponSpecialRuleLabel(id, weaponRules)).join(', ');
   return (
     <div className={clsx('tooltip-breakdown', 'faction-equip-tooltip-content')}>
       <span>
@@ -80,7 +85,7 @@ function WeaponTooltipBody({ w }: { w: WeaponProfile }) {
   );
 }
 
-function ArmourTooltipBody({ item }: { item: (typeof itemsData)[number] }) {
+function ArmourTooltipBody({ item }: { item: GameData['items'][number] }) {
   const desc = item.description?.trim() ?? '';
   if (desc) {
     return (
@@ -120,31 +125,31 @@ function weaponCategory(type: string): 'melee' | 'ranged' {
   return 'melee';
 }
 
-function formatEquipmentEntries(equipment: Record<string, string>): EquipmentRow[] {
+function formatEquipmentEntries(equipment: Record<string, string>, ctx: EquipContext): EquipmentRow[] {
   const rows: EquipmentRow[] = [];
   for (const [rawKey, rule] of Object.entries(equipment)) {
     const heroOnly = rule === 'hero';
     if (rawKey.startsWith('item:')) {
       const itemId = rawKey.slice(5);
-      const item = itemsData.find(i => i.id === itemId);
+      const item = ctx.items.find(i => i.id === itemId);
       if (!item) continue;
       rows.push({
         key: rawKey,
         name: item.name,
         cost: item.cost,
-        href: `${DOC_ARMOUR}#${armourAnchorId(itemId)}`,
+        href: `${ctx.docArmour}#${armourAnchorId(itemId)}`,
         category: 'armour',
         heroOnly,
         tooltipContent: <ArmourTooltipBody item={item} />,
       });
     } else {
-      const w = weaponsData.find(x => x.id === rawKey);
+      const w = ctx.weapons.find(x => x.id === rawKey);
       if (!w) continue;
       rows.push({
         key: rawKey,
         name: w.name,
         cost: w.cost,
-        href: `${DOC_WEAPONS}#${weaponAnchorId(rawKey)}`,
+        href: `${ctx.docWeapons}#${weaponAnchorId(rawKey)}`,
         category: weaponCategory(w.type),
         heroOnly,
         tooltipContent: <WeaponTooltipBody w={w} />,
@@ -170,10 +175,10 @@ function FactionEquipmentTable({ rows, title }: { rows: EquipmentRow[]; title: s
           <div className={wb.gridRow} key={row.key}>
             <div className={wb.cell}>
               <span className={styles.equipNameCell}>
-                {row.heroOnly ? <HeroOnlyIcon /> : null}
                 <EquipmentTooltipLink href={row.href} content={row.tooltipContent}>
                   {row.name}
                 </EquipmentTooltipLink>
+                {row.heroOnly ? <span className="hero-only-tag">(HERO)</span> : null}
               </span>
             </div>
             <div className={`${wb.cell} ${wb.cellCenter}`}>{row.cost}</div>
@@ -184,15 +189,26 @@ function FactionEquipmentTable({ rows, title }: { rows: EquipmentRow[]; title: s
   );
 }
 
-function equipmentRowsForFaction(factionId: string): EquipmentRow[] | null {
-  const faction = factionsData.find(f => f.id === factionId);
+function equipmentRowsForFaction(
+  factionId: string,
+  factions: GameData['factions'],
+  ctx: EquipContext,
+): EquipmentRow[] | null {
+  const faction = factions.find(f => f.id === factionId);
   if (!faction) return null;
-  return formatEquipmentEntries((faction.equipment ?? {}) as Record<string, string>);
+  return formatEquipmentEntries((faction.equipment ?? {}) as Record<string, string>, ctx);
+}
+
+/** Equipment rows for the faction, resolved against the docs version being viewed. */
+function useEquipmentRows(factionId: string): EquipmentRow[] | null {
+  const { items, weapons, factions } = useGameData();
+  const { weapons: docWeapons, armour: docArmour } = useEquipmentDocPaths();
+  return equipmentRowsForFaction(factionId, factions, { items, weapons, docWeapons, docArmour });
 }
 
 /** Melee + natural weapons from `factions.json` for this faction. */
 export function FactionMeleeEquipment({ factionId }: Props) {
-  const all = equipmentRowsForFaction(factionId);
+  const all = useEquipmentRows(factionId);
   if (!all) return null;
   const rows = all.filter(r => r.category === 'melee');
   return <FactionEquipmentTable rows={rows} title="Melee weapons" />;
@@ -200,7 +216,7 @@ export function FactionMeleeEquipment({ factionId }: Props) {
 
 /** Ranged weapons from `factions.json` for this faction. */
 export function FactionRangedEquipment({ factionId }: Props) {
-  const all = equipmentRowsForFaction(factionId);
+  const all = useEquipmentRows(factionId);
   if (!all) return null;
   const rows = all.filter(r => r.category === 'ranged');
   return <FactionEquipmentTable rows={rows} title="Ranged weapons" />;
@@ -208,7 +224,7 @@ export function FactionRangedEquipment({ factionId }: Props) {
 
 /** Shields & armour (`item:…`) from `factions.json` for this faction. */
 export function FactionArmourEquipment({ factionId }: Props) {
-  const all = equipmentRowsForFaction(factionId);
+  const all = useEquipmentRows(factionId);
   if (!all) return null;
   const rows = all.filter(r => r.category === 'armour');
   return <FactionEquipmentTable rows={rows} title="Armour" />;
@@ -216,12 +232,13 @@ export function FactionArmourEquipment({ factionId }: Props) {
 
 export { default as FactionFighters } from './FactionFighters';
 
-function factionOrNull(factionId: string) {
-  return factionsData.find(f => f.id === factionId) ?? null;
+function useFactionOrNull(factionId: string) {
+  const { factions } = useGameData();
+  return factions.find(f => f.id === factionId) ?? null;
 }
 
 /** Optional override in `factions.json` when the display keyword should differ from `name`. */
-type FactionJson = (typeof factionsData)[number] & { warband_keyword?: string | null };
+type FactionJson = GameData['factions'][number] & { warband_keyword?: string | null };
 
 function warbandKeywordLabel(faction: FactionJson): string {
   const w = faction.warband_keyword;
@@ -231,7 +248,7 @@ function warbandKeywordLabel(faction: FactionJson): string {
 
 /** Optional intro blurb from `factions.json` — add your own section headings in MDX around the other exports. */
 export default function FactionReference({ factionId }: Props) {
-  const faction = factionOrNull(factionId);
+  const faction = useFactionOrNull(factionId);
   if (!faction) {
     return <p><em>Faction not found in data.</em></p>;
   }
@@ -250,7 +267,7 @@ export default function FactionReference({ factionId }: Props) {
 
 /** `warband_size` from `factions.json` — put your heading (e.g. `## Warband size`) in MDX above this. Renders nothing if unset. */
 export function FactionWarbandLimit({ factionId }: Props) {
-  const faction = factionOrNull(factionId) as FactionJson | null;
+  const faction = useFactionOrNull(factionId) as FactionJson | null;
   if (!faction || faction.warband_size == null) {
     return null;
   }
@@ -269,7 +286,7 @@ const specialRulesMarkdownComponents = {
 
 /** Markdown from `factions.json` `special_rules` — put your heading in MDX above this. Renders nothing if empty. */
 export function FactionSpecialRules({ factionId }: Props) {
-  const faction = factionOrNull(factionId);
+  const faction = useFactionOrNull(factionId);
   const raw = faction?.special_rules?.trim() ?? '';
   if (!raw) {
     return null;

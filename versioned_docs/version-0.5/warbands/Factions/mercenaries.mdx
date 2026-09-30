@@ -1,0 +1,74 @@
+---
+sidebar_position: 2
+title: Mercenaries
+faction_id: mercenaries
+---
+
+import FactionReference, {
+  FactionFighters,
+  FactionMeleeEquipment,
+  FactionRangedEquipment,
+  FactionArmourEquipment,
+  FactionWarbandLimit,
+  FactionSpecialRules,
+} from '@site/src/components/wiki/FactionReference';
+
+# Mercenaries
+
+<FactionReference factionId="mercenaries" />
+
+## Warband size
+---
+<FactionWarbandLimit factionId="mercenaries" />
+
+## Faction rules
+---
+
+### State Pride
+When creating a `Mercenary warband`, you must select two of the following rules to represent your warband’s home province:
+
+#### Huntsmen
+Increase the Shoot characteristic of all Marksmen by 1.
+
+#### Hardy
+Increase the Health characteristic of all Warriors and Champions by 2.
+
+#### State Troopers
+Increase the Fight characteristic of all Warriors by 1.
+
+#### Well Drilled
+At the end of each Aftermath Sequence, select one Henchman to earn 1 Renown.
+
+#### Unyielding
+Increase the Bravery characteristic of all fighters by 1.
+
+#### Wealthy Patrons
+Gain an additional 30gc when collecting income in the aftermath sequence.
+
+#### Deeply Religious
+Roll 7 initiative dice in each initiative phase instead of 6.
+
+#### Desperate
+You cannot recruit Warriors or Marksmen, but may recruit Youngbloods for 50% of their recruitment fee.
+
+### Well-connected
+`Mercenary` warbands maintain vast networks of contacts. When setting up a battle, a `Mercenary`warband may recruit one Hired Sword for half its normal hiring fee.
+
+## Fighters {#fighters}
+---
+<FactionFighters factionId="mercenaries" />
+
+## Equipment
+---
+<div className="row margin-top--lg">
+  <div className="col col--6">
+
+<FactionMeleeEquipment factionId="mercenaries" />
+  </div>
+  <div className="col col--6">
+
+<FactionRangedEquipment factionId="mercenaries" />
+
+<FactionArmourEquipment factionId="mercenaries" />
+  </div>
+</div>

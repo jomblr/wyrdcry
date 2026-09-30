@@ -3,12 +3,9 @@ sidebar_position: 5
 title: Wits
 ---
 # Wits Talents
-
-### [Trait] Arcane Attunement
-`Wizard` only. Start each battle with one additional Wyrd Dice.
-
-### [Trait] Tactician
-`Leader` only. Start each battle with one additional Wyrd Dice.
+---
+### [Trait] Bootlicker
+When collecting income in the aftermath sequence, if this fighter was not taken out of action, your warband earns 1 favour.
 
 ### [Trait] Charismatic
 Once per battle, this fighter can use the 'Inspiring Presence' ability without needing or spending ability dice to do so.
@@ -16,7 +13,10 @@ Once per battle, this fighter can use the 'Inspiring Presence' ability without n
 ### [Trait] Underground Contacts
 When recruiting a Hired Sword, roll a d6. On a 4+, you may reduce the hiring fee by 50% (rounding up).
 
-### [Trait] Maintain Momentum
+### [Trait] Magical Affinity
+`Wizard` only. This fighter learns another magical ability from their lore of magic. This talent can be taken multiple times.
+
+### [Trait] Master Tactician
 `Leader` only. When seizing the initiative in the initiative phase, if there is a tie, do not roll off. Instead the player controlling this fighter chooses which tied player has the initiative. If multiple warbands have this talent, the players of those warbands roll off, and the winner chooses which tied player has the initiative.
 
 ### [Reaction] Fall Back!

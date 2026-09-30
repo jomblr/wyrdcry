@@ -19,10 +19,12 @@ import {
   resolveFactionIdForToc,
   type FactionTocFrontMatter,
 } from '@site/src/components/wiki/mergeFighterToc';
+import { useGameData } from '@site/src/data/gameData';
 import styles from './styles.module.css';
 
 function useDocTOC() {
   const { frontMatter, toc, metadata } = useDoc();
+  const { fighters } = useGameData();
   const windowSize = useWindowSize();
   const hidden = frontMatter.hide_table_of_contents;
   const mergedToc = useMemo(
@@ -33,8 +35,9 @@ function useDocTOC() {
           metadata.permalink,
           (frontMatter as FactionTocFrontMatter).faction_id,
         ),
+        fighters,
       ),
-    [toc, metadata.permalink, (frontMatter as FactionTocFrontMatter).faction_id],
+    [toc, metadata.permalink, (frontMatter as FactionTocFrontMatter).faction_id, fighters],
   );
   const canRender = !hidden && mergedToc.length > 0;
   const mobile = canRender ? <DocItemTOCMobile /> : undefined;

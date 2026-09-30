@@ -5,7 +5,7 @@ title: Warband Builder (Beta)
 
 # The Warband Builder (Beta)
 :::warning
-The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](/docs/warbands/warband-builder#export-warband) regularly to keep backups.
+The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](./warband-builder.md#export-warband) regularly to keep backups.
 :::
 
 ## The Fighter Tab
@@ -21,7 +21,7 @@ Click Add Fighter at the bottom of the fighter table to add a new fighter to you
 Some factions allow fighters to be recruited for a lowered gold cost. To reduce the gold cost of a fighter, click the gold cost value and change the gold cost in the modal.
 
 ### Adding Equipment
-Click a fighter's equipment field to open the equipment selector. All purchases follow the restrictions outlined [here](/docs/warbands/starting-warband#step-4-equipment). As weapons and equipment are assigned to a fighter, options that can no longer be taken will be greyed out automatically.
+Click a fighter's equipment field to open the equipment selector. All purchases follow the restrictions outlined [here](./starting-warband.md#step-4-equipment). As weapons and equipment are assigned to a fighter, options that can no longer be taken will be greyed out automatically.
 
 ![](/img/add-equipment.png)
 
@@ -59,8 +59,8 @@ A freeform text field for campaign notes, injuries, or anything else you want to
 ### Weapon Table
 Automatically populated with every weapon currently equipped across your warband. Useful for a quick overview during play.
 
-### Talents
-Automatically populated with all traits, reactions, and abilities held by your fighters. If a fighter acquires another talent (such as an injury or gaining Renown), you can add it manually.
+### Traits
+Automatically populated with all the traits from the fighters in your warband. If a fighter acquires another talent (such as an injury or gaining Renown), you can add it manually.
 
 ## Export Warband
 ---

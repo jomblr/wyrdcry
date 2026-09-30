@@ -5,10 +5,10 @@ title: Toughness
 # Toughness Talents
 ---
 ### [Trait] Indomitable
-Each time this fighter is activated, you can remove D3 damage points allocated to them.
+Do not make injury rolls for this fighter while they are exploring a district in the aftermath sequence.
 
 ### [Trait] Nine Lives
-When rolling for injuries, this fighter can re-roll a result of 11-12. In addition, there is no limit to the amount of permanent injuries this fighter may have.
+When rolling for permanent injuries, this fighter can re-roll the first result of 11-12. The second result stands. In addition, there is no limit to the amount of permanent injuries this fighter may have.
 
 ###  [Trait] Tough
 Each time an attack action scores any critical hits on this fighter, 1 of those critical hits becomes a hit instead.

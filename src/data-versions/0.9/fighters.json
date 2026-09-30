@@ -1,0 +1,1191 @@
+[
+  {
+    "id": "assassin-adept",
+    "name": "Assassin Adept",
+    "description": "Steeped in the ancient arts of far Cathay, the Assassin Adepts of clan Eshin command from the shadows and only strikes when the moment is right.",
+    "move": 6,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 5,
+    "cost": 120,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "one-with-the-shadows",
+      "running-death"
+    ],
+    "default_equipment": [],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "clan-eshin",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "night-runner",
+    "name": "Night Runner",
+    "description": "Nimble, swift, and fanatical in their pursuit of recognition, Night Runners throw themselves into danger with reckless abandon.",
+    "move": 6,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 8,
+    "bravery": 6,
+    "power_level": 0,
+    "cost": 55,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "pack-tactics"
+    ],
+    "default_equipment": [],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "clan-eshin",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "black-skaven",
+    "name": "Black Skaven",
+    "description": "Bred for strength, size and cruelty, the Black Skaven serve as the hulking bodyguards and executioners of Clan Eshin.",
+    "move": 6,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 5,
+    "power_level": -10,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "clan-eshin",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "eshin-sorcerer",
+    "name": "Eshin Sorcerer",
+    "description": "These wiry, hooded warlocks combine martial discipline with black magic that bend shadows and wither the flesh.",
+    "move": 6,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 15,
+    "cost": 110,
+    "ability_preamble": "When recruiting an Eshin Sorcerer, you must select one of the following magical abilities. In addition, the Eshin Sorcerer may select another magical ability instead of selecting a heroic talent.",
+    "faction_ability_ids": [
+      "skitterleap",
+      "gnawdoom",
+      "enshrouding-darkness"
+    ],
+    "default_equipment": [],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "clan-eshin",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "giant-rat",
+    "name": "Giant Rat",
+    "description": "Giant Rats are creations of the twisted genius of the Skaven. They are mutated monstrosities the size of dogs.",
+    "move": 8,
+    "fight": 2,
+    "shoot": 2,
+    "defense": 0,
+    "health": 6,
+    "bravery": 6,
+    "power_level": -5,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [
+      "weapon:vicious-teeth"
+    ],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "clan-eshin",
+    "keywords": [
+      "BEAST"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "matriarch",
+    "name": "Matriarch",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 120,
+    "ability_preamble": "When recruiting a Matriarch, you must select one of the following magical abilities. In addition, the Matriarch may select another magical ability instead of selecting a heroic talent.",
+    "faction_ability_ids": [
+      "words-of-healing",
+      "hammer-of-sigmar",
+      "soulfire"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "sisters-of-sigmar",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "captain",
+    "name": "Captain",
+    "description": "A seasoned warrior commanding respect and loyalty through a combination of charisma, strategic genius, and sheer ruthlessness",
+    "move": 5,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 120,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "strategize",
+      "command"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "mercenaries",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "champion",
+    "name": "Champion",
+    "description": "These fighters are the heart and soul of the warband, inspiring their comrades both through martial prowess and friendly banter.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 5,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "martial-exemplar",
+      "lead-by-example"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "mercenaries",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "warrior",
+    "name": "Warrior",
+    "description": "Disgraced state troopers, murderers and treasure hunters make up the backbone of the warband, driven forwards by the promise of coin.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 5,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "driven-by-greed"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "mercenaries",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "marksman",
+    "name": "Marksman",
+    "description": "Driven away from home by the civil war, these forest-born huntsmen now stalk targets with the patience they once reserved for prey.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 5,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "hunters-eye"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "mercenaries",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": 5
+  },
+  {
+    "id": "youngblood",
+    "name": "Youngblood",
+    "description": "With the civil war bleeding the Empire dry of seasoned fighters, the young must pick up arms to fight for their province.",
+    "move": 5,
+    "fight": 2,
+    "shoot": 2,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 10,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "mercenaries",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "augur",
+    "name": "Augur",
+    "description": "",
+    "move": 5,
+    "fight": 2,
+    "shoot": 2,
+    "defense": 0,
+    "health": 12,
+    "bravery": 3,
+    "power_level": 15,
+    "cost": 90,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "armour-of-faith",
+      "foresight",
+      "doom"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "sisters-of-sigmar",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "sister-superior",
+    "name": "Sister Superior",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": -5,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "lead-by-example"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "sisters-of-sigmar",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "sister",
+    "name": "Sister",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 4,
+    "power_level": -5,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "sisters-of-sigmar",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "novice",
+    "name": "Novice",
+    "description": "",
+    "move": 5,
+    "fight": 2,
+    "shoot": 2,
+    "defense": 0,
+    "health": 8,
+    "bravery": 4,
+    "power_level": 10,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "sisters-of-sigmar",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "magister",
+    "name": "Magister",
+    "description": "The cult magister is a charismatic and brilliant individual, who bends lesser souls to their will through dark pacts and a silver tongue.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 25,
+    "cost": 120,
+    "ability_preamble": "When recruiting a Magister, you must select one of the following magical abilities. In addition, the Magister may select another magical ability instead of selecting a heroic talent.",
+    "faction_ability_ids": [
+      "puppet-master",
+      "curse-of-agony",
+      "touch-of-chaos"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "possessed",
+    "keywords": [
+      "HERO",
+      "LEADER",
+      "WIZARD"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "darksoul",
+    "name": "Darksoul",
+    "description": "Hollowed out by daemonic possession, these revered warriors serve as the holy enforcers of the cult, carrying out their bloody craft without fear.",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": -5,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "hollowed",
+      "baleful-challenge"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "possessed",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "possessed",
+    "name": "Possessed",
+    "description": "The Possessed have committed the greatest of sins: they have given their bodies to Daemons. They are nightmarish creatures made of flesh and black magic. ",
+    "move": 6,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 1,
+    "health": 18,
+    "bravery": 4,
+    "power_level": 20,
+    "cost": 160,
+    "ability_preamble": "When this fighter is recruited to the warband, it must make a roll on the mutation table.",
+    "faction_ability_ids": [
+      "ascended"
+    ],
+    "default_equipment": [
+      "weapon:possessed-daemonic-appendage"
+    ],
+    "race": [
+      "DAEMON"
+    ],
+    "faction": "possessed",
+    "keywords": [
+      "HERO",
+      "MUTANT"
+    ],
+    "recruitable_by": [],
+    "limit": 2
+  },
+  {
+    "id": "brethren",
+    "name": "Brethren",
+    "description": "Brethren are the crazed human followers of the cults of the dark gods, eager to descend into damnation. ",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 5,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "possessed",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "mutant",
+    "name": "Mutant",
+    "description": "Scorned by society, these wretches have found solace as embodiments of the shadowlord's will",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 10,
+    "cost": 70,
+    "ability_preamble": "When this fighter is recruited to the warband, it must make a roll on the mutation table.",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "possessed",
+    "keywords": [
+      "HENCHMAN",
+      "MUTANT"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "witch-hunter-captain",
+    "name": "Witch Hunter Captain",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 120,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "condemn",
+      "incite-rabble"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "witch-hunters",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "witch-hunter",
+    "name": "Witch Hunter",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 5,
+    "cost": 90,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "incite-rabble"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "witch-hunters",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "flagellant",
+    "name": "Flagellant",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": -10,
+    "cost": 90,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "self-flagellation",
+      "penitent",
+      "unshakeable"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "witch-hunters",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": 5
+  },
+  {
+    "id": "zealot",
+    "name": "Zealot",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 5,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "witch-hunters",
+    "keywords": [
+      "HENCHMAN"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "war-hound",
+    "name": "War Hound",
+    "description": "",
+    "move": 6,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 8,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "death-grip"
+    ],
+    "default_equipment": [
+      "weapon:warhound-savage-bite"
+    ],
+    "race": [
+      "WAR HOUND"
+    ],
+    "faction": "witch-hunters",
+    "keywords": [
+      "BEAST"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "dreg",
+    "name": "Dreg",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": -5,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "undying-loyalty"
+    ],
+    "default_equipment": [],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "undead",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "vampire",
+    "name": "Vampire",
+    "description": "",
+    "move": 6,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 18,
+    "bravery": 3,
+    "power_level": 25,
+    "cost": 190,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "unholy-celerity",
+      "the-hunger",
+      "unbending-will"
+    ],
+    "default_equipment": [],
+    "race": [
+      "VAMPIRE"
+    ],
+    "faction": "undead",
+    "keywords": [
+      "HERO",
+      "LEADER",
+      "TERRIFYING"
+    ],
+    "recruitable_by": [],
+    "limit": 1
+  },
+  {
+    "id": "ghoul",
+    "name": "Ghoul",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 80,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "GHOUL"
+    ],
+    "faction": "undead",
+    "keywords": [
+      "HENCHMAN",
+      "TERRIFYING"
+    ],
+    "recruitable_by": [],
+    "limit": 5
+  },
+  {
+    "id": "dire",
+    "name": "Dire Wolf",
+    "description": "",
+    "move": 8,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": -15,
+    "cost": 110,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "chilling-howl",
+      "unfeeling-flesh"
+    ],
+    "default_equipment": [
+      "weapon:direwolf-rotten-fangs"
+    ],
+    "race": [
+      "DIRE WOLF"
+    ],
+    "faction": "undead",
+    "keywords": [
+      "TERRIFYING",
+      "THRALL"
+    ],
+    "recruitable_by": [],
+    "limit": 3
+  },
+  {
+    "id": "zombie",
+    "name": "Zombie",
+    "description": "",
+    "move": 4,
+    "fight": 2,
+    "shoot": 2,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 25,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "shambling-horde",
+      "unfeeling-flesh"
+    ],
+    "default_equipment": [
+      "weapon:zombie-infectious-bite"
+    ],
+    "race": [
+      "ZOMBIE"
+    ],
+    "faction": "undead",
+    "keywords": [
+      "TERRIFYING",
+      "THRALL"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "troll-slayer",
+    "name": "Troll Slayer",
+    "description": "Troll Slayers are members of a morbid Dwarf cult, sworn to atone for some\nunforgivable shame. With flame-red hair and ritualistic tattoos, they roam\nin search of the deadliest monsters, seeking redemption in glorious battle.",
+    "move": 4,
+    "fight": 6,
+    "shoot": 3,
+    "defense": 4,
+    "health": 16,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "indomitable",
+      "slayer-deathwish",
+      "slayer-slayer-oath"
+    ],
+    "default_equipment": [
+      "weapon:troll-slayer-axes",
+      "weapon:troll-slayer-thrown-axe"
+    ],
+    "race": [
+      "DWARF"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "sisters-of-sigmar",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "elf-ranger",
+    "name": "Elf Ranger",
+    "description": "Elf rangers work as scouts and spies beyond the borders of the high elf realms,\ntracking targets of interest and eliminating them where possible. As hired\nswords, they offer little in comradery, but plenty in murderous efficiency.",
+    "move": 6,
+    "fight": 4,
+    "shoot": 6,
+    "defense": 3,
+    "health": 10,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "trick-shot",
+      "disengage",
+      "stealthy"
+    ],
+    "default_equipment": [
+      "weapon:elf-ranger-bow",
+      "weapon:sword"
+    ],
+    "race": [
+      "ELF"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "ogre-bodyguard",
+    "name": "Ogre Bodyguard",
+    "description": "A warband backed up by an Ogre makes a fearsome enemy, since Ogres are extremely dangerous fighters and a terrifying sight to behold when\nenraged.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 2,
+    "defense": 4,
+    "health": 20,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 80,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "whack",
+      "bodyguard"
+    ],
+    "default_equipment": [
+      "weapon:ogre-great-weapon"
+    ],
+    "race": [
+      "OGRE"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "possessed",
+      "undead",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "freelance-knight",
+    "name": "Freelance Knight",
+    "description": "Freelancers, or “robber knights,” are fallen nobles with little to their name but their weapons and armour. Drunk and bitter, they haunt the surrounding settlements for work, caring more for coin than honour.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 6,
+    "health": 16,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "duelist",
+      "guard",
+      "heckle"
+    ],
+    "default_equipment": [
+      "weapon:mastercrafted-sword",
+      "item:heavy-armour",
+      "item:shield"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "sisters-of-sigmar",
+      "mercenaries",
+      "witch-hunters"
+    ],
+    "limit": null
+  },
+  {
+    "id": "thief",
+    "name": "Thief",
+    "description": "Thieves have always lurked in the cities of the Old World. Where once they picked pockets and slipped into townhouses, they are now prized for their knack for striking fast and vanishing before anyone can give chase.",
+    "move": 6,
+    "fight": 3,
+    "shoot": 4,
+    "defense": 3,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 40,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "wall-runner",
+      "fall-back",
+      "snatch"
+    ],
+    "default_equipment": [
+      "weapon:thief-shiv-and-club",
+      "weapon:thief-throwing-dagger"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "undead",
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "warlock",
+    "name": "Warlock",
+    "description": "Witchcraft is a crime in the Empire, but that doesn’t stop magicians from finding employ with wealthy patrons. In Mordheim they barter their perilous craft for wyrdstone and a chance to uncover magical relics lost in the ruins.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 3,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "wither",
+      "flight-of-zimmerman",
+      "fires-of-uzhul"
+    ],
+    "default_equipment": [
+      "weapon:sword"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [
+      "mercenaries",
+      "possessed",
+      "undead"
+    ],
+    "limit": null
+  },
+  {
+    "id": "rat-ogre",
+    "name": "Rat Ogre",
+    "description": "Rat Ogres are lethal but stupid killing machines, whose small brains are singularly devoted to the pursuit of fighting and tearing their enemies apart.",
+    "move": 6,
+    "fight": 6,
+    "shoot": 2,
+    "defense": 4,
+    "health": 20,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 90,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "stupidity",
+      "bounding-leaps",
+      "savage-mauling",
+      "fearsome"
+    ],
+    "default_equipment": [
+      "weapon:rat-ogre-sheer-brutality"
+    ],
+    "race": [
+      "SKAVEN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "BEAST"
+    ],
+    "recruitable_by": [
+      "clan-eshin"
+    ],
+    "limit": null
+  },
+  {
+    "id": "beastman-warrior",
+    "name": "Beastman Warrior",
+    "description": "Beastmen are savage brutes that infest the forests of the Empire: massive horned creatures with a furious temper and an inhuman resistance to pain.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 4,
+    "health": 16,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 60,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "endure",
+      "bestial-rage",
+      "headlong-charge"
+    ],
+    "default_equipment": [
+      "weapon:dual-axes"
+    ],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "necromancer",
+    "name": "Necromancer",
+    "description": "Necromancers are evil wizards who have mastered the corrupt art of Necromancy. Many havefled to Mordheim to escape the agents of Sigmar and practice their dark arts freely.",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 3,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 65,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "raise-dead",
+      "transference",
+      "vanhels-danse-macabre"
+    ],
+    "default_equipment": [
+      "weapon:staff"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [
+      "undead",
+      "mercenaries",
+      "possessed"
+    ],
+    "limit": null
+  },
+  {
+    "id": "warrior-priest",
+    "name": "Warrior Priest",
+    "description": "With fire burning in their eyes, the Warrior-Priests stride into battle, chanting aloud the Deus Sigmar, the praise of the patron god of the Empire.",
+    "move": 5,
+    "fight": 5,
+    "shoot": 3,
+    "defense": 5,
+    "health": 14,
+    "bravery": 3,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "hammer-of-sigmar",
+      "voice-of-sigmar",
+      "denounce"
+    ],
+    "default_equipment": [
+      "weapon:sigmarite-warhammer"
+    ],
+    "race": [
+      "HUMAN"
+    ],
+    "faction": "hired-sword",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [
+      "witch-hunters",
+      "mercenaries"
+    ],
+    "limit": null
+  }
+]

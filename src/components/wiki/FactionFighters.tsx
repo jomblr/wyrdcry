@@ -8,15 +8,12 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import rehypeSlug from 'rehype-slug';
 import Heading from '@theme/Heading';
-import fightersData from '@site/src/data/fighters.json';
-import factionsData from '@site/src/data/factions.json';
-import abilitiesData from '@site/src/data/abilities.json';
-import weaponsData from '@site/src/data/weapons.json';
+import { useGameData, type GameData } from '@site/src/data/gameData';
 import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
 import { SpecialRuleLinks } from './WeaponsReference';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
-type Fighter = (typeof fightersData)[number];
+type Fighter = GameData['fighters'][number];
 
 interface Props {
   factionId: string;
@@ -84,7 +81,8 @@ function FighterAbilitiesMarkdown({ source }: { source: string }) {
  * Set front matter `faction_id` on the faction doc (see `FactionTocFrontMatter` in `mergeFighterToc.ts`) so fighter names merge into the right-hand TOC; URLs are also inferred when omitted.
  */
 export default function FactionFighters({ factionId }: Props) {
-  const fighters = fightersData
+  const { fighters: allFighters } = useGameData();
+  const fighters = allFighters
     .filter(f => f.faction === factionId)
     .sort(compareFightersByRoleThenName);
 
@@ -114,7 +112,8 @@ export default function FactionFighters({ factionId }: Props) {
 
 /** Renders a single fighter card by fighter id. */
 export function FighterCard({ fighterId }: { fighterId: string }) {
-  const fighter = fightersData.find(f => f.id === fighterId);
+  const { fighters } = useGameData();
+  const fighter = fighters.find(f => f.id === fighterId);
   if (!fighter) {
     return (
       <p>
@@ -129,8 +128,9 @@ export function FighterCard({ fighterId }: { fighterId: string }) {
 }
 
 function FighterKeywordLine({ fighter: f }: { fighter: Fighter }) {
+  const { factions } = useGameData();
   const factionName =
-    factionsData.find(x => x.id === f.faction)?.name ?? f.faction;
+    factions.find(x => x.id === f.faction)?.name ?? f.faction;
   const races = f.race ?? [];
   const roleKeywords = f.keywords ?? [];
 
@@ -160,27 +160,35 @@ function abilityTypeSortKey(type: string): number {
   return i === -1 ? ABILITY_TYPE_ORDER.length : i;
 }
 
-function resolvedAbilitiesMarkdown(fighter: Fighter): string {
+/**
+ * Abilities markdown for a fighter, with the preamble returned separately so it can be
+ * rendered in its own (italic) block — wrapping it in `*…*` inside the markdown would
+ * break as soon as a preamble carried its own emphasis or ran to several paragraphs.
+ */
+function resolvedAbilitiesMarkdown(
+  fighter: Fighter,
+  abilitiesData: GameData['abilities'],
+): { preamble: string; body: string } {
   const f = fighter as { faction_ability_ids?: string[]; ability_preamble?: string; abilities?: string };
   const ids = f.faction_ability_ids;
   if (ids && ids.length > 0) {
-    const preamble = f.ability_preamble?.trim() ? `${f.ability_preamble.trim()}\n\n` : '';
-    const list = ids
+    const body = ids
       .map(id => abilitiesData.find(a => a.id === id))
-      .filter((a): a is (typeof abilitiesData)[number] => a !== undefined)
+      .filter((a): a is GameData['abilities'][number] => a !== undefined)
       .sort((a, b) => abilityTypeSortKey(a.ability_type) - abilityTypeSortKey(b.ability_type))
       .map(a => `**[${abilityTypeLabel(a.ability_type)}] ${a.name}:** ${a.description}`)
       .join('\n\n');
-    return preamble + list;
+    return { preamble: f.ability_preamble?.trim() ?? '', body };
   }
-  return f.abilities?.trim() ?? '';
+  return { preamble: '', body: f.abilities?.trim() ?? '' };
 }
 
 function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
+  const { weapons: allWeapons } = useGameData();
   const weapons = equipment
     .map(e => e.replace(/^weapon:/, ''))
-    .map(id => weaponsData.find(w => w.id === id))
-    .filter((w): w is (typeof weaponsData)[number] => w !== undefined);
+    .map(id => allWeapons.find(w => w.id === id))
+    .filter((w): w is GameData['weapons'][number] => w !== undefined);
 
   if (weapons.length === 0) return null;
 
@@ -210,9 +218,9 @@ function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
   );
 }
 
-function recruitableByText(ids: string[]): string {
+function recruitableByText(ids: string[], factions: GameData['factions']): string {
   const names = ids
-    .map(id => factionsData.find(fac => fac.id === id)?.name ?? id)
+    .map(id => factions.find(fac => fac.id === id)?.name ?? id)
     .sort((a, b) => a.localeCompare(b));
   if (names.length === 1) return `may be recruited by ${names[0]}`;
   const last = names[names.length - 1];
@@ -221,7 +229,11 @@ function recruitableByText(ids: string[]): string {
 }
 
 function FighterSection({ fighter: f }: { fighter: Fighter }) {
-  const abilities = resolvedAbilitiesMarkdown(f);
+  const { abilities: abilitiesData, factions, statLabels } = useGameData();
+  // 0.9 renames the `defense` key to `armour`; 0.5 still uses `defense`.
+  const armourValue = (f as { armour?: number; defense?: number }).armour
+    ?? (f as { defense?: number }).defense;
+  const abilities = resolvedAbilitiesMarkdown(f, abilitiesData);
   const description = f.description?.trim() ?? '';
   const limitText = limitLabel(f.limit);
   const titleWithLimit = limitText ? `${f.name} (${limitText})` : f.name;
@@ -235,7 +247,7 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
         <p>
           <strong>{f.cost} gc</strong>
           {(f as { recruitable_by?: string[] }).recruitable_by?.length ? (
-            <> ({recruitableByText((f as { recruitable_by?: string[] }).recruitable_by!)})</>
+            <> ({recruitableByText((f as { recruitable_by?: string[] }).recruitable_by!, factions)})</>
           ) : null}
         </p>
         {description ? (
@@ -260,12 +272,12 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
             </div>
             <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
               <div className={wb.gridHeader}>
-                <div className={`${wb.hCell} ${wb.hCellCenter}`}>Defense</div>
+                <div className={`${wb.hCell} ${wb.hCellCenter}`}>{statLabels.defense}</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Health</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Bravery</div>
               </div>
               <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
-                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.defense}</div>
+                <div className={`${wb.cell} ${wb.cellCenter}`}>{armourValue}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.health}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.bravery}+</div>
               </div>
@@ -277,7 +289,12 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
           <DefaultEquipmentTable equipment={(f as any).default_equipment} />
         )}
 
-        {abilities ? <FighterAbilitiesMarkdown source={abilities} /> : null}
+        {abilities.preamble ? (
+          <div className="fighter-ability-preamble">
+            <FighterAbilitiesMarkdown source={abilities.preamble} />
+          </div>
+        ) : null}
+        {abilities.body ? <FighterAbilitiesMarkdown source={abilities.body} /> : null}
 
         <FighterKeywordLine fighter={f} />
       </section>

@@ -15,26 +15,33 @@ import FactionReference, {
 
 # Witch Hunters
 
-
 <FactionReference factionId="witch-hunters" />
 
 ## Warband size
 ---
-
-<FactionWarbandLimit factionId="witch-hunters" />
+A Witch Hunter warband may consist of up to 15 fighters
 
 ## Faction rules
 ---
 
-### Zeal
-Over the course of a battle, you must keep track of the warband’s **Zeal**. As your warband passes each Zeal threshold, apply the corresponding effect to all friendly fighters in the warband with the `WITCH HUNTERS` keyword.
+:::inverse
+### [Faction Trait] Religious Zeal
+As battle is joined, Witch Hunter warbands are consumed by religious fervour. This is represented in-game by Zeal. Zeal is increased through the use of certain faction abilities, and as it reaches new thresholds, you must apply the corresponding effect to all friendly fighters (excluding `HIRED SWORDS`). The effects are cumulative and last for the entire battle.
 
-|  Zeal Threshold |  Effect |
+#### Condemned fighters
+Some effects require an enemy fighter to be **condemned**, which is applied through the use of the ‘Condemn’ ability and the ‘Sudden Accusation’ reaction. Use a condemned token to keep track of condemned fighters.
+
+|  Zeal |  Effect |
 |:---:|:---|
-|0|**Grim:** When a friendly fighter makes an attack action against a fighter with an accusation token, you may increase their Fight or Shoot characteristic by 1.|
-|5|**Wrathful:** When a friendly fighter makes an attack action against a fighter with an accusation token, you may turn 1 hit into a critical hit.|
-|10|**Frenzied:** When a friendly fighter is targeted by an attack action, you may turn 1 critical hit into a hit.|
-|15+|**Maddened:** All friendly fighters must decrease their Defense characteristic by 1, but will pass any Bravery test they are required to take.|
+|0+|**Grim:** When a friendly fighter makes an attack action against a condemned enemy fighter, increase their Fight or Shoot characteristic by 1.|
+|5+|**Wrathful:** When a friendly fighter makes an attack action against a condemned enemy fighter, you may turn 1 hit into a critical hit.|
+|10+|**Frenzied:** Increase the Armour characteristic of all friendly fighters by 1.|
+:::
+
+In addition, all `Witch Hunter` fighters without the `Beast` keyword have the following reaction:
+
+### [Reaction] Sudden Accusation
+A fighter can make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter is condemned. Then, increase Zeal by 1.
 
 ## Fighters {#fighters}
 ---

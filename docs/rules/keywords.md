@@ -16,23 +16,22 @@ These keywords are primarily used when a fighter gains Renown and makes a charac
 - `Hired Sword`
 ## Fighter Keywords
 - <span Id='Leader'>`Leader`</span>
-	- Friendly fighters within 6" can use the Leader's Bravery characteristic when taking [Panic tests.](/docs/rules/the-combat-phase/panic)
-	- If killed, a [new leader must be selected](/docs/campaigns/aftermath-sequence#death-of-a-leader)
+	- Friendly fighters within 6" can use the `Leader's` Bravery characteristic when taking [Bravery tests.](./the-combat-phase/panic.md)
+	- If killed, a [new leader must be selected](../campaigns/the-aftermath-sequence/injuries.md#death-of-a-leader)
 - <span Id='Hero'>`Hero`</span>
-	- Can use equipment marked with <HeroOnly />
-	- Can make a [Heroic Reaction](/docs/rules/the-combat-phase/reactions#heroic-reaction) once per battle
-	- Can make a characteristics increase or select a trait when [gaining renown](/docs/campaigns/renown)
-	- Can be sent to find items at the Trading Post
-	- Must roll on the [Hero Injury Table](/docs/campaigns/aftermath-sequence#hero-injuries) when taken out of action
+	- Can use equipment marked with `Hero`
+	- Can make a [Heroic Reaction](./the-combat-phase/reactions.md#heroic-reaction) once per battle
+	- Can improve a characteristic or select a heroic talent when [earning renown](../campaigns/the-aftermath-sequence/earn-renown.md)
+	- Can be sent to find items at the Trading Post in the aftermath sequence
+	- Must roll on the [Lasting Injury Table](../campaigns/the-aftermath-sequence/injuries.md#hero-injuries) when taken out of action
 - <span Id='Wizard'>`Wizard`</span>
 	- Can use magical abilities
-	- Can make the [Channel Magic](/docs/rules/the-combat-phase/actions/channel-magic) action
+	- Can make the [Channel Magic](./the-combat-phase/actions/channel-magic.md) action
 	- Cannot be equipped with armour
 - <span Id='Henchman'>`Henchman`</span>
-	- Can make a characteristics increase when [gaining renown](/docs/campaigns/renown)
-	- Becomes a `hero` when reaching 4 renown
-	- Must roll on the [Henchman Injury Table](/docs/campaigns/aftermath-sequence#henchman-injuries) when taken out of action
-- <span Id='Beast'>`Beast`</span>
-	- Never gain experience or renown
-	- Cannot make scenario actions
-	- Cannot be given equipment, but uses [natural weapons](/docs/warbands/Equipment/weapons#natural-weapons)
+	- Can increase a characteristic when [earning renown](../campaigns/the-aftermath-sequence/earn-renown.md). Each characteristic can be increased once.
+	- Becomes a `hero` when earning their 4th point of Renown
+- <span Id='Beast'>`Beasts` and `Thralls`</span>
+	- Never earns Renown
+	- Cannot pick up or carry tokens
+	- Cannot be given equipment, but uses [natural weapons](../warbands/Equipment/weapons.mdx#natural-weapons)

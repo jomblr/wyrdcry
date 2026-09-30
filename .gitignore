@@ -21,3 +21,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Obsidian editor config inside the docs tree
+docs/.obsidian/
+
+# WyrdForge export snapshots (folders + zips) — copy the JSON you want into
+# src/data/ (0.5) or src/data-versions/<version>/ (draft); don't commit the exports.
+src/data/wyrdforge-*
+src/data-versions/**/wyrdforge-*
+
+# macOS Finder metadata
+.DS_Store

@@ -6,7 +6,7 @@
 import { useMemo } from 'react';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import type { TOCItem } from '@docusaurus/mdx-loader';
-import fightersData from '@site/src/data/fighters.json';
+import { useGameData, type GameData } from '@site/src/data/gameData';
 import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
 
 /**
@@ -63,8 +63,8 @@ function tocLabelHtml(text: string): string {
     .replace(/"/g, '&quot;');
 }
 
-function fighterTocEntries(factionId: string): TOCItem[] {
-  return fightersData
+function fighterTocEntries(factionId: string, fighters: GameData['fighters']): TOCItem[] {
+  return fighters
     .filter(f => f.faction === factionId)
     .sort(compareFightersByRoleThenName)
     .map(f => {
@@ -79,11 +79,15 @@ function fighterTocEntries(factionId: string): TOCItem[] {
 }
 
 /** Insert fighter h3 entries into the doc TOC after the `## Fighters` heading (id `fighters`). */
-export function mergeFighterToc(base: readonly TOCItem[], factionId: string | null): TOCItem[] {
+export function mergeFighterToc(
+  base: readonly TOCItem[],
+  factionId: string | null,
+  fighters: GameData['fighters'],
+): TOCItem[] {
   if (!factionId) {
     return [...base];
   }
-  const extra = fighterTocEntries(factionId);
+  const extra = fighterTocEntries(factionId, fighters);
   if (extra.length === 0) {
     return [...base];
   }
@@ -98,9 +102,10 @@ export function mergeFighterToc(base: readonly TOCItem[], factionId: string | nu
 /** Must run under `DocProvider` (e.g. swizzled `DocItem/TOC/*`). Uses doc permalink so faction pages work on SSR. */
 export function useMergeFighterToc(base: readonly TOCItem[]): TOCItem[] {
   const { metadata, frontMatter } = useDoc();
+  const { fighters } = useGameData();
   const faction_id = (frontMatter as FactionTocFrontMatter).faction_id;
   return useMemo(() => {
     const factionId = resolveFactionIdForToc(metadata.permalink, faction_id);
-    return mergeFighterToc(base, factionId);
-  }, [base, metadata.permalink, faction_id]);
+    return mergeFighterToc(base, factionId, fighters);
+  }, [base, metadata.permalink, faction_id, fighters]);
 }
