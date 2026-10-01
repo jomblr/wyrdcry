@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical, Pencil } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
+import { fightersData, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 
@@ -56,6 +54,8 @@ export default function FighterCard({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
+  // Defense is called Armour in 0.9 (D vs A); the label comes from the active version.
+  const statKeys = STAT_KEYS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defenseShort } : d));
   if (!profile) return null;
 
   const isBeast = profile.race.includes('BEAST');
@@ -167,12 +167,12 @@ export default function FighterCard({
       <div className={styles.tableWrapper}>
         <div className={`${styles.wbGrid} ${styles.fighterCardStatsGrid}`}>
           <div className={styles.gridHeader}>
-            {STAT_KEYS.map(({ label }) => (
+            {statKeys.map(({ label }) => (
               <div key={label} className={`${styles.hCell} ${styles.hCellCenter}`}>{label}</div>
             ))}
           </div>
           <div className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
-            {STAT_KEYS.map(({ key, suffix }) => (
+            {statKeys.map(({ key, suffix }) => (
               <div key={key} className={`${styles.cell} ${styles.cellCenter}`}>
                 <span className={isModified(key) ? styles.statModified : undefined}>
                   {statVal(key)}{suffix}

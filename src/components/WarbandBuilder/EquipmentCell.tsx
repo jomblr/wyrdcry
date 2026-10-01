@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
-import factionsData from '@site/src/data/factions.json';
+import { factionsData, itemsData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import styles from './warband-builder.module.css';
 
@@ -11,15 +9,15 @@ import styles from './warband-builder.module.css';
 const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 
-const armourItems = itemsData.filter(i => i.type === 'armour');
+const armourItems = () => itemsData.filter(i => i.type === 'armour');
 // Light / heavy armour are mutually exclusive (shield is a melee slot, not armour)
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
 // Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
-const gearItems = itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
+const gearItems = () => itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
 
 type Weapon = (typeof weaponsData)[number];
-type ArmourItem = (typeof armourItems)[number];
-type GearItem = (typeof gearItems)[number];
+type ArmourItem = ReturnType<typeof armourItems>[number];
+type GearItem = ReturnType<typeof gearItems>[number];
 
 // ─── Slot accounting ──────────────────────────────────────────────────────────
 
@@ -188,11 +186,11 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
     return count === 0;
   });
   // Armour: faction-gated via "item:<id>" keys, unavailable to beasts/wizards
-  const baseArmour = isBeast ? [] : armourItems.filter(i =>
+  const baseArmour = isBeast ? [] : armourItems().filter(i =>
     !equipment.includes(i.id) && factionAllowsArmour(i.id),
   );
   // Gear: no faction gating, available to every warband, unavailable to beasts
-  const baseGear = isBeast ? [] : gearItems;
+  const baseGear = isBeast ? [] : gearItems();
 
   const filteredNatural = q ? baseNatural.filter(w => w.name.toLowerCase().includes(q)) : baseNatural;
   const filteredMelee   = q ? baseMelee.filter(w => w.name.toLowerCase().includes(q))   : baseMelee;
@@ -210,13 +208,13 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         if (q && !w.name.toLowerCase().includes(q)) return [];
         return [{ id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots), fromStash: true as const }];
       }
-      const item = armourItems.find(x => x.id === id);
+      const item = armourItems().find(x => x.id === id);
       if (item) {
         if (isBeast || !factionAllowsArmour(id)) return [];
         if (q && !item.name.toLowerCase().includes(q)) return [];
         return [{ id, name: item.name, cost: item.cost, disabled: armourDisabled(item, equipment, slots, isWizard), fromStash: true as const }];
       }
-      const gear = gearItems.find(x => x.id === id);
+      const gear = gearItems().find(x => x.id === id);
       if (gear) {
         if (isBeast) return [];
         if (q && !gear.name.toLowerCase().includes(q)) return [];
@@ -371,9 +369,9 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
       if (isBeast) return w.type === 'natural' && !weaponDisabled(w, equipment, slots);
       return factionAllows(itemId) && !weaponDisabled(w, equipment, slots);
     }
-    const item = armourItems.find(x => x.id === itemId);
+    const item = armourItems().find(x => x.id === itemId);
     if (item) return !isBeast && factionAllowsArmour(itemId) && !armourDisabled(item, equipment, slots, isWizard);
-    const gear = gearItems.find(x => x.id === itemId);
+    const gear = gearItems().find(x => x.id === itemId);
     if (gear) return !isBeast;
     return false;
   }

@@ -5,8 +5,7 @@ import remarkBreaks from 'remark-breaks';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import type { Warband, CustomAbility } from './useWarband';
-import fightersData from '@site/src/data/fighters.json';
-import abilitiesData from '@site/src/data/abilities.json';
+import { abilitiesData, fightersData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {

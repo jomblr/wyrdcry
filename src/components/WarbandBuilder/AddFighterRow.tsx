@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
+import { fightersData } from './data';
 import { compareFightersByCostThenName } from '@site/src/components/wiki/factionUtils';
 import type { FighterInstance } from './useWarband';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';

@@ -4,8 +4,7 @@ import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
 import { calcReputation, calcStanding, calcValue, calcPendingCost, getFavourTier } from './useWarband';
 import styles from './warband-builder.module.css';
-import factionsData from '@site/src/data/factions.json';
-import fightersData from '@site/src/data/fighters.json';
+import { factionsData, fightersData } from './data';
 
 interface Props {
   warband: Warband;

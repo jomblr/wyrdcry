@@ -1,9 +1,5 @@
 import { useReducer, useEffect, useCallback } from 'react';
-import campaignRules from '@site/src/data/campaign-rules.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
-import factionsData from '@site/src/data/factions.json';
-import fightersData from '@site/src/data/fighters.json';
+import { campaignRules, factionsData, fightersData, itemsData, storagePrefix, weaponsData } from './data';
 
 // crypto.randomUUID() requires a secure context (HTTPS/localhost).
 // This fallback works over plain HTTP on a local network.
@@ -108,8 +104,10 @@ type Action =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const STORAGE_INDEX_KEY = 'wyrdcry-warbands';
-const storageKey = (id: string) => `wyrdcry-warband-${id}`;
+// Namespaced per ruleset (see storagePrefix). For 0.5 these resolve to the original
+// keys — 'wyrdcry-warbands' / 'wyrdcry-warband-<id>' — so existing saves keep loading.
+const indexKey = () => `${storagePrefix()}warbands`;
+const storageKey = (id: string) => `${storagePrefix()}warband-${id}`;
 
 function newWarband(): Warband {
   return {
@@ -130,7 +128,7 @@ function newWarband(): Warband {
 
 function loadIndex(): string[] {
   try {
-    const raw = localStorage.getItem(STORAGE_INDEX_KEY);
+    const raw = localStorage.getItem(indexKey());
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -138,7 +136,7 @@ function loadIndex(): string[] {
 }
 
 function saveIndex(ids: string[]) {
-  localStorage.setItem(STORAGE_INDEX_KEY, JSON.stringify(ids));
+  localStorage.setItem(indexKey(), JSON.stringify(ids));
 }
 
 function loadWarband(id: string): Warband | null {

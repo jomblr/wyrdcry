@@ -1,8 +1,6 @@
 import React from 'react';
 import type { Warband, CustomWeapon } from './useWarband';
-import weaponsData from '@site/src/data/weapons.json';
-import fightersData from '@site/src/data/fighters.json';
-import weaponRulesData from '@site/src/data/weapon-rules.json';
+import { fightersData, weaponRulesData, weaponsData } from './data';
 import Tooltip from './Tooltip';
 import styles from './warband-builder.module.css';
 

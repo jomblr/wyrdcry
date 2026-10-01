@@ -2,34 +2,29 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import { useDocsPreferredVersion } from '@docusaurus/plugin-content-docs/client';
+import { getGameData } from '@site/src/data/gameData';
+import { setBuilderData } from '../components/WarbandBuilder/data';
 import WarbandBuilder from '../components/WarbandBuilder/WarbandBuilder';
 
-/** Docs version name of the in-progress draft (the unreleased "current" version). */
-const DRAFT_VERSION = 'current';
-
 /**
- * The builder reads `src/data/*.json` directly rather than the version-aware
- * resolver in `src/data/gameData.ts`, so it cannot render the draft's rules.
- * Rather than show numbers that don't match the version the reader picked, we
- * hide it while they're on the 0.9 draft.
+ * Runs the builder against the ruleset picked in the navbar version dropdown — 0.5 by
+ * default, the 0.9 draft when the reader has switched to it. The page isn't a docs
+ * page, so there's no "current doc version"; the dropdown's saved preference is the
+ * only signal available here.
  */
-function DraftNotice() {
-  return (
-    <div style={{ padding: '3rem 1.25rem', maxWidth: '38rem', margin: '0 auto' }}>
-      <p>
-        The warband builder is not available for the 0.9 draft, but will be updated
-        separately.
-      </p>
-    </div>
-  );
-}
-
-function BuilderOrNotice() {
+function VersionedBuilder() {
   const { preferredVersion } = useDocsPreferredVersion('default');
-  if (preferredVersion?.name === DRAFT_VERSION) {
-    return <DraftNotice />;
-  }
-  return <WarbandBuilder />;
+  const data = getGameData(preferredVersion?.name);
+
+  // Point the builder's data module at this version before it renders. Done during
+  // render (not in an effect) because the children read it on their first render;
+  // it's an idempotent assignment, so re-renders are harmless.
+  setBuilderData(data);
+
+  // Keyed by ruleset so switching versions remounts the builder from scratch: fresh
+  // state, and saved warbands loaded from that version's own storage namespace. A
+  // 0.5 warband is never shown against 0.9 data.
+  return <WarbandBuilder key={data.ruleset} />;
 }
 
 export default function WarbandBuilderPage() {
@@ -41,7 +36,7 @@ export default function WarbandBuilderPage() {
         preferred-version check is also localStorage-backed, so it lives in here too.
       */}
       <BrowserOnly fallback={<div style={{ padding: '2rem' }}>Loading warband builder…</div>}>
-        {() => <BuilderOrNotice />}
+        {() => <VersionedBuilder />}
       </BrowserOnly>
     </Layout>
   );

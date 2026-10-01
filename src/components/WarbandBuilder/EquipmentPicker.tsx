@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './warband-builder.module.css';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
-import factionsData from '@site/src/data/factions.json';
+import { factionsData, itemsData, weaponsData } from './data';
 
-const armourItems = itemsData.filter(i => i.type === 'armour');
+const armourItems = () => itemsData.filter(i => i.type === 'armour');
 // Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
-const gearItems = itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
+const gearItems = () => itemsData.filter(i => i.type === 'single-use' || i.type === 'miscellaneous');
 const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
@@ -104,7 +102,7 @@ export default function EquipmentPicker({
     return !combinedIds.includes(w.id) && slots.ranged + 1 <= RANGED_SLOTS;
   }
 
-  function canAddArmour(item: (typeof armourItems)[0]): boolean {
+  function canAddArmour(item: ReturnType<typeof armourItems>[number]): boolean {
     if (isWizard) return false;
     if (item.id === 'shield')
       return !combinedIds.includes('shield') && slots.melee + 1 <= MELEE_SLOTS;
@@ -112,13 +110,13 @@ export default function EquipmentPicker({
   }
 
   // Gear has no slot cost and can be bought more than once
-  function canAddGear(item: (typeof gearItems)[0]): boolean {
+  function canAddGear(item: ReturnType<typeof gearItems>[number]): boolean {
     return item.cost <= remainingGold;
   }
 
   const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
   const rangedWeapons = weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
-  const availableArmour = armourItems.filter(i => factionAllowsArmour(i.id));
+  const availableArmour = armourItems().filter(i => factionAllowsArmour(i.id));
 
   if (isBeast) return null;
 
@@ -165,7 +163,7 @@ export default function EquipmentPicker({
       {availableArmour.length > 0 && (
         <div>
           <div className={styles.editPanelSectionTitle}>
-            Armour ({combinedIds.some(id => armourItems.find(a => a.id === id)) ? 1 : 0}/1)
+            Armour ({combinedIds.some(id => armourItems().find(a => a.id === id)) ? 1 : 0}/1)
           </div>
           {availableArmour.map(item => (
             <EquipRow
@@ -181,10 +179,10 @@ export default function EquipmentPicker({
         </div>
       )}
 
-      {gearItems.length > 0 && (
+      {gearItems().length > 0 && (
         <div>
           <div className={styles.editPanelSectionTitle}>Items</div>
-          {gearItems.map(item => (
+          {gearItems().map(item => (
             <EquipRow
               key={item.id}
               name={item.name}

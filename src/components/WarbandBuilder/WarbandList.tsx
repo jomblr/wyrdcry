@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import type { Warband } from './useWarband';
-import factionsData from '@site/src/data/factions.json';
+import { factionsData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {

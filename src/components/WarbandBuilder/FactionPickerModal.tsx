@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import factionsData from '@site/src/data/factions.json';
-import campaignRules from '@site/src/data/campaign-rules.json';
+import { campaignRules, factionsData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {

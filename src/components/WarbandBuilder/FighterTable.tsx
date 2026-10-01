@@ -20,9 +20,7 @@ import FighterRow from './FighterRow';
 import FighterCard from './FighterCard';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
-import factionsData from '@site/src/data/factions.json';
-import campaignRules from '@site/src/data/campaign-rules.json';
+import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
 const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
@@ -109,6 +107,8 @@ export default function FighterTable({
 }: Props) {
   const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
+  // The Defense column is headed A (Armour) in 0.9; read from the active version.
+  const headers = HEADERS.map(h => (h.label === 'D' ? { ...h, label: statLabels().defenseShort } : h));
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
   const remainingGold = warband.gold - calcValue(warband, fightersData) - calcPendingCost(warband, fightersData);
@@ -179,7 +179,7 @@ export default function FighterTable({
       <div className={`${styles.wbGrid} ${styles.fighterGrid}`}>
         {/* Header */}
         <div className={`${styles.gridHeader} ${styles.gridHeaderSticky}`}>
-          {HEADERS.map((h, i) => (
+          {headers.map((h, i) => (
             <div
               key={i}
               className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''}`}

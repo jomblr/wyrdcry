@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
+import { itemsData, weaponsData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {

@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
+import { fightersData, itemsData, statLabels, weaponsData } from './data';
 import EquipmentPicker from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
@@ -66,6 +64,8 @@ export default function FighterEditPanel({
   const [valueModalOpen, setValueModalOpen] = useState(false);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
+  // Defense is called Armour in 0.9; the label comes from the active version.
+  const statDefs = STAT_DEFS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defense } : d));
   if (!profile) return null;
 
   const isHero = profile.keywords.includes('HERO') || instance.renown >= 4;
@@ -136,7 +136,7 @@ export default function FighterEditPanel({
           <div className={styles.editPanelSection}>
             <div className={styles.editPanelSectionTitle}>Characteristics</div>
             <div className={styles.editPanelStatsGrid}>
-              {STAT_DEFS.map(({ key, label, suffix, step, min, max, invert }) => (
+              {statDefs.map(({ key, label, suffix, step, min, max, invert }) => (
                 <PanelStat
                   key={key}
                   label={label}

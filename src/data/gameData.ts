@@ -21,6 +21,7 @@
 import { useDocsVersion } from '@docusaurus/plugin-content-docs/client';
 
 import abilities from './abilities.json';
+import campaignRules from './campaign-rules.json';
 import factions from './factions.json';
 import fighters from './fighters.json';
 import items from './items.json';
@@ -28,6 +29,7 @@ import weaponRules from './weapon-rules.json';
 import weapons from './weapons.json';
 
 import abilities09 from '../data-versions/0.9/abilities.json';
+import campaignRules09 from '../data-versions/0.9/campaign-rules.json';
 import factions09 from '../data-versions/0.9/factions.json';
 import fighters09 from '../data-versions/0.9/fighters.json';
 import items09 from '../data-versions/0.9/items.json';
@@ -40,11 +42,20 @@ import weapons09 from '../data-versions/0.9/weapons.json';
  */
 export interface StatLabels {
   defense: string;
+  /** Column abbreviation in compact stat tables (M/F/S/D/H/B). */
+  defenseShort: string;
 }
 
 /** Shapes are taken from the stable data; other versions share the same schema. */
 export interface GameData {
+  /**
+   * Ruleset number, independent of where Docusaurus serves it. Stays '0.9' whether the
+   * draft lives at /docs/next/ today or becomes a versioned release later — so anything
+   * keyed on it (saved warbands) survives that promotion.
+   */
+  ruleset: string;
   abilities: typeof abilities;
+  campaignRules: typeof campaignRules;
   factions: typeof factions;
   fighters: typeof fighters;
   items: typeof items;
@@ -55,25 +66,52 @@ export interface GameData {
 
 /** 0.5 — the live playtest, served at /docs/. */
 const V05: GameData = {
+  ruleset: '0.5',
   abilities,
+  campaignRules,
   factions,
   fighters,
   items,
   weaponRules,
   weapons,
-  statLabels: { defense: 'Defense' },
+  statLabels: { defense: 'Defense', defenseShort: 'D' },
 };
+
+/**
+ * 0.9 renames Defense to Armour, and WyrdForge exports have used both spellings of
+ * the key. Code reads `defense` internally (it's the warband builder's stat key and
+ * the key saved warbands use for overrides), so give every 0.9 fighter a `defense`
+ * value taken from `armour` when present. Display labels come from `statLabels`.
+ */
+function normaliseArmourFighters(list: typeof fighters09): typeof fighters {
+  return list.map(f => {
+    const g = f as typeof f & { armour?: number; defense?: number };
+    return { ...g, defense: g.armour ?? g.defense } as unknown as (typeof fighters)[number];
+  });
+}
+
+/** Same idea for items: an `armour` effect counts as the internal `defense` one. */
+function normaliseArmourItems(list: typeof items09): typeof items {
+  return list.map(i => {
+    const e = (i as { effect?: { characteristic?: string } }).effect;
+    return (e && e.characteristic === 'armour'
+      ? { ...i, effect: { ...e, characteristic: 'defense' } }
+      : i) as unknown as (typeof items)[number];
+  });
+}
 
 /** The 0.9 draft, served at /docs/next/. */
 const V09: GameData = {
+  ruleset: '0.9',
   abilities: abilities09 as typeof abilities,
+  campaignRules: campaignRules09 as typeof campaignRules,
   factions: factions09 as typeof factions,
-  fighters: fighters09 as typeof fighters,
-  items: items09 as typeof items,
+  fighters: normaliseArmourFighters(fighters09),
+  items: normaliseArmourItems(items09),
   weaponRules: weaponRules09 as typeof weaponRules,
   weapons: weapons09 as typeof weapons,
-  // 0.9 renames the Defense stat to Armour. The JSON key is still `defense`.
-  statLabels: { defense: 'Armour' },
+  // 0.9 renames the Defense stat to Armour (see normaliseArmour* above).
+  statLabels: { defense: 'Armour', defenseShort: 'A' },
 };
 
 /** Keyed by Docusaurus version name. 'current' is the unreleased 0.9 draft. */
@@ -86,6 +124,11 @@ const BY_VERSION: Record<string, GameData> = {
 const STABLE_VERSION = '0.5';
 
 export const STABLE_DATA: GameData = BY_VERSION[STABLE_VERSION];
+
+/** Game data for a Docusaurus version name ('current' = draft); falls back to stable. */
+export function getGameData(version?: string | null): GameData {
+  return (version && BY_VERSION[version]) || STABLE_DATA;
+}
 
 /**
  * Game data for the docs version currently being rendered.
