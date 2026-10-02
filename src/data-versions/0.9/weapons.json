@@ -167,8 +167,8 @@
       "two-handed",
       "cumbersome"
     ],
-    "power_level": 5,
-    "cost": 15
+    "power_level": 10,
+    "cost": 25
   },
   {
     "id": "great-weapon",
