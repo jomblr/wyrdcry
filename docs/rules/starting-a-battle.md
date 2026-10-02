@@ -17,7 +17,7 @@ The players roll off. The winner decides which player is the attacker and which 
 
 Starting with the defender, each player must divide their warband into three search parties and present them to their opponent in order: as their first, second and third search party. Each search party consists of one third of a player’s warband, distributed as evenly as possible. For example, a warband of 10 fighters would form two search parties of 3 fighters and one of 4.
 
-## 3) Determine Scenario
+## 4) Determine Scenario
 
 Wyrdcry battles are played according to a scenario, consisting of 3 parts: the deployment map, the victory condition, and the twist. In a standard battle, scenarios are determined by rolling once on each table below.
 
@@ -30,7 +30,7 @@ Wyrdcry battles are played according to a scenario, consisting of 3 parts: the d
 | 5   | [Pile-in](./scenarios/deployment-maps.md#5-pile-in)            | 5   | [Occupy](./scenarios/victory-conditions.md#5-occupy)            | 5   | [Nightfall](./scenarios/twists.md#5-nightfall)          |
 | 6   | [The Trap](./scenarios/deployment-maps.md#6-the-trap)           | 6   | [Reckoning](./scenarios/victory-conditions.md#6-reckoning)         | 6   | [Wyrdcry](./scenarios/twists.md#6-wyrdcry)    |
 
-## 4) Set up Search Parties
+## 5) Set up Search Parties
 
 The deployment map features two sets of deployment points, numbered 1 to 3, that determines where the search parties are set up on the battlefield. The white deployment points are for the defender, and the black deployment points are for the attacker.
 
