@@ -87,14 +87,14 @@
   border: 0;
   background: none;
   cursor: zoom-in;
+  margin-bottom: 0.75rem;
   text-align: center;
   color: inherit;
 }
 
 .mapImage {
   display: block;
-  /* Beat the site-wide `.markdown img { width: 50% }` rule. */
-  width: 100% !important;
+  width: 100%;
   height: auto;
 }
 
@@ -120,6 +120,7 @@
 .lightbox img {
   max-width: 100%;
   max-height: 100%;
-  width: auto !important;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }

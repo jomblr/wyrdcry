@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Layout from '@theme/Layout';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { usePluginData } from '@docusaurus/useGlobalData';
@@ -39,10 +40,13 @@ function MapImage({ src, alt }: { src: string; alt: string }) {
         <img className={styles.mapImage} src={url} alt={alt} />
         <span className={styles.enlargeHint}>Click to enlarge</span>
       </button>
-      {open && (
+      {/* Portalled to <body>: outside `.markdown`, so the site's image-zoom plugin and
+          `.markdown img` sizing rules can't grab it. */}
+      {open && createPortal(
         <div className={styles.lightbox} onClick={() => setOpen(false)} role="dialog" aria-label={alt}>
           <img src={url} alt={alt} />
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
@@ -84,10 +88,11 @@ function Panel({ label, entries, roll, onSelect, className }: PanelProps) {
           ))}
         </select>
       </div>
-      {entry && (
+      {/* The map stays outside `.markdown` for the same reason as the lightbox. */}
+      {entry?.image && <MapImage src={entry.image} alt={`${entry.name} deployment map`} />}
+      {entry?.markdown && (
         <div className={`markdown ${styles.body}`}>
-          {entry.image && <MapImage src={entry.image} alt={`${entry.name} deployment map`} />}
-          {entry.markdown && <ReactMarkdown remarkPlugins={[remarkGfm]}>{entry.markdown}</ReactMarkdown>}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{entry.markdown}</ReactMarkdown>
         </div>
       )}
     </section>
