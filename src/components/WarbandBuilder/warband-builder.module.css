@@ -127,8 +127,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: var(--ifm-color-emphasis-100);
-  border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  /* Same box as .wyrd-card (the Scenario Generator panels). */
+  background: var(--ifm-background-surface-color);
+  border: 2px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
   cursor: pointer;
   font-family: var(--wyrd-font-body);
@@ -139,7 +140,6 @@
 }
 
 .warbandListRow:hover {
-  background: var(--ifm-color-emphasis-200);
   border-color: var(--ifm-color-primary);
 }
 
@@ -164,7 +164,7 @@
 }
 
 .warbandListArrow {
-  opacity: 0.4;
+  color: var(--ifm-font-color-base);
   flex-shrink: 0;
 }
 

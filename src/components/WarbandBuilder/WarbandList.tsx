@@ -56,7 +56,7 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
                     {wb.factionId ? (factionsData.find(f => f.id === wb.factionId)?.name ?? wb.factionId) : 'No faction'}
                   </span>
                 </span>
-                <ArrowRight size={16} className={styles.warbandListArrow} />
+                <ArrowRight size={28} strokeWidth={2} className={styles.warbandListArrow} />
               </button>
             </li>
           ))}
