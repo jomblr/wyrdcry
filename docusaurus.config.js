@@ -68,6 +68,7 @@ const config = {
       },
     ],
     'docusaurus-plugin-image-zoom',
+    './plugins/scenario-data.js',
     [
       '@docusaurus/plugin-google-gtag',
       {
@@ -170,9 +171,13 @@ const config = {
             label: 'Campaigns',
           },
           {
-            to: '/warband-builder',
-            label: 'Warband Builder',
+            type: 'dropdown',
+            label: 'Tools',
             position: 'left',
+            items: [
+              { to: '/warband-builder', label: 'Warband Builder' },
+              { to: '/scenario-generator', label: 'Scenario Generator' },
+            ],
           },
           {
             type: 'docsVersionDropdown',

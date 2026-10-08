@@ -82,29 +82,14 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-end;
-  padding: 3rem 10% 0 1.25rem;
+  justify-content: center;
+  padding: 2rem 0 0;
   overflow: hidden;
 }
 
-.warbandListWarrior {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 90vh;
-  max-height: 700px;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom left;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.9;
-  z-index: 0;
-}
-
 .warbandListInner {
+  /* Width and gutters come from Infima's .container, same as the Scenario Generator. */
   width: 100%;
-  max-width: 480px;
   position: relative;
   z-index: 1;
   display: flex;
@@ -119,7 +104,7 @@
   padding: 0 0 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 1rem;
   overflow-y: auto;
   flex: 1;
   scrollbar-width: none;
@@ -129,22 +114,11 @@
   display: none;
 }
 
-@media (max-width: 996px) {
-  .warbandListShell {
-    justify-content: center;
-    padding: 2rem 1.25rem 0;
-  }
 
-  .warbandListWarrior {
-    display: none;
-  }
-}
-
+/* Matches the Scenario Generator: page h1, then cards with heading-font titles. */
 .warbandListHeading {
-  font-family: 'Alegreya', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0 0 1.25rem;
+  font-family: var(--wyrd-font-heading);
+  margin: 0 0 0.25rem;
 }
 
 .warbandListRow {
@@ -152,7 +126,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 0.9rem;
+  padding: 1rem;
   background: var(--ifm-color-emphasis-100);
   border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
   border-radius: var(--ifm-global-radius);
@@ -170,7 +144,10 @@
 }
 
 .warbandListName {
-  font-weight: 600;
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--ifm-heading-color);
 }
 
 .warbandListMeta {
@@ -198,13 +175,9 @@
 
 .warbandListActions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.warbandListActions :global(.button) {
-  flex: 1;
-  text-align: center;
+  margin: 0.5rem 0 1.5rem;
 }
 
 /* ─── Main content area ─────────────────────────────────────────────────────── */
