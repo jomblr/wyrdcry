@@ -40,9 +40,14 @@ Purchase equipment for your fighters while following these restrictions:
 ---
 ### The Warband Stash
 Any gold coin not spent on fighters and equipment are stored in the **warband stash** and may be used to recruit new fighters and buy new equipment during a campaign.
+
 ### Renown
-When you start your warband, your `Leader`gains 1 point of renown and may immediately make a characteristic increase or select a talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's skill and notoriety prior to arriving in Mordheim, and will be explained in detail in the [aftermath sequence](../campaigns/the-aftermath-sequence/injuries.md).
+Your `Leader` starts the campaign with 1 point of renown and may immediately make a characteristic increase or select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's notoriety prior to arriving in the cursed city.
+
 ### Favor & Standing
 Each warband has a faction standing that represents the relationship between the warband and their faction. The process of earning favour and rising in standing is explained in detail in the aftermath sequence. For now, set your warband’s favour to 0 and its standing to **'Disposable'.**
+
 ### Calculate Reputation
-Reputation is an indication of how powerful and notorious a warband is, and is primarily used for bragging rights and underdog bonuses. When you start your warband, Reputation is simply the total sum of Renown from all fighters in the warband.
+Reputation is an indication of how powerful and notorious a warband is, and is primarily used for bragging rights and underdog bonuses. Reputation equals your warband’s current favour score plus the total renown of all fighters in the warband.
+
+When you start your warband, Reputation is simply the total sum of renown from all fighters in the warband.

@@ -7,8 +7,8 @@ import { setBuilderData } from '../components/WarbandBuilder/data';
 import WarbandBuilder from '../components/WarbandBuilder/WarbandBuilder';
 
 /**
- * Runs the builder against the ruleset picked in the navbar version dropdown — 0.5 by
- * default, the 0.9 draft when the reader has switched to it. The page isn't a docs
+ * Runs the builder against the ruleset picked in the navbar version dropdown — 0.9 by
+ * default, the deprecated 0.5 when the reader has switched to it. The page isn't a docs
  * page, so there's no "current doc version"; the dropdown's saved preference is the
  * only signal available here.
  */

@@ -114,18 +114,18 @@ const V09: GameData = {
   statLabels: { defense: 'Armour', defenseShort: 'A' },
 };
 
-/** Keyed by Docusaurus version name. 'current' is the unreleased 0.9 draft. */
+/** Keyed by Docusaurus version name. 'current' is 0.9, the default; 0.5 is deprecated. */
 const BY_VERSION: Record<string, GameData> = {
   current: V09,
   '0.5': V05,
 };
 
 /** Must track `lastVersion` in docusaurus.config.js. */
-const STABLE_VERSION = '0.5';
+const STABLE_VERSION = 'current';
 
 export const STABLE_DATA: GameData = BY_VERSION[STABLE_VERSION];
 
-/** Game data for a Docusaurus version name ('current' = draft); falls back to stable. */
+/** Game data for a Docusaurus version name ('current' = 0.9); falls back to the default version. */
 export function getGameData(version?: string | null): GameData {
   return (version && BY_VERSION[version]) || STABLE_DATA;
 }
@@ -134,7 +134,7 @@ export function getGameData(version?: string | null): GameData {
  * Game data for the docs version currently being rendered.
  *
  * Only valid inside a doc page (every wiki component is). Outside one there is no
- * version context, so we fall back to the stable version rather than throwing.
+ * version context, so we fall back to the default version rather than throwing.
  */
 export function useGameData(): GameData {
   let version: string | undefined;

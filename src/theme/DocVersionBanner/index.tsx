@@ -6,9 +6,9 @@
  * clicking it saves the preferred version — which is what the warband builder
  * reads to decide whether to show itself.
  *
- * Note: "0.9" below is literal. Update it when the draft version changes.
- * The stable version's number is read from the version metadata, so that half
- * stays correct on its own.
+ * Shown only on versions with a `banner` set in docusaurus.config.js — today that is
+ * the deprecated 0.5 (`unmaintained`). An `unreleased` draft version gets the draft copy.
+ * Version numbers are read from the version metadata, so the copy stays correct.
  */
 import React from 'react';
 import clsx from 'clsx';
@@ -27,6 +27,7 @@ interface Props {
 }
 
 function DocVersionBannerEnabled({ className }: Props) {
+  const { banner, version } = useDocsVersion();
   const { pluginId } = useActivePlugin({ failfast: true });
   const { savePreferredVersionName } = useDocsPreferredVersion(pluginId);
   const { latestDocSuggestion, latestVersionSuggestion } = useDocVersionSuggestions(pluginId);
@@ -47,10 +48,14 @@ function DocVersionBannerEnabled({ className }: Props) {
       role="alert">
       <CrowIcon className="wyrd-version-banner-icon" />
       <div>
-        <div>These rules are a draft for the 0.9 Wyrdcry ruleset.</div>
         <div>
-          {/* `.name` is the bare version ("0.5"); `.label` carries the "(stable)" suffix. */}
-          To use the {latestVersionSuggestion.name} playtest,{' '}
+          {banner === 'unreleased'
+            ? `These rules are a draft for the next Wyrdcry ruleset.`
+            : `These are the deprecated ${version} Wyrdcry rules, kept for reference.`}
+        </div>
+        <div>
+          {/* `.name` is the bare version ("0.9"); `.label` may carry a suffix. */}
+          For the current {latestVersionSuggestion.label} rules,{' '}
           <Link
             to={latestVersionSuggestedDoc?.path}
             onClick={() => savePreferredVersionName(latestVersionSuggestion.name)}>

@@ -99,7 +99,7 @@ You may add a `HENCHMAN` to your warband with a recruitment cost of less than 60
 ### 555: Courier
 *The search party stumbles upon a still-warm corpse, a chipped dagger jutting from its back. Searching the body, they find documents of sensitive nature.*
 
-The courier carried sensitive information. You may sell it to a broker for 40 gold coin, or report it to your faction for 2 Favour.
+The courier carried sensitive information. You may sell it to a broker for 30 gold coin, or report it to your faction for 2 Favour.
 :::
 
 :::encounter

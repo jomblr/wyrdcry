@@ -39,7 +39,17 @@ At the end of the battle, if 3 or more wyrdstone tokens are carried by the attac
 **Reward:** The attacker gains 1 wyrdstone shard for each wyrdstone token carried by one of their fighters at the end of the battle. The defender gains 1 wyrdstone shard for each wyrdstone token not carried by an enemy fighter at the end of the battle.
 :::
 :::info
-## 4: Hidden Vault
+## 4: Occupy
+*Taking and holding buildings in this neighbourhood all-but guarantees your warband rich pickings. Unfortunately, your opponent has the same idea.*
+
+Starting with the defender, the players alternate selecting 5 terrain features on the battlefield. Each of these terrain features must be more than 6” from other terrain features.
+
+During the battle, a warband controls one of those terrain features if there are more friendly fighters than enemy fighters wholly within that terrain feature. At the end of the battle, the warband controlling the most terrain features is the winner.
+
+**Reward:** At the end of the battle, roll a d6 for each ruin in a warband’s control. On a 3+, the warband gains 1 wyrdstone shard.
+:::
+:::info
+## 5: Hidden Vault
 *Rumors speak of a long-lost treasure somewhere below the shattered remains of this district. No one knows exactly where, but the promise of wealth will likely draw other warbands into the area.*
 
 Starting with the defender, the players alternate selecting 3 ruins on the battlefield within 6” of the battlefield center and more than 6” from each other. During a fighter’s activation, if they are wholly within a ruin and not within 1” of an enemy fighter, they may **search the ruin** as an action. Each ruin can be searched 3 times, after which it is fully searched and cannot be searched again.
@@ -50,16 +60,6 @@ Roll a d6, and add 1 to the result for each ruin that has been fully searched. O
 At the end of the battle, the warband controlling the vault marker is the winner. If neither warband is in control of the vault marker, or if the vault marker isn’t found, the battle is a draw.
 
 **Reward:** At the end of the battle, the warband controlling the vault marker may roll twice on the lesser loot table.
-:::
-:::info
-## 5: Occupy
-*Taking and holding buildings in this neighbourhood all-but guarantees your warband rich pickings. Unfortunately, your opponent has the same idea.*
-
-Starting with the defender, the players alternate selecting 5 terrain features on the battlefield. Each of these terrain features must be more than 6” from other terrain features.
-
-During the battle, a warband controls one of those terrain features if there are more friendly fighters than enemy fighters wholly within that terrain feature. At the end of the battle, the warband controlling the most terrain features is the winner.
-
-**Reward:** At the end of the battle, roll a d6 for each ruin in a warband’s control. On a 3+, the warband gains 1 wyrdstone shard.
 :::
 :::info
 ## 6: Reckoning

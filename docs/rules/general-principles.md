@@ -79,7 +79,7 @@ Sometimes a rule requires the players to **roll-off**. When this is the case, ea
 
 ## Modifiers
 ---
-Sometimes a rule will alter a fighter’s characteristics, or the characteristics of a fighter's equipped weapon. Usually, this means that you should increase or decrease a characteristic by a set amount. These alterations are referred to as **modifiers** and are always cumulative. 
+Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule might **decrease** the Move characteristic of a fighter by 1, or **increase** the Attack characteristic of a weapon by 1. These modifiers are always cumulative, but can never reduce a characteristic to less than 1.
 
 ## Sequencing
 ---

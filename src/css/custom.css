@@ -507,6 +507,12 @@ pre code {
   border-collapse: collapse;
 }
 
+/* No table column narrower than 60px — keeps short stat columns (R, A, D…) readable. */
+.markdown table th,
+.markdown table td {
+  min-width: 60px;
+}
+
 /* Weapon tables: full width, 30% name, 50% special, rest shared by Range/Attacks/Damage */
 .weapon-table {
   width: 100%;
