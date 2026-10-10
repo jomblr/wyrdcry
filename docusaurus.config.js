@@ -95,7 +95,7 @@ const config = {
           // `==text==` in the right-hand nav.
           beforeDefaultRemarkPlugins: [remarkHighlight],
           // 0.9 is the current ruleset and the default at /docs/.
-          // 0.5 is deprecated but kept, frozen, at /docs/0.5/ (versioned_docs/version-0.5).
+          // 0.5 is archived (still selectable in the version dropdown, e.g. for old warbands), at /docs/0.5/ (versioned_docs/version-0.5).
           // Old /docs/next/* links are redirected in static/_redirects.
           lastVersion: 'current',
           versions: {
@@ -104,7 +104,7 @@ const config = {
               path: '',
             },
             '0.5': {
-              label: '0.5 (deprecated)',
+              label: '0.5 (archived)',
               path: '0.5',
               banner: 'unmaintained',
             },

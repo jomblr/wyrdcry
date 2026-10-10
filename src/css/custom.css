@@ -1274,3 +1274,8 @@ mark code {
   font-style: italic;
   font-weight: 700;
 }
+
+/* No version UI: hide the "Version: 0.9" badge above each doc title. */
+.theme-doc-version-badge {
+  display: none;
+}

@@ -114,7 +114,7 @@ const V09: GameData = {
   statLabels: { defense: 'Armour', defenseShort: 'A' },
 };
 
-/** Keyed by Docusaurus version name. 'current' is 0.9, the default; 0.5 is deprecated. */
+/** Keyed by Docusaurus version name. 'current' is 0.9, the default; 0.5 is archived. */
 const BY_VERSION: Record<string, GameData> = {
   current: V09,
   '0.5': V05,

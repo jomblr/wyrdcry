@@ -2,12 +2,10 @@
  * Swizzled to replace Docusaurus's default two-sentence banner with Wyrdcry copy.
  *
  * Keeps the useful bits of the original: the link points at the *same page* in the
- * stable version when it exists (falling back to that version's main doc), and
- * clicking it saves the preferred version — which is what the warband builder
- * reads to decide whether to show itself.
+ * current version when it exists (falling back to that version's main doc).
  *
  * Shown only on versions with a `banner` set in docusaurus.config.js — today that is
- * the deprecated 0.5 (`unmaintained`). An `unreleased` draft version gets the draft copy.
+ * the archived 0.5 (`unmaintained`). An `unreleased` draft version gets the draft copy.
  * Version numbers are read from the version metadata, so the copy stays correct.
  */
 import React from 'react';
@@ -51,7 +49,7 @@ function DocVersionBannerEnabled({ className }: Props) {
         <div>
           {banner === 'unreleased'
             ? `These rules are a draft for the next Wyrdcry ruleset.`
-            : `These are the deprecated ${version} Wyrdcry rules, kept for reference.`}
+            : `These are the archived ${version} Wyrdcry rules, kept for reference.`}
         </div>
         <div>
           {/* `.name` is the bare version ("0.9"); `.label` may carry a suffix. */}
