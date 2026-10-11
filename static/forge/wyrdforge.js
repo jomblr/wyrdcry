@@ -31,6 +31,7 @@ const _defaultWCP = { base:15, range:10, attacks:15, hit:10, crit:5 };
 const _defaultWB_melee  = { range:1, attacks:3, hit:2, crit:3 };
 const _defaultWB_ranged = { range:6, attacks:3, hit:2, crit:3 };
 const _defaultFB  = { move:5, fight:3, shoot:3, defense:3, health:8, bravery:5 };
+const KEYWORD_COSTS = { HERO:5, LEADER:5, WIZARD:5, BEAST:-10 };
 let COST_PROFILE          = {..._defaultCP};
 let WEAPON_COST_PROFILE   = {..._defaultWCP};
 let WEAPON_BASELINE_MELEE = {..._defaultWB_melee};
@@ -134,14 +135,13 @@ function showView(name) {
     if(navName===name) n.classList.add('active');
   });
   closeAllPanels();
-  if(name!=='weapons') mh_reset();
   if(name==='fighters'){ fighters_populateFactionFilter(); fighters_render(); }
   if(name==='factions') factions_render();
   if(name==='weapons')  weapons_render();
   if(name==='weapon-rules') wr_render();
   if(name==='items') items_render();
   if(name==='abilities'){ abilities_populateCategoryFilter(); abilities_render(); }
-  if(name==='cost-profiles') cp_load();
+  if(name==='settings') cp_load();
 }
 function closeAllPanels() {
   document.getElementById('overlay').classList.remove('open');
@@ -187,12 +187,12 @@ function factions_renderAbilityTags(){
 }
 function factions_removeAbilityTag(idx){
   f_abilityIds.splice(idx,1);
-  factions_renderAbilityTags(); factions_scheduleSave();
+  factions_renderAbilityTags();
 }
 function factions_abilityKeydown(e){
   if(e.key==='Backspace'&&!e.target.value&&f_abilityIds.length){
     f_abilityIds.pop();
-    factions_renderAbilityTags(); factions_scheduleSave();
+    factions_renderAbilityTags();
   }
 }
 function factions_abilityAutocomplete(input){
@@ -217,7 +217,7 @@ function factions_selectAbility(id){
   if(!f_abilityIds.includes(id)) f_abilityIds.push(id);
   factions_renderAbilityTags();
   document.getElementById('f-ability-input').value='';
-  factions_hideAbilityAc(); factions_scheduleSave();
+  factions_hideAbilityAc();
 }
 function factions_hideAbilityAc(){
   const ac=document.getElementById('f-ability-ac');
@@ -314,7 +314,6 @@ function factions_newAbility(){
 }
 function factions_onNameInput(val){
   if(!f_editingId) document.getElementById('f-id').value=toSlug(val);
-  factions_scheduleSave();
 }
 function factions_switchTab(name){
   document.querySelectorAll('#faction-panel .tab-content').forEach(t=>t.classList.remove('active'));
@@ -431,7 +430,7 @@ let fi_defaultEquipment=[]; // array of "weapon:id" or "item:id" strings
 let fi_fighterType='regular';
 let fi_hiredCost=0;
 
-const STAT_LIMITS={move:[1,20],fight:[1,10],shoot:[1,10],defense:[1,10],health:[2,30],bravery:[2,6]};
+const STAT_LIMITS={move:[1,20],fight:[1,10],shoot:[1,10],defense:[0,10],health:[2,30],bravery:[2,6]};
 
 function stepStat(stat,dir){
   const [min,max]=STAT_LIMITS[stat];
@@ -459,6 +458,9 @@ function calcCost(){
   // bravery: lower index = better = more expensive. baseline index 3 (5+). negative delta = cheaper.
   const braveryDelta = BASELINE.bravery - fi_stats.bravery; // positive when fighter is better than baseline
 
+  const costedKw = [...fi_raceTags, ...fi_kwTags].filter(k=>KEYWORD_COSTS[k]);
+  const keywordCost = costedKw.reduce((s,k)=>s+KEYWORD_COSTS[k],0);
+
   const rows=[
     {label:'Base cost',                                        value:COST_PROFILE.base},
     {label:`Move (${fi_stats.move}", base ${BASELINE.move}")`, value:moveDelta    * COST_PROFILE.move},
@@ -468,6 +470,7 @@ function calcCost(){
     {label:`Health (${fi_stats.health}, base ${BASELINE.health})`,    value:(healthDelta/2)*COST_PROFILE.health},
     {label:`Bravery (${fi_stats.bravery}+, base ${BASELINE.bravery}+)`, value:braveryDelta*COST_PROFILE.bravery},
     {label:'Power level adjustment',                           value:fi_power},
+    {label:costedKw.length?`Keywords (${costedKw.join(', ')})`:'Keywords', value:keywordCost},
   ];
   const total=Math.max(0,rows.reduce((s,r)=>s+r.value,0));
   return {rows,total};
@@ -506,6 +509,7 @@ function renderTags(type){
 function removeTag(type,idx){
   if(type==='race') fi_raceTags.splice(idx,1); else fi_kwTags.splice(idx,1);
   renderTags(type);
+  fighters_updateCost();
 }
 function fighters_tagKeydown(e,type){
   if(e.key==='Enter'||e.key===','){
@@ -516,10 +520,11 @@ function fighters_tagKeydown(e,type){
     else if(type!=='race'&&!fi_kwTags.includes(val)) fi_kwTags.push(val);
     e.target.value=''; renderTags(type); hideAutocomplete(type);
     try{ addKnownKeyword(type==='race'?'race':'archetype', val); }catch(_){}
+    fighters_updateCost();
   }
   if(e.key==='Backspace'&&!e.target.value){
-    if(type==='race'&&fi_raceTags.length){fi_raceTags.pop();renderTags(type);}
-    if(type==='kw'  &&fi_kwTags.length)  {fi_kwTags.pop();  renderTags(type);}
+    if(type==='race'&&fi_raceTags.length){fi_raceTags.pop();renderTags(type);fighters_updateCost();}
+    if(type==='kw'  &&fi_kwTags.length)  {fi_kwTags.pop();  renderTags(type);fighters_updateCost();}
   }
 }
 function fighters_tagAutocomplete(input,type){
@@ -536,6 +541,7 @@ function fighters_tagAutocomplete(input,type){
 function selectAutocomplete(type,val){
   if(type==='race'){if(!fi_raceTags.includes(val))fi_raceTags.push(val);renderTags('race');document.getElementById('race-input').value='';hideAutocomplete('race');}
   else             {if(!fi_kwTags.includes(val))  fi_kwTags.push(val);  renderTags('kw');  document.getElementById('kw-input').value='';  hideAutocomplete('kw');}
+  fighters_updateCost();
 }
 function hideAutocomplete(type){ document.getElementById(type==='race'?'race-ac':'kw-ac').style.display='none'; }
 function addKnownKeyword(cat,val){ if(!keywords[cat].includes(val)){keywords[cat].push(val);persist();} }
@@ -736,26 +742,33 @@ function fighters_onFactionChange(){
 }
 
 // RENDER TABLE
+/** All keyword-ish tags shown/searched for a fighter: race tags, faction name, archetype keywords. */
+function fighters_allKeywords(f){
+  const raceTags = Array.isArray(f?.race) ? f.race : (typeof f?.race === 'string' ? f.race.split(',').map(v=>v.trim()) : []);
+  const kwTags   = Array.isArray(f?.keywords) ? f.keywords : (typeof f?.keywords === 'string' ? f.keywords.split(',').map(v=>v.trim()) : []);
+  const factionId = f?.faction == null ? '' : String(f.faction);
+  const factionLabel = factionId
+    ? (factions.find(fa=>String(fa.id)===factionId)?.name || factionId).toUpperCase()
+    : '';
+  return [...raceTags, factionLabel, ...kwTags].filter(Boolean);
+}
 function fighters_render(){
   const filterFaction=document.getElementById('fighters-faction-filter')?.value||'';
-  const search=(document.getElementById('fighters-search')?.value||'').trim().toLowerCase();
+  const searchTerms=fighters_searchTerms(document.getElementById('fighters-search')?.value||'');
   const tbody=document.getElementById('fighters-tbody');
   let list=fighters;
   if(filterFaction) list=list.filter(f=>f.faction===filterFaction);
-  if(search) list=list.filter(f=>(f.name||'').toLowerCase().includes(search)||(f.id||'').toLowerCase().includes(search));
+  if(searchTerms.length) list=list.filter(f=>{
+    const haystack = [f.name, f.id, ...fighters_allKeywords(f)].filter(Boolean).join(' ').toLowerCase();
+    return searchTerms.every(t=>haystack.includes(t));
+  });
   list=sortedList(list,'fighters');
   if(!list.length){
     tbody.innerHTML=`<tr><td colspan="10"><div class="empty-state"><span style="font-size:24px">⚔</span><p>No fighters yet. Add one to get started.</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML=list.map(f=>{
-    const raceTags = Array.isArray(f?.race) ? f.race : (typeof f?.race === 'string' ? f.race.split(',').map(v=>v.trim()) : []);
-    const kwTags   = Array.isArray(f?.keywords) ? f.keywords : (typeof f?.keywords === 'string' ? f.keywords.split(',').map(v=>v.trim()) : []);
-    const factionId = f?.faction == null ? '' : String(f.faction);
-    const factionLabel = factionId
-      ? (factions.find(fa=>String(fa.id)===factionId)?.name || factionId).toUpperCase()
-      : '';
-    const allKw=[...raceTags, factionLabel, ...kwTags].filter(Boolean);
+    const allKw=fighters_allKeywords(f);
     const limitLabel = f.limit != null ? ` · max ${f.limit}` : '';
     const ro = IS_PUBLIC && canonicalIds.fighters.has(String(f.id));
     return `<tr>
@@ -781,6 +794,33 @@ function fighters_render(){
       </div></td>
     </tr>`;
   }).join('');
+}
+/** Splits the search box value into individual lowercase terms on commas/whitespace. */
+function fighters_searchTerms(raw){
+  return raw.split(/[,\s]+/).map(t=>t.trim().toLowerCase()).filter(Boolean);
+}
+function fighters_searchAutocomplete(input){
+  // Suggest against the term currently being typed (after the last comma), so earlier
+  // terms already entered don't get re-matched.
+  const parts=input.value.split(',');
+  const val=parts[parts.length-1].trim().toLowerCase();
+  const already=fighters_searchTerms(parts.slice(0,-1).join(','));
+  const factionNames=factions.map(fa=>(fa.name||fa.id||'').toUpperCase()).filter(Boolean);
+  const pool=[...new Set([...keywords.race, ...keywords.archetype, ...factionNames])].filter(k=>!already.includes(k.toLowerCase()));
+  const matches=val ? pool.filter(k=>k.toLowerCase().includes(val)) : pool;
+  const ac=document.getElementById('fighters-search-ac');
+  if(!matches.length){ac.style.display='none';return;}
+  ac.style.display='block';
+  ac.innerHTML=matches.map(m=>`<div class="autocomplete-item" onmousedown="event.preventDefault();fighters_searchSelectKeyword('${m}')">${m}</div>`).join('');
+}
+function fighters_searchSelectKeyword(val){
+  const input=document.getElementById('fighters-search');
+  const parts=input.value.split(',');
+  parts[parts.length-1]=' '+val;
+  input.value=parts.map(p=>p.trim()).filter(Boolean).join(', ')+', ';
+  document.getElementById('fighters-search-ac').style.display='none';
+  input.focus();
+  fighters_render();
 }
 
 // Event delegation for fighters table
@@ -919,197 +959,73 @@ function fighters_export(){
 // ══════════════════════════════════════════
 // MATHHAMMER
 // ══════════════════════════════════════════
-let mh_active = false;
-let mh_atk = 3, mh_def = 3, mh_bonus = 0;
+let mh_atk = 3, mh_def = 3, mh_dual = false;
 
-function mh_reset(){
-  if(!mh_active) return;
-  mh_active=false;
-  document.getElementById('mh-toggle-btn')?.classList.remove('btn-mh-active');
-  document.getElementById('mh-controls').style.display='none';
-  // restore cost/rules headers if they were swapped
-  ['wth-mh-miss','wth-mh-hit','wth-mh-crit','wth-mh-avg','wth-mh-max'].forEach(id=>document.getElementById(id)?.remove());
-  const costTh=document.getElementById('wth-cost');
-  if(costTh) costTh.style.display='';
-  if(!document.getElementById('wth-rules')){
-    const newTh=document.createElement('th');
-    newTh.id='wth-rules'; newTh.style.width='26%'; newTh.textContent='Weapon Rules';
-    costTh?.insertAdjacentElement('afterend',newTh);
-  }
-  sortState.weapons={col:null,dir:1};
+/** Sums a weapon's rule bonuses for one effect characteristic (e.g. 'fight_shoot', 'pierce'). */
+function weaponRuleBonus(w, characteristic){
+  return (w.special_rules||[]).reduce((sum, rid)=>{
+    const r = weaponRules.find(r=>r.id===rid);
+    if(r?.effect?.characteristic!==characteristic) return sum;
+    return sum + (r.effect.bonus||0);
+  }, 0);
 }
+/** Dual wield grants +1 attack to weapons that are not two-handed. */
+function weaponIsTwoHanded(w){ return (w.special_rules||[]).includes('two-handed'); }
+function mh_dualBonus(w){ return (mh_dual && !weaponIsRanged(w.type) && !weaponIsTwoHanded(w)) ? 1 : 0; }
 
-function mh_toggle(){
-  mh_active = !mh_active;
-  const btn     = document.getElementById('mh-toggle-btn');
-  const controls= document.getElementById('mh-controls');
-  const costTh  = document.getElementById('wth-cost');
-  const rulesTh = document.getElementById('wth-rules');
-  btn.classList.toggle('btn-mh-active', mh_active);
-  controls.style.display = mh_active ? 'flex' : 'none';
-  if(mh_active){
-    costTh.style.display = 'none';
-    rulesTh.outerHTML = `
-      <th id="wth-mh-miss" class="sortable" data-table="weapons" data-sort="mh-miss" style="width:7%;text-align:center;font-size:10px;color:var(--text-muted)">Miss</th>
-      <th id="wth-mh-hit"  class="sortable" data-table="weapons" data-sort="mh-hit"  style="width:7%;text-align:center;font-size:10px;color:var(--accent)">Hit</th>
-      <th id="wth-mh-crit" class="sortable" data-table="weapons" data-sort="mh-crit" style="width:7%;text-align:center;font-size:10px;color:#c17900">Crit</th>
-      <th id="wth-mh-avg"  class="sortable" data-table="weapons" data-sort="mh-avg"  style="width:7%;text-align:center;font-size:10px;color:var(--text)">Avg</th>
-      <th id="wth-mh-max"  class="sortable" data-table="weapons" data-sort="mh-max"  style="width:7%;text-align:center;font-size:10px;color:var(--text-muted)">Max</th>`;
-    mh_updateAtkLabel();
-  } else {
-    ['wth-mh-miss','wth-mh-hit','wth-mh-crit','wth-mh-avg','wth-mh-max'].forEach(id=>{
-      document.getElementById(id)?.remove();
-    });
-    sortState.weapons = {col:null, dir:1};
-    costTh.style.display = '';
-    if(!document.getElementById('wth-rules')){
-      const newTh = document.createElement('th');
-      newTh.id = 'wth-rules';
-      newTh.style.width = '26%';
-      newTh.textContent = 'Weapon Rules';
-      costTh.insertAdjacentElement('afterend', newTh);
+function nChooseK(n,k){ let r=1; for(let i=0;i<k;i++) r=r*(n-i)/(i+1); return r; }
+
+/**
+ * Exact expected damage for `attacks` independent hit/crit/miss dice, with armor (net of
+ * Pierce) subtracted ONCE from each attack action's total raw damage and floored at 0 — the
+ * same model the Damage Projection panel's dice simulation uses (armor reduces the whole
+ * action's damage, not each individual hit), computed analytically over every possible
+ * (hits, crits) outcome instead of by sampling, so the table always agrees with the panel.
+ */
+function mh_armorAdjustedAvg(w, attacks, c, armor, pierceBonus){
+  const effArmor = Math.max(0, armor - pierceBonus);
+  const hitDmg = w.hit??0, critDmg = w.crit??0;
+  let expected = 0;
+  for(let h=0; h<=attacks; h++){
+    for(let cr=0; cr<=attacks-h; cr++){
+      const miss = attacks-h-cr;
+      const prob = nChooseK(attacks,h) * nChooseK(attacks-h,cr) * Math.pow(c.hit,h) * Math.pow(c.crit,cr) * Math.pow(c.miss,miss);
+      const total = h*hitDmg + cr*critDmg;
+      expected += prob * Math.max(0, total-effArmor);
     }
   }
+  return expected;
+}
+/** Whether the weapon side panel is currently open (so its Damage Projection tab is live). */
+function wd_panelOpen(){ return document.getElementById('weapon-panel')?.classList.contains('open'); }
+
+function mh_toggleDual(checked){
+  mh_dual = !!checked;
+  // Sync both checkboxes (top toolbar + panel) unconditionally — harmless when the
+  // triggering element already matches, necessary when the other one doesn't.
+  const mhDual = document.getElementById('mh-dual');
+  const wdDual = document.getElementById('wd-dual');
+  if(mhDual) mhDual.checked = mh_dual;
+  if(wdDual) wdDual.checked = mh_dual;
   weapons_render();
+  if(wd_panelOpen() && wd_rolls.length) wd_roll();
 }
 
 function mh_step(which, dir){
-  if(which==='atk')   mh_atk   = Math.max(1, Math.min(10, mh_atk+dir));
-  else if(which==='def')   mh_def   = Math.max(1, Math.min(10, mh_def+dir));
-  else if(which==='bonus') mh_bonus = Math.max(-10, Math.min(10, mh_bonus+dir));
-  document.getElementById('mh-atk-val').textContent   = mh_atk;
-  document.getElementById('mh-def-val').textContent   = mh_def;
-  document.getElementById('mh-bonus-val').textContent = (mh_bonus>0?'+':'')+mh_bonus;
-  mh_updateAtkLabel();
+  if(which==='atk') mh_atk = Math.max(1, Math.min(10, mh_atk+dir));
+  else if(which==='def') mh_def = Math.max(1, Math.min(10, mh_def+dir));
+  document.getElementById('mh-atk-val').textContent = mh_atk;
+  document.getElementById('mh-def-val').textContent = mh_def;
+  const wdAtkVal = document.getElementById('wd-atk-val');
+  const wdDefVal = document.getElementById('wd-def-val');
+  if(wdAtkVal) wdAtkVal.textContent = mh_atk;
+  if(wdDefVal) wdDefVal.textContent = mh_def;
   weapons_render();
+  if(wd_panelOpen() && wd_rolls.length) wd_roll();
 }
 
 function mh_updateAtkLabel(){
-  // label depends on the type filter — if ranged filter active, say Shoot
-  const filter = document.getElementById('weapons-type-filter')?.value;
-  const label  = filter==='ranged' ? 'Shoot' : 'Fight'; // natural & melee use Fight for Mathhammer
-  document.getElementById('mh-atk-label').textContent = label;
-}
-
-// ══════════════════════════════════════════
-// DAMAGE MATRIX
-// ══════════════════════════════════════════
-let wx_active = false, wx_atk = 3, wx_sortDef = null, wx_sortDir = -1;
-const WX_DEF_COLS = [1,2,3,4,5,6];
-
-function wx_toggle(){
-  wx_active = !wx_active;
-  document.getElementById('wx-toggle-btn').classList.toggle('btn-mh-active', wx_active);
-  const tableWrap = document.querySelector('#view-weapons .table-wrap');
-  const matrixWrap = document.getElementById('weapon-matrix-wrap');
-  tableWrap.style.display = wx_active ? 'none' : '';
-  matrixWrap.style.display = wx_active ? 'block' : 'none';
-  if(wx_active) wx_render();
-}
-
-function wx_stepAtk(dir){
-  wx_atk = Math.max(1, Math.min(10, wx_atk + dir));
-  document.getElementById('wx-atk-val').textContent = wx_atk;
-  wx_render();
-}
-
-function wx_sortBy(def){
-  if(wx_sortDef === def) wx_sortDir *= -1;
-  else { wx_sortDef = def; wx_sortDir = -1; }
-  wx_render();
-}
-
-function wx_render(){
-  if(!wx_active) return;
-  const typeFilter = document.getElementById('weapons-type-filter')?.value||'';
-  let list = weapons.filter(w=> !typeFilter || w.type===typeFilter);
-
-  // Pre-compute avg per weapon per def (applying fight_shoot rule bonuses per weapon)
-  const avgs = new Map();
-  list.forEach(w=>{
-    const atkBonus = (w.special_rules||[]).reduce((s,rid)=>{
-      const r = weaponRules.find(r=>r.id===rid);
-      if(r?.effect?.characteristic!=='fight_shoot') return s;
-      return s + (r.effect.bonus||0);
-    }, 0);
-    const effectiveAtk = Math.max(1, wx_atk + atkBonus);
-    const row = {};
-    WX_DEF_COLS.forEach(def=>{
-      const c = prob_chances(effectiveAtk, def);
-      row[def] = w.attacks * (c.hit*(w.hit||0) + c.crit*(w.crit||0));
-    });
-    avgs.set(w.id, row);
-  });
-
-  // Sort if a column is selected
-  if(wx_sortDef !== null){
-    list = [...list].sort((a,b)=> wx_sortDir * (avgs.get(a.id)[wx_sortDef] - avgs.get(b.id)[wx_sortDef]));
-  }
-
-  const maxAvg = Math.max(...[...avgs.values()].flatMap(r=>Object.values(r)), 0.01);
-
-  function heatColor(val){
-    const t = Math.min(val / maxAvg, 1);
-    const r = Math.round(232 - t*(232-45));
-    const g = Math.round(228 - t*(228-106));
-    const b = Math.round(220 - t*(220-63));
-    return `rgb(${r},${g},${b})`;
-  }
-  function textColor(val){ return (val/maxAvg) > 0.55 ? '#fff' : 'var(--text)'; }
-
-  const sortArrow = dir => dir === -1 ? ' ↓' : ' ↑';
-  const defHeaders = WX_DEF_COLS.map(d=>{
-    const active = wx_sortDef === d;
-    return `<th onclick="wx_sortBy(${d})" style="text-align:center;min-width:64px;cursor:pointer;user-select:none;${active?'color:var(--accent);font-weight:600':'color:var(--text-muted);font-weight:400'}">Def ${d}${active?sortArrow(wx_sortDir):''}</th>`;
-  }).join('');
-
-  const controlsRow = `<tr><td colspan="${WX_DEF_COLS.length+3}" style="padding:10px 0 14px;border-bottom:1px solid var(--border)">
-    <div style="display:flex;align-items:center;gap:16px">
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
-        <span>Fight / Shoot:</span>
-        <div class="stepper" style="height:28px">
-          <button class="stepper-btn" onclick="wx_stepAtk(-1)">−</button>
-          <div class="stepper-val" id="wx-atk-val" style="min-width:28px;font-size:13px">${wx_atk}</div>
-          <button class="stepper-btn" onclick="wx_stepAtk(1)">+</button>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted)">
-        <span style="width:10px;height:10px;border-radius:2px;background:#e8e4dc;display:inline-block"></span>Low
-        <span style="width:10px;height:10px;border-radius:2px;background:#2d6a3f;display:inline-block;margin-left:6px"></span>High
-      </div>
-      <span style="font-size:11px;color:var(--text-muted)">Click a column header to sort</span>
-    </div>
-  </td></tr>`;
-
-  const thead = `<thead>
-    ${controlsRow}
-    <tr>
-      <th style="text-align:left;min-width:180px">Weapon</th>
-      <th style="text-align:center;min-width:48px;color:var(--text-muted);font-weight:400">Atk</th>
-      <th style="text-align:center;min-width:64px;color:var(--text-muted);font-weight:400">Hit/Crit</th>
-      ${defHeaders}
-    </tr>
-  </thead>`;
-
-  const rows = list.map(w=>{
-    const wAvgs = avgs.get(w.id);
-    const cells = WX_DEF_COLS.map(def=>{
-      const val = wAvgs[def];
-      const bg  = heatColor(val);
-      const fg  = textColor(val);
-      const bold = wx_sortDef === def ? 'font-weight:700' : 'font-weight:500';
-      return `<td style="text-align:center;background:${bg};color:${fg};${bold};border-radius:3px;padding:6px 4px">${val.toFixed(1)}</td>`;
-    }).join('');
-    return `<tr>
-      <td style="padding:6px 12px 6px 0"><div style="font-weight:500">${w.name||'Untitled'}</div><div style="font-size:10px;color:var(--text-muted)">${WEAPON_TYPE_LABELS[w.type]||w.type||''}</div></td>
-      <td style="text-align:center;color:var(--text-muted)">${w.attacks??'—'}</td>
-      <td style="text-align:center;color:var(--text-muted)">${w.hit??'—'}/${w.crit??'—'}</td>
-      ${cells}
-    </tr>`;
-  }).join('');
-
-  document.getElementById('wx-table').innerHTML = thead +
-    `<tbody>${rows||`<tr><td colspan="${WX_DEF_COLS.length+3}" style="text-align:center;color:var(--text-muted);padding:32px">No weapons to display.</td></tr>`}</tbody>`;
+  document.getElementById('mh-atk-label').textContent = 'AC:';
 }
 
 // ══════════════════════════════════════════
@@ -1125,7 +1041,7 @@ function parseWeaponRange(r){ // returns {min, max}
   if(typeof r==='string'&&r.includes('-')){const p=r.split('-').map(Number);return{min:p[0]||0,max:p[1]||1};}
   return{min:0,max:typeof r==='number'?r:(parseInt(r)||1)};
 }
-function formatWeaponRange(r){ const {min,max}=parseWeaponRange(r); return min>0?`${min}"-${max}"`:max+'"'; }
+function formatWeaponRange(r){ const {min,max}=parseWeaponRange(r); return min>0?`${min}-${max}"`:max+'"'; }
 const WEAPON_TYPE_LABELS={ melee:'Melee', ranged:'Ranged', natural:'Natural' };
 let w_appliedRules=[];
 let w_breakdownOpen=false;
@@ -1139,95 +1055,156 @@ function weapons_togglePin(id){
 }
 
 
-// ── PROBABILITY SIMULATOR ──────────────────────
-let prob_atk=3, prob_def=3;
+// ── HIT ROLL TABLE (Settings) ──────────────────────
+// Which d6 table governs miss/hit/crit outcomes across Mathhammer and Damage Projection.
+// 'v1' (default): additive ±2 Fight-vs-Armour difference. 'v2': multiplicative twice/half
+// comparison (the original table). 'standard': collapses to a plain >/=/< comparison.
+let HIT_TABLE_MODE = 'v1';
 
-function prob_updateLabel(){
-  const el = document.getElementById('prob-atk-label');
-  if(el) el.textContent = w_type==='ranged' ? 'Shoot' : 'Fight';
+/** d6 thresholds for the active hit table: rolls <=missMax miss, <=hitMax hit, else crit. */
+function hitTableThresholds(atk, def){
+  if(HIT_TABLE_MODE==='standard'){
+    if(atk>def)  return { missMax:2, hitMax:5 };
+    if(atk===def) return { missMax:3, hitMax:5 };
+    return { missMax:4, hitMax:5 };
+  }
+  if(HIT_TABLE_MODE==='v2'){
+    if(atk*2<=def) return { missMax:4, hitMax:6 }; // half or less — no crits
+    if(atk<def)     return { missMax:4, hitMax:5 }; // less than
+    if(atk===def)   return { missMax:3, hitMax:5 }; // equal
+    if(atk<def*2)   return { missMax:2, hitMax:5 }; // greater
+    return { missMax:2, hitMax:4 }; // twice or more
+  }
+  // v1 (default)
+  const diff = atk - def;
+  if      (diff >= 2)   return { missMax:2, hitMax:4 };
+  else if (diff <= -2)  return { missMax:4, hitMax:6 };
+  else if (diff === -1) return { missMax:4, hitMax:5 };
+  else if (diff === 0)  return { missMax:3, hitMax:5 };
+  else                   return { missMax:2, hitMax:5 };
 }
 
-function prob_step(which, dir){
-  if(which==='atk') prob_atk = Math.max(1, Math.min(10, prob_atk+dir));
-  else              prob_def = Math.max(1, Math.min(10, prob_def+dir));
-  document.getElementById('prob-atk-val').textContent = prob_atk;
-  document.getElementById('prob-def-val').textContent = prob_def;
-  prob_render();
-}
-
-// Returns {missChance, hitChance, critChance} as fractions out of 6
+// Returns {missChance, hitChance, critChance} as fractions out of 6, derived from the
+// active hit table's d6 thresholds.
 function prob_chances(atk, def){
-  if      (atk * 2 <= def) return { miss:4/6, hit:2/6, crit:0    }; // half or less — no crits
-  else if (atk < def)      return { miss:4/6, hit:1/6, crit:1/6  }; // less than
-  else if (atk === def)    return { miss:3/6, hit:2/6, crit:1/6  }; // equal
-  else if (atk < def * 2)  return { miss:2/6, hit:3/6, crit:1/6  }; // greater
-  else                     return { miss:2/6, hit:2/6, crit:2/6  }; // twice or more
+  const { missMax, hitMax } = hitTableThresholds(atk, def);
+  return { miss: missMax/6, hit: (hitMax-missMax)/6, crit: (6-hitMax)/6 };
 }
 
 function pct(f){ return Math.round(f*100)+'%'; }
 
-function prob_expectedDamage(attacks, atk, def, hitDmg, critDmg){
-  const c = prob_chances(atk, def);
-  const avgPerDie = c.hit*hitDmg + c.crit*critDmg;
-  return (attacks * avgPerDie).toFixed(2);
+function settings_save(){
+  if(IS_PUBLIC) return;
+  const checked = document.querySelector('input[name="hit-table"]:checked');
+  HIT_TABLE_MODE = checked ? checked.value : 'v1';
+  localStorage.setItem('wyrdforge_hit_table', HIT_TABLE_MODE);
+  if(document.getElementById('view-weapons')?.classList.contains('active')) weapons_render();
+  const ind=document.getElementById('cp-s-saved');
+  if(ind){ ind.textContent='✓ Saved'; setTimeout(()=>ind.textContent='',2000); }
 }
 
-function prob_maxDamage(attacks, atk, def, hitDmg, critDmg){
-  const c = prob_chances(atk, def);
-  // max = all dice are crits (if crit possible) else all hits
-  if(c.crit > 0) return attacks * critDmg;
-  if(c.hit  > 0) return attacks * hitDmg;
-  return 0;
+// ── DAMAGE PROJECTION (weapon panel) ──────────────────────
+// Simulates actual d6 attack rolls (rather than expected value) so the panel can show
+// the real spread of outcomes across a batch of attack actions, not just an average.
+// Fight/Defense/Dual Wield are shared with the Mathhammer toolbar (mh_atk/mh_def/mh_dual)
+// at the top of the Weapons table, rather than kept as separate panel-local state.
+const WD_ROLL_COUNT = 1000;
+let wd_armor=0;
+let wd_rolls=[]; // last rolled batch: [{hits, crits}, ...] — raw counts per simulated attack action
+
+function wd_updateAtkLabel(){
+  const el = document.getElementById('wd-atk-label');
+  if(el) el.textContent = "Attacker's AC";
 }
 
-function prob_render(){
-  const wrap = document.getElementById('prob-table-wrap');
+/** Keeps the panel's Fight/Def/Dual controls in sync with the shared mh_ state. */
+function wd_syncControls(){
+  document.getElementById('wd-atk-val').textContent = mh_atk;
+  document.getElementById('wd-def-val').textContent = mh_def;
+  document.getElementById('wd-dual').checked = mh_dual;
+}
+
+function wd_step(which, dir){
+  // Shared with the Mathhammer toolbar — updates mh_atk/mh_def, the main table, this
+  // panel's display, and (since the panel is open) rerolls automatically.
+  mh_step(which, dir);
+}
+
+function wd_toggleDual(checked){
+  // Shared with the Mathhammer toolbar's Dual Wield checkbox.
+  mh_toggleDual(checked);
+}
+
+function wd_setArmor(n){
+  wd_armor = n;
+  document.querySelectorAll('#wd-armor-toggle .wd-armor-btn').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.armor)===n);
+  });
+  document.getElementById('wd-armor-indicator')?.style.setProperty('--armor-index', n);
+  wd_renderResults();
+}
+
+function wd_roll(){
+  const currentWeapon = {special_rules: w_appliedRules, type: w_type};
+  const { missMax, hitMax } = hitTableThresholds(mh_atk + weaponRuleBonus(currentWeapon,'fight_shoot'), mh_def);
+  const attacks = Math.max(0, (w_stats.attacks||0) + mh_dualBonus(currentWeapon));
+  wd_rolls = Array.from({length:WD_ROLL_COUNT}, ()=>{
+    let hits=0, crits=0;
+    for(let i=0; i<attacks; i++){
+      const roll = 1 + Math.floor(Math.random()*6);
+      if(roll > hitMax) crits++;
+      else if(roll > missMax) hits++;
+    }
+    return {hits, crits};
+  });
+  wd_renderResults();
+}
+
+function wd_renderResults(){
+  const wrap = document.getElementById('wd-results');
   if(!wrap) return;
+  if(!wd_rolls.length){
+    wrap.innerHTML = `<div class="wd-empty">Click "Roll ${WD_ROLL_COUNT} Attacks" to simulate this weapon's damage output.</div>`;
+    return;
+  }
+  const currentWeapon = {special_rules: w_appliedRules};
+  const pierceBonus = weaponRuleBonus(currentWeapon,'pierce');
+  const effArmor = Math.max(0, wd_armor - pierceBonus);
+  const hitDmg  = w_stats.hit ??0;
+  const critDmg = w_stats.crit??0;
 
-  // Use current weapon stats from the panel
-  const attacks = w_stats.attacks;
-  const hitDmg  = w_stats.hit;
-  const critDmg = w_stats.crit;
-  const targetDef = prob_def;
+  // Armor is subtracted once from the attack action's total damage (not from each
+  // individual hit/crit) — e.g. Dagger (1/3 dmg, 3 attacks) rolling 3 crits deals
+  // 9 raw damage, which armor 3 reduces to 6, not to 0.
+  const totals = wd_rolls.map(r => Math.max(0, r.hits*hitDmg + r.crits*critDmg - effArmor));
+  const min = Math.min(...totals), max = Math.max(...totals);
+  const avg = totals.reduce((s,v)=>s+v,0) / totals.length;
+  const counts = {};
+  totals.forEach(t=>{ counts[t] = (counts[t]||0)+1; });
+  const maxCount = Math.max(...Object.values(counts));
 
-  // Show a range of defense values centred on target: target-2 to target+2
-  const defRange = [];
-  for(let d = Math.max(1, targetDef-2); d <= Math.min(10, targetDef+2); d++) defRange.push(d);
-
-  const rows = defRange.map(def=>{
-    const c   = prob_chances(prob_atk, def);
-    const avg = prob_expectedDamage(attacks, prob_atk, def, hitDmg, critDmg);
-    const max = prob_maxDamage(attacks, prob_atk, def, hitDmg, critDmg);
-    const highlight = def === targetDef;
-    return `<tr${highlight?' class="prob-highlight"':''}>
-      <td class="prob-def">${def}</td>
-      <td>${pct(c.miss)}</td>
-      <td>${pct(c.hit)}</td>
-      <td>${c.crit>0?pct(c.crit):'—'}</td>
-      <td>${avg}</td>
-      <td>${max}</td>
-    </tr>`;
-  }).join('');
+  let rows='';
+  for(let v=min; v<=max; v++){
+    const count = counts[v]||0;
+    const barPct = maxCount ? (count/maxCount*100) : 0;
+    rows += `<div class="wd-bar-row">
+      <div class="wd-bar-label">${v}</div>
+      <div class="wd-bar-track"><div class="wd-bar-fill" data-pct="${barPct}"></div></div>
+      <div class="wd-bar-count">${count}</div>
+    </div>`;
+  }
 
   wrap.innerHTML = `
-    <div style="border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--panel-bg)">
-      <table class="prob-table">
-        <thead>
-          <tr>
-            <th>Def</th>
-            <th>Miss</th>
-            <th>Hit</th>
-            <th>Crit</th>
-            <th>Avg</th>
-            <th>Max</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-    <div style="font-size:10px;color:var(--text-muted);margin-top:8px">
-      ${attacks} attack${attacks!==1?'s':''} · ${hitDmg}/${critDmg} dmg · Attacker ${prob_atk} vs highlighted Defense ${targetDef}
-    </div>`;
+    <div class="wd-heading">${wd_armor} Armour</div>
+    <div class="wd-summary"><strong>${min}–${max}</strong> damage (avg ${avg.toFixed(1)})</div>
+    ${rows}`;
+  // Bars start at width 0 (set above) and animate to their target width on the next
+  // frame, so the bar-chart transition actually plays instead of snapping instantly.
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      wrap.querySelectorAll('.wd-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+    });
+  });
 }
 
 function weapons_rangeStep(){ return weaponIsRanged(w_type) ? 6 : 1; }
@@ -1259,7 +1236,7 @@ function weapons_onTypeChange(){
   w_stats.range=Math.max(step,Math.round(w_stats.range/step)*step||step);
   if(!weaponIsRanged(w_type)) w_stats.min_range=0;
   weapons_renderStats(); weapons_updateCost();
-  prob_updateLabel();
+  wd_updateAtkLabel();
 }
 
 function calcWeaponCost(){
@@ -1353,7 +1330,12 @@ function weapons_openPanel(weapon, readOnly=false){
   document.getElementById('w-pl-badge').textContent=(w_power>=0?'+':'')+w_power;
   document.getElementById('w-save-ind').textContent='';
   weapons_renderStats(); weapons_renderAppliedRules(); weapons_populateRulesSelect(); weapons_updateCost();
-  prob_updateLabel();
+  wd_armor=0; wd_rolls=[];
+  wd_syncControls();
+  document.querySelectorAll('#wd-armor-toggle .wd-armor-btn').forEach(b=>b.classList.toggle('active', b.dataset.armor==='0'));
+  document.getElementById('wd-armor-indicator')?.style.setProperty('--armor-index', 0);
+  wd_updateAtkLabel(); wd_renderResults();
+  weapons_switchTab('characteristics');
   document.getElementById('overlay').classList.add('open');
   document.getElementById('weapon-panel').classList.add('open');
   panel_setReadonly('weapon-panel', readOnly);
@@ -1388,6 +1370,7 @@ function weapons_save(){
 }
 
 function weapons_render(){
+  mh_updateAtkLabel();
   const filterType=document.getElementById('weapons-type-filter')?.value||'';
   const search=(document.getElementById('weapons-search')?.value||'').trim().toLowerCase();
   const tbody=document.getElementById('weapons-tbody');
@@ -1398,7 +1381,7 @@ function weapons_render(){
   // pinned always float to top, preserving sort order within each group
   list=[...list.filter(w=>pinnedWeapons.has(w.id)), ...list.filter(w=>!pinnedWeapons.has(w.id))];
   if(!list.length){
-    tbody.innerHTML=`<tr><td colspan="8"><div class="empty-state"><span style="font-size:24px">⚔</span><p>No weapons yet. Add one to get started.</p></div></td></tr>`;
+    tbody.innerHTML=`<tr><td colspan="11"><div class="empty-state"><span style="font-size:24px">⚔</span><p>No weapons yet. Add one to get started.</p></div></td></tr>`;
     return;
   }
   tbody.innerHTML=list.map(w=>{
@@ -1409,49 +1392,30 @@ function weapons_render(){
       return `<span class="rule-pill" title="${tooltip.replace(/"/g,'&quot;')}">${r.name}</span>`;
     }).join('');
 
-    let col5, col6;
-    if(mh_active){
-      // Sum Fight/Shoot bonuses only — Defense rules don't affect attack rolls
-      const atkBonus = (w.special_rules||[]).reduce((sum, rid)=>{
-        const r = weaponRules.find(r=>r.id===rid);
-        if(r?.effect?.characteristic!=='fight_shoot') return sum;
-        return sum + (r.effect.bonus||0);
-      }, 0);
-      const effectiveAtk = Math.max(1, mh_atk + atkBonus);
-      const effectiveAttacks = Math.max(0, (w.attacks??0) + mh_bonus);
-      const c   = prob_chances(effectiveAtk, mh_def);
-      const avg = (effectiveAttacks * (c.hit*(w.hit??0) + c.crit*(w.crit??0))).toFixed(2);
-      const max = c.crit>0 ? effectiveAttacks*(w.crit??0) : (c.hit>0 ? effectiveAttacks*(w.hit??0) : 0);
-      col5 = '';
-      col6 = `
-        <td class="stat-cell mh-miss">${pct(c.miss)}</td>
-        <td class="stat-cell mh-hit">${pct(c.hit)}</td>
-        <td class="stat-cell mh-crit">${c.crit>0?pct(c.crit):'—'}</td>
-        <td class="stat-cell mh-avg">${avg}</td>
-        <td class="stat-cell mh-max">${max}</td>`;
-    } else {
-      col5 = `<td class="cost-cell">${w.cost??'—'}gc</td>`;
-      col6 = `<td>${ruleNames||'<span style="color:var(--text-muted);font-size:11px">—</span>'}</td>`;
-    }
+    const atkBonus    = weaponRuleBonus(w, 'fight_shoot');
+    const pierceBonus = weaponRuleBonus(w, 'pierce');
+    const effectiveAtk = Math.max(1, mh_atk + atkBonus);
+    const effectiveAttacks = Math.max(0, (w.attacks??0) + mh_dualBonus(w));
+    const c   = prob_chances(effectiveAtk, mh_def);
+    const armorCols = [0,1,2,3].map(n=>
+      `<td class="stat-cell mh-armor-${n}">${mh_armorAdjustedAvg(w, effectiveAttacks, c, n, pierceBonus).toFixed(2)}</td>`
+    ).join('');
 
     return `<tr${pinnedWeapons.has(w.id)?' class="pinned-row"':''}>
       <td>
         <div class="fighter-name weapon-open-link" data-id="${w.id}" style="cursor:pointer">${w.name||'Untitled'}</div>
-        <div class="fighter-id">${w.id||'—'}</div>
+        ${ruleNames?`<div class="weapon-rules-inline">${ruleNames}</div>`:''}
       </td>
       <td style="font-size:12px;color:var(--text-muted)">${WEAPON_TYPE_LABELS[w.type]||w.type||'—'}</td>
       <td class="stat-cell">${formatWeaponRange(w.range)}</td>
       <td class="stat-cell">${w.attacks??'—'}</td>
       <td class="stat-cell">${w.hit??'—'}/${w.crit??'—'}</td>
-      ${col5}
-      ${col6}
+      ${armorCols}
+      <td class="cost-cell">${w.cost??'—'}gc</td>
       <td><div class="row-actions">
         <button class="icon-btn pin-btn${pinnedWeapons.has(w.id)?' pinned':''} weapon-pin-btn" data-id="${w.id}" title="${pinnedWeapons.has(w.id)?'Unpin':'Pin'}">
           <i data-lucide="pin" style="width:16px;height:16px;pointer-events:none"></i>
         </button>${(IS_PUBLIC && canonicalIds.weapons.has(String(w.id)))?'':`
-        <button class="icon-btn weapon-open-link" data-id="${w.id}" title="Edit">
-          <i data-lucide="square-pen" style="width:16px;height:16px;pointer-events:none"></i>
-        </button>
         <button class="icon-btn danger weapon-delete-btn" data-id="${w.id}" title="Delete">
           <i data-lucide="trash-2" style="width:16px;height:16px;pointer-events:none"></i>
         </button>`}
@@ -1459,7 +1423,6 @@ function weapons_render(){
     </tr>`;
   }).join('');
   lucide.createIcons({nodes: Array.from(document.querySelectorAll('#weapons-tbody [data-lucide]'))});
-  wx_render();
 }
 
 document.getElementById('weapons-tbody').addEventListener('click',e=>{
@@ -1576,7 +1539,7 @@ function wr_render(){
     return;
   }
   tbody.innerHTML=sortedList(weaponRulesList,'wr').map(r=>{
-    const charLabel = r.effect?.characteristic==='fight_shoot' ? 'Fight/Shoot' : r.effect?.characteristic==='defense' ? 'Defense' : r.effect?.characteristic||'';
+    const charLabel = r.effect?.characteristic==='fight_shoot' ? 'Fight/Shoot' : r.effect?.characteristic==='defense' ? 'Defense' : r.effect?.characteristic==='pierce' ? 'Pierce' : r.effect?.characteristic||'';
     const effectStr = r.effect?.characteristic
       ? `${charLabel} ${r.effect.bonus>0?'+':''}${r.effect.bonus}${r.effect.conditional?' *':''}`
       : '—';
@@ -1636,18 +1599,14 @@ function sortedList(list, table){
     if(table==='items'&&col==='effect') { av=a.effect?.characteristic||''; bv=b.effect?.characteristic||''; }
     // mathhammer derived fields
     if(col.startsWith('mh-')){
-      const getRuleBonus = w => (w.special_rules||[]).reduce((s,rid)=>{
-        const r=weaponRules.find(r=>r.id===rid);
-        if(r?.effect?.characteristic!=='fight_shoot') return s;
-        return s+(r.effect.bonus||0);
-      },0);
       const getVals = w => {
-        const effectiveAtk = Math.max(1, mh_atk + getRuleBonus(w));
-        const effectiveAttacks = Math.max(0, (w.attacks||0) + mh_bonus);
+        const effectiveAtk = Math.max(1, mh_atk + weaponRuleBonus(w, 'fight_shoot'));
+        const effectiveAttacks = Math.max(0, (w.attacks||0) + mh_dualBonus(w));
         const c = prob_chances(effectiveAtk, mh_def);
-        const avg = effectiveAttacks * (c.hit*(w.hit||0) + c.crit*(w.crit||0));
-        const max = c.crit>0 ? effectiveAttacks*(w.crit||0) : (c.hit>0 ? effectiveAttacks*(w.hit||0) : 0);
-        return { 'mh-miss':c.miss, 'mh-hit':c.hit, 'mh-crit':c.crit, 'mh-avg':avg, 'mh-max':max };
+        const pierceBonus = weaponRuleBonus(w, 'pierce');
+        const vals={};
+        [0,1,2,3].forEach(n=>{ vals['mh-armor-'+n]=mh_armorAdjustedAvg(w, effectiveAttacks, c, n, pierceBonus); });
+        return vals;
       };
       av = getVals(a)[col]; bv = getVals(b)[col];
     }
@@ -1660,7 +1619,7 @@ function sortedList(list, table){
 function sort_setHeader(table, col){
   const st = sortState[table];
   if(st.col===col) st.dir*=-1;
-  else { st.col=col; st.dir=1; }
+  else { st.col=col; st.dir=-1; }
   // update th classes
   document.querySelectorAll(`th[data-table="${table}"]`).forEach(th=>{
     th.classList.remove('sort-asc','sort-desc');
@@ -2017,7 +1976,10 @@ function cp_load(){
   document.getElementById('cp-w-bl-attacks-ranged').value = WEAPON_BASELINE_RANGED.attacks;
   document.getElementById('cp-w-bl-hit-ranged').value     = WEAPON_BASELINE_RANGED.hit;
   document.getElementById('cp-w-bl-crit-ranged').value    = WEAPON_BASELINE_RANGED.crit;
-  if(IS_PUBLIC) document.querySelectorAll('#view-cost-profiles input').forEach(el=>{ el.disabled=true; });
+  // Settings
+  const hitTableInput = document.querySelector(`input[name="hit-table"][value="${HIT_TABLE_MODE}"]`);
+  if(hitTableInput) hitTableInput.checked = true;
+  if(IS_PUBLIC) document.querySelectorAll('#view-settings input').forEach(el=>{ el.disabled=true; });
 }
 
 function cp_save(which){
@@ -2257,6 +2219,7 @@ function toggleTheme(){
 
 async function init(){
   document.body.classList.toggle('public-mode', IS_PUBLIC);
+  HIT_TABLE_MODE = localStorage.getItem('wyrdforge_hit_table') || 'v1';
   if(IS_LOCAL){
     // Load the author's working copy from localStorage.
     for(const k in KINDS) KINDS[k].set(JSON.parse(localStorage.getItem(KINDS[k].ls)||'[]'));
@@ -2326,6 +2289,17 @@ function fighters_switchTab(name){
 document.getElementById('fitab-btn-characteristics').onclick=()=>fighters_switchTab('characteristics');
 document.getElementById('fitab-btn-keywords').onclick=()=>fighters_switchTab('keywords');
 document.getElementById('fitab-btn-abilities').onclick=()=>fighters_switchTab('abilities');
+
+// Weapon tab switching
+function weapons_switchTab(name){
+  document.querySelectorAll('#weapon-panel .tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#weapon-panel .tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('wtab-'+name).classList.add('active');
+  document.getElementById('wtab-btn-'+name).classList.add('active');
+  if(name==='damage' && !wd_rolls.length) wd_roll();
+}
+document.getElementById('wtab-btn-characteristics').onclick=()=>weapons_switchTab('characteristics');
+document.getElementById('wtab-btn-damage').onclick=()=>weapons_switchTab('damage');
 
 // Race & Keywords tag inputs
 (function(){

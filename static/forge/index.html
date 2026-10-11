@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Internal authoring tool, not site content — keep it out of search results. -->
 <meta name="robots" content="noindex, nofollow">
 <title>WyrdForge</title>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,7 +15,7 @@
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
-    <span>WyrdForge</span>
+    <span>WyrdForge<span class="sidebar-version">v0.9</span></span>
     <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Toggle dark mode">
       <svg id="theme-icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg id="theme-icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -28,7 +27,7 @@
   <a class="nav-item" onclick="showView('weapon-rules')">Weapon Rules</a>
   <a class="nav-item" onclick="showView('items')">Items</a>
   <a class="nav-item" onclick="showView('abilities')">Abilities</a>
-  <a class="nav-item" onclick="showView('cost-profiles')">Cost Profiles</a>
+  <a class="nav-item" onclick="showView('settings')">Settings</a>
   <div class="sidebar-footer local-only">
     <div class="sidebar-footer-label">Data</div>
     <button class="sidebar-footer-btn" onclick="data_exportAll()">
@@ -76,7 +75,13 @@
     <div class="main-header">
       <h1 class="main-title">Fighters</h1>
       <div class="header-actions">
-        <input class="search-input" id="fighters-search" placeholder="Search fighters…" oninput="fighters_render()">
+        <div class="search-wrap" style="position:relative">
+          <input class="search-input" id="fighters-search" placeholder="Search fighters or keywords (comma-separated)…" autocomplete="off"
+            oninput="fighters_render();fighters_searchAutocomplete(this)"
+            onfocus="fighters_searchAutocomplete(this)"
+            onblur="document.getElementById('fighters-search-ac').style.display='none'">
+          <div class="autocomplete-list" id="fighters-search-ac" style="display:none"></div>
+        </div>
         <select class="filter-select" id="fighters-faction-filter" onchange="fighters_render()">
           <option value="">All Factions</option>
         </select>
@@ -93,7 +98,7 @@
               <th class="sortable" data-table="fighters" data-sort="move" style="width:5%;text-align:center" data-tip="Move">Move</th>
               <th class="sortable" data-table="fighters" data-sort="fight" style="width:5%;text-align:center" data-tip="Fight">Fight</th>
               <th class="sortable" data-table="fighters" data-sort="shoot" style="width:5%;text-align:center" data-tip="Shoot">Shoot</th>
-              <th class="sortable" data-table="fighters" data-sort="defense" style="width:5%;text-align:center" data-tip="Defense">Defense</th>
+              <th class="sortable" data-table="fighters" data-sort="defense" style="width:5%;text-align:center" data-tip="Armour">Armour</th>
               <th class="sortable" data-table="fighters" data-sort="health" style="width:5%;text-align:center" data-tip="Health">Health</th>
               <th class="sortable" data-table="fighters" data-sort="bravery" style="width:6%;text-align:center" data-tip="Bravery">Bravery</th>
               <th class="sortable" data-table="fighters" data-sort="cost" style="width:7%;text-align:center">Cost</th>
@@ -112,26 +117,23 @@
     <div class="main-header">
       <h1 class="main-title">Weapons</h1>
       <div class="header-actions">
-        <!-- MATHHAMMER CONTROLS (hidden by default) -->
-        <div id="mh-controls" style="display:none;align-items:center;gap:8px">
-          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap" id="mh-atk-label">Fight:</span>
+        <div id="mh-controls" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap" id="mh-atk-label" title="Attack Characteristic (Fight or Shoot)">AC:</span>
           <div class="stepper" style="height:34px">
             <button class="stepper-btn" onclick="mh_step('atk',-1)">−</button>
             <div class="stepper-val" id="mh-atk-val" style="min-width:32px">3</div>
             <button class="stepper-btn" onclick="mh_step('atk',1)">+</button>
           </div>
-          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap">Def:</span>
+          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap" title="Defense Characteristic (Armour)">DC:</span>
           <div class="stepper" style="height:34px">
             <button class="stepper-btn" onclick="mh_step('def',-1)">−</button>
             <div class="stepper-val" id="mh-def-val" style="min-width:32px">3</div>
             <button class="stepper-btn" onclick="mh_step('def',1)">+</button>
           </div>
-          <span style="font-size:11px;color:var(--text-muted);white-space:nowrap">+Atk</span>
-          <div class="stepper" style="height:34px">
-            <button class="stepper-btn" onclick="mh_step('bonus',-1)">−</button>
-            <div class="stepper-val" id="mh-bonus-val" style="min-width:32px">0</div>
-            <button class="stepper-btn" onclick="mh_step('bonus',1)">+</button>
-          </div>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);white-space:nowrap;cursor:pointer">
+            <input type="checkbox" id="mh-dual" onchange="mh_toggleDual(this.checked)" style="width:auto;margin:0;cursor:pointer" />
+            Dual wield
+          </label>
         </div>
         <input class="search-input" id="weapons-search" placeholder="Search weapons…" oninput="weapons_render()">
         <select class="filter-select" id="weapons-type-filter" onchange="weapons_render()">
@@ -140,12 +142,6 @@
           <option value="ranged">Ranged</option>
           <option value="natural">Natural</option>
         </select>
-        <button class="btn btn-primary" id="mh-toggle-btn" onclick="mh_toggle()" title="Toggle Mathhammer">
-          <i data-lucide="dice-5" style="width:13px;height:13px;vertical-align:middle;margin-right:5px;pointer-events:none"></i>Mathhammer
-        </button>
-        <button class="btn btn-primary" id="wx-toggle-btn" onclick="wx_toggle()" title="Toggle Damage Matrix">
-          <i data-lucide="table-2" style="width:13px;height:13px;vertical-align:middle;margin-right:5px;pointer-events:none"></i>Matrix
-        </button>
         <button class="btn btn-primary" onclick="weapons_openPanel()">Add weapon</button>
         <button class="btn btn-outline local-only" onclick="weapons_export()">Export weapons.json</button>
       </div>
@@ -156,22 +152,20 @@
           <thead>
             <tr id="weapons-thead-row">
               <th class="sortable" data-table="weapons" data-sort="name" style="width:28%">Weapon</th>
-              <th class="sortable" data-table="weapons" data-sort="type" style="width:8%">Type</th>
+              <th class="sortable" data-table="weapons" data-sort="type" style="width:6%">Type</th>
               <th class="sortable" data-table="weapons" data-sort="range" style="width:6%;text-align:center" data-tip="Range">Range</th>
               <th class="sortable" data-table="weapons" data-sort="attacks" style="width:6%;text-align:center" data-tip="Attacks">Attacks</th>
               <th class="sortable" data-table="weapons" data-sort="hit" style="width:8%;text-align:center" data-tip="Hit / Crit Damage">Damage</th>
-              <th class="sortable" data-table="weapons" data-sort="cost" style="width:8%;text-align:center" id="wth-cost">Cost</th>
-              <th style="width:26%" id="wth-rules">Weapon Rules</th>
-              <th style="width:10%"></th>
+              <th class="sortable" data-table="weapons" data-sort="mh-armor-0" style="width:6%;text-align:center;font-size:10px;color:var(--text)" data-tip="No Armour">0<i data-lucide="shield" style="width:10px;height:10px;vertical-align:middle;margin-left:3px;pointer-events:none"></i></th>
+              <th class="sortable" data-table="weapons" data-sort="mh-armor-1" style="width:6%;text-align:center;font-size:10px;color:var(--text)" data-tip="1 Armour">1<i data-lucide="shield" style="width:10px;height:10px;vertical-align:middle;margin-left:3px;pointer-events:none"></i></th>
+              <th class="sortable" data-table="weapons" data-sort="mh-armor-2" style="width:6%;text-align:center;font-size:10px;color:var(--text)" data-tip="2 Armour">2<i data-lucide="shield" style="width:10px;height:10px;vertical-align:middle;margin-left:3px;pointer-events:none"></i></th>
+              <th class="sortable" data-table="weapons" data-sort="mh-armor-3" style="width:6%;text-align:center;font-size:10px;color:var(--text)" data-tip="3 Armour">3<i data-lucide="shield" style="width:10px;height:10px;vertical-align:middle;margin-left:3px;pointer-events:none"></i></th>
+              <th class="sortable" data-table="weapons" data-sort="cost" style="width:8%;text-align:center">Cost</th>
+              <th style="width:7%"></th>
             </tr>
           </thead>
           <tbody id="weapons-tbody"></tbody>
         </table>
-      </div>
-      <div id="weapon-matrix-wrap" style="display:none">
-        <div class="table-wrap">
-          <table id="wx-table" style="font-size:12px"></table>
-        </div>
       </div>
     </div>
   </div>
@@ -272,10 +266,10 @@
     </div>
   </div>
 
-  <!-- COST PROFILES VIEW -->
-  <div class="view" id="view-cost-profiles">
+  <!-- SETTINGS VIEW -->
+  <div class="view" id="view-settings">
     <div class="main-header">
-      <h1 class="main-title">Cost Profiles</h1>
+      <h1 class="main-title">Settings</h1>
       <div class="header-actions">
         <button class="btn btn-outline local-only" onclick="cp_export()">Export cost-profiles.json</button>
       </div>
@@ -342,6 +336,58 @@
         </div>
       </div>
 
+      <!-- SETTINGS CARD -->
+      <div class="cp-card">
+        <div class="cp-card-title">Settings</div>
+        <div class="cp-card-hint">App-wide settings that affect how the Mathhammer and Damage Projection calculators work.</div>
+
+        <div class="cp-section-label">Hit Roll Table</div>
+        <div class="hit-table-options" id="hit-table-options">
+          <label class="hit-table-option">
+            <input type="radio" name="hit-table" value="v1" />
+            <div>
+              <div class="hit-table-option-title">Expanded Hit Table V1</div>
+              <ul class="hit-table-option-desc">
+                <li>Fight 2+ greater than Armour — Miss 1-2, Hit 3-4, Crit 5-6</li>
+                <li>Fight 1 greater than Armour — Miss 1-2, Hit 3-5, Crit 6</li>
+                <li>Fight == Armour — Miss 1-3, Hit 4-5, Crit 6</li>
+                <li>Fight 1 less than Armour — Miss 1-4, Hit 5, Crit 6</li>
+                <li>Fight 2+ less than Armour — Miss 1-4, Hit 5-6, No crit</li>
+              </ul>
+            </div>
+          </label>
+          <label class="hit-table-option">
+            <input type="radio" name="hit-table" value="v2" />
+            <div>
+              <div class="hit-table-option-title">Expanded Hit Table V2</div>
+              <ul class="hit-table-option-desc">
+                <li>Fight twice Armour (or more) — Miss 1-2, Hit 3-4, Crit 5-6</li>
+                <li>Fight greater than Armour — Miss 1-2, Hit 3-5, Crit 6</li>
+                <li>Fight == Armour — Miss 1-3, Hit 4-5, Crit 6</li>
+                <li>Fight less than Armour — Miss 1-4, Hit 5, Crit 6</li>
+                <li>Fight half of Armour (or less) — Miss 1-4, Hit 5-6, No crit</li>
+              </ul>
+            </div>
+          </label>
+          <label class="hit-table-option">
+            <input type="radio" name="hit-table" value="standard" />
+            <div>
+              <div class="hit-table-option-title">Standard Hit Table</div>
+              <ul class="hit-table-option-desc">
+                <li>Fight &gt; Armour — Miss 1-2, Hit 3-5, Crit 6</li>
+                <li>Fight == Armour — Miss 1-3, Hit 4-5, Crit 6</li>
+                <li>Fight &lt; Armour — Miss 1-4, Hit 5, Crit 6</li>
+              </ul>
+            </div>
+          </label>
+        </div>
+        <div class="cp-divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <button class="btn btn-primary local-only" onclick="settings_save()">Save profile</button>
+          <span id="cp-s-saved" class="cp-saved"></span>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -368,23 +414,22 @@
       </div>
       <div class="field">
         <label>Faction ID</label>
-        <input type="text" id="f-id" placeholder="auto-generated from name" oninput="factions_scheduleSave()" />
+        <input type="text" id="f-id" placeholder="auto-generated from name" />
         <div class="field-hint">Generated from faction name. Edit at your own risk.</div>
       </div>
       <div class="field">
         <label>Description</label>
-        <textarea id="f-desc" rows="4" placeholder="A brief description..." oninput="factions_scheduleSave()"></textarea>
+        <textarea id="f-desc" rows="4" placeholder="A brief description..."></textarea>
       </div>
       <div class="field">
         <label>Warband Size</label>
         <input type="number" id="f-warband-size" placeholder="e.g. 10" min="1" step="1"
-          oninput="factions_scheduleSave()"
           style="width:100%;font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;" />
         <div class="field-hint">Maximum number of fighters allowed in this faction's warband.</div>
       </div>
       <div class="field">
         <label>Special Rules (Markdown)</label>
-        <textarea id="f-rules" rows="8" placeholder="## Special Rules&#10;&#10;**Rule** — Description..." oninput="factions_scheduleSave()"></textarea>
+        <textarea id="f-rules" rows="8" placeholder="## Special Rules&#10;&#10;**Rule** — Description..."></textarea>
         <div class="field-hint">Supports markdown formatting.</div>
       </div>
       <div class="field">
@@ -415,7 +460,11 @@
       <div id="ftab-weap-list"></div>
     </div>
   </div>
-  <div class="save-indicator" id="f-save-ind"></div>
+  <div class="panel-footer">
+    <button class="btn btn-outline" onclick="factions_save()">Save</button>
+    <button class="btn btn-primary" onclick="factions_save();closeAllPanels()">Save &amp; Close</button>
+    <span class="save-indicator" id="f-save-ind"></span>
+  </div>
 </div>
 
 <!-- FIGHTER PANEL -->
@@ -499,7 +548,7 @@
           </div>
         </div>
         <div class="stat-group">
-          <label>Defense</label>
+          <label>Armour</label>
           <div class="stepper">
             <button class="stepper-btn" onclick="stepStat('defense',-1)">−</button>
             <div class="stepper-val" id="stat-defense">3</div>
@@ -532,7 +581,7 @@
             <span class="power-level-badge" id="pl-badge">+0</span>
             <span>Stronger</span>
           </div>
-          <input type="range" id="fi-power" min="-30" max="30" step="5" value="0" oninput="fighters_onPowerChange(this.value)" />
+          <input type="range" id="fi-power" min="-30" max="50" step="5" value="0" oninput="fighters_onPowerChange(this.value)" />
         </div>
 
         <div class="field">
@@ -659,7 +708,12 @@
     </div>
     <button class="close-btn" onclick="closeAllPanels()">✕</button>
   </div>
+  <div class="panel-tabs">
+    <button class="tab active" id="wtab-btn-characteristics">Characteristics</button>
+    <button class="tab" id="wtab-btn-damage">Damage Projection</button>
+  </div>
   <div class="panel-body">
+    <div class="tab-content active" id="wtab-characteristics">
       <div class="field">
         <label>Weapon Name</label>
         <input type="text" id="w-name" placeholder="e.g. Blessed Warhammer" oninput="weapons_onNameInput(this.value)" />
@@ -748,6 +802,49 @@
         </div>
         <input type="range" id="w-power" min="-30" max="30" step="5" value="0" oninput="weapons_onPowerChange(this.value)" />
       </div>
+    </div>
+
+    <!-- TAB: Damage Projection -->
+    <div class="tab-content" id="wtab-damage">
+      <div class="stats-grid">
+        <div class="stat-group">
+          <label id="wd-atk-label" title="Attack Characteristic (Fight or Shoot)">Attacker's AC</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="wd_step('atk',-1)">−</button>
+            <div class="stepper-val" id="wd-atk-val">3</div>
+            <button class="stepper-btn" onclick="wd_step('atk',1)">+</button>
+          </div>
+        </div>
+        <div class="stat-group">
+          <label title="Defense Characteristic (Armour)">Defender's DC</label>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="wd_step('def',-1)">−</button>
+            <div class="stepper-val" id="wd-def-val">3</div>
+            <button class="stepper-btn" onclick="wd_step('def',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" style="display:flex;align-items:center;gap:10px">
+        <input type="checkbox" id="wd-dual" onchange="wd_toggleDual(this.checked)"
+          style="width:16px;height:16px;accent-color:var(--text);cursor:pointer;flex-shrink:0" />
+        <label for="wd-dual" style="text-transform:none;font-size:12px;color:var(--text);cursor:pointer;margin:0">
+          Dual Wield (+1 Attack)
+        </label>
+      </div>
+
+      <button class="btn btn-outline" style="width:100%;margin-bottom:18px" onclick="wd_roll()">Roll 1000 Attacks</button>
+
+      <div class="wd-armor-toggle" id="wd-armor-toggle">
+        <div class="wd-armor-indicator" id="wd-armor-indicator"></div>
+        <button class="wd-armor-btn active" data-armor="0" onclick="wd_setArmor(0)">0</button>
+        <button class="wd-armor-btn" data-armor="1" onclick="wd_setArmor(1)">1</button>
+        <button class="wd-armor-btn" data-armor="2" onclick="wd_setArmor(2)">2</button>
+        <button class="wd-armor-btn" data-armor="3" onclick="wd_setArmor(3)">3</button>
+      </div>
+
+      <div id="wd-results"></div>
+    </div>
   </div>
 
   <!-- STICKY COST FOOTER -->
@@ -797,6 +894,7 @@
           <option value="">None</option>
           <option value="fight_shoot">Fight &amp; Shoot</option>
           <option value="defense">Defense</option>
+          <option value="pierce">Armour Pierce</option>
         </select>
         <div class="stepper">
           <button class="stepper-btn" onclick="wr_stepBonus(-1)">−</button>

@@ -63,6 +63,13 @@ body {
   letter-spacing: -0.3px;
   display: flex; align-items: center; justify-content: space-between;
 }
+.sidebar-version {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0;
+  margin-left: 8px;
+}
 .nav-item {
   display: block; padding: 9px 20px;
   cursor: pointer; color: var(--text);
@@ -127,13 +134,10 @@ body {
   border: 1px solid var(--border);
 }
 .btn-outline:hover { background: rgba(0,0,0,0.05); }
-.btn.btn-mh-active { background: #ffe600; color: #1a1a18; border-color: #e6cf00; }
-.btn.btn-mh-active:hover { background: #f5dc00; }
 
 body.dark .btn-primary { background: var(--text); color: #1a1a18; }
 body.dark .btn-primary:hover { background: #d0ccc2; }
 body.dark .btn-outline:hover { background: rgba(255,255,255,0.06); }
-body.dark .btn.btn-mh-active { color: #1a1a18; }
 
 /* Single golden border wrapping the contiguous block of pinned rows */
 tr.pinned-row td:first-child { border-left: 2px solid var(--gold); }
@@ -179,8 +183,8 @@ th {
 }
 th.sortable { cursor: pointer; }
 th.sortable:hover { color: var(--text); }
-th.sort-asc::after  { content: ' ↑'; color: var(--text); }
-th.sort-desc::after { content: ' ↓'; color: var(--text); }
+th.sort-asc::after  { content: '▲'; font-size: 7px; margin-left: 4px; color: var(--text); vertical-align: middle; }
+th.sort-desc::after { content: '▼'; font-size: 7px; margin-left: 4px; color: var(--text); vertical-align: middle; }
 th.sort-asc, th.sort-desc { color: var(--text); }
 td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
@@ -414,6 +418,37 @@ input[type="range"] {
   padding: 5px 20px; min-height: 24px; flex-shrink: 0;
 }
 
+/* DAMAGE PROJECTION (weapon panel) */
+.wd-armor-toggle {
+  position: relative; display: flex; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 999px; padding: 3px; margin-bottom: 20px;
+}
+.wd-armor-indicator {
+  position: absolute; top: 3px; bottom: 3px; left: 3px;
+  width: calc((100% - 6px) / 4); background: var(--accent); border-radius: 999px;
+  transform: translateX(calc(var(--armor-index, 0) * 100%));
+}
+.wd-armor-btn {
+  position: relative; z-index: 1;
+  flex: 1; border: none; background: none; cursor: pointer;
+  padding: 8px 0; font-family: var(--font-mono); font-size: 13px;
+  font-weight: 600; color: var(--text-muted); border-radius: 999px;
+}
+.wd-armor-btn:hover { color: var(--text); }
+.wd-armor-btn.active { color: #fff; }
+.wd-heading { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.wd-summary { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+.wd-summary strong { color: var(--text); font-weight: 600; }
+.wd-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.wd-bar-label { width: 18px; text-align: right; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.wd-bar-track { flex: 1; background: var(--bg); border-radius: 3px; height: 14px; overflow: hidden; }
+.wd-bar-fill {
+  display: block; height: 100%; width: 0%; background: var(--accent); border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wd-bar-count { width: 22px; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.wd-empty { color: var(--text-muted); font-size: 12px; text-align: center; padding: 32px 0; }
+
 .panel-footer {
   display: flex; gap: 8px; padding: 12px 20px;
   border-top: 1px solid var(--border); flex-shrink: 0;
@@ -450,17 +485,15 @@ input[type="range"] {
 .equip-item:not(.state-all):not(.state-hero):hover { background: #eceae4; }
 
 /* MATHHAMMER */
-.mh-miss  { color: var(--text-muted); }
-.mh-hit   { color: var(--accent); font-weight:500; }
-.mh-crit  { color: #c17900; font-weight:500; }
-.mh-avg   { font-weight:600; color: var(--text); }
-.mh-max   { color: var(--text-muted); }
+.mh-armor-0 { font-weight:600; color: var(--text); }
+.mh-armor-1, .mh-armor-2, .mh-armor-3 { color: var(--text-muted); }
 
 .rule-pill {
-  display: inline-block; font-size: 10px; letter-spacing: 0.04em;
-  padding: 2px 8px; border: 1px solid var(--border);
-  background: var(--bg); margin-right: 3px; white-space: nowrap;
+  display: inline-block; font-size: 9px; letter-spacing: 0.03em;
+  padding: 1px 6px; border: 1px solid var(--border); border-radius: 3px;
+  background: var(--bg); margin-right: 3px; margin-bottom: 2px; white-space: nowrap;
 }
+.weapon-rules-inline { margin-top: 3px; line-height: 1.7; }
 
 /* PINNED ROWS */
 .pin-btn { color: var(--border); transition: color 0.15s; opacity: 1 !important; }
@@ -468,23 +501,6 @@ input[type="range"] {
 .pin-btn.pinned svg { fill: currentColor; }
 .pin-btn:hover { color: var(--text-muted); }
 .pin-btn.pinned:hover { color: var(--gold); filter: brightness(0.9); }
-
-.prob-table { width:100%; border-collapse:collapse; font-size:11px; }
-.prob-table th {
-  padding:7px 8px; text-align:center; font-size:10px;
-  font-weight:500; color:var(--text-muted); letter-spacing:0.04em;
-  text-transform:uppercase; border-bottom:1px solid var(--border);
-}
-.prob-table td {
-  padding:7px 8px; text-align:center;
-  border-bottom:1px solid var(--border);
-  font-size:11px; color:var(--text-muted);
-}
-.prob-table tr:last-child td { border-bottom:none; }
-.prob-table tr.prob-highlight td {
-  background:#ffe600; color:var(--text); font-weight:600;
-}
-.prob-table td.prob-def { font-weight:600; color:var(--text); }
 
 .tab-empty { padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 12px; }
 
@@ -516,6 +532,18 @@ input[type="range"] {
 }
 .cp-input:focus { border-color: var(--accent); }
 .cp-saved { font-size: 10px; color: var(--accent); }
+
+.hit-table-options { display: flex; flex-direction: column; gap: 10px; }
+.hit-table-option {
+  display: flex; gap: 10px; align-items: flex-start; cursor: pointer;
+  padding: 10px; border: 1px solid var(--border); border-radius: 4px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.hit-table-option:hover { border-color: var(--accent); }
+.hit-table-option:has(input:checked) { border-color: var(--accent); background: rgba(45,106,63,0.07); }
+.hit-table-option input[type="radio"] { margin-top: 3px; flex-shrink: 0; cursor: pointer; accent-color: var(--accent); }
+.hit-table-option-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.hit-table-option-desc { margin: 0; padding-left: 16px; font-size: 10px; color: var(--text-muted); line-height: 1.6; }
 
 /* FACTION FIGHTER LIST */
 .faction-fighter-item {
