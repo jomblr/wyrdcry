@@ -20,7 +20,7 @@ These are the most common actions that your fighters will use over the course of
 - #### [Wait](./actions/wait.md)
 - #### [Channel Magic](./actions/channel-magic.md)
 
-### Special Actions
+### Scenario Actions
 Some scenarios and contracts include special actions that fighters can make instead of a universal action.
 
 ### Free actions

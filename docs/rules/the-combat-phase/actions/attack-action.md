@@ -42,10 +42,11 @@ Then, make the hit rolls for the main-hand weapon, followed by a single hit roll
 |Half (or less)|1-4|5-6|-|
 
 #### Melee Modifiers
-|Modifiers|Attacker|
-|:---|:---:|
-|Attacker makes a  [diving charge](#diving-charge)|+1 Fight|
-|Target is [flanked](#flanking)|+1 Fight|
+| Modifiers                                         | Attacker |
+| :------------------------------------------------ | :------: |
+| Attacker makes a  [diving charge](#diving-charge) | +1 Fight |
+| Target is [flanked](#flanking)                    | +1 Fight |
+| Attacker is [panicked](#flanking)                 | -1 Fight |
 
 #### Diving Charge
 When a fighter makes a melee attack action after a move action where they fell more than 2” vertically, you may increase their Fight characteristic by 1.
@@ -64,13 +65,13 @@ For ranged attack actions, you must compare the Shoot characteristic of the atta
 |Critical Hit|-|6|6|6|5+|
 
 #### Ranged Attack Modifiers
-|Modifier|Attacker|
-|:---|:---:|
-|Attacker is [on a platform (at least 2" above target)](./attack-action#high-ground)|**+1 Shoot**|
-|Attacker is [threatened](./attack-action#threatened)|**-2 Shoot**|
-|Attacker is panicked|**-1 Shoot**|
-|Target is at [long range](./attack-action#long-range)|**-1 Shoot**|
-|Target is in [cover](#cover)|**-1 Shoot**|
+| Modifier                                                                            |   Attacker   |
+| :---------------------------------------------------------------------------------- | :----------: |
+| Attacker is [on a platform (at least 2" above target)](./attack-action#high-ground) | **+1 Shoot** |
+| Attacker is [threatened](./attack-action#threatened)                                | **-2 Shoot** |
+| Attacker is panicked                                                                | **-1 Shoot** |
+| Target is at [long range](./attack-action#long-range)                               | **-1 Shoot** |
+| Target is in [cover](#cover)                                                        | **-1 Shoot** |
 
 #### Cover
 When making a ranged attack action, if the target is in **cover**, decrease the Shoot characteristic of the attacking fighter by 1. A fighter is in cover if any of the following are true:
@@ -103,7 +104,7 @@ Gerthrude Horrst, a stern sister of sigmar, strikes at a Darksoul warrior. Both 
 
 As she is dual wielding a hammer and a dagger, she strikes first with her hammer and rolls a 5 and 6 – a hit and a critical hit! The hammer has a 2/3 damage characteristic, resulting in 5 damage points. The Darksoul is wearing heavy armour with an armour characteristic of 3, but the hammer has the piercing 2 special rule, so she reduces the Darksoul's armour to 1, and  allocates 4 damage points to the Darksoul (5 damage -1 for the armour).
 
-She then makes a single hit roll for her off-hand dagger, which also results in a critical hit. Since the weapon doesn't have the piering special rule, the critical hit is completely blocked by the armour (3 damage -3 for the armour)
+She then makes a single hit roll for her off-hand dagger, which also results in a critical hit. Since the weapon doesn't have the piercing special rule, the critical hit is completely blocked by the armour (3 damage -3 for the armour)
 :::
 
 

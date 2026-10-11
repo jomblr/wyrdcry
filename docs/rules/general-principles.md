@@ -63,6 +63,10 @@ The game uses inches (") for measuring distances and you are allowed to measure 
 ---
 The game uses regular six-sided dice (D6) to determine the outcome of various rules. The most common occurrence is to beat a target number. For example, if a rule requires a dice roll of 3 or more (usually abbreviated to 3+), every result of 3 or more is a success.
 
+:::inverse[]
+And to keep things simple: it is **always better to roll a high result**. A 1 is always bad, and a 6 is always good.
+:::
+
 :::info[]
 ### D3
 If a rule requires you to roll a **D3**, roll a regular six-sided dice and halve the total, rounding up.

@@ -16,7 +16,7 @@ Starting in the second battle round, search parties in reserve are set up on the
 ### [The combat phase](./the-combat-phase/activating-fighters.md)
 
 The warbands clash as the players take turns activating their fighters.
-### [The morale phase](the-end-phase.md)
+### [The morale phase](the-morale-phase.md)
 
 The players check the warband morale, before starting a new battle round.
 

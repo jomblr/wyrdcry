@@ -30,7 +30,7 @@ At the end of the battle, if the defender escapes with 3 or more wyrdstone token
 ## 3: Defend the Find
 *Your warband has uncovered a motherlode of wyrdstone shards, but prying them free will take time and effort. As the work drags on, sudden movement stirs among the ruins.*
 
-The defender selects a ruin on the battlefield, within 6” of the battlefield center. In that ruin, the defender must place 5 wyrdstone tokens within 2” of each other.
+The defender must select a large terrain piece on the battlefield within 6” of the battlefield center. In that terrain piece, the defender must place 5 wyrdstone tokens within 2” of each other.
 
 During the battle, the defender’s fighters cannot pick up or carry wyrdstone tokens.
 
@@ -46,7 +46,7 @@ Starting with the defender, the players alternate selecting 5 terrain features o
 
 During the battle, a warband controls one of those terrain features if there are more friendly fighters than enemy fighters wholly within that terrain feature. At the end of the battle, the warband controlling the most terrain features is the winner.
 
-**Reward:** At the end of the battle, roll a d6 for each ruin in a warband’s control. On a 3+, the warband gains 1 wyrdstone shard.
+**Reward:** At the end of the battle, roll a dice for each ruin in a warband’s control. On a 3+, the warband gains 1 wyrdstone shard.
 :::
 :::info
 ## 5: Hidden Vault

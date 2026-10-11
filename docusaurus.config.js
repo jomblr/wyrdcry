@@ -55,7 +55,10 @@ const config = {
     },
   ],
 
-  clientModules: [require.resolve('./src/clientModules/gtagFallback.js')],
+  clientModules: [
+    require.resolve('./src/clientModules/gtagFallback.js'),
+    require.resolve('./src/clientModules/clearPreferredVersion.js'),
+  ],
 
   plugins: [
     [
@@ -64,7 +67,6 @@ const config = {
         hashed: true,
         docsRouteBasePath: '/docs',
         indexBlog: false,
-        docsPluginIdForPreferredVersion: 'default',
       },
     ],
     'docusaurus-plugin-image-zoom',
@@ -105,7 +107,7 @@ const config = {
           // `==text==` in the right-hand nav.
           beforeDefaultRemarkPlugins: [remarkHighlight],
           // 0.9 is the current ruleset and the default at /docs/.
-          // 0.5 is archived (still selectable in the version dropdown, e.g. for old warbands), at /docs/0.5/ (versioned_docs/version-0.5).
+          // 0.5 is archived: no version toggle in the UI, reachable only by direct URL, at /docs/0.5/ (versioned_docs/version-0.5).
           // Old /docs/next/* links are redirected in static/_redirects.
           lastVersion: 'current',
           versions: {
@@ -189,10 +191,6 @@ const config = {
               { to: '/warband-builder', label: 'Warband Builder' },
               { to: '/scenario-generator', label: 'Scenario Generator' },
             ],
-          },
-          {
-            type: 'docsVersionDropdown',
-            position: 'right',
           },
           {
             to: '/blog',

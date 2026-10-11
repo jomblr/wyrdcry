@@ -13,7 +13,9 @@ At the end of each battle round, before checking warband morale, each player can
 
 If a fighter is wounded, they are taken out of action on a 5+.
 ## 3: Suffocating Smog
-Fighters 6" or more from each other are not visible to each other. At the start of each combat phase starting from the second battle round, one player rolls a dice. If the score is less than the number of the current battle round, the mists clear and this twist no longer has any effect on the battle.
+Fighters 6" or more from each other are not visible to each other. In addition, at the end of each battle round, allocate 1 damage points to each fighter on the battlefield floor.
+
+ At the start of each combat phase starting from the second battle round, one player rolls a dice. If the score is less than the number of the current battle round, the smog clears and this twist no longer has any effect on the battle.
 ## 4: Falling Fish
 At the end of each battle round, roll a dice for each fighter whose base is not wholly underneath a platform. On a 4+, allocate 2 damage points to that fighter.
 

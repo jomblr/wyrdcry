@@ -26,15 +26,15 @@ If your `Leader` dies or is removed from the warband for any other reason, you m
 
 |D6|Result|
 |:---:|:---|
-|1-2|<span id="hench-dead">**Dead**</span>: The warrior has been killed (or badly crippled) and must be removed from the warband roster. Roll a D6 for their equipment; on a 5+, it is recovered and added to your warband stash.|
+|1-2|<span id="hench-dead">**Dead**</span>: The warrior has been killed (or badly crippled) and must be removed from the warband roster. Roll a dice for their equipment; on a 5+, it is recovered and added to your warband stash.|
 |3-6|<span id="hench-full-recovery">**Full Recovery**</span>: The warrior suffers no lasting effects|
 
 ### Hero Injuries
 
 |D66|Result|
 |:---:|:---|
-|11-12|<span Id="dead">**Dead**</span>: The fighter is removed from your warband. Roll a D6 for their equipment; on a 5+, it is recovered and added to your warband stash.|
-|13-14|<span id="bleeding-out">**Bleeding Out**</span>: The fighter dies unless you rush them to a surgeon. You may remove 20gc from the warband stash to roll a d6.<br/>On a 1-3, the fighter dies (but you retain their equipment!).<br/>On a 4+, treat this result as a Flesh Wound.|
+|11-12|<span Id="dead">**Dead**</span>: The fighter is removed from your warband. Roll a dice for their equipment; on a 5+, it is recovered and added to your warband stash.|
+|13-14|<span id="bleeding-out">**Bleeding Out**</span>: The fighter dies unless you rush them to a surgeon. You may remove 20gc from the warband stash to roll a dice.<br/>On a 1-3, the fighter dies (but you retain their equipment!).<br/>On a 4+, treat this result as a Flesh Wound.|
 |15-16|<span id="deep-wound">**Deep wound**</span>: The fighter is recovering but will miss the next battle|
 |21|<span id="wyrdlung-rot">**▼ [Trait] Wyrdlung Rot**</span>: This fighter can only make one Move action per battle round.|
 |22|<span id="crippled-leg">**▼ [Trait] Crippled leg**</span>: Decrease the fighter’s Move characteristic by 2|

@@ -18,4 +18,4 @@ If your warband is wavering, instead of taking bravery tests, you can decide to 
 
 - Friendly fighters within 1” of enemy fighters immediately drop any tokens they are carrying, and are then removed from the battlefield.
 - Fighters removed in this manner are not considered to be taken out of action and do not roll for injuries in the aftermath sequence.
-- If there is anything your opponent still needs to achieve (such as fulling the victory condition of the scenario), the remaining battle rounds are played through to their conclusion. If not, the battle immediately ends.
+- If there is anything your opponent still needs to achieve (such as fulfilling the victory condition of the scenario), the remaining battle rounds are played through to their conclusion. If not, the battle immediately ends.

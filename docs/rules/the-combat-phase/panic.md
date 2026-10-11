@@ -10,11 +10,11 @@ During a battle your fighters will find themselves surrounded by death, **terrif
 To take a bravery test, roll a d6 and compare the result to the fighter's Bravery characteristic.
 
 - If the result is equal to, or greater than the fighter’s Bravery characteristic, the panic test has been passed.
-- If the result is less than the fighter’s Bravery characteristic, the test has failed and the fighter will suffer the consequences as stated in the rule causing the Bravery test to be taken.
+- If the result is less than the fighter’s Bravery characteristic, the test has failed and the fighter will suffer the consequences as stated in the rule causing the Bravery test.
 
 :::info
 ### Warband Leader
-A fighter that is within 6” of their `LEADER`may use their Bravery characteristic when taking bravery tests.
+A fighter that is within 6” of their `LEADER` may use their Bravery characteristic when taking bravery tests.
 :::
 
 ## Panic

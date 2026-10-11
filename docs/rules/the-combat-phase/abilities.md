@@ -21,11 +21,11 @@ You can discard a **[triple]** for an ability that requires a **[double]**, or a
 When an ability mentions (X), it refers to the value shown on the ability dice combination used for that ability. For example, if a player has a **[double]** with both dice showing ‘5’, then the value (X) of that ability dice is 5. When a rule mentions (X/2), it means half of the ability dice’s value, rounded up.
 
 ## Universal Abilities
-|Keyword|Ability|
-|:---:|---|
-|`Any`|**[Double] Rush:** Add 1 to the Move characteristic of this fighter until the end of their activation.|
-|`Any`|**[Double] Onslaught:** Add 1 to the Attacks characteristic for this fighter's next Melee Attack action this activation.|
-|`Any`|**[Double] Careful Aim:** Add 1 to the Shoot characteristic of this fighter for its next Ranged Attack action this activation.|
-|`Hero`|**[Triple] Inspiring Presence:** Select a visible friendly fighter within 6” of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter’s activation ends.|
-|`Any`|**[Triple] Respite:** A fighter cannot use this ability while within 1" of an enemy fighter. Remove D3+3 damage points from this fighter.|
-|`Any`|**[Quad] Rampage:** This fighter makes a bonus move action up to (X)". Then, they can make a bonus attack action.|
+| Keyword | Ability                                                                                                                                                                                                                    |
+| :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  `Any`  | **[Double] Rush:** Add 1 to the Move characteristic of this fighter until the end of their activation.                                                                                                                     |
+|  `Any`  | **[Double] Onslaught:** Add 1 to the Attacks characteristic for this fighter's next Melee Attack action this activation.                                                                                                   |
+|  `Any`  | **[Double] Careful Aim:** Add 1 to the Shoot characteristic of this fighter for its next Ranged Attack action this activation.                                                                                             |
+| `Hero`  | **[Triple] Inspiring Presence:** Select a visible friendly fighter within 6” of this fighter that has not activated yet this battle round. You can activate that fighter immediately after this fighter’s activation ends. |
+|  `Any`  | **[Triple] Respite:** A fighter cannot use this ability while within 1" of an enemy fighter. Remove D3+3 damage points from this fighter.                                                                                  |
+|  `Any`  | **[Quad] Rampage:** This fighter makes a free move action up to (X)". Then, they can make a free attack action.                                                                                                            |
