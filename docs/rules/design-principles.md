@@ -42,5 +42,3 @@ The ruleset should bite hard enough that it hurts whenever a fighter is taken ou
 Wyrdcry is a fan-made hack, and should not require players to heavily invest into new miniatures or terrain. Players should be able to use their original Mordheim warbands to get started, and be allowed to use whatever models or base sizes they want. Wyrdcry is model-agnostic.
 
 When the playtests are over and we launch the 1.0 version, the rules should be easy to access, and errata and balance updates minimal. This will never be a competitive game and does not have to be perfectly balanced, and players shouldn’t have to re-learn the game with monthly or quarterly updates. However, the original 6 warbands should be balanced enough so that they can be used as a measuring stick when developing other warbands.
-
-## Fighter and Weapon Calculators
