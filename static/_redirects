@@ -1,3 +1,4 @@
 # Netlify redirects. 0.9 used to be the draft at /docs/next/; it is now the default at /docs/.
 /docs/next      /docs/         301
 /docs/next/*    /docs/:splat   301
+/docs/rules/design-principles   /tools/design-principles   301
