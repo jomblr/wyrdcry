@@ -1,6 +1,8 @@
 ---
 sidebar_position: 199
 title: Appendix - Design principles
+# Unlisted: published, but only reachable by URL — not in the sidebar, search or sitemap.
+unlisted: true
 ---
 
 # Design Principles
