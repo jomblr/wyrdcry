@@ -144,7 +144,7 @@
     "id": "shield",
     "name": "Shield",
     "type": "armour",
-    "description": "Increase the bearer's Fight characteristic by 1 when defending against a melee attack action. When defending against a ranged attack action, increase the Difficulty Rating by 1 instead.",
+    "description": "Increase the bearer's Fight characteristic by 1 when targeted by a melee attack action. When targeted by a ranged attack action, the bearer is considered to be in cover.",
     "effect": null,
     "cost": 20,
     "rare": false

@@ -751,15 +751,17 @@
     "name": "Ghoul",
     "description": "",
     "move": 5,
-    "fight": 4,
+    "fight": 3,
     "shoot": 3,
     "defense": 0,
     "health": 12,
     "bravery": 5,
     "power_level": 0,
-    "cost": 80,
+    "cost": 70,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "bloody-feast"
+    ],
     "default_equipment": [],
     "race": [
       "GHOUL"
@@ -770,7 +772,7 @@
       "TERRIFYING"
     ],
     "recruitable_by": [],
-    "limit": 5
+    "limit": null
   },
   {
     "id": "dire",
@@ -841,11 +843,11 @@
     "move": 4,
     "fight": 6,
     "shoot": 3,
-    "defense": 4,
+    "defense": 0,
     "health": 16,
     "bravery": 3,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "indomitable",
@@ -877,16 +879,16 @@
     "move": 6,
     "fight": 4,
     "shoot": 6,
-    "defense": 3,
+    "defense": 0,
     "health": 10,
     "bravery": 3,
     "power_level": 0,
-    "cost": 70,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "trick-shot",
       "disengage",
-      "stealthy"
+      "fleet-of-foot",
+      "unerring-aim"
     ],
     "default_equipment": [
       "weapon:elf-ranger-bow",
@@ -913,18 +915,18 @@
     "move": 5,
     "fight": 5,
     "shoot": 2,
-    "defense": 4,
+    "defense": 1,
     "health": 20,
     "bravery": 4,
     "power_level": 0,
-    "cost": 80,
+    "cost": 70,
     "ability_preamble": "",
     "faction_ability_ids": [
       "whack",
       "bodyguard"
     ],
     "default_equipment": [
-      "weapon:ogre-great-weapon"
+      "weapon:ogre-weapon"
     ],
     "race": [
       "OGRE"
@@ -946,14 +948,14 @@
     "id": "freelance-knight",
     "name": "Freelance Knight",
     "description": "Freelancers, or “robber knights,” are fallen nobles with little to their name but their weapons and armour. Drunk and bitter, they haunt the surrounding settlements for work, caring more for coin than honour.",
-    "move": 5,
+    "move": 4,
     "fight": 5,
     "shoot": 3,
-    "defense": 6,
+    "defense": 3,
     "health": 16,
     "bravery": 3,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "duelist",
@@ -961,9 +963,9 @@
       "heckle"
     ],
     "default_equipment": [
-      "weapon:mastercrafted-sword",
       "item:heavy-armour",
-      "item:shield"
+      "item:shield",
+      "weapon:sword"
     ],
     "race": [
       "HUMAN"
@@ -986,11 +988,11 @@
     "move": 6,
     "fight": 3,
     "shoot": 4,
-    "defense": 3,
+    "defense": 0,
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 40,
+    "cost": 30,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wall-runner",
@@ -1018,15 +1020,15 @@
   {
     "id": "warlock",
     "name": "Warlock",
-    "description": "Witchcraft is a crime in the Empire, but that doesn’t stop magicians from finding employ with wealthy patrons. In Mordheim they barter their perilous craft for wyrdstone and a chance to uncover magical relics lost in the ruins.",
+    "description": "Witchcraft is a crime in the Empire, but that doesn’t stop magicians from finding employ with wealthy patrons. In Mordheim they barter their perilous craft for wyrdstone and a chance to uncover magical items lost in the ruins.",
     "move": 5,
     "fight": 3,
     "shoot": 3,
-    "defense": 3,
+    "defense": 0,
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wither",
@@ -1044,11 +1046,7 @@
       "HERO",
       "WIZARD"
     ],
-    "recruitable_by": [
-      "mercenaries",
-      "possessed",
-      "undead"
-    ],
+    "recruitable_by": [],
     "limit": null
   },
   {
@@ -1058,17 +1056,16 @@
     "move": 6,
     "fight": 6,
     "shoot": 2,
-    "defense": 4,
+    "defense": 0,
     "health": 20,
     "bravery": 5,
     "power_level": 0,
-    "cost": 90,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [
       "stupidity",
       "bounding-leaps",
-      "savage-mauling",
-      "fearsome"
+      "savage-mauling"
     ],
     "default_equipment": [
       "weapon:rat-ogre-sheer-brutality"
@@ -1078,7 +1075,8 @@
     ],
     "faction": "hired-sword",
     "keywords": [
-      "BEAST"
+      "BEAST",
+      "TERRIFYING"
     ],
     "recruitable_by": [
       "clan-eshin"
@@ -1092,19 +1090,20 @@
     "move": 5,
     "fight": 5,
     "shoot": 3,
-    "defense": 4,
+    "defense": 1,
     "health": 16,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "endure",
       "bestial-rage",
-      "headlong-charge"
+      "ramming-charge"
     ],
     "default_equipment": [
-      "weapon:dual-axes"
+      "weapon:dual-axes",
+      "item:light-armour"
     ],
     "race": [
       "BEASTMAN"
@@ -1121,15 +1120,15 @@
   {
     "id": "necromancer",
     "name": "Necromancer",
-    "description": "Necromancers are evil wizards who have mastered the corrupt art of Necromancy. Many havefled to Mordheim to escape the agents of Sigmar and practice their dark arts freely.",
+    "description": "Necromancers are evil wizards who have mastered the corrupt art of Necromancy. Many have fled to Mordheim to practice their dark art freely and without interference from the Templars of Sigmar.",
     "move": 5,
     "fight": 3,
     "shoot": 3,
-    "defense": 3,
+    "defense": 0,
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 65,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "raise-dead",
@@ -1158,22 +1157,23 @@
     "id": "warrior-priest",
     "name": "Warrior Priest",
     "description": "With fire burning in their eyes, the Warrior-Priests stride into battle, chanting aloud the Deus Sigmar, the praise of the patron god of the Empire.",
-    "move": 5,
+    "move": 4,
     "fight": 5,
     "shoot": 3,
-    "defense": 5,
+    "defense": 3,
     "health": 14,
     "bravery": 3,
     "power_level": 0,
-    "cost": 70,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "hammer-of-sigmar",
-      "voice-of-sigmar",
-      "denounce"
+      "denounce",
+      "incessant-chanting"
     ],
     "default_equipment": [
-      "weapon:sigmarite-warhammer"
+      "weapon:great-weapon",
+      "item:heavy-armour"
     ],
     "race": [
       "HUMAN"

@@ -875,7 +875,8 @@
 
 .weaponRefGridCompact {
   min-width: 0;
-  grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
+  /* Stat columns size to their spelled-out headers (Range / Attacks / Damage). */
+  grid-template-columns: minmax(0, 3fr) max-content max-content max-content minmax(0, 3fr);
 }
 
 .customWeaponRow {
@@ -1857,4 +1858,19 @@
   .infoPanel {
     break-inside: avoid;
   }
+}
+
+/* Fighter-card weapon rows: when a name wraps to two lines, keep every cell vertically centred. */
+.weaponRefGridCompact .cellWrap {
+  align-self: center;
+}
+
+/* Fighter-card list of non-weapon starting gear (armour, shields…), comma-separated. */
+.itemRefGridCompact {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.itemRefGridCompact .cellWrap {
+  align-self: center;
 }

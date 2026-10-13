@@ -1272,10 +1272,26 @@ mark code {
  * Rendered as its own block by FactionFighters.tsx so the whole thing italicises cleanly. */
 .fighter-ability-preamble {
   font-style: italic;
-  font-weight: 700;
 }
 
 /* No version UI: hide the "Version: 0.9" badge above each doc title. */
 .theme-doc-version-badge {
   display: none;
+}
+
+/* Weapon special rules on fighter cards: tinted chips that wrap cleanly on small screens. */
+.weapon-rule-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.weapon-rule-pill {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-200);
+  font-size: 0.85em;
+  line-height: 1.5;
+  white-space: nowrap;
 }

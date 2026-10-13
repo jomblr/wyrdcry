@@ -18,15 +18,16 @@
     "type": "ranged",
     "exclusive": "no",
     "range": 6,
-    "attacks": 6,
-    "hit": 2,
+    "attacks": 5,
+    "hit": 1,
     "crit": 3,
     "special_rules": [
       "blast",
-      "one-use"
+      "one-use",
+      "point-blank"
     ],
-    "power_level": 0,
-    "cost": 40
+    "power_level": 15,
+    "cost": 35
   },
   {
     "id": "bow",
@@ -34,12 +35,25 @@
     "type": "ranged",
     "exclusive": "no",
     "range": 18,
-    "attacks": 3,
+    "attacks": 2,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
     "power_level": 5,
-    "cost": 25
+    "cost": 15
+  },
+  {
+    "id": "bow-variant",
+    "name": "Bow Variant",
+    "type": "ranged",
+    "exclusive": "no",
+    "range": 18,
+    "attacks": 2,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
+    "cost": 10
   },
   {
     "id": "club",
@@ -66,7 +80,7 @@
       "pierce-1"
     ],
     "power_level": 0,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "crossbow-pistol",
@@ -76,14 +90,30 @@
     "range": 6,
     "attacks": 2,
     "hit": 3,
-    "crit": 6,
+    "crit": 5,
     "special_rules": [
       "reload",
       "brace",
-      "pierce-1"
+      "pierce-1",
+      "point-blank"
     ],
     "power_level": 0,
-    "cost": 25
+    "cost": 15
+  },
+  {
+    "id": "daemon-great-claw",
+    "name": "Daemon-Great-Claw",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 1,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "pierce-2"
+    ],
+    "power_level": 0,
+    "cost": 15
   },
   {
     "id": "possessed-daemonic-appendage",
@@ -130,11 +160,11 @@
     "type": "ranged",
     "exclusive": "yes",
     "range": 18,
-    "attacks": 3,
+    "attacks": 2,
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "power_level": 0,
+    "power_level": 10,
     "cost": 25
   },
   {
@@ -152,7 +182,7 @@
       "pierce-1"
     ],
     "power_level": 5,
-    "cost": 30
+    "cost": 25
   },
   {
     "id": "flail",
@@ -168,7 +198,7 @@
       "cumbersome"
     ],
     "power_level": 10,
-    "cost": 25
+    "cost": 15
   },
   {
     "id": "great-weapon",
@@ -200,7 +230,7 @@
       "mighty-2"
     ],
     "power_level": 10,
-    "cost": 50
+    "cost": 30
   },
   {
     "id": "halberd",
@@ -232,7 +262,7 @@
       "pierce-2"
     ],
     "power_level": 0,
-    "cost": 60
+    "cost": 55
   },
   {
     "id": "zombie-infectious-bite",
@@ -263,8 +293,8 @@
     "cost": 30
   },
   {
-    "id": "ogre-great-weapon",
-    "name": "Ogre Great Weapon",
+    "id": "ogre-weapon",
+    "name": "Ogre Weapon",
     "type": "melee",
     "exclusive": "yes",
     "range": 1,
@@ -273,10 +303,10 @@
     "crit": 5,
     "special_rules": [
       "pierce-1",
-      "two-handed"
+      "parry"
     ],
     "power_level": 0,
-    "cost": 30
+    "cost": 40
   },
   {
     "id": "pistol",
@@ -291,10 +321,11 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2"
+      "pierce-2",
+      "point-blank"
     ],
     "power_level": -5,
-    "cost": 35
+    "cost": 30
   },
   {
     "id": "direwolf-rotten-fangs",
@@ -370,12 +401,12 @@
     "type": "ranged",
     "exclusive": "no",
     "range": 12,
-    "attacks": 3,
-    "hit": 1,
+    "attacks": 2,
+    "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "power_level": 0,
-    "cost": 5
+    "power_level": 5,
+    "cost": 10
   },
   {
     "id": "spear",
@@ -388,6 +419,19 @@
     "crit": 3,
     "special_rules": [],
     "power_level": -5,
+    "cost": 10
+  },
+  {
+    "id": "staff",
+    "name": "Staff",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [],
+    "power_level": 0,
     "cost": 10
   },
   {
@@ -437,12 +481,14 @@
     "id": "throwing-stars",
     "name": "Throwing Stars",
     "type": "ranged",
+    "exclusive": "no",
     "range": 6,
-    "attacks": 3,
+    "attacks": 2,
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "cost": 15
+    "power_level": 0,
+    "cost": 5
   },
   {
     "id": "troll-slayer-thrown-axe",
@@ -451,25 +497,26 @@
     "exclusive": "yes",
     "range": 6,
     "attacks": 2,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [],
-    "power_level": 0,
-    "cost": 15
-  },
-  {
-    "id": "troll-slayer-axes",
-    "name": "Twin dwarven axes",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 4,
     "hit": 2,
     "crit": 4,
     "special_rules": [
-      "parry",
-      "two-handed",
+      "one-use",
       "pierce-1"
+    ],
+    "power_level": 0,
+    "cost": 5
+  },
+  {
+    "id": "troll-slayer-axes",
+    "name": "Twin Dwarven Axes",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "parry"
     ],
     "power_level": 0,
     "cost": 30
@@ -528,10 +575,11 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2"
+      "pierce-2",
+      "point-blank"
     ],
     "power_level": 0,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "weeping-blade",
@@ -547,7 +595,7 @@
       "pierce-1"
     ],
     "power_level": 10,
-    "cost": 40
+    "cost": 30
   },
   {
     "id": "weird-bow",
@@ -561,20 +609,5 @@
     "special_rules": [],
     "power_level": 0,
     "cost": 5
-  },
-  {
-    "id": "daemon-great-claw",
-    "name": "Daemon-Great-Claw",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 1,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [
-      "pierce-2"
-    ],
-    "power_level": 0,
-    "cost": 15
   }
 ]

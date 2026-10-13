@@ -12,11 +12,11 @@ In this step, you must roll a dice for each fighter in your warband that took pa
 
 On a 6+, the fighter earns a **level of renown**. In addition, you can select 1 fighter in your warband to be **marked for greatness**. Make 2 renown rolls for that fighter, instead of 1.
 
-- When a `Hero` earns a level of renown, they can either **improve a characteristic** or select a **heroic talent**.
-- When a `Henchman` earns a level of renown, they can **improve a characteristic**. However, they cannot improve each characteristic more than once.
+- When a `Hero` earns a level of renown they must **improve a characteristic**. In addition, on every odd level of renown (1st, 3rd, 5th and so on), they must also select a heroic talent.
+- When a `Henchman` earns a level of renown, they must **improve a characteristic**. However, they cannot improve each characteristic more than once.
 
 :::inverse[The Lad's Got Talent]
-When a `Henchman` earns their fourth level of renown, they are promoted to a `Hero`. They immediately lose the `Henchman` keyword and gain the `Hero` keyword instead, and may either improve a characteristic or select a heroic talent.
+When a `Henchman` earns their third level of renown, they are promoted to a `Hero`. They immediately lose the `Henchman` keyword and gain the `Hero` keyword instead, and must improve a characteristic and select a heroic talent.
 :::
 
 ## Improve Characteristic

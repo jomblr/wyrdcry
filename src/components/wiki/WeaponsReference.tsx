@@ -35,38 +35,43 @@ function humanizeRule(rule: string): string {
     .join(' ');
 }
 
-export function SpecialRuleLinks({ rules }: { rules: string[] }) {
+/** `pills`: render each rule as a tinted chip instead of a comma list (fighter cards). */
+export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pills?: boolean }) {
   const { weaponRules } = useGameData();
   if (rules.length === 0) return <>—</>;
-  return (
-    <>
-      {rules.map((r, i) => {
-        const desc = weaponRuleDescription(r, weaponRules);
-        const link = hasWeaponRuleDefinition(r, weaponRules) ? (
-          desc ? (
-            <Tooltip
-              content={
-                <div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithCode(desc)}</div>
-              }>
-              <span className="equip-tooltip-trigger">
-                <a href={`#${r}`}>{humanizeRule(r)}</a>
-              </span>
-            </Tooltip>
-          ) : (
+  const items = rules.map((r, i) => {
+    const desc = weaponRuleDescription(r, weaponRules);
+    const link = hasWeaponRuleDefinition(r, weaponRules) ? (
+      desc ? (
+        <Tooltip
+          content={
+            <div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithCode(desc)}</div>
+          }>
+          <span className="equip-tooltip-trigger">
             <a href={`#${r}`}>{humanizeRule(r)}</a>
-          )
-        ) : (
-          <span>{humanizeRule(r)}</span>
-        );
-        return (
-          <span key={r} style={{ whiteSpace: 'nowrap' }}>
-            {i > 0 ? ', ' : ''}
-            {link}
           </span>
-        );
-      })}
-    </>
-  );
+        </Tooltip>
+      ) : (
+        <a href={`#${r}`}>{humanizeRule(r)}</a>
+      )
+    ) : (
+      <span>{humanizeRule(r)}</span>
+    );
+    if (pills) {
+      return (
+        <span key={r} className="weapon-rule-pill">
+          {link}
+        </span>
+      );
+    }
+    return (
+      <span key={r} style={{ whiteSpace: 'nowrap' }}>
+        {i > 0 ? ', ' : ''}
+        {link}
+      </span>
+    );
+  });
+  return pills ? <span className="weapon-rule-pills">{items}</span> : <>{items}</>;
 }
 
 function WeaponTableContent({ weapons }: { weapons: Weapon[] }) {

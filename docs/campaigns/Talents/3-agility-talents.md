@@ -14,7 +14,7 @@ When this fighter is set up on the battlefield, it may immediately make a free m
 Whenever this fighter is targeted by an enemy fighter, it is considered to be  in cover if both of the following are true:
 
 - It is more than 6" from the enemy fighter.
-- It is within 1" of an obstacle, or part of its base is underneath a vantage point.
+- It is within 1" of an obstacle, or part of its base is underneath a platform.
 
 ### [Trait] Wall-Runner
 This fighter may ignore the first 3" moved vertically when climbing or falling.

@@ -13,7 +13,7 @@
   {
     "id": "pierce-1",
     "name": "Pierce 1",
-    "description": "When making an attack action with this weapon against an enemy fighter, reduce the target’s Armour characteristic by 1 (to a minimum of 0).",
+    "description": "When making an attack action with this weapon, reduce the target’s Armour characteristic by 1 (to a minimum of 0).",
     "effect": {
       "characteristic": "pierce",
       "bonus": 1,
@@ -24,7 +24,7 @@
   {
     "id": "pierce-2",
     "name": "Pierce 2",
-    "description": "When making an attack action with this weapon against an enemy fighter, reduce the target’s Armour characteristic by 2 (to a minimum of 0).",
+    "description": "When making an attack action with this weapon, reduce the target’s Armour characteristic by 2 (to a minimum of 0).",
     "effect": {
       "characteristic": "pierce",
       "bonus": 2,
@@ -35,14 +35,14 @@
   {
     "id": "two-handed",
     "name": "Two Handed",
-    "description": "This weapon counts as two hand weapons for the sake of equipment restrictions.",
+    "description": "When determining how many melee weapons the bearer is equipped with, this weapon counts as two.",
     "effect": null,
     "cost": -5
   },
   {
     "id": "whipcrack",
     "name": "Whipcrack",
-    "description": "When this weapon is selected as the main-hand weapon for a meele attack action, the target cannot make reactions.",
+    "description": "When making an attack action with this weapon, unless used as an off-hand weapon, the target cannot make reactions.",
     "effect": null,
     "cost": 5
   },
@@ -58,7 +58,7 @@
     "name": "Reload",
     "description": "This weapon must be reloaded after being used for an attack action. A fighter can reload one of their weapons with this special rule when making the wait action.",
     "effect": null,
-    "cost": -5
+    "cost": -10
   },
   {
     "id": "brace",
@@ -91,7 +91,7 @@
   {
     "id": "cumbersome",
     "name": "Cumbersome",
-    "description": "When a fighter armed with this weapon is the target of a melee attack action, decrease its Fight characteristic by 1.",
+    "description": "When the bearer is the target of a melee attack action, decrease their Fight characteristic by 1.",
     "effect": null,
     "cost": -5
   },
@@ -101,5 +101,12 @@
     "description": "After making an attack action with this weapon, if you inflict damage with a critical hit, the target is poisoned. Whenever a poisoned fighter is activated, inflict D3 damage to them.",
     "effect": null,
     "cost": 10
+  },
+  {
+    "id": "point-blank",
+    "name": "Point Blank",
+    "description": "This weapon may be used for melee attack actions. Use the bearer’s Shoot characteristic (decreased by 1) instead of their Fight characteristic for the hit rolls.",
+    "effect": null,
+    "cost": 0
   }
 ]
