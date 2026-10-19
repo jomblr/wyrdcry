@@ -7,13 +7,13 @@ title: Downloads
 ## Core Rules
 ---
 
-- [The Rulebook (1.0)](https://downloads.wyrdcry.net/WYRDCRY-rulebook-1-0.pdf)
-- [The Campaign Book (1.0)](https://downloads.wyrdcry.net/WYRDCRY-campaign-book-1-0.pdf)
-- [Warband Roster](https://downloads.wyrdcry.net/WYRDCRY-warband-roster.pdf)
+- [The Rulebook (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0.pdf)
+- [The Campaign Book (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0.pdf)
+- [Warband Roster](https://downloads.wyrdcry.net/WYRDCRY-Warband-Roster.pdf)
 
 ## Faction Rules
 ---
-Only available on the wiki:
+The factions will be getting their own PDF:s soon, until then - please use the wiki
 
 - [Clan Eshin (wiki)](./warbands/Factions/clan-eshin)
 - [Mercenaries (wiki)](./warbands/Factions/mercenaries)

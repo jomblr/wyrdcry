@@ -156,7 +156,8 @@
     "description": "The bearer may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.",
     "effect": null,
     "cost": 20,
-    "rare": true
+    "rare": true,
+    "faction": "clan-eshin"
   },
   {
     "id": "superior-blackpowder",
@@ -193,5 +194,15 @@
     "effect": null,
     "cost": 10,
     "rare": false
+  },
+  {
+    "id": "prayer-beads",
+    "name": "Prayer Beads",
+    "type": "miscellaneous",
+    "description": "Once per battleround, this fighter can re-roll a failed Bravery test.",
+    "effect": null,
+    "cost": 15,
+    "rare": false,
+    "faction": "sisters-of-sigmar"
   }
 ]

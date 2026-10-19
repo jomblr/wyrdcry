@@ -22,7 +22,8 @@
       "warplock-pistol": "hero",
       "weeping-blades": "hero",
       "flail": "all",
-      "weeping-blade": "hero"
+      "weeping-blade": "hero",
+      "item:smoke-bomb": "all"
     }
   },
   {
@@ -47,7 +48,8 @@
       "item:light-armour": "all",
       "item:shield": "all",
       "sigmarite-warhammer": "hero",
-      "dagger": "all"
+      "dagger": "all",
+      "item:prayer-beads": "all"
     }
   },
   {
