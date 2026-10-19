@@ -1,12 +1,5 @@
 [
   {
-    "id": "blessed-sight",
-    "name": "Blessed Sight",
-    "category": "sisters-of-sigmar",
-    "ability_type": "double",
-    "description": "Roll a die for each visible enemy fighter within (X)” of this fighter. For each result of 4+, add 1 wyrd dice to your saved wyrd dice."
-  },
-  {
     "id": "stealthy",
     "name": "Stealthy",
     "category": "agility",
@@ -17,15 +10,15 @@
     "id": "one-with-the-shadows",
     "name": "One With The Shadows",
     "category": "clan-eshin",
-    "ability_type": "triple",
-    "description": "A fighter cannot use this ability when visible to enemy fighters or when carrying treasure tokens. Remove this fighter from the battlefield. This fighter is now **hidden**.\n"
+    "ability_type": "double",
+    "description": "A fighter cannot use this ability when visible to enemy fighters or when carrying wyrdstone tokens. Remove this fighter from the battlefield. This fighter is now **hidden**.\n"
   },
   {
     "id": "murder-stab",
     "name": "Murder-Stab",
     "category": "clan-eshin",
     "ability_type": "triple",
-    "description": "Add (X/2) to the damage points allocated to enemy fighters by each hit and critical hit from the next melee attack action made by this fighter in this activation."
+    "description": "This fighter makes a free move action or free disengage action. In addition, until the end of this fighter's activation, add 1 to the damage points allocated to enemy fighters by each hit and critical hit from melee attack actions made by this fighter."
   },
   {
     "id": "skitterleap",
@@ -38,8 +31,8 @@
     "id": "gnawdoom",
     "name": "Gnawdoom",
     "category": "clan-eshin",
-    "ability_type": "triple",
-    "description": "*Magical ability*. Select an enemy fighter within 6” and roll (X) d6. For each roll that exceeds the target’s Defense characteristic, allocate 2 damage points to that enemy fighter."
+    "ability_type": "double",
+    "description": "*Magical ability*. Select a visible enemy fighter within 6” and roll (X) dice. For each roll of 2+, allocate 1 damage points to that enemy fighter."
   },
   {
     "id": "enshrouding-darkness",
@@ -109,7 +102,7 @@
     "name": "Indomitable",
     "category": "toughness",
     "ability_type": "trait",
-    "description": "Each time this fighter is activated, you can remove D3 damage points allocated to them."
+    "description": "Each time this fighter is activated, if it is wounded, you can remove D3 damage points allocated to them."
   },
   {
     "id": "nine-lives",
@@ -297,15 +290,15 @@
     "id": "strategize",
     "name": "Strategize",
     "category": "mercenaries",
-    "ability_type": "triple",
-    "description": "During this activation, when this fighter makes a wait action, roll (X) dice. For each roll of 4+, you may add 1 wyrd dice do your saved wyrd dice."
+    "ability_type": "double",
+    "description": "The next time this fighter makes a wait action this activation, roll (X) dice. For each roll of 5+, you may add 1 wyrd dice do your saved wyrd dice.\n"
   },
   {
     "id": "driven-by-greed",
     "name": "Driven by Greed",
     "category": "mercenaries",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a treasure token. Add 1 to the Fight and Attacks characteristic of this fighter’s next melee attack action."
+    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a wyrdstone token. Add 1 to the Fight and Attacks characteristic of this fighter’s next melee attack action."
   },
   {
     "id": "hunters-eye",
@@ -330,38 +323,38 @@
   },
   {
     "id": "command",
-    "name": "Command",
+    "name": "Give Order",
     "category": "mercenaries",
     "ability_type": "triple",
-    "description": "Place a **command token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may increase their Fight or Shoot characteristic by 1 when attacking a target within 3\" of the token.\n- **Hold**: Until the end of the battleround, friendly fighters within 3\" of that token may increase their Defense and Bravery characteristics by 1."
+    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may increase their Fight or Shoot characteristic by 1 when attacking a target within 2\" of the token.\n- **Hold**: Until the end of the battleround, friendly fighters within 2\" of that token may increase their Armour and Bravery characteristics by 1."
   },
   {
     "id": "condemn",
     "name": "Condemn",
     "category": "witch-hunters",
     "ability_type": "triple",
-    "description": "Select up to (X/2) visible enemy fighters without an Accused token and assign each one an Accused token. Increase Zeal by 1 for each token assigned this way, or by 3 if that fighter has the `WIZARD`, `DAEMON`, or `VAMPIRE` keyword."
+    "description": "Select up to (X/2) visible enemy fighters. Those fighters are condemned. For each selected fighter, increase Zeal by 1. If the selected fighter is a `WIZARD`, `DAEMON` or `VAMPIRE`, increase Zeal by 3 instead."
   },
   {
     "id": "incite-rabble",
     "name": "Incite Rabble",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "Select a friendly `Henchman` within 6”. That `Henchman` makes a free move action. Increase Zeal by 1."
+    "description": "Select a friendly `Henchman` within 6” of this fighter. That `Henchman` makes a free move action. Then, increase Zeal by 1."
   },
   {
     "id": "self-flagellation",
     "name": "Self-Flagellation",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "Allocate (X/2) damage points to this fighter and increase Zeal by 1. Then, this fighter makes a free attack action."
+    "description": "Allocate (X/2) damage points to this fighter and increase Zeal by 1. Add 1 to the Attacks characteristic of melee attack actions made by this fighter until the end of their activation."
   },
   {
     "id": "death-grip",
     "name": "Death Grip",
     "category": "witch-hunters",
     "ability_type": "double",
-    "description": "After this fighter's next melee attack action in this activation, if at least 1 hit roll from that attack action results in a hit, the target forfeits 1 of their actions in this battle round. If the target has already activated or if they have no more actions to forfeit, allocate 3 damage points to the target instead."
+    "description": "After this fighter's next melee attack action in this activation, if any hit roll results in a hit or a critical hit, they must forfeit 1 of their actions in this battle round."
   },
   {
     "id": "unshakeable",
@@ -389,7 +382,7 @@
     "name": "Hammer of Sigmar",
     "category": "sisters-of-sigmar",
     "ability_type": "triple",
-    "description": "A fighter can only use this ability if equipped with a Warhammer or Sigmarite Hammer. Add (X/2) to the damage points allocated to enemy fighters by each hit and critical hit from the next melee attack action made by this fighter in this activation.\n\n"
+    "description": "Add (X/2) to the damage points allocated to enemy fighters by each hit and critical hit from the next melee attack action made by this fighter in this activation.\n\n"
   },
   {
     "id": "soulfire",
@@ -431,7 +424,7 @@
     "name": "Ascended",
     "category": "possessed",
     "ability_type": "trait",
-    "description": "When this fighter is recruited to the warband, it must make a roll on the mutation table. It refuses to be equipped with any equipment, weapons or armour."
+    "description": "In the aftermath sequence, this fighter is always considered to be Marked for Greatness. The Daemon within refuses to be equipped with any equipment, weapons or armour."
   },
   {
     "id": "hollowed",
@@ -441,13 +434,6 @@
     "description": "This fighter automatically passes any Bravery tests it is required to take."
   },
   {
-    "id": "anointed",
-    "name": "Anointed",
-    "category": "possessed",
-    "ability_type": "trait",
-    "description": "When this fighter is recruited to the warband, it must make a roll on the mutation table."
-  },
-  {
     "id": "one-with-the-shadows",
     "name": "One With The Shadows",
     "category": "unique",
@@ -455,22 +441,15 @@
     "description": ""
   },
   {
-    "id": "the-beast-within",
-    "name": "The Beast Within",
-    "category": "undead",
-    "ability_type": "trait",
-    "description": "When a Vampire is deployed to the battlefield, roll a die: On a 1-5, the vampire is **ravenous**, on a 6 - the Vampire is **empowered**.\n\nOnce per battle round, when a **ravenous** vampire is activated, it can perform a free move action. However, while ravenous, a vampire cannot use reactions or abilities, except Feed (see below).\n\nAn **empowered vampire** can use multiple abilities in each activation. The same ability can be used more than once, but abilities that grant free actions must be fully resolved before another ability can be used. In addition, once per battle round when an empowered vampire uses an ability, you can either add a double with a value of 3, treat a double as a triple, or a triple as a quad. After the ability is resolved, this fighter’s activation ends and it becomes ravenous."
-  },
-  {
-    "id": "feed",
-    "name": "Feed",
+    "id": "the-hunger",
+    "name": "The Hunger",
     "category": "undead",
     "ability_type": "double",
-    "description": "Allocate X/2 damage points to a visible fighter within 1” of this fighter. Then, remove X/2 damage points from this fighter. If this fighter is ravenous, it becomes empowered instead."
+    "description": "A fighter can use this ability after taking an enemy fighter out of action with a melee attack action. Remove (X) damage points from this fighter, and add a Wyrd Dice to your saved Wyrd Dice."
   },
   {
-    "id": "for-the-master",
-    "name": "For the Master",
+    "id": "undying-loyalty",
+    "name": "Undying Loyalty",
     "category": "undead",
     "ability_type": "reaction",
     "description": "A fighter can make this reaction when a `VAMPIRE` within 3\" of them is targeted by an attack action, after the damage is totalled but before it is allocated, if it is enough for that `VAMPIRE` to be taken out of action. Allocate those damage points, one at a time, to this fighter instead. If this fighter is taken out of action, allocate any remaining damage points to that friendly `VAMPIRE`."
@@ -486,8 +465,8 @@
     "id": "chilling-howl",
     "name": "Chilling Howl",
     "category": "undead",
-    "ability_type": "triple",
-    "description": "Until the end of the battle round, enemy fighters within 6\" of this fighter must pass a Bravery Test to make reactions or use abilities."
+    "ability_type": "double",
+    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battleround, those fighters cannot make reactions."
   },
   {
     "id": "whack",
@@ -505,10 +484,10 @@
   },
   {
     "id": "slayer-deathwish",
-    "name": "Deathwish",
+    "name": "Slayer Oath",
     "category": "hired-sword",
     "ability_type": "reaction",
-    "description": "When this warrior is targeted by a melee attack action that inflicts enough damage to take this warrior out of action, before it is removed from the battlefield, this warrior makes a free attack action."
+    "description": "When this fighter is allocated enough damage to take them out of action, before it is removed from the battlefield, this fighter makes a free attack action."
   },
   {
     "id": "frenzy",
@@ -522,7 +501,7 @@
     "name": "Guard",
     "category": "hired-sword",
     "ability_type": "trait",
-    "description": "When this fighter makes the Wait action, increase it's Defense characteristic by 2 until its next activation."
+    "description": "When this fighter makes the Wait action, increase it's Fight characteristic by 2 until its next activation."
   },
   {
     "id": "heckle",
@@ -543,7 +522,7 @@
     "name": "Wither",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "Select a visible enemy fighter within 12”. That fighter must reduce its Move, Fight and Shoot characteristic by (X/2) until the end of the battle\nround."
+    "description": "*Magical ability*. Select a visible enemy fighter within 12” of this fighter. That fighter must reduce its Move, Fight and Shoot characteristic by (X/2) until the end of the battle round."
   },
   {
     "id": "flight-of-zimmerman",
@@ -557,7 +536,7 @@
     "name": "Fires of U'Zhul",
     "category": "hired-sword",
     "ability_type": "triple",
-    "description": "Select an enemy fighter within 12\" of this fighter to be the target and roll three d6. For each roll of 3+, allocate (X/2) damage to the target. For each roll of 6, allocate (X/2) damage points to all visible fighters within 2\" of the target."
+    "description": "*Magical ability*. Select an enemy fighter within 12\" of this fighter to be the target and roll (X) dice. For each roll of 3+, allocate 2 damage points to the target. For each roll of 6, allocate 2 damage points to all fighters within 2\" (and visible to) the target."
   },
   {
     "id": "stupidity",
@@ -571,7 +550,7 @@
     "name": "Bounding Leaps",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if there is a visible enemy fighter within 6\" of them. This fighter makes a bonus move action and must finish closer to the closest visible enemy fighter than they were at the start of that move action."
+    "description": "A fighter can only use this ability if there is a visible enemy fighter within 6\" of them. This fighter makes a free move action and must finish closer to the closest visible enemy fighter than they were at the start of that move action."
   },
   {
     "id": "savage-mauling",
@@ -585,28 +564,28 @@
     "name": "Bestial Rage",
     "category": "unique",
     "ability_type": "trait",
-    "description": "Whenever this fighter has any damage points allocated to it, you must increase its Attacks characteristic by 1, and reduce its Defense characteristic by 1."
+    "description": "While this fighter is wounded, you must increase its Attacks characteristic by 1"
   },
   {
-    "id": "headlong-charge",
-    "name": "Headlong Charge",
+    "id": "ramming-charge",
+    "name": "Ramming Charge",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if there is an enemy fighter within 6” of it. This fighter makes a free Move action, and must end that move action within 1” of that enemy fighter. Then, inflict (X/2) damage points to that enemy fighter."
+    "description": "A fighter can only use this ability if there is an enemy fighter within 6” of it. This fighter makes a free Move action, and must end that move action within 1” of that enemy fighter. Then, allocate (X/2) damage points to that enemy fighter."
   },
   {
     "id": "denounce",
     "name": "Denounce",
     "category": "hired-sword",
     "ability_type": "reaction",
-    "description": "A fighter may use this reaction when a visible fighter within 6” is the target of a magical ability. Roll a d6: if the result is higher than this fighter’s Bravery characteristic, the ability is cancelled and the ability dice discarded."
+    "description": "A fighter may use this reaction when a visible `Wizard` uses a *magical ability*. Roll a d6: if the result is higher than this fighter’s Bravery characteristic, the ability is cancelled and the ability dice discarded."
   },
   {
-    "id": "voice-of-sigmar",
-    "name": "Voice of Sigmar",
+    "id": "incessant-chanting",
+    "name": "Incessant Chanting",
     "category": "hired-sword",
     "ability_type": "trait",
-    "description": "Increase the Bravery characteristic of all visible friendly fighters within 3” of this fighter by 1. In addition, if this fighter is recruited by a `Witch Hunter` warband, you may increase the warband's Zeal by 1 whenever this fighter uses an ability."
+    "description": "Increase the Bravery characteristic of all visible friendly fighters within 3” of this fighter by 1."
   },
   {
     "id": "raise-dead",
@@ -620,7 +599,7 @@
     "name": "Transference",
     "category": "hired-sword",
     "ability_type": "triple",
-    "description": "Allocate up to (X) damage points to a fighter within 12” of this fighter, and then remove the same amount of damage points from a friendly fighter within 3” of this fighter."
+    "description": "Allocate up to (X) damage points to a fighter within 12” of this fighter, and then remove the same amount of damage points from a friendly `Thrall` within 3” of this fighter."
   },
   {
     "id": "vanhels-danse-macabre",
@@ -634,7 +613,7 @@
     "name": "Sudden Accusation",
     "category": "witch-hunters",
     "ability_type": "reaction",
-    "description": "Make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter gains an accused token. Increase Zeal by 1."
+    "description": "A fighter can make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter is condemned. Then, increase Zeal by 1."
   },
   {
     "id": "distracting-shot",
@@ -644,10 +623,73 @@
     "description": "For this fighter’s next ranged attack action, it may target an enemy fighter within 1” of friendly fighters. If the attack hits, one of those friendly fighters can make a free Retreat action."
   },
   {
-    "id": "display-of-brutality",
-    "name": "Display of Brutality",
+    "id": "baleful-challenge",
+    "name": "Baleful Challenge",
     "category": "possessed",
+    "ability_type": "double",
+    "description": "Select a visible enemy fighter within 1” of this fighter. That enemy fighter makes a free melee attack action targeting this fighter. Then, add 2 to the Attacks and Fight characteristic of melee attack actions made by this fighter that targets that enemy fighter until the end of the activation."
+  },
+  {
+    "id": "unbending-will",
+    "name": "Unbending Will",
+    "category": "undead",
+    "ability_type": "trait",
+    "description": "Do not make injury rolls for this fighter. In addition, when this fighter is taken out of action, the warband starts wavering."
+  },
+  {
+    "id": "unholy-celerity",
+    "name": "Unholy Celerity",
+    "category": "undead",
+    "ability_type": "trait",
+    "description": "Once per battle round, this fighter can make a free move action.\n"
+  },
+  {
+    "id": "unfeeling-flesh",
+    "name": "Unfeeling Flesh",
+    "category": "undead",
+    "ability_type": "trait",
+    "description": "When resolving an attack action against this fighter, if none of the hit rolls score a critical hit, this fighter's Armour characteristic is 1 for that attack action."
+  },
+  {
+    "id": "foresight",
+    "name": "Foresight",
+    "category": "sisters-of-sigmar",
+    "ability_type": "double",
+    "description": "Select a friendly fighter within 6” of this fighter. Until the end of the battle round, all hit rolls targeting that fighter hit on a 5+, no matter the attacker's fight or shoot characteristics."
+  },
+  {
+    "id": "doom",
+    "name": "Doom",
+    "category": "sisters-of-sigmar",
+    "ability_type": "double",
+    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battleround, those fighters cannot make reactions."
+  },
+  {
+    "id": "running-death",
+    "name": "Running Death",
+    "category": "clan-eshin",
     "ability_type": "triple",
-    "description": "A fighter can use this ability only if an enemy fighter has been taken down by an attack action made by them this activation. Until the end of the battle round, add 1 to the Attacks characteristic of melee attack action made by friendly fighters while they are within 6\" of this fighter."
+    "description": "This fighter makes a free move action or free retreat action. In addition, until the end of this fighter's activation, add 1 to the damage points allocated to enemy fighters by each critical hit from melee attack actions made by this fighter."
+  },
+  {
+    "id": "bloody-feast",
+    "name": "Bloody Feast",
+    "category": "undead",
+    "ability_type": "double",
+    "description": "A `GHOUL` can use this ability if an enemy fighter was taken down by an attack action made by them this activation. Remove (X/2) damage points from each other visible friendly `GHOUL` within 2\" of this fighter."
+  },
+  {
+    "id": "fleet-of-foot",
+    "name": "Fleet of foot",
+    "category": "hired-sword",
+    "ability_type": "trait",
+    "description": "Once per activation, this fighter can make a free Move action."
+  },
+  {
+    "id": "unerring-aim",
+    "name": "Unerring aim",
+    "category": "hired-sword",
+    "ability_type": "trait",
+    "description": "Once per battleround, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
   }
 ]

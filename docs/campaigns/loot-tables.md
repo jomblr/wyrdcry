@@ -9,7 +9,7 @@ title: Loot Tables
 |2D6|Loot|
 |:---:|:---|
 |2|Some lint and **1 gold coin.**|
-|3|A set of dice, carved from human bones. Counts as a [lucky charm.](./the-trading-post#lucky-charm-25gc)|
+|3|A set of dice, carved from human bones. Counts as a [lucky charm.](./the-trading-post#-lucky-charm-15gc)|
 |4|Bejewelled [Dagger](../warbands/Equipment/weapons#weapon-dagger). Can be sold for 15gc.|
 |5|**Ornate Key.** Can be discarded after making an exploration roll to modify the value of an exploration die on step.|
 |6|Rusty Ostlander [Sword](../warbands/Equipment/weapons#weapon-dagger), notched from use.|

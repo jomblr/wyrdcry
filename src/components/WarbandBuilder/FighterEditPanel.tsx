@@ -64,7 +64,7 @@ export default function FighterEditPanel({
   const [valueModalOpen, setValueModalOpen] = useState(false);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
-  // Defense is called Armour in 0.9; the label comes from the active version.
+  // The label (Armour) comes from statLabels in gameData.
   const statDefs = STAT_DEFS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defense } : d));
   if (!profile) return null;
 

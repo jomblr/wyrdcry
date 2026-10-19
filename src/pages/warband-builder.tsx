@@ -6,7 +6,7 @@ import { setBuilderData } from '../components/WarbandBuilder/data';
 import WarbandBuilder from '../components/WarbandBuilder/WarbandBuilder';
 
 /**
- * The builder always runs on the current ruleset (0.9). There's no version toggle in
+ * The builder always runs on the current ruleset (1.0). There's no version toggle in
  * the UI any more, so a stale "0.5" preference saved in the browser is ignored.
  */
 function VersionedBuilder() {

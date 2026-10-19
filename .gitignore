@@ -8,7 +8,7 @@
 .docusaurus
 .cache-loader
 
-# WyrdForge sandbox data — generated from src/data-versions/0.9 by scripts/copy-forge-data.js
+# WyrdForge sandbox data — generated from src/data by scripts/copy-forge-data.js
 /static/forge/data
 
 # Editor / workspace state
@@ -30,7 +30,6 @@ yarn-error.log*
 
 
 # WyrdForge export snapshots (folders + zips) — copy the JSON you want into
-# src/data/ (0.5) or src/data-versions/<version>/ (draft); don't commit the exports.
+# src/data/; don't commit the exports.
 src/data/wyrdforge-*
-src/data-versions/**/wyrdforge-*
 

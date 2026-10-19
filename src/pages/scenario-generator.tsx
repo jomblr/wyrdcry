@@ -105,12 +105,21 @@ export default function ScenarioGeneratorPage() {
   const [victory, setVictory] = useState<number | null>(null);
   const [twist, setTwist] = useState<number | null>(null);
 
-  function generate() {
-    (window as any).gtag?.('event', 'generate_scenario');
+  function roll() {
     setDeployment(d6());
     setVictory(d6());
     setTwist(d6());
   }
+
+  function generate() {
+    (window as any).gtag?.('event', 'generate_scenario');
+    roll();
+  }
+
+  // Arrive with a scenario already rolled. Done after mount, not in initial state, so the
+  // pre-rendered HTML and the browser agree (random values would differ between them).
+  // Not counted as a generate_scenario event — only button clicks are.
+  useEffect(roll, []);
 
   return (
     <Layout title="Scenario Generator" description="Roll a random Wyrdcry scenario: deployment map, victory condition and twist">

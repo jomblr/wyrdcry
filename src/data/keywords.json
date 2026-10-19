@@ -12,7 +12,10 @@
     "ELF",
     "OGRE",
     "MONSTER",
-    "BEASTMAN"
+    "BEASTMAN",
+    "CANINE",
+    "DIRE WOLF",
+    "WAR HOUND"
   ],
   "archetype": [
     "HERO",
@@ -20,6 +23,8 @@
     "HENCHMAN",
     "WIZARD",
     "MUTANT",
-    "TERRIFYING"
+    "TERRIFYING",
+    "THRALL",
+    "BEAST"
   ]
 }

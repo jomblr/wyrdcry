@@ -4,20 +4,23 @@ title: Agility
 ---
 # Agility Talents
 ---
+### [Trait] Acrobatic
+This fighter can end Retreat actions within 1” of enemy fighters.
+
 ### [Trait] Duelist
-Once per battle round, this fighter can make the 'Counter' reaction without having to forfeit an action to do so.
+Once per battle round, this fighter can make the ’Counter’ reaction without having to forfeit an action to do so.
 
 ### [Trait] Infiltrator
-When this fighter is set up on the battlefield, it may immediately make a free move action, as long as it ends that move action more than 6" from enemy fighters.
+When this fighter is deployed on the battlefield, it may immediately make a free move action, as long as it ends that move action more than 6" from enemy fighters.
+
+### [Trait] Opportunist
+When this fighter makes melee attack actions against a target that is flanked, its weapons gain the **Piercing 1** weapon rule.
 
 ### [Trait] Stealthy
-Whenever this fighter is targeted by an enemy fighter, it is considered to be  in cover if both of the following are true:
-
-- It is more than 6" from the enemy fighter.
-- It is within 1" of an obstacle, or part of its base is underneath a platform.
+When this fighter is targeted by a ranged attack action, it is considered to be in cover if it is more than 6" away from the attacking fighter.
 
 ### [Trait] Wall-Runner
-This fighter may ignore the first 3" moved vertically when climbing or falling.
+When this fighter makes the Move action, they may ignore the first 3" moved vertically when climbing or falling.
 
 ### [Reaction] Step-Aside
 A fighter can make this reaction after they are targeted by a melee attack action but before any hit rolls are made. Roll 1 dice for each successful hit. On a 4+, that hit counts as a miss and is discarded.
@@ -25,9 +28,5 @@ A fighter can make this reaction after they are targeted by a melee attack actio
 ### [Double] Disengage
 A fighter can only use this ability if they are within 1" of an enemy fighter. This fighter makes a free Retreat action.
 
-### [Double] Trip
-After this fighter's next melee attack action in this activation, if at least 1 hit roll from that attack action results in a hit, the target must forfeit 1 of their actions in this battle round. If the target has already activated or if they have no more actions to forfeit, allocate (X/2) damage points to the target instead.
-
-### [Triple] Quick Shot
-This fighter makes a free ranged attack action.
-
+### [Quad] Rain of Blows
+*Legendary ability.* Add 3 to the Attacks characteristic of melee attack actions made by this fighter until the end of their activation.

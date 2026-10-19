@@ -27,8 +27,8 @@ If the roll resulted in any doubles, triples or quads, your search party ran int
 *A rambling lunatic stumbles through the ruins. His eyes are scorched pits and his skin is marked by gashes and old burns. As he encounters your fighters, he stops and grins. Then he bestows upon them a prophecy.*
 
 Roll a d6:
-- **On a 1-3:** During your next battle, increase the Bravery characteristic of all fighters in your warband by 1.
-- **On a 4-6:** During your next battle, decrease the Bravery characteristic of all fighters in your warband by 1.
+- **On a 1-3:** In your next battle, improve the Bravery characteristic of all fighters in your warband by 1.
+- **On a 4-6:** In your next battle, worsen the Bravery characteristic of all fighters in your warband by 1.
 :::
 
 :::encounter[ ]
@@ -40,7 +40,7 @@ In your next exploration phase, after making the exploration roll, you may chang
 
 :::encounter[ ]
 ### 44: General Store
-*The storefront has been thoroughly ransacked. Even so, there are still some valuable mingled in with the rubble.*
+*The storefront has been thoroughly ransacked. Even so, there are still some valuables mingled in with the rubble.*
 
 Roll once on [the lesser loot table.](../loot-tables.md#lesser-loot-table)
 :::
@@ -66,7 +66,7 @@ Roll twice on [the lesser loot table.](../loot-tables.md#lesser-loot-table)
 ### 111: Strange Effigy
 *Ignoring the warnings of his comrades, one of your warriors kneels beside a strange bone effigy half-buried in the ruins.*
 
-**Mishap.** Your opponent must select a fighter from your search party. Then, roll a d6:
+**Mishap.** Your opponent must select a fighter from your search party. Then, roll a dice:
 - **On a 1-3:** The fighter catches a glimpse of the being in the Pit and gains Hallucinations (see lasting injuries).
 - **On a 4-6:** Add a lucky charm to your warband stash.
 :::
@@ -75,10 +75,10 @@ Roll twice on [the lesser loot table.](../loot-tables.md#lesser-loot-table)
 ### 222: Cackling Charlatan
 *Your fighters are approached by a gaunt figure burdened by a towering pack clattering with bottles, bones and rusted tools. The vial he procures swirls with something foul, yet his eyes shine with encouragement.*
 
-You may dismiss the charlatan, or spend 10 gold coin to buy the concoction. If you do, select a `Hero` in your warband with a lasting **[injury]**, and roll a d6:
-- On a 1: Make an injury roll for the fighter, treating results of Robbed or Captured as a Flesh wound.
-- On a 2-3: The treatment has no discernable effect
-- On a 4+: Remove one **[injury]** from the fighter
+You may dismiss the charlatan, or spend 10 gold coin to buy the concoction. If you do, select a `Hero` in your warband with a lasting **[injury]**, and roll a dice:
+- **On a 1:** Make an injury roll for the fighter, treating results of **Robbed** or **Captured** as a **Flesh wound**.
+- **On a 2-3:** The concoction has no discernable effect
+- **On a 4+:** Remove one **[injury]** from the fighter
 :::
 
 :::encounter
@@ -92,7 +92,7 @@ Roll twice on [the lesser loot table.](../loot-tables.md#lesser-loot-table)
 ### 444: Lone Survivor
 *A lone fighter emerges from the shadows, limping. Whatever warband they belonged to is gone, just one of many others that have succumbed to the cursed city.*
 
-You may add a `HENCHMAN` to your warband with a recruitment cost of less than 60 gold coin. That fighter immediately earns one level of renown.
+You may add a `HENCHMAN` to your warband with a recruitment cost of less than 60 gold coin. The fighter has a Move characteristic of 3.
 :::
 
 :::encounter[ ]
@@ -104,14 +104,14 @@ The courier carried sensitive information. You may sell it to a broker for 30 go
 
 :::encounter
 ### 666: Treasure Hunters
-*Low voices echo from a nearby alley, where two treasure hunters crouch over a stained map of the district. They haven't noticed the fighter watching them from the dark. Not yet.*
+*Low voices echo from a nearby alley, where two treasure hunters crouch over a stained map of the city.*
 
-Select a fighter from your search party and roll a d6. Add 1 to the result if the fighter is a `HERO`:
+Select a fighter from your search party and roll a dice. Add 1 to the result if the fighter is a `HERO`:
 - **On a 1-2:** Make an injury roll for the fighter
 - **On a 3+:** The fighter earns one level of Renown. Then, roll once on [the greater loot table.](../loot-tables.md#greater-loot-table)
 :::
 
-## Quad
+## Quads
 ---
 
 :::encounter
@@ -131,22 +131,22 @@ Roll once on [the greater loot table.](../loot-tables.md#greater-loot-table)
 :::
 
 :::encounter
-### 3333: Wyrdstone Cluster
+### 3333: To the Rescue
+
+*Your search party steps in to aid an outnumbered warrior. As the last foe falls, they swear that the debt will be repaid.*
+
+In your next battle, you may recruit a `HIRED SWORD` without paying their recruitment fee.
+:::
+
+:::encounter
+### 4444: Wyrdstone Cluster
 
 *The ground buckles inward, and the impact site is surrounded by scorched glass and twisted stone. The wyrdstone cries for those who draw near, but nothing that enters leaves unchanged.*
 
 Select a fighter from the search party and roll 4d6.
 
-- **For each roll of 1:** decrease that fighter’s Health characteristic by 2.
+- **For each roll of 1:** subtract 2 from that fighter’s Health characteristic.
 - **For each roll of 4+:** gain 1 Wyrdstone Shard.
-:::
-
-:::encounter
-### 4444: To the Rescue
-
-*Your search party steps in to aid an outnumbered warrior. As the last foe falls, they swear that the debt will be repaid.*
-
-In your next battle, you may recruit a `HIRED SWORD` without paying their recruitment fee.
 :::
 
 :::encounter
@@ -162,6 +162,6 @@ Roll twice on [the lesser loot table](../loot-tables.md#lesser-loot-table), and 
 
 Select a fighter from your search party and roll a d6 (add 1 to the roll if the fighter is a HERO).
 
-- **On a 1-3:** the fighter is forced back by ghastly apparitions. Make an injury roll for the fighter, treating a result of Captured as Dead.
+- **On a 1-3:** the fighter is forced back by ghastly apparitions. Make an injury roll for the fighter, treating a result of **Captured** as **Dead**.
 - **On a 4-6:** the fighter drives them away, earning one level of Renown. Then, roll twice on [the greater loot table.](../loot-tables.md#greater-loot-table)
 :::

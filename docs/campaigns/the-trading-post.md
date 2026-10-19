@@ -17,53 +17,59 @@ To find a rare item, you must make a **Rarity roll**: first select a `hero` and 
 
 ### Single-Use Items
 
-Some items, such as drugs and poisons, are listed as 'Single-Use'. Each item states when it can be used and its effects resolved, after which it is discarded and removed from your warband roster.
+Some items, such as drugs and poisons, are listed as 'Single-Use'. Each item states how it is used and its effects, after which it is discarded and removed from your warband roster.
 
 ## Miscellaneous Items
 ---
-### <Crow /> Elven Cloak (50gc)
-While wearing this cloak, a fighter is considered to have the ['Stealthy'](Talents/3-agility-talents.md#trait-stealthy) trait.
-
-### Lantern (20gc)
-Friendly fighters may re-roll failed Bravery tests while within 3” of this fighter. However, enemy fighters may decrease the Difficulty Rating by 1 when targeting this fighter with ranged attack actions.
-
-### Lucky Charm (25gc)
-Once per battle, when the bearer is targeted by an attack action and after hit rolls have been made, you may turn one critical hit into a hit.
+### Lantern (10gc)
+Add 1 to the Bravery characteristic of friendly fighters within 3” of this fighter. However, enemy fighters may add 1 to their Shoot characteristic when targeting this fighter with ranged attack actions.
 
 ### Rope and Hook (10gc)
-When the bearer climbs during a move action, do not count vertical distance as double.
+When the bearer climbs, they count as climbing a ladder. When climbing down, do not count the distance moved toward the fighter's Move characteristic.
+
+### <Crow /> Elven Cloak (50gc)
+When this fighter is targeted by a ranged attack action, it is considered to be in cover if it is more than 6" away from the attacking fighter.
 
 ### <Crow /> Master-Wrought Weapon (+100gc)
 Purchase a weapon from the fighter’s faction entry, and increase its gold coin cost by 100 gold coin. Then, add 1 to the hit and critical hit characteristics of that weapon.
 
 ### <Crow /> Mordheim Map (80gc)
-When setting up a battle, you may decide the orientation of the deployment map, regardless of you being the attacker or the Defender. If both you and your opponent have a Mordheim map, roll off.
+When this fighter's search party is deployed to the battlefield, each fighter in it can make a free Move action.
 
-### <Crow /> Holy/Unholy Relic (100gc)
-At the start of each battle, add 1 Wyrd Dice to your saved Wyrd Dice.
+### <Crow /> Holy/Unholy Relic (60gc)
+If the bearer is included in your warband, you begin each battle with 1 additional Wyrd dice.
+
+### <Crow /> Grimoire (60gc)
+If the bearer is a `WIZARD`, they may select one additional magical ability from the list in their fighter profile.
+
+### <Crow /> Wyrdstone Pendulum (20gc)
+After making an exploration roll in the aftermath sequence, if the bearer is in the search party, you may add or subtract 1 from one dice result.
 
 ## Single Use
 ---
-### Blessed Water (10gc)
-Use this item in the 'Present Warbands' step. Select a weapon equipped by the bearer. Until the end of the battle, that weapon gains the **blessed** weapon rule.
+### Blessed Water (5gc)
+The bearer may use this item on one of their weapons as a free action. Until the end of the battle, that weapon gains the **blessed** weapon rule.
 
-### Crimson Shade (20gc)
-Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Move and Fight characteristics by 1. In the aftermath sequence, roll a dice. On a 1-2, the fighter gains the [Kleptomania](the-aftermath-sequence/injuries.md#kleptomania) injury.
+### Crimson Shade (15gc)
+The bearer may use this item as a free action. If they do, add 1 to their Move and Fight characteristics until the end of the battle. Then, in the aftermath sequence, roll a dice. On a 1-2, the fighter gains the 'Sticky Fingers' lasting injury.
 
-### Dark Venom (30gc)
-Use this item in the 'Present Warbands' step, and select one of this fighter's weapons. Until the end of the battle, add 1 to the damage points allocated to enemy fighters by each hit and critical hit from attack actions made with that weapon. If the fighter is dual-wielding, the venom is applied to both weapons.
+### Hunting Arrows (10gc)
+The bearer may use this item on one of their ranged weapons as a free action. Until the end of the battle, that weapon gains the **Piercing 1** weapon rule.
 
-### Familiar (30gc)
-A `Wizard` may discard their Familiar to ignore the effects of a single roll on the [magical calamity](../rules/the-combat-phase/actions/channel-magic.md#magical-calamity) table. Declare this after making the calamity roll but before resolving its effects.
+### <Crow /> Lucky Charm (15gc)
+The bearer may use this item when targeted by an attack action, after the hit rolls have been made, to turn one critical hit into a hit.
 
-### Healing Draught (20gc)
-Use this item when making a Wait action to immediately use the ‘Respite’ ability without needing or spending ability dice to do so.
-
-### Mad Cap Mushrooms (20gc)
-Use this item in the 'Present Warbands' step. Until the end of the battle, increase this fighter's Fight characteristic by 3. It is also considered to have the [Stupidity](the-aftermath-sequence/injuries.md#stupidity) injury for the duration of the battle.
-
-### Smoke Bomb (30gc)
-A fighter may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.
+### Mad Cap Mushrooms (15gc)
+The bearer may use this item as a free action. Add 3 to this fighter's Fight characteristic until the end of the battle. It also gains the 'Stupidity' injury for the duration of the battle.
 
 ### Superior Blackpowder (20gc)
-Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the [Unreliable](../warbands/Equipment/weapons.mdx#unreliable) weapon rule from all equipped weapons.
+Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the Unreliable weapon rule from all equipped weapons.
+
+### Dark Venom (15gc)
+The bearer may use this item on one of their weapons as a free action. Until the end of the battle, that weapon gains the **poisoned** weapon rule.
+
+### Familiar (30gc)
+A `WIZARD` may use this item to ignore the effects of a single roll on the [magical calamity](../rules/the-combat-phase/actions/channel-magic.md#magical-calamity) table. Declare this after making the roll but before resolving its effects.
+
+### Healing Draught (20gc)
+The bearer may use this item as a free action to immediately use the ‘Respite’ ability without needing or spending ability dice to do so.

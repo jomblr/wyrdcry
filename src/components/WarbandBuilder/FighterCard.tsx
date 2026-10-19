@@ -54,7 +54,7 @@ export default function FighterCard({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
-  // Defense is called Armour in 0.9 (D vs A); the label comes from the active version.
+  // The label (Armour / A) comes from statLabels in gameData.
   const statKeys = STAT_KEYS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defenseShort } : d));
   if (!profile) return null;
 

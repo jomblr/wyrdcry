@@ -4,30 +4,31 @@ title: Move
 ---
 # Move
 ---
-Move the fighter up to their Move characteristic (measured in inches). This must be done in one or more straight-line increments, and each increment is always rounded up to the nearest inch.
+Move the fighter up to their Move characteristic in inches, in one or more straight-line increments, while rounding each increment up to the nearest inch.
 
-- A fighter cannot move through [terrain pieces](docs/rules/terrain.md), unless the terrain piece is insignificant.
-- A fighter cannot move through the base of enemy fighters.
-- A fighter cannot start a Move action while within 1” of an enemy fighter, they must make the [Retreat](./retreat) action instead.
-- A fighter can move within 1” of an enemy fighter, but if they do, they must stop the move action there, unless that enemy fighter is already within 1” of another friendly fighter.
+A Move action can include **climbing**, **jumping**, or **flying**, as long as the total distance does not exceed the fighter’s Move characteristic.
+
+- A fighter cannot move through [terrain pieces](docs/rules/terrain.md) (unless they are insignificant) or the bases of enemy fighters.
+- A fighter within 1” of an enemy fighter cannot start a Move action and must make the [Retreat](./retreat) action instead.
+- A fighter that moves within 1” of an enemy fighter must stop there, unless that enemy is already within 1” of another friendly fighter.
 
 ## Climbing
-A fighter can climb a terrain piece that is an [obstacle](docs/rules/terrain.md#obstacles) as part of their Move action, as long as they stay within ½" of the obstacle. Count the vertical distance moved as double (1" of vertical movement counts as 2"). 
+A fighter touching an [obstacle](docs/rules/terrain.md#obstacles) with its base may climb it, and they can climb both vertically and horizontally when doing so - as long as they stay within ½" of the obstacle.
 
-A fighter is considered to be climbing until their base can be placed on the battlefield floor, on a [platform](docs/rules/terrain.md#5-platforms), or until they jump. A fighter can end a move action while climbing, but if they are still climbing at the end of their activation, they [fall](#falling).
+The fighter is considered to be climbing until their base is placed on the battlefield floor or a [platform](docs/rules/terrain.md#5-platforms), or until they jump. A fighter can end a Move action while climbing, but if they are still climbing at the end of their activation, they [fall](#falling).
 
 ## Jumping
-A fighter can jump from an obstacle or platform as part of their Move action. Count the horizontal distance moved as normal, but do not count the distance moved vertically. 
+A fighter can jump from an obstacle or platform. Count the horizontal distance moved as normal. The distance moved vertically is never counted, however far the fighter drops.
 
-If a fighter attempts to jump further than half their Move characteristic (rounding up), it must take a **jump test** by rolling a d6:
+If a fighter jumps further than half their Move characteristic (rounding up), they must take a **jump test**: roll a dice.
 
-- **On a 1-2:** The fighter [falls](#falling).
-- **On a 3-6:** The fighter can jump up to their full Move characteristic.
+- **On a 1:** the fighter [falls](#falling).
+- **On a 2-6:** the fighter can jump up to their full Move characteristic.
 
-If a fighter wants to drop down further than 2” vertically, or ends a move action while jumping, they automatically fall.
+A fighter automatically falls if they drop more than 2" vertically or end a Move action while jumping.
 
 ## Falling
-When a fighter falls, the opposing player selects a reasonable position underneath the fighter’s current position where it lands. Then allocate d3 damage to the fighter for every full 2” it fell.
+When a fighter falls, the opposing player selects a reasonable position beneath them where they land. Allocate D3 damage points to the fighter for every full 2" they fell.
 
 ## Flying
-Some rules may allow a fighter to fly during a move action. While flying, count the horizontal distance moved as normal, but do not count the distance moved vertically. Flying effectively allows a fighter to pass over terrain pieces and other fighters. A fighter cannot end a Move action while flying.
+Some rules allow a fighter to fly during a Move action. Count only the horizontal distance moved, not the distance moved vertically. A flying fighter can pass over terrain pieces and other fighters, but cannot end a Move action while flying.

@@ -17,29 +17,7 @@ To play a battle, you and your opponents must **start a warband** by filling in 
 ## Fighters
 ---
 
-Your warband is made up by models referred to as **fighters**, and their rules are contained in their **fighter profile.** You can find an example of a fighter profile below.
-
-### Example Fighter Profile
-<FighterCard fighterId="warrior" />
-
-### Characteristics
-Each fighter has a set of **Characteristics** that describe their physical abilities and are used when making tests and resolving actions
-- **Move:** How fast the fighter can move (measured in inches)
-- **Fight:** A fighter’s skill in melee combat
-- **Shoot:** A fighter’s accuracy
-- **Health:** How much damage a fighter can endure before taken out of action.
-- **Bravery:** A fighter’s courage and mental resolve
-- **Armour:** How much damage the fighter's armour can withstand
-
-### Keywords
-Keywords describe distinctive features of the fighter, such as their race and faction, or what archetype the fighter  is. When referenced in a rule, keywords are always written in `UPPERCASE`. If a rule refers to a keyword in the plural (for example, `HEROES`), it is treated as a reference to the singular keyword (`Hero`).
-
-### Special Rules
-Many fighters have one or more special rules that sets them apart from their peers:
-
-- **Traits** represent skills or racial quirks whose effects are automatically applied whenever their conditions are met.
-- **Abilities** represent tricks, spells and manoeuvres that a fighter can use during their activation by spending ability dice (marked as **[Double]**, **[Triple]** or **[Quad]**).
-- **Reactions** are things a fighter can do during an enemy fighter's activation, most commonly by spending an action.
+Your warband is made up by models referred to as **fighters**, and their rules are contained in their **fighter profile.** You can find an example of a fighter profile [below](#example-fighter-profile).
 
 ### Friendly and enemy fighters
 
@@ -75,7 +53,7 @@ If a rule requires you to roll a **D3**, roll a regular six-sided dice and halve
 If a rule requires you to roll a **D66**. roll a six-sided dice twice. The first roll determines the ten, and the second roll determines the unit. For example, if you rolled a 3 followed by a 5, the D66 roll would be 35.
 
 ### Re-Roll
-Some rules allows you to **re-roll** a dice roll, which means that you get to roll a specified amount of dice again. You can never re-roll a dice roll more than once, and you cannot select the original result even if the new one is worse.
+Some rules requires you to **re-roll dice**, meaning you roll the specified number of dice again. A dice roll can never be re-rolled more than once, and you cannot choose the original result.
 
 ### Roll-off
 Sometimes a rule requires the players to **roll-off**. When this is the case, each player rolls a dice, and whoever rolls highest wins the roll-off. If there is a tie for the highest roll, roll-off again.
@@ -83,7 +61,7 @@ Sometimes a rule requires the players to **roll-off**. When this is the case, ea
 
 ## Modifiers
 ---
-Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule might **decrease** the Move characteristic of a fighter by 1, or **increase** the Attack characteristic of a weapon by 1. These modifiers are always cumulative, but can never reduce a characteristic to less than 1.
+Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule may decrease the Move characteristic of a fighter by 1, or increase the Attack characteristic of a weapon by 1. These modifiers are always cumulative, but unless a rule says otherwise, they can never reduce a characteristic to less than 1 (or, in the case of Bravery, a 6+).
 
 ## Sequencing
 ---
@@ -107,3 +85,56 @@ When a fighter has been allocated damage points equal to half their Health chara
 When a fighter is allocated damage points equal to their Health characteristic, they are taken **out of action**: the fighter is removed from the battlefield, and any leftover damage points are discarded.
 
 In a campaign game, a fighter that is taken out of action risk lasting injuries or being killed, as described in the [aftermath sequence](../campaigns/the-aftermath-sequence/injuries.md).
+
+## Example: Fighter Profile
+---
+<FighterCard fighterId="warrior" />
+
+### Characteristics
+- **Move:** How fast the fighter can move (measured in inches)
+- **Fight:** A fighter’s proficiency in attacking and defending themselves in melee combat.
+- **Shoot:** A fighter’s proficiency in hitting a target in ranged combat.
+- **Health:** How much damage a fighter can endure before taken out of action.
+- **Bravery:** A fighter's courage and mental resolve when facing the horrors of the city.
+- **Armour:** How much damage the fighter's armour can withstand
+
+### Keywords
+Each fighter profile includes a set of keywords that describes distinctive features of the fighter, such as their race and faction. When referenced in a rule, keywords are always written in `UPPERCASE`.
+
+A rule that refers to a keyword applies to all fighters with that keyword. If a rule refers to a keyword in the plural (for example, `UPPERCASE`), it is treated as a reference to the singular keyword (`Hero`).
+
+### Special Rules
+Many fighters have one or more special rules that sets them apart from their peers:
+
+- **Traits** represent skills or racial quirks whose effects are automatically applied whenever their conditions are met.
+- **Abilities** represent tricks, spells and manoeuvres that a fighter can use during their activation by spending ability dice (marked as **[Double]**, **[Triple]** or **[Quad]**).
+- **Reactions** are things a fighter can do during an enemy fighter's activation, most commonly by spending an action.
+- **Injuries** are long-lasting wounds and mental afflictions that impair the fighter.
+Many fighters have one or more special rules that sets them apart from their peers:
+
+### Recruitment fee
+
+Each fighter has a recruitment fee listed in gold coins (gc).
+
+### Equipment, weapons and armour
+
+Fighters may be equipped with all manner of weapons, armour and trinkets, the rules for which are found [here](../warbands/starting-warband.md).
+
+## Example: Weapon Profiles
+---
+### Melee Weapons
+<WeaponProfiles ids={["sword", "spear"]} />
+
+### Ranged Weapons
+<WeaponProfiles ids={["bow", "crossbow"]} />
+
+### Weapon Type
+All weapons come in two types, **melee weapons** and **ranged weapons.**
+
+### Weapon Characteristics
+- **Range**: How far the weapon can reach, measured in inches. Weapons with a minimum range (like the bow) cannot target fighters within that minimum range.
+- **Attacks**: The amount of dice rolled when making attack actions with the weapon.
+- **Damage**: The damage potential of the weapon. The first value represents **hit damage**, and the second value represents **critical damage.**
+
+### Weapon Rules
+Most weapons have one or more special rules that applies to the bearer of that weapon, and you can find a comprehensive list of weapon rules [here.](../warbands/Equipment/weapons#weapon-rules)

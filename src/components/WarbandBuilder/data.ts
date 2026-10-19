@@ -58,12 +58,10 @@ export function statLabels(): StatLabels {
 }
 
 /**
- * localStorage key prefix for saved warbands. 0.5 keeps the original, unprefixed keys
- * so warbands people already saved keep loading. Other rulesets get their own
- * namespace, keyed by ruleset number (not URL path), so a 0.5 warband is never loaded
- * against 0.9 data — ids differ between versions (Weeping Blades was renamed, Staff
- * removed, …) — and 0.9 warbands survive 0.9 leaving draft.
+ * localStorage key prefix for saved warbands. Fixed at `wyrdcry-0.9-` on purpose: that's
+ * where warbands built on these rules were saved before the 1.0 release (as "0.9"),
+ * so changing it would hide everyone's saved warbands. Don't derive it from `ruleset`.
  */
 export function storagePrefix(): string {
-  return active.ruleset === '0.5' ? 'wyrdcry-' : `wyrdcry-${active.ruleset}-`;
+  return 'wyrdcry-0.9-';
 }

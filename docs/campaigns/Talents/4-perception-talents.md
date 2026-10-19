@@ -5,19 +5,25 @@ title: Perception
 # Perception Talents
 ---
 ### [Trait] Eagle Eyes
-When making an attack action using a bow, crossbow or handgun, this fighter may ignore the maximum range of the weapon, but if they do, they must reduce their Shoot characteristic by 1.
+When making an attack action using a bow, crossbow or handgun, this fighter may ignore the maximum range of the weapon, but if they do, they must decrease their Shoot characteristic by 1.
+
+### [Trait] Reckless
+This fighter may target enemy fighters within 1” of friendly fighters with ranged attack actions. If they do, after making the hit rolls, roll a dice. On a 1, allocate the damage to one of the friendly fighters instead of the target.
 
 ### [Trait] Rapid Reload
 At the end of each battle round, you may reload one of this fighter's weapons with the Reload special rule.
 
+### [Trait] Scout
+After making an exploration roll in the aftermath sequence, if the bearer is in the search party, you may resolve two encounters instead of one, even if one of the encounters is a mishap.
+
 ### [Trait] Surgical Precision
-Select a ranged weapon type. When making attack actions with weapons of that type, increase the Critical Damage characteristic by 1.
+This fighter's weapons gain the **Piercing 1** weapon rule. If the weapon already has that rule, increase it to **Piercing 2** instead.
 
 ### [Trait] Trick Shot
-When this fighter makes a ranged attack action, the target does not count as being in cover. 
+When this fighter makes the ranged attack action, the target does not count as being in cover.
 
 ### [Reaction] Patient Hunter
-When an enemy fighter ends a move action while visible to this fighter, this fighter can target that enemy fighter with a free ranged attack action. Reduce this fighter's Shoot characteristic by 1 for that attack action.
+When an enemy fighter ends a move action visible to this fighter, this fighter can target that enemy fighter with a free ranged attack action. For that attack action, decrease this fighter's Shoot characteristic by 1.
 
-### [Double] Reckless Shot
-For this fighter's next ranged attack action, it may target enemy fighters within 1" of friendly fighters.
+### [Quad] Killing Shot
+*Legendary ability.* For this fighter's next ranged attack action, increase its Shoot, Hit Damage and Critical Damage characteristics by (X/2).

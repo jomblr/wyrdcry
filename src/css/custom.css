@@ -6,7 +6,7 @@
  * scattering rules across CSS modules — keeps layout components to structure only.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Grenze+Gotisch:wght@100..900&family=Inconsolata:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Grenze+Gotisch:wght@100..900&family=Inconsolata:wght@200..900&family=IM+Fell+DW+Pica:ital@1&display=swap');
 
 /* ----- Wyrdcry palette (from reference HTML) ----- */
 :root {
@@ -25,12 +25,13 @@
 }
 
 [data-theme='dark'] {
-  --wyrd-bg: #191919;
-  --wyrd-bg2: #1f1f1f;
-  --wyrd-bg3: #252525;
-  --wyrd-bg4: #2c2c2c;
-  --wyrd-bg5: #333333;
-  --wyrd-border: #2e2e2e;
+  /* Pure black page; raised surfaces (cards, navbar, tables) step up from it. */
+  --wyrd-bg: #000000;
+  --wyrd-bg2: #0e0e0e;
+  --wyrd-bg3: #171717;
+  --wyrd-bg4: #202020;
+  --wyrd-bg5: #2a2a2a;
+  --wyrd-border: #262626;
   --wyrd-border2: #3a3a3a;
   --wyrd-border3: #484848;
   --wyrd-text: #e8e8e8;
@@ -46,6 +47,10 @@
 [data-theme='dark'] {
   --wyrd-font-heading: 'Grenze Gotisch', display, serif;
   --wyrd-font-body: 'Alegreya', Georgia, serif;
+  /* Adobe Fonts Gothicus (loaded via `stylesheets` in docusaurus.config.js). Not used yet. */
+  --wyrd-font-gothicus: 'gothicus', 'Grenze Gotisch', serif;
+  /* Flavour text: fighter descriptions and encounter intros. */
+  --wyrd-font-flavour: 'IM Fell DW Pica', var(--wyrd-font-body);
   --ifm-font-family-base: var(--wyrd-font-body);
   --ifm-heading-font-family: var(--wyrd-font-heading);
   --ifm-font-size-base: 18px;
@@ -1294,4 +1299,24 @@ mark code {
   font-size: 0.85em;
   line-height: 1.5;
   white-space: nowrap;
+}
+
+/* Flavour text in IM Fell DW Pica Italic: fighter descriptions, and the italic
+ * intro paragraph of `:::encounter` cards (a paragraph that is just *…*). */
+.fighter-description,
+.wyrd-encounter p > em:only-child {
+  font-family: var(--wyrd-font-flavour);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+/* Mobile menu: list "Home" above Rules instead of showing the comet logo in the
+ * drawer header. On desktop the Home item is hidden — the navbar logo links home. */
+.navbar__items .navbar-home-mobile {
+  display: none;
+}
+
+.navbar-sidebar__brand .navbar__brand {
+  display: none;
 }

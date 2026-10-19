@@ -1,12 +1,11 @@
-// Copies the current ruleset's game data (0.9, src/data-versions/0.9) into the
-// WyrdForge sandbox (static/forge/data) so /forge matches the default rules and
-// WarbandBuilder. (src/data holds the archived 0.5 data.) Runs automatically before `start` and `build`.
+// Copies the game data (src/data, the 1.0 ruleset) into the WyrdForge sandbox
+// (static/forge/data) so /forge matches the rules and the WarbandBuilder. Runs automatically before `start` and `build`.
 // The destination is generated (gitignored).
 const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const srcDir = path.join(root, 'src', 'data-versions', '0.9');
+const srcDir = path.join(root, 'src', 'data');
 const destDir = path.join(root, 'static', 'forge', 'data');
 
 const FILES = [

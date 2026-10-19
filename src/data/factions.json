@@ -20,7 +20,9 @@
       "item:light-armour": "hero",
       "throwing-stars": "hero",
       "warplock-pistol": "hero",
-      "weeping-blades": "hero"
+      "weeping-blades": "hero",
+      "flail": "all",
+      "weeping-blade": "hero"
     }
   },
   {
@@ -75,7 +77,9 @@
       "item:shield": "all",
       "great-weapon": "all",
       "warhammer": "all",
-      "blunderbuss": "all"
+      "blunderbuss": "all",
+      "thief-throwing-dagger": "all",
+      "morning-star": "all"
     }
   },
   {
@@ -99,7 +103,8 @@
       "bow": "all",
       "item:heavy-armour": "hero",
       "item:light-armour": "all",
-      "item:shield": "all"
+      "item:shield": "all",
+      "morning-star": "all"
     }
   },
   {
@@ -125,7 +130,8 @@
       "crossbow-pistol": "hero",
       "pistol": "hero",
       "item:light-armour": "all",
-      "item:shield": "all"
+      "item:shield": "all",
+      "morning-star": "all"
     }
   },
   {
@@ -150,12 +156,35 @@
       "item:heavy-armour": "hero",
       "item:light-armour": "hero",
       "item:shield": "hero",
-      "flail": "hero"
+      "flail": "hero",
+      "morning-star": "all"
     }
   },
   {
     "id": "hired-sword",
-    "name": "Hired Sword",
+    "name": "Hired Swords",
+    "description": "",
+    "warband_size": null,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {}
+  },
+  {
+    "id": "shadow-warriors",
+    "name": "Shadow Warriors",
+    "description": "",
+    "warband_size": null,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {}
+  },
+  {
+    "id": "dwarf-treasure",
+    "name": "Dwarf Treasure Hunters",
     "description": "",
     "warband_size": null,
     "special_rules": "",

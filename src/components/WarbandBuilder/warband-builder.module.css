@@ -1847,8 +1847,15 @@
     break-inside: avoid;
   }
 
+  /* Let a long fighter table flow across pages (rows still never split), and drop the
+     horizontal scrollbar: print widths are under the 800px breakpoint, so the screen
+     rule would otherwise print a grey scrollbar under the table. */
   .tableScrollOuter {
-    break-inside: avoid;
+    overflow: visible;
+  }
+
+  .tableScrollOuter .tableWrapper {
+    min-width: 0;
   }
 
   .fighterCard {

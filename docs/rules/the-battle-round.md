@@ -4,23 +4,23 @@ title: The Battle Round
 ---
 # The Battle Round
 ---
-Battles are fought in a series of rounds referred to as **battle rounds**, each of which is split into four phases: the initiative phase, the reserve phase, the combat phase and the morale phase.
+Battles are fought in a series of rounds referred to as **battle rounds**, each of which is split into four phases.
 ### [The initiative phase](the-initiative-phase.md)
 
 The players roll for initiative and gather ability dice.
 
 ### [The reserve phase](./the-reserve-phase.md)
 
-Starting in the second battle round, search parties in reserve are set up on the battlefield
+Starting in the second battle round, search parties in reserve are deployed to the battlefield
 
 ### [The combat phase](./the-combat-phase/activating-fighters.md)
 
 The warbands clash as the players take turns activating their fighters.
 ### [The morale phase](the-morale-phase.md)
 
-The players check the warband morale, before starting a new battle round.
+The players check their warband morale before starting a new battle round.
 
-## Winning the battle
+## Ending the battle
 
 Unless the scenario states otherwise, battles last for at least four battle rounds. At the end of the fourth battle round, roll a dice: 
 

@@ -3,13 +3,11 @@
     "id": "axe",
     "name": "Axe",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
     "attacks": 3,
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "power_level": 0,
     "cost": 15
   },
   {
@@ -18,42 +16,28 @@
     "type": "ranged",
     "exclusive": "no",
     "range": 6,
-    "attacks": 5,
-    "hit": 1,
+    "attacks": 6,
+    "hit": 2,
     "crit": 3,
     "special_rules": [
       "blast",
-      "one-use",
-      "point-blank"
+      "one-use"
     ],
-    "power_level": 15,
-    "cost": 35
+    "power_level": 0,
+    "cost": 55
   },
   {
     "id": "bow",
     "name": "Bow",
     "type": "ranged",
     "exclusive": "no",
-    "range": 18,
-    "attacks": 2,
-    "hit": 2,
-    "crit": 3,
-    "special_rules": [],
-    "power_level": 5,
-    "cost": 15
-  },
-  {
-    "id": "bow-variant",
-    "name": "Bow Variant",
-    "type": "ranged",
-    "exclusive": "no",
-    "range": 18,
-    "attacks": 2,
+    "range": "3-18",
+    "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 10
+    "cost": 20
   },
   {
     "id": "club",
@@ -71,13 +55,13 @@
     "name": "Crossbow",
     "type": "ranged",
     "exclusive": "no",
-    "range": 24,
+    "range": "3-24",
     "attacks": 2,
     "hit": 3,
-    "crit": 6,
+    "crit": 5,
     "special_rules": [
-      "reload",
-      "pierce-1"
+      "mighty-1",
+      "reload"
     ],
     "power_level": 0,
     "cost": 35
@@ -86,34 +70,16 @@
     "id": "crossbow-pistol",
     "name": "Crossbow Pistol",
     "type": "ranged",
-    "exclusive": "no",
     "range": 6,
     "attacks": 2,
     "hit": 3,
     "crit": 5,
     "special_rules": [
+      "mighty-1",
       "reload",
-      "brace",
-      "pierce-1",
-      "point-blank"
+      "brace"
     ],
-    "power_level": 0,
-    "cost": 15
-  },
-  {
-    "id": "daemon-great-claw",
-    "name": "Daemon-Great-Claw",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 1,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [
-      "pierce-2"
-    ],
-    "power_level": 0,
-    "cost": 15
+    "cost": 20
   },
   {
     "id": "possessed-daemonic-appendage",
@@ -152,91 +118,69 @@
     "crit": 4,
     "special_rules": [],
     "power_level": 0,
-    "cost": 25
+    "cost": 30
   },
   {
     "id": "elf-ranger-bow",
     "name": "Elven bow",
     "type": "ranged",
     "exclusive": "yes",
-    "range": 18,
-    "attacks": 2,
-    "hit": 2,
+    "range": "3-18",
+    "attacks": 3,
+    "hit": 3,
     "crit": 4,
     "special_rules": [],
-    "power_level": 10,
-    "cost": 25
+    "power_level": 0,
+    "cost": 35
   },
   {
     "id": "fighting-claws",
     "name": "Fighting Claws",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
     "attacks": 4,
     "hit": 2,
-    "crit": 3,
+    "crit": 4,
     "special_rules": [
       "parry",
-      "two-handed",
-      "pierce-1"
+      "two-handed"
     ],
-    "power_level": 5,
-    "cost": 25
+    "cost": 40
   },
   {
     "id": "flail",
     "name": "Flail",
     "type": "melee",
     "exclusive": "no",
-    "range": 1,
+    "range": 2,
     "attacks": 3,
-    "hit": 3,
-    "crit": 4,
+    "hit": 2,
+    "crit": 3,
     "special_rules": [
-      "two-handed",
-      "cumbersome"
+      "mighty-1",
+      "two-handed"
     ],
-    "power_level": 10,
-    "cost": 15
+    "power_level": 0,
+    "cost": 25
   },
   {
     "id": "great-weapon",
     "name": "Great Weapon",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
-    "attacks": 3,
-    "hit": 3,
-    "crit": 5,
+    "attacks": 2,
+    "hit": 4,
+    "crit": 7,
     "special_rules": [
-      "two-handed",
-      "pierce-2"
+      "mighty-2",
+      "two-handed"
     ],
-    "power_level": 10,
-    "cost": 45
-  },
-  {
-    "id": "great-weapon-alt",
-    "name": "great weapon alt",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 3,
-    "hit": 3,
-    "crit": 6,
-    "special_rules": [
-      "two-handed",
-      "mighty-2"
-    ],
-    "power_level": 10,
-    "cost": 30
+    "cost": 55
   },
   {
     "id": "halberd",
     "name": "Halberd",
     "type": "melee",
-    "exclusive": "no",
     "range": 2,
     "attacks": 3,
     "hit": 2,
@@ -244,25 +188,24 @@
     "special_rules": [
       "two-handed"
     ],
-    "power_level": 0,
-    "cost": 15
+    "cost": 20
   },
   {
     "id": "handgun",
     "name": "Handgun",
     "type": "ranged",
     "exclusive": "no",
-    "range": 24,
+    "range": "3-24",
     "attacks": 2,
     "hit": 4,
     "crit": 8,
     "special_rules": [
+      "mighty-2",
       "reload",
-      "unreliable",
-      "pierce-2"
+      "unreliable"
     ],
     "power_level": 0,
-    "cost": 55
+    "cost": 60
   },
   {
     "id": "zombie-infectious-bite",
@@ -290,23 +233,22 @@
       "parry"
     ],
     "power_level": 0,
-    "cost": 30
+    "cost": 35
   },
   {
-    "id": "ogre-weapon",
-    "name": "Ogre Weapon",
+    "id": "ogre-great-weapon",
+    "name": "Ogre Great Weapon",
     "type": "melee",
     "exclusive": "yes",
     "range": 1,
     "attacks": 3,
     "hit": 3,
-    "crit": 5,
+    "crit": 6,
     "special_rules": [
-      "pierce-1",
-      "parry"
+      "mighty-1"
     ],
     "power_level": 0,
-    "cost": 40
+    "cost": 45
   },
   {
     "id": "pistol",
@@ -318,14 +260,13 @@
     "hit": 4,
     "crit": 6,
     "special_rules": [
+      "mighty-2",
       "reload",
       "unreliable",
-      "brace",
-      "pierce-2",
-      "point-blank"
+      "brace"
     ],
-    "power_level": -5,
-    "cost": 30
+    "power_level": 0,
+    "cost": 35
   },
   {
     "id": "direwolf-rotten-fangs",
@@ -361,10 +302,10 @@
     "range": 1,
     "attacks": 4,
     "hit": 3,
-    "crit": 4,
+    "crit": 5,
     "special_rules": [],
     "power_level": 0,
-    "cost": 35
+    "cost": 45
   },
   {
     "id": "thief-shiv-and-club",
@@ -377,49 +318,45 @@
     "crit": 3,
     "special_rules": [],
     "power_level": 0,
-    "cost": 20
+    "cost": 25
   },
   {
     "id": "sigmarite-warhammer",
     "name": "Sigmarite Warhammer",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 5,
     "special_rules": [
-      "blessed",
-      "pierce-2"
+      "mighty-2",
+      "blessed"
     ],
-    "power_level": -5,
-    "cost": 30
+    "cost": 45
   },
   {
     "id": "sling",
     "name": "Sling",
     "type": "ranged",
     "exclusive": "no",
-    "range": 12,
-    "attacks": 2,
+    "range": "3-12",
+    "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "power_level": 5,
-    "cost": 10
+    "power_level": 0,
+    "cost": 15
   },
   {
     "id": "spear",
     "name": "Spear",
     "type": "melee",
-    "exclusive": "no",
     "range": 2,
     "attacks": 3,
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "power_level": -5,
-    "cost": 10
+    "cost": 15
   },
   {
     "id": "staff",
@@ -438,22 +375,19 @@
     "id": "steel-whip",
     "name": "Steel Whip",
     "type": "melee",
-    "exclusive": "no",
     "range": 3,
     "attacks": 3,
     "hit": 1,
-    "crit": 3,
+    "crit": 4,
     "special_rules": [
       "whipcrack"
     ],
-    "power_level": -5,
-    "cost": 15
+    "cost": 25
   },
   {
     "id": "sword",
     "name": "Sword",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
     "attacks": 3,
     "hit": 2,
@@ -461,8 +395,7 @@
     "special_rules": [
       "parry"
     ],
-    "power_level": 0,
-    "cost": 15
+    "cost": 20
   },
   {
     "id": "thief-throwing-dagger",
@@ -481,14 +414,12 @@
     "id": "throwing-stars",
     "name": "Throwing Stars",
     "type": "ranged",
-    "exclusive": "no",
     "range": 6,
-    "attacks": 2,
+    "attacks": 3,
     "hit": 2,
     "crit": 4,
     "special_rules": [],
-    "power_level": 0,
-    "cost": 5
+    "cost": 15
   },
   {
     "id": "troll-slayer-thrown-axe",
@@ -497,42 +428,26 @@
     "exclusive": "yes",
     "range": 6,
     "attacks": 2,
-    "hit": 2,
+    "hit": 3,
     "crit": 4,
-    "special_rules": [
-      "one-use",
-      "pierce-1"
-    ],
+    "special_rules": [],
     "power_level": 0,
-    "cost": 5
+    "cost": 10
   },
   {
     "id": "troll-slayer-axes",
-    "name": "Twin Dwarven Axes",
+    "name": "Twin dwarven axes",
     "type": "melee",
     "exclusive": "yes",
     "range": 1,
-    "attacks": 3,
+    "attacks": 4,
     "hit": 3,
     "crit": 4,
     "special_rules": [
       "parry"
     ],
     "power_level": 0,
-    "cost": 30
-  },
-  {
-    "id": "unarmed",
-    "name": "Unarmed",
-    "type": "melee",
-    "exclusive": "no",
-    "range": 1,
-    "attacks": 2,
-    "hit": 1,
-    "crit": 2,
-    "special_rules": [],
-    "power_level": 0,
-    "cost": 0
+    "cost": 50
   },
   {
     "id": "vicious-teeth",
@@ -551,16 +466,14 @@
     "id": "warhammer",
     "name": "Warhammer",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 4,
     "special_rules": [
-      "pierce-2"
+      "mighty-2"
     ],
-    "power_level": 0,
-    "cost": 20
+    "cost": 30
   },
   {
     "id": "warplock-pistol",
@@ -572,42 +485,40 @@
     "hit": 4,
     "crit": 7,
     "special_rules": [
+      "mighty-2",
       "reload",
       "unreliable",
-      "brace",
-      "pierce-2",
-      "point-blank"
+      "brace"
     ],
     "power_level": 0,
-    "cost": 35
+    "cost": 40
   },
   {
-    "id": "weeping-blade",
-    "name": "Weeping Blade",
+    "id": "weeping-blades",
+    "name": "Weeping Blades",
     "type": "melee",
-    "exclusive": "no",
     "range": 1,
-    "attacks": 3,
-    "hit": 2,
+    "attacks": 4,
+    "hit": 3,
     "crit": 5,
     "special_rules": [
       "parry",
-      "pierce-1"
+      "two-handed"
     ],
     "power_level": 10,
-    "cost": 30
+    "cost": 55
   },
   {
-    "id": "weird-bow",
-    "name": "Weird bow",
+    "id": "unarmed",
+    "name": "Unarmed",
     "type": "melee",
-    "exclusive": "yes",
+    "exclusive": "no",
     "range": 1,
-    "attacks": 4,
+    "attacks": 2,
     "hit": 1,
     "crit": 2,
     "special_rules": [],
     "power_level": 0,
-    "cost": 5
+    "cost": 0
   }
 ]

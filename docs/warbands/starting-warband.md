@@ -27,6 +27,7 @@ Begin recruiting fighters from your faction entry by paying their recruitment fe
 - Your warband must include at least 3 fighters, and no more fighters than is listed under ‘Warband Size’ in your faction entry.
 - Your warband must include one `Leader`. No more, and no less.
 - If a fighter has a number range listed next to its name, it indicates how many fighters of that type may be included in your warband. For example, a fighter with a range of 0–2 means you may only include up to two fighters of that type in your warband.
+
 ## Step 4: Equipment
 ---
 Purchase equipment for your fighters while following these restrictions:
@@ -42,7 +43,7 @@ Purchase equipment for your fighters while following these restrictions:
 Any gold coin not spent on fighters and equipment are stored in the **warband stash** and may be used to recruit new fighters and buy new equipment during a campaign.
 
 ### Renown
-Your `Leader` starts the campaign with 1 point of renown and may immediately make a characteristic increase or select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's notoriety prior to arriving in the cursed city.
+Your `Leader` starts the campaign with 1 point of renown and may immediately select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's fighter's experience and notoriety prior to arriving in the cursed city.
 
 ### Favor & Standing
 Each warband has a faction standing that represents the relationship between the warband and their faction. The process of earning favour and rising in standing is explained in detail in the aftermath sequence. For now, set your warband’s favour to 0 and its standing to **'Disposable'.**

@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import Heading from '@theme/Heading';
 import { useGameData, type GameData } from '@site/src/data/gameData';
 import Tooltip from '../WarbandBuilder/Tooltip';
-import { weaponAnchorId } from './wikiPaths';
+import { weaponAnchorId, useEquipmentDocPaths } from './wikiPaths';
+import Link from '@docusaurus/Link';
 import styles from './wiki.module.css';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
@@ -35,11 +36,36 @@ function humanizeRule(rule: string): string {
     .join(' ');
 }
 
+/**
+ * Inline weapon-rule link for prose, with the rule's description as a hover tooltip.
+ * Registered globally in src/theme/MDXComponents, so in any doc just write:
+ *   <WeaponRule id="parry" />            → "Parry"
+ *   <WeaponRule id="pierce-1">Pierce</WeaponRule>   → custom link text
+ * Links to the rule's entry on the Weapons page of the version being viewed.
+ */
+export function WeaponRule({ id, children }: { id: string; children?: React.ReactNode }) {
+  const { weaponRules } = useGameData();
+  const { weapons: weaponsPath } = useEquipmentDocPaths();
+  const def = weaponRules.find(r => r.id === id);
+  const label = children ?? (def?.name?.trim() || humanizeRule(id));
+  const desc = weaponRuleDescription(id, weaponRules);
+  const link = <Link to={`${weaponsPath}#${id}`}>{label}</Link>;
+  if (!desc) return link;
+  return (
+    <Tooltip
+      content={<div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithCode(desc)}</div>}>
+      <span className="equip-tooltip-trigger">{link}</span>
+    </Tooltip>
+  );
+}
+
 /** `pills`: render each rule as a tinted chip instead of a comma list (fighter cards). */
 export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pills?: boolean }) {
   const { weaponRules } = useGameData();
   if (rules.length === 0) return <>—</>;
   const items = rules.map((r, i) => {
+    // Prefer the rule's own name from the data ("One-use"); the id is only a fallback.
+    const label = weaponRules.find(def => def.id === r)?.name?.trim() || humanizeRule(r);
     const desc = weaponRuleDescription(r, weaponRules);
     const link = hasWeaponRuleDefinition(r, weaponRules) ? (
       desc ? (
@@ -48,14 +74,14 @@ export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pi
             <div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithCode(desc)}</div>
           }>
           <span className="equip-tooltip-trigger">
-            <a href={`#${r}`}>{humanizeRule(r)}</a>
+            <a href={`#${r}`}>{label}</a>
           </span>
         </Tooltip>
       ) : (
-        <a href={`#${r}`}>{humanizeRule(r)}</a>
+        <a href={`#${r}`}>{label}</a>
       )
     ) : (
-      <span>{humanizeRule(r)}</span>
+      <span>{label}</span>
     );
     if (pills) {
       return (
@@ -74,7 +100,7 @@ export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pi
   return pills ? <span className="weapon-rule-pills">{items}</span> : <>{items}</>;
 }
 
-function WeaponTableContent({ weapons }: { weapons: Weapon[] }) {
+function WeaponTableContent({ weapons, anchors = true }: { weapons: Weapon[]; anchors?: boolean }) {
   if (weapons.length === 0) return null;
   return (
     <div className="weapon-table" data-wiki-weapons>
@@ -89,7 +115,7 @@ function WeaponTableContent({ weapons }: { weapons: Weapon[] }) {
           </div>
           {weapons.map(w => (
             <div className={wb.gridRow} key={w.id}>
-              <div className={wb.cell} id={weaponAnchorId(w.id)}>
+              <div className={wb.cell} id={anchors ? weaponAnchorId(w.id) : undefined}>
                 {w.name}
               </div>
               <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
@@ -109,6 +135,20 @@ function WeaponTableContent({ weapons }: { weapons: Weapon[] }) {
 }
 
 /** Weapon data table only — add section headings in MDX (e.g. `## Melee weapons {#melee-weapons}`). */
+/**
+ * A hand-picked weapon table for prose, in the order given:
+ *   <WeaponProfiles ids={["sword", "dagger"]} />
+ * Same look as the Weapons page tables. Unknown ids are skipped.
+ */
+export function WeaponProfiles({ ids }: { ids: string[] }) {
+  const { weapons } = useGameData();
+  const picked = ids
+    .map(id => weapons.find(w => w.id === id))
+    .filter((w): w is Weapon => w !== undefined);
+  // No anchors: the Weapons page owns the `weapon-<id>` ids.
+  return <WeaponTableContent weapons={picked} anchors={false} />;
+}
+
 export function WeaponsTable({ type }: { type: WeaponsTableType }) {
   const { weapons: allWeapons } = useGameData();
   const weapons = useMemo(

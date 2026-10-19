@@ -21,7 +21,13 @@ When a `Henchman` earns their third level of renown, they are promoted to a `Her
 
 ## Improve Characteristic
 ---
-When improving a characteristic, select one of the fighter's characteristics and increase it by 1. The Health characteristic increases in increments of 2 instead. For Bravery, where a lower value is better, decrease it by 1 instead. A fighter's characteristics can never be improved beyond their racial limit:
+Select one characteristic to improve:
+
+- Add 1 to the fighter's **Move**, **Fight** or **Shoot** characteristics.
+- Add 2 to the fighter's **Health** characteristic
+- Subtract 1 from the fighter's **Bravery** characteristic
+
+A fighter's characteristics can never be improved beyond their **racial limit** (see the table below).
 
 ### Racial Limits
 | Keyword | Move |Fight |Shoot|Health|Bravery|
@@ -34,10 +40,15 @@ When improving a characteristic, select one of the fighter's characteristics and
 
 ## Heroic Talents
 ---
-A `Hero` may select a Heroic Talent from any of the following **specializations**. A fighter cannot select heroic talents from more than two specializations, and can never have more than five heroic talents.
+Heroic Talents are traits, reactions and abilities that Heroes can learn once they have earned enough renown. Whenever a `Hero` is instructed to select a heroic talent, they must select from one of the following **talent groups**:
 
 - [Strength](../Talents/1-strength-talents.md)
 - [Toughness](../Talents/2-toughness-talents.md)
 - [Agility](../Talents/3-agility-talents.md)
 - [Perception](../Talents/4-perception-talents.md)
 - [Wits](../Talents/5-wits-talents.md)
+
+Each talent can only be selected once, and a fighter can never have heroic talents from more than two different talent groups. A fighter can never have more than five heroic talents.
+
+### Legendary Abilities
+Each talent group has a ***legendary ability*** that a fighter can select once they have earned 5 levels of renown. Legendary abilities are unique, and no two fighters in the same warband can have the same legendary ability.

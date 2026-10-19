@@ -1,6 +1,6 @@
 ---
 slug: 09-playtest
-title: The 0.9 Playtest Draft
+title: The 0.9 Playtest
 authors: [jomblr]
 tags: [changelog]
 date: 2026-09-30

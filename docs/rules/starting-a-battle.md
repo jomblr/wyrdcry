@@ -2,12 +2,12 @@
 sidebar_position: 2
 ---
 
-# Starting a battle
+# Starting a Battle
 ---
 
-## 1) Set up Terrain
+## 1) Set up the Battlefield
 
-Both players take turns placing terrain pieces on the battlefield, while agreeing on what types of terrain each piece is made up of. Ideally, there should be at least 3 terrain features in each quarter of the battlefield. Terrain features cannot be placed within 3” of a battlefield edge.
+Both players take turns placing terrain pieces on the battlefield, while agreeing on what types of terrain each piece is made up of. Terrain features cannot be placed within 3” of a battlefield edge. See the [terrain guidelines](./terrain.md) for setting up terrain.
 
 ## 2) Determine Attacker
 
@@ -25,20 +25,20 @@ Wyrdcry battles are played according to a scenario, consisting of 3 parts: the d
 
 | D6  | Deployment Map     | D6  | Victory Condition | D6  | Twist           |
 | :---: | :------------------ | :---: | :----------------- | :---: | :--------------- |
-| 1   | [Ambush](./scenarios/deployment-maps.md#1-ambush)             | 1   | [Wyrdstone Hunt](./scenarios/victory-conditions.md#1-wyrdstone-hunt)    | 1   | [Mad Scribbles](./scenarios/twists.md#1-mad-scribbles)   |
+| 1   | [Ambush](./scenarios/deployment-maps.md#1-ambush)             | 1   | [Occupy](./scenarios/victory-conditions.md#1-occupy)    | 1   | [Mad Scribbles](./scenarios/twists.md#1-mad-scribbles)   |
 | 2   | [Meeting Engagement](./scenarios/deployment-maps.md#2-meeting-engagement) | 2   | [Escape](./scenarios/victory-conditions.md#2-escape)         | 2   | [The Haunt](./scenarios/twists.md#2-the-haunt)    |
 | 3   | [Chance Encounter](./scenarios/deployment-maps.md#3-chance-encounter)   | 3   | [Defend the Find](./scenarios/victory-conditions.md#3-defend-the-find)   | 3   | [Suffocating Smog](./scenarios/twists.md#3-suffocating-smog)      |
-| 4   | [Stand Off](./scenarios/deployment-maps.md#4-stand-off)           | 4   | [Occupy](./scenarios/victory-conditions.md#4-occupy)      | 4   | [Falling Fish](./scenarios/twists.md#4-falling-fish)        |
+| 4   | [Stand Off](./scenarios/deployment-maps.md#4-stand-off)           | 4   | [Wyrdstone Hunt](./scenarios/victory-conditions.md#4-wyrdstone-hunt)      | 4   | [Falling Fish](./scenarios/twists.md#4-falling-fish)        |
 | 5   | [Pile-in](./scenarios/deployment-maps.md#5-pile-in)            | 5   | [Hidden Vault](./scenarios/victory-conditions.md#5-hidden-vault)            | 5   | [Nightfall](./scenarios/twists.md#5-nightfall)          |
 | 6   | [The Trap](./scenarios/deployment-maps.md#6-the-trap)           | 6   | [Reckoning](./scenarios/victory-conditions.md#6-reckoning)         | 6   | [Wyrdcry](./scenarios/twists.md#6-wyrdcry)    |
 
-## 5) Set up Search Parties
+## 5) Deploy Search Parties
 
-The deployment map features two sets of deployment points, numbered 1 to 3, that determines where the search parties are set up on the battlefield. The white deployment points are for the defender, and the black deployment points are for the attacker.
+The deployment map features two sets of deployment points, numbered 1 to 3, that determines where each search party is deployed to the battlefield. The white deployment points are for the defender, and the black deployment points are for the attacker.
 
-The defender must decide the orientation of the deployment map, and then deploy their first search party at their first deployment point, followed by the attacker. The players then take turns setting up their remaining search parties at their respective deployment points, until all search parties not in reserve has been deployed.
+The defender must decide the orientation of the deployment map, and then deploy their first search party at their first deployment point, followed by the attacker. The players then take turns deploying their remaining search parties at their respective deployment points, until all search parties not in reserve has been deployed.
 
-Each time a search party is set up, its fighters must be set up wholly within 3” horizontally of their deployment point, on the battlefield floor or on a platform.
+Each time a search party is deployed, its fighters must be placed wholly within 3" of their deployment point on the battlefield floor.
 
 ### Reserve Search Parties
 
@@ -52,4 +52,6 @@ The victory condition specifies what the players must do to win the battle. If t
 
 Twists are special rules that applies to the battle. If the twist instructs players to do things before the battle begins, those things are done in this step.
 
-## 8) The First Battle Round Begins
+## 8) Start the Battle
+
+The first battle round begins.

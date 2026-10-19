@@ -10,7 +10,7 @@ import styles from './index.module.css';
 
 const DISCORD_INVITE = 'https://discord.gg/U6mTMfx29E';
 
-/** Full-viewport hero: logotype + "Start your warband" / etc. Shown at site root `/` (this file is `pages/index.js`). */
+/** Full-viewport hero: logotype + version, Gothicus headline, two CTAs, Discord link. Shown at `/`. */
 function HomepageHeader() {
   const bgUrl = useBaseUrl('img/background-variant.webp');
   return (
@@ -23,31 +23,35 @@ function HomepageHeader() {
         <ParticlesBackground color="#5cdb9a" quantity={150} size={0.68} staticity={99999} />
       </div>
       <div className={clsx('container', styles.heroContent)}>
-        <img
-          src={useBaseUrl('img/logotype.svg')}
-          alt="Wyrdcry"
-          className={styles.logotype}
-        />
-        <div className={styles.buttons}>
-          <Link
-            className="button button--primary button--lg"
-            to="/docs/rules/introduction"
-          >
-            What is Wyrdcry?
-          </Link>
-          <Link
-            className="button button--primary button--lg"
-            to="/docs/rules/general-principles"
-          >
-            Play the game
-          </Link>
+        <div className={styles.logoBlock}>
+          <img
+            src={useBaseUrl('img/logotype.svg')}
+            alt="Wyrdcry"
+            className={styles.logotype}
+          />
+          <div className={styles.version}>1.0</div>
+        </div>
+        {/* Logo stays at the top; headline, buttons and Discord centre in the space below. */}
+        <div className={styles.heroMain}>
+          <h1 className={styles.headline}>
+            <span className={styles.headlineLine}>Fast and brutal skirmish battles</span>{' '}
+            <span className={styles.headlineLine}>in the City of the Damned</span>
+          </h1>
+          <div className={styles.buttons}>
+            <Link className={clsx('button button--lg', styles.heroButton)} to="/docs/downloads">
+              Download Rules
+            </Link>
+            <Link className={clsx('button button--lg', styles.heroButton)} to="/docs/rules/general-principles">
+              Play Now
+            </Link>
+          </div>
           <a
-            className={clsx('button button--lg', styles.discordButton)}
+            className={styles.discordLink}
             href={DISCORD_INVITE}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <IoLogoDiscord aria-hidden /> Discord
+            <IoLogoDiscord aria-hidden /> Join us on Discord
           </a>
         </div>
       </div>

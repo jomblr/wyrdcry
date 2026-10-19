@@ -255,7 +255,7 @@ function recruitableByText(ids: string[], factions: GameData['factions']): strin
 
 function FighterSection({ fighter: f }: { fighter: Fighter }) {
   const { abilities: abilitiesData, factions, statLabels } = useGameData();
-  // 0.9 renames the `defense` key to `armour`; 0.5 still uses `defense`.
+  // Exports may use `armour` or the older `defense` key.
   const armourValue = (f as { armour?: number; defense?: number }).armour
     ?? (f as { defense?: number }).defense;
   const abilities = resolvedAbilitiesMarkdown(f, abilitiesData);
@@ -280,7 +280,7 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
           ) : null}
         </p>
         {description ? (
-          <p>{description}</p>
+          <p className="fighter-description">{description}</p>
         ) : null}
 
         <div className="fighterCardStats">

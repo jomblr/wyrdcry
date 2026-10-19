@@ -1,7 +1,12 @@
-# Netlify redirects. 0.9 used to be the draft at /docs/next/; it is now the default at /docs/.
+# Netlify redirects. The site has one ruleset (1.0) at /docs/. Older URL schemes below.
 /docs/next      /docs/         301
 /docs/next/*    /docs/:splat   301
 /docs/rules/design-principles   /tools/design-principles   301
 /docs/rules/the-end-phase   /docs/rules/the-morale-phase   301
-/docs/rules    /docs/rules/introduction   301
-/docs/rules/   /docs/rules/introduction   301
+/docs/rules    /docs/rules/foreword   301
+/docs/rules/   /docs/rules/foreword   301
+/docs/rules/introduction   /docs/rules/foreword   301
+/docs/rules/downloads   /docs/downloads   301
+# 0.5 playtest was versioned at /docs/0.5/; it's archived now (see /archive/0.5).
+/docs/0.5      /docs/         301
+/docs/0.5/*    /docs/:splat   301

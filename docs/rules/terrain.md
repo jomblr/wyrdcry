@@ -23,9 +23,7 @@ If a fighter is within 1” of a closed door or window, it may target an enemy f
 Some obstacles may feature tiny gaps that a fighter shouldn't be able to see or attack through, such as a crack in a wall or a tiny hole in a roof. Such gaps are obscuring and visibility cannot be drawn through them.
 
 ## 4) Ladders
-Ladders are obstacles that allow fighters to climb more easily. When climbing vertically on a ladder, do not count the vertical distance as double.
-
-Unlike other obstacles, a fighter may end an activation while climbing a ladder. Make a note of the fighter's position to indicate how far it has climbed. If a fighter is allocated damage while climbing a ladder, they may fall (see [falling from a platform](#falling-from-a-platform)).
+Unlike other obstacles, a fighter may end an activation while climbing a ladder. Make a note of the fighter's position to indicate how far it has climbed. If a fighter is allocated damage while climbing a ladder, they may fall (see [falling from a platform](#falling-from-a-platform) below).
 
 ## 5) Platforms
 Any horizontally flat surface on a terrain piece that is large enough to fit a fighter’s base (such as the upper floor of a building or a walkway) is considered to be a  platform.

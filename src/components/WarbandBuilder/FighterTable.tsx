@@ -107,7 +107,7 @@ export default function FighterTable({
 }: Props) {
   const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
-  // The Defense column is headed A (Armour) in 0.9; read from the active version.
+  // The Defense column is headed A (Armour); read from statLabels in gameData.
   const headers = HEADERS.map(h => (h.label === 'D' ? { ...h, label: statLabels().defenseShort } : h));
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
