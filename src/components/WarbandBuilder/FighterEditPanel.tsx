@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, itemsData, statLabels, weaponsData } from './data';
-import EquipmentPicker from './EquipmentPicker';
+import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 
@@ -69,9 +69,9 @@ export default function FighterEditPanel({
 
   const isHero = profile.keywords.includes('HERO') || instance.renown >= 4;
   const isWizard = profile.keywords.includes('WIZARD');
-  const isBeast = profile.race.includes('BEAST');
-  const isThrall = profile.race.includes('THRALL');
-  const isDaemon = profile.race.includes('DAEMON');
+  const isBeast = hasTag(profile, 'BEAST');
+  const isThrall = hasTag(profile, 'THRALL');
+  const isDaemon = hasTag(profile, 'DAEMON');
   const noEquipment = isBeast || isThrall || isDaemon;
   const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
@@ -156,18 +156,8 @@ export default function FighterEditPanel({
           {/* Equipment */}
           <div className={styles.editPanelSection}>
             {noEquipment ? (
-              fixedEquipment.length > 0 ? (
-                <>
-                  <div className={styles.editPanelSectionTitle}>Equipment</div>
-                  <div className={styles.editPanelFixedEquip}>
-                    {fixedEquipment.map((id, idx) => (
-                      <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
-                        {weaponsData.find(w => w.id === id)?.name ?? id}
-                      </span>
-                    ))}
-                  </div>
-                </>
-              ) : null
+              // Beasts, thralls and daemons can't buy equipment: just show what they're born with.
+              <NaturalWeapons weaponIds={fixedEquipment} />
             ) : (
               <EquipmentPicker
                 allEquipment={allEquipment}

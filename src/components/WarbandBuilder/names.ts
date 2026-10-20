@@ -4,7 +4,7 @@
  *
  * Only used when a fighter is added; a name the user has typed is never replaced.
  */
-import type { fightersData } from './data';
+import { hasTag, type fightersData } from './data';
 import factionRules from '@site/src/data/names/factions.json';
 import human from '@site/src/data/names/human.json';
 import skaven from '@site/src/data/names/skaven.json';
@@ -45,9 +45,7 @@ function pickFrom(pool: string[], taken: Set<string>): string | null {
  * avoiding names already in the warband while any are left.
  */
 export function newFighterName(fighter: Fighter, takenNames: string[]): string {
-  // BEAST / THRALL is a keyword in 1.0 data and a race in 0.9 data, so check both.
-  const tags = [...fighter.keywords, ...fighter.race];
-  if (tags.includes('BEAST') || tags.includes('THRALL')) {
+  if (hasTag(fighter, 'BEAST') || hasTag(fighter, 'THRALL')) {
     return fighter.name;
   }
   const file = nameFileFor(fighter);

@@ -63,8 +63,8 @@ function weaponStats(w: (typeof weaponsData)[number]): WeaponStats {
  * Sticky section heading; weapon sections also get the R / A / D column labels.
  * Pass `open` + `onToggle` to make the section foldable.
  */
-function SectionHead({ title, weaponColumns, open, onToggle }: {
-  title: React.ReactNode; weaponColumns?: boolean; open?: boolean; onToggle?: () => void;
+function SectionHead({ title, weaponColumns, readOnly, open, onToggle }: {
+  title: React.ReactNode; weaponColumns?: boolean; readOnly?: boolean; open?: boolean; onToggle?: () => void;
 }) {
   return (
     <div className={styles.equipHead}>
@@ -82,12 +82,12 @@ function SectionHead({ title, weaponColumns, open, onToggle }: {
         <div className={styles.editPanelSectionTitle}>{title}</div>
       )}
       {weaponColumns && (
-        <div className={`${styles.equipRow} ${styles.equipRowWeapon} ${styles.equipColumns}`}>
+        <div className={`${styles.equipRow} ${styles.equipRowWeapon} ${readOnly ? styles.equipRowReadOnly : ''} ${styles.equipColumns}`}>
           <span>Weapon</span>
           <span className={styles.equipStat}>R</span>
           <span className={styles.equipStat}>A</span>
           <span className={styles.equipStat}>D</span>
-          <span className={styles.equipPickerCost}>Cost</span>
+          {!readOnly && <span className={styles.equipPickerCost}>Cost</span>}
         </div>
       )}
     </div>
@@ -129,6 +129,37 @@ function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onSta
           <button type="button" className={styles.panelStatBtn} onClick={onAdd} disabled={addDisabled}>+</button>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Read-only weapon table for fighters that can't buy equipment (beasts, thralls, daemons). */
+export function NaturalWeapons({ weaponIds }: { weaponIds: string[] }) {
+  const weapons = weaponIds.flatMap(id => weaponsData.filter(w => w.id === id));
+  if (weapons.length === 0) return null;
+  return (
+    <div className={styles.equipPicker}>
+      <div>
+        <SectionHead title={weapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'} weaponColumns readOnly />
+        {weapons.map((w, i) => {
+          const stats = weaponStats(w);
+          return (
+            <div key={`${w.id}-${i}`} className={`${styles.equipRow} ${styles.equipRowWeapon} ${styles.equipRowReadOnly}`}>
+              <span className={styles.equipPickerName}>
+                {w.name}
+                {stats.rules.length > 0 && (
+                  <span className={styles.equipRules}>
+                    {stats.rules.map(rule => <span key={rule}>{rule}</span>)}
+                  </span>
+                )}
+              </span>
+              <span className={styles.equipStat}>{stats.range}</span>
+              <span className={styles.equipStat}>{stats.attacks}</span>
+              <span className={styles.equipStat}>{stats.damage}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

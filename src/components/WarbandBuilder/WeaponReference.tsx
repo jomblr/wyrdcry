@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Warband, CustomWeapon } from './useWarband';
-import { fightersData, weaponRulesData, weaponsData } from './data';
+import { fightersData, hasTag, weaponRulesData, weaponsData } from './data';
 import Tooltip from './Tooltip';
 import styles from './warband-builder.module.css';
 
@@ -16,9 +16,9 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
     ...warband.fighters.flatMap(f => {
       const profile = fightersData.find(p => p.id === f.fighterId);
       const fixedIds = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
-      const isBeast = profile?.race.includes('BEAST') ?? false;
-      const isThrall = profile?.race.includes('THRALL') ?? false;
-      const isDaemon = profile?.race.includes('DAEMON') ?? false;
+      const isBeast = profile ? hasTag(profile, 'BEAST') : false;
+      const isThrall = profile ? hasTag(profile, 'THRALL') : false;
+      const isDaemon = profile ? hasTag(profile, 'DAEMON') : false;
       if (isBeast || isThrall || isDaemon) return fixedIds;
       return [...fixedIds, ...f.equipment];
     }),

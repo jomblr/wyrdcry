@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical, Pencil } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, itemsData, statLabels, weaponsData } from './data';
+import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import FighterKeywords from './FighterKeywords';
@@ -58,9 +58,9 @@ export default function FighterCard({
   const statKeys = STAT_KEYS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defense } : d));
   if (!profile) return null;
 
-  const isBeast = profile.race.includes('BEAST');
-  const isThrall = profile.race.includes('THRALL');
-  const isDaemon = profile.race.includes('DAEMON');
+  const isBeast = hasTag(profile, 'BEAST');
+  const isThrall = hasTag(profile, 'THRALL');
+  const isDaemon = hasTag(profile, 'DAEMON');
   const noRenown = isBeast || isThrall;
 
   const defenseBonus = instance.equipment.reduce((sum, eid) => {

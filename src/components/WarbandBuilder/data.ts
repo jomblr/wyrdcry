@@ -52,6 +52,14 @@ export const itemsData = live('items');
 export const weaponRulesData = live('weaponRules');
 export const weaponsData = live('weapons');
 
+/**
+ * Whether a fighter carries a tag such as BEAST, THRALL or DAEMON. These moved from
+ * `race` (0.9 data) to `keywords` (1.0 data) for some fighters, so check both.
+ */
+export function hasTag(fighter: { race: string[]; keywords: string[] }, tag: string): boolean {
+  return fighter.race.includes(tag) || fighter.keywords.includes(tag);
+}
+
 /** Stat labels for the active version (e.g. Defense vs Armour). Read at render time. */
 export function statLabels(): StatLabels {
   return active.statLabels;

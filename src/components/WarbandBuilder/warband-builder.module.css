@@ -1733,11 +1733,6 @@
   justify-content: center;
 }
 
-.editPanelFixedEquip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
 
 .editPanelValue {
   text-align: center;
@@ -1809,6 +1804,11 @@
   .equipRowWeapon {
     grid-template-columns: minmax(0, 1fr) 1.9rem 1.1rem 1.7rem 2.2rem calc(5rem + 8px);
   }
+}
+
+/* Natural weapons: no cost or stepper columns. Comes after the phone rule so it wins there too. */
+.equipRowWeapon.equipRowReadOnly {
+  grid-template-columns: minmax(0, 2.5fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr);
 }
 
 .equipRowWeapon .equipPickerCost {
