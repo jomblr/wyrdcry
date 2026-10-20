@@ -12,7 +12,6 @@ interface Props {
   instance: FighterInstance;
   remainingGold: number;
   onSetName: (name: string) => void;
-  onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
@@ -55,7 +54,7 @@ function PanelStat({ label, value, onChange, suffix = '', step = 1, min = 1, max
 
 export default function FighterEditPanel({
   instance, remainingGold,
-  onSetName, onSetXp, onSetRenown,
+  onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onSendToStash,
   onSetStat, onSetNotes, onSetCostOverride,
@@ -74,7 +73,7 @@ export default function FighterEditPanel({
   const isThrall = profile.race.includes('THRALL');
   const isDaemon = profile.race.includes('DAEMON');
   const noEquipment = isBeast || isThrall || isDaemon;
-  const noXpRenown = isBeast || isThrall;
+  const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
   const allEquipment = instance.isPending
@@ -173,6 +172,7 @@ export default function FighterEditPanel({
               <EquipmentPicker
                 allEquipment={allEquipment}
                 fixedEquipment={fixedEquipment}
+                purchasedEquipment={instance.isPending ? [] : instance.equipment}
                 factionId={profile.faction}
                 isHero={isHero}
                 isWizard={isWizard}
@@ -194,6 +194,10 @@ export default function FighterEditPanel({
                     onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== pendingIdx));
                   }
                 }}
+                onStash={id => {
+                  const idx = instance.equipment.lastIndexOf(id);
+                  if (idx !== -1) onSendToStash(idx);
+                }}
               />
             )}
           </div>
@@ -204,12 +208,11 @@ export default function FighterEditPanel({
             <SpecialRulesCell notes={instance.notes ?? ''} onChange={onSetNotes} />
           </div>
 
-          {/* XP / Renown */}
-          {!noXpRenown && (
+          {/* Renown */}
+          {!noRenown && (
             <div className={styles.editPanelSection}>
               <div className={styles.editPanelSectionTitle}>Progress</div>
               <div className={styles.editPanelProgressRow}>
-                <PanelStat label="XP" value={instance.xp} min={0} onChange={onSetXp} />
                 <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />
               </div>
             </div>

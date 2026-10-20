@@ -34,7 +34,6 @@ const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
   { label: 'B',             center: true },
   { label: 'Equipment', indent: true },
   { label: 'Notes' },
-  { label: 'XP',            center: true },
   { label: 'R',             center: true },
   { label: 'Value',         center: true },
   { label: '',              center: true },
@@ -43,7 +42,6 @@ const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
 interface Props {
   warband: Warband;
   onSetFighterName: (instanceId: string, name: string) => void;
-  onSetFighterXp: (instanceId: string, xp: number) => void;
   onSetFighterRenown: (instanceId: string, renown: number) => void;
   onSetFighterEquipment: (instanceId: string, equipment: string[]) => void;
   onSetFighterPendingEquipment: (instanceId: string, equipment: string[]) => void;
@@ -88,7 +86,6 @@ function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstanc
 export default function FighterTable({
   warband,
   onSetFighterName,
-  onSetFighterXp,
   onSetFighterRenown,
   onSetFighterEquipment,
   onSetFighterPendingEquipment,
@@ -145,7 +142,6 @@ export default function FighterTable({
               onMoveUp={() => onReorderFighters(arrayMove(warband.fighters, idx, idx - 1))}
               onMoveDown={() => onReorderFighters(arrayMove(warband.fighters, idx, idx + 1))}
               onSetName={name => onSetFighterName(instance.instanceId, name)}
-              onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
               onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
               onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
               onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
@@ -206,7 +202,6 @@ export default function FighterTable({
                 stash={warband.stash}
                 remainingGold={remainingGold}
                 onSetName={name => onSetFighterName(instance.instanceId, name)}
-                onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
                 onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
                 onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
                 onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}

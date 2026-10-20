@@ -6,6 +6,7 @@ import styles from './warband-builder.module.css';
 import { fightersData, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
+import FighterKeywords from './FighterKeywords';
 
 interface Props {
   instance: FighterInstance;
@@ -15,7 +16,6 @@ interface Props {
   onMoveUp: () => void;
   onMoveDown: () => void;
   onSetName: (name: string) => void;
-  onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
@@ -29,18 +29,18 @@ interface Props {
 }
 
 const STAT_KEYS: { key: StatKey; label: string; suffix?: string }[] = [
-  { key: 'move',    label: 'M', suffix: '"' },
-  { key: 'fight',   label: 'F' },
-  { key: 'shoot',   label: 'S' },
-  { key: 'defense', label: 'D' },
-  { key: 'health',  label: 'H' },
-  { key: 'bravery', label: 'B', suffix: '+' },
+  { key: 'move',    label: 'Move', suffix: '"' },
+  { key: 'fight',   label: 'Fight' },
+  { key: 'shoot',   label: 'Shoot' },
+  { key: 'defense', label: 'Armour' },
+  { key: 'health',  label: 'Health' },
+  { key: 'bravery', label: 'Bravery', suffix: '+' },
 ];
 
 export default function FighterCard({
   instance, remainingGold,
   canMoveUp, canMoveDown, onMoveUp, onMoveDown,
-  onSetName, onSetXp, onSetRenown,
+  onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
   onSendToStash,
@@ -54,14 +54,14 @@ export default function FighterCard({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
-  // Defense is called Armour in 0.9 (D vs A); the label comes from the active version.
-  const statKeys = STAT_KEYS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defenseShort } : d));
+  // Defense is called Armour in 0.9; the label comes from the active version.
+  const statKeys = STAT_KEYS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defense } : d));
   if (!profile) return null;
 
   const isBeast = profile.race.includes('BEAST');
   const isThrall = profile.race.includes('THRALL');
   const isDaemon = profile.race.includes('DAEMON');
-  const noXpRenown = isBeast || isThrall;
+  const noRenown = isBeast || isThrall;
 
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
     const item = itemsData.find(x => x.id === eid);
@@ -154,6 +154,7 @@ export default function FighterCard({
         <div className={styles.fighterCardNameBlock}>
           <span className={styles.fighterCardName}>{instance.customName || <span className={styles.fighterCardNameEmpty}>Unnamed</span>}</span>
           <span className={styles.fighterType}>{profile.name}</span>
+          <FighterKeywords race={profile.race} keywords={profile.keywords} />
         </div>
         <button type="button" className={styles.editBtn} onClick={() => setEditOpen(true)} aria-label="Edit fighter">
           <Pencil size={15} />
@@ -163,24 +164,27 @@ export default function FighterCard({
         </button>
       </div>
 
-      {/* Stats table — static values */}
-      <div className={styles.tableWrapper}>
-        <div className={`${styles.wbGrid} ${styles.fighterCardStatsGrid}`}>
-          <div className={styles.gridHeader}>
-            {statKeys.map(({ label }) => (
-              <div key={label} className={`${styles.hCell} ${styles.hCellCenter}`}>{label}</div>
-            ))}
+      {/* Stats — two 3-column tables, same layout as the wiki fighter entries
+          (global .fighterCardStatsGrid in custom.css stacks them on narrow screens) */}
+      <div className="fighterCardStatsGrid">
+        {[statKeys.slice(0, 3), statKeys.slice(3)].map((group, i) => (
+          <div key={i} className={`${styles.tableWrapper} ${styles.wbGrid} ${styles.fighterStatsRefGrid3} ${styles.fighterCardStats}`}>
+            <div className={styles.gridHeader}>
+              {group.map(({ label }) => (
+                <div key={label} className={`${styles.hCell} ${styles.hCellCenter}`}>{label}</div>
+              ))}
+            </div>
+            <div className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
+              {group.map(({ key, suffix }) => (
+                <div key={key} className={`${styles.cell} ${styles.cellCenter}`}>
+                  <span className={isModified(key) ? styles.statModified : undefined}>
+                    {statVal(key)}{suffix}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
-            {statKeys.map(({ key, suffix }) => (
-              <div key={key} className={`${styles.cell} ${styles.cellCenter}`}>
-                <span className={isModified(key) ? styles.statModified : undefined}>
-                  {statVal(key)}{suffix}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Equipment — static tags */}
@@ -210,17 +214,11 @@ export default function FighterCard({
 
       {/* Footer */}
       <div className={styles.fighterCardFooter}>
-        {!noXpRenown && (
-          <>
-            <div className={styles.fighterCardFooterItem}>
-              <span className={styles.fighterCardFooterLabel}>XP</span>
-              <span>{instance.xp}</span>
-            </div>
-            <div className={styles.fighterCardFooterItem}>
-              <span className={styles.fighterCardFooterLabel}>R</span>
-              <span>{instance.renown}</span>
-            </div>
-          </>
+        {!noRenown && (
+          <div className={styles.fighterCardFooterItem}>
+            <span className={styles.fighterCardFooterLabel}>R</span>
+            <span>{instance.renown}</span>
+          </div>
         )}
         <div className={`${styles.fighterCardFooterItem} ${styles.fighterCardFooterValue}`}>
           <span className={instance.isPending ? styles.pendingCost : undefined}>{totalCost}gc</span>
@@ -234,7 +232,6 @@ export default function FighterCard({
           instance={instance}
           remainingGold={remainingGold}
           onSetName={onSetName}
-          onSetXp={onSetXp}
           onSetRenown={onSetRenown}
           onSetEquipment={onSetEquipment}
           onSetPendingEquipment={onSetPendingEquipment}

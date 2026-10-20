@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './warband-builder.module.css';
-import { factionsData, itemsData, weaponsData } from './data';
+import { factionsData, itemsData, weaponRulesData, weaponsData } from './data';
 
 const armourItems = () => itemsData.filter(i => i.type === 'armour');
 // Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
@@ -33,6 +34,8 @@ interface Props {
   allEquipment: string[];
   /** Fixed/default equipment — counts toward slots but can't be removed */
   fixedEquipment: string[];
+  /** Already-purchased equipment (subset of allEquipment); these weapons get a Stash button */
+  purchasedEquipment: string[];
   factionId: string | null;
   isHero: boolean;
   isWizard: boolean;
@@ -40,28 +43,100 @@ interface Props {
   remainingGold: number;
   onAdd: (id: string) => void;
   onRemoveLast: (id: string) => void;
+  /** Send one purchased copy of this item to the warband stash */
+  onStash: (id: string) => void;
 }
 
-function EquipRow({ name, cost, qty, addDisabled, onAdd, onRemove }: {
-  name: string; cost: number; qty: number;
-  addDisabled: boolean; onAdd: () => void; onRemove: () => void;
+interface WeaponStats { range: string; attacks: string; damage: string; rules: string[] }
+
+/** Characteristics as in the weapon reference table: R, A, D (hit/crit) and special rules. */
+function weaponStats(w: (typeof weaponsData)[number]): WeaponStats {
+  return {
+    range: `${w.range}"`,
+    attacks: String(w.attacks),
+    damage: `${w.hit}/${w.crit}`,
+    rules: w.special_rules.map(id => weaponRulesData.find(r => r.id === id)?.name ?? id),
+  };
+}
+
+/**
+ * Sticky section heading; weapon sections also get the R / A / D column labels.
+ * Pass `open` + `onToggle` to make the section foldable.
+ */
+function SectionHead({ title, weaponColumns, open, onToggle }: {
+  title: React.ReactNode; weaponColumns?: boolean; open?: boolean; onToggle?: () => void;
 }) {
   return (
-    <div className={`${styles.equipPickerRow} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
-      <span className={styles.equipPickerName}>{name}</span>
+    <div className={styles.equipHead}>
+      {onToggle ? (
+        <button
+          type="button"
+          className={`${styles.editPanelSectionTitle} ${styles.equipHeadToggle}`}
+          onClick={onToggle}
+          aria-expanded={open}
+        >
+          {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+          {title}
+        </button>
+      ) : (
+        <div className={styles.editPanelSectionTitle}>{title}</div>
+      )}
+      {weaponColumns && (
+        <div className={`${styles.equipRow} ${styles.equipRowWeapon} ${styles.equipColumns}`}>
+          <span>Weapon</span>
+          <span className={styles.equipStat}>R</span>
+          <span className={styles.equipStat}>A</span>
+          <span className={styles.equipStat}>D</span>
+          <span className={styles.equipPickerCost}>Cost</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onStash }: {
+  name: string; weapon?: WeaponStats; cost: number; qty: number;
+  addDisabled: boolean; onAdd: () => void; onRemove: () => void;
+  /** Set for purchased equipment: replaces the stepper with a Stash button */
+  onStash?: () => void;
+}) {
+  return (
+    <div className={`${styles.equipRow} ${weapon ? styles.equipRowWeapon : ''} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
+      <span className={styles.equipPickerName}>
+        {name}
+        {weapon && weapon.rules.length > 0 && (
+          <span className={styles.equipRules}>
+            {weapon.rules.map(rule => <span key={rule}>{rule}</span>)}
+          </span>
+        )}
+      </span>
+      {weapon && (
+        <>
+          <span className={styles.equipStat}>{weapon.range}</span>
+          <span className={styles.equipStat}>{weapon.attacks}</span>
+          <span className={styles.equipStat}>{weapon.damage}</span>
+        </>
+      )}
       <span className={styles.equipPickerCost}>{`${cost}gc`}</span>
-      <div className={styles.panelStatControl}>
-        <button type="button" className={styles.panelStatBtn} onClick={onRemove} disabled={qty === 0}>−</button>
-        <span className={styles.panelStatValue}>{qty}</span>
-        <button type="button" className={styles.panelStatBtn} onClick={onAdd} disabled={addDisabled}>+</button>
-      </div>
+      {onStash ? (
+        <button type="button" className={`${styles.panelStatControl} ${styles.equipStepper} ${styles.equipStashBtn}`} onClick={onStash}>
+          Stash
+        </button>
+      ) : (
+        <div className={`${styles.panelStatControl} ${styles.equipStepper}`}>
+          <button type="button" className={styles.panelStatBtn} onClick={onRemove} disabled={qty === 0}>−</button>
+          <span className={styles.panelStatValue}>{qty}</span>
+          <button type="button" className={styles.panelStatBtn} onClick={onAdd} disabled={addDisabled}>+</button>
+        </div>
+      )}
     </div>
   );
 }
 
 export default function EquipmentPicker({
-  allEquipment, fixedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast,
+  allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash,
 }: Props) {
+  const [tradingPostOpen, setTradingPostOpen] = useState(false);
   const combinedIds = [...fixedEquipment, ...allEquipment];
   const slots = countSlots(combinedIds);
   const hasExclusiveArmour = EXCLUSIVE_ARMOUR.some(a => combinedIds.includes(a));
@@ -82,6 +157,11 @@ export default function EquipmentPicker({
   }
 
   function editableQty(id: string) { return allEquipment.filter(x => x === id).length; }
+  /** Stash button once a weapon is purchased; while a copy is still pending, keep the stepper so it can be undone. */
+  function stashHandler(id: string): (() => void) | undefined {
+    const purchased = purchasedEquipment.filter(x => x === id).length;
+    return purchased > 0 && purchased === editableQty(id) ? () => onStash(id) : undefined;
+  }
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
   function canAddMelee(w: (typeof weaponsData)[0]): boolean {
@@ -120,22 +200,24 @@ export default function EquipmentPicker({
 
   if (isBeast) return null;
 
+  const tradingPostCount = allEquipment.filter(id => gearItems().some(i => i.id === id)).length;
+
   return (
     <div className={styles.equipPicker}>
       {meleeWeapons.length > 0 && (
         <div>
-          <div className={styles.editPanelSectionTitle}>
-            Melee Weapon ({slots.melee}/{MELEE_SLOTS})
-          </div>
+          <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} weaponColumns />
           {meleeWeapons.map(w => (
             <EquipRow
               key={w.id}
               name={w.name}
+              weapon={weaponStats(w)}
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddMelee(w)}
               onAdd={() => onAdd(w.id)}
               onRemove={() => onRemoveLast(w.id)}
+              onStash={stashHandler(w.id)}
             />
           ))}
         </div>
@@ -143,18 +225,18 @@ export default function EquipmentPicker({
 
       {rangedWeapons.length > 0 && (
         <div>
-          <div className={styles.editPanelSectionTitle}>
-            Ranged Weapon ({slots.ranged}/{RANGED_SLOTS})
-          </div>
+          <SectionHead title={<>Ranged Weapon ({slots.ranged}/{RANGED_SLOTS})</>} weaponColumns />
           {rangedWeapons.map(w => (
             <EquipRow
               key={w.id}
               name={w.name}
+              weapon={weaponStats(w)}
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddRanged(w)}
               onAdd={() => onAdd(w.id)}
               onRemove={() => onRemoveLast(w.id)}
+              onStash={stashHandler(w.id)}
             />
           ))}
         </div>
@@ -162,9 +244,7 @@ export default function EquipmentPicker({
 
       {availableArmour.length > 0 && (
         <div>
-          <div className={styles.editPanelSectionTitle}>
-            Armour ({combinedIds.some(id => armourItems().find(a => a.id === id)) ? 1 : 0}/1)
-          </div>
+          <SectionHead title={<>Armour ({combinedIds.some(id => armourItems().find(a => a.id === id)) ? 1 : 0}/1)</>} />
           {availableArmour.map(item => (
             <EquipRow
               key={item.id}
@@ -181,8 +261,12 @@ export default function EquipmentPicker({
 
       {gearItems().length > 0 && (
         <div>
-          <div className={styles.editPanelSectionTitle}>Items</div>
-          {gearItems().map(item => (
+          <SectionHead
+            title={tradingPostCount > 0 && !tradingPostOpen ? `Trading Post (${tradingPostCount})` : 'Trading Post'}
+            open={tradingPostOpen}
+            onToggle={() => setTradingPostOpen(o => !o)}
+          />
+          {tradingPostOpen && gearItems().map(item => (
             <EquipRow
               key={item.id}
               name={item.name}

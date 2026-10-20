@@ -37,11 +37,10 @@ Newly added fighters and equipment aren't purchased until you click the Purchase
 ### Selling items
 To sell an item, navigate to the **Warband Stash** in the information tab and right click the item you want to sell.
 
-### Experience and Renown
-The warband builder supports fighters gaining experience and renown.
-- **Left-click** a fighter's experience value to increase it by 1.
+### Renown
+The warband builder tracks each fighter's renown.
+- **Left-click** a fighter's renown value to increase it by 1.
 - **Right-click** to decrease it by 1.
-- At **4 XP**, Renown increases automatically and the experience value resets to 0.
 - At **4 Renown**, the fighter is promoted to a `Hero` and gains access to the faction's `Hero` weapon options.
 
 ### Characteristic Increases

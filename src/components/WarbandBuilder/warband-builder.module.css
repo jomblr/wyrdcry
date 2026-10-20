@@ -517,11 +517,9 @@
 }
 
 /* ─── Fighter grid ──────────────────────────────────────────────────────────── */
-/*    Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
-
-/* drag | Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
+/* drag | Fighter | M F S D H B | Equipment | Special Rules | R | Cost | ⋮ */
 .fighterGrid {
-  grid-template-columns: 16px 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 3fr 3fr 0.5fr 0.5fr 0.8fr 0.5fr;
+  grid-template-columns: 16px 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 3fr 3fr 0.5fr 0.8fr 0.5fr;
   min-width: 780px;
 }
 
@@ -629,6 +627,16 @@
 .fighterType {
   font-weight:600;
   font-size: 0.8rem;
+  color: var(--wyrd-text3);
+}
+
+/* Same face as inline keywords on the site (custom.css: Inconsolata, uppercase, 800). */
+.fighterKeywords {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.3;
   color: var(--wyrd-text3);
 }
 
@@ -1462,10 +1470,6 @@
 }
 
 /* 6-column equal grid for the stat table inside a card */
-.fighterCardStatsGrid {
-  grid-template-columns: repeat(6, 1fr);
-}
-
 /* Sticky add fighter bar — sticks to bottom of the scroll container (.body) */
 .mobileAddFighterBar {
   position: sticky;
@@ -1485,6 +1489,21 @@
 }
 
 /* ─── Fighter card static display ──────────────────────────────────────────── */
+
+/* Card stat tables: compact, in scale with the card's other text */
+.fighterCardStats .hCell,
+.fighterCardStats .cell {
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+}
+
+.fighterCardStats .hCell {
+  font-size: 0.75rem;
+}
+
+.fighterCardStats .cell {
+  font-size: 0.85rem;
+}
 
 .fighterCardName {
   font-weight: 700;
@@ -1738,15 +1757,146 @@
   gap: 0.75rem;
 }
 
-.equipPickerRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Equipment list in the fighter edit panel: a table per section, stepper on the right. */
+.equipHead {
+  position: sticky;
+  top: -1.1rem; /* .editPanelBody's top padding, so the head pins to the panel's edge */
+  z-index: 1;
+  padding-top: 1.1rem;
+  margin-top: -1.1rem;
+  background: var(--ifm-background-color);
+}
+
+.equipHeadToggle {
+  width: 100%;
+  margin-bottom: 0.35rem;
   padding: 0.25rem 0;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.equipRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0.6rem 0;
+}
+
+.equipRow + .equipRow {
+  border-top: 2px dotted var(--ifm-color-emphasis-400);
+}
+
+/*
+ * Name | R | A | D | Cost | stepper; special rules stacked under the name, one per line.
+ * Cells align to the top, and the name's first line, the stats and the cost are all
+ * centred on the stepper's height, so they line up however many lines the name takes.
+ */
+.equipRowWeapon {
+  --equip-step-h: 2.25rem;
+  align-items: start;
+  /* Fixed stepper column so the header row (which has no stepper) lines up with the rows. */
+  /* R / A / D share the spare width with the name, so on wide panels they sit mid-row;
+     on phones they shrink to their minimums. */
+  grid-template-columns: minmax(0, 1.25fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr) 2.2rem calc(5rem + 8px);
+  column-gap: 0.35rem;
+}
+
+/* Phones: no spare width to spread R / A / D into, so give it all to the name. */
+@media (max-width: 420px) {
+  .equipRowWeapon {
+    grid-template-columns: minmax(0, 1fr) 1.9rem 1.1rem 1.7rem 2.2rem calc(5rem + 8px);
+  }
+}
+
+.equipRowWeapon .equipPickerCost {
+  min-width: 0;
+}
+
+.equipRowWeapon .equipStepper {
+  justify-self: end;
+  height: var(--equip-step-h);
+  box-sizing: border-box;
+}
+
+.equipRowWeapon .equipStat,
+.equipRowWeapon .equipPickerCost {
+  line-height: var(--equip-step-h);
+}
+
+.equipRowWeapon .equipPickerName {
+  line-height: 1.3;
+  padding-top: calc((var(--equip-step-h) - 0.9rem * 1.3) / 2);
+}
+
+.equipColumns {
+  padding: 0 0 0.3rem;
+  border-bottom: 1px solid var(--wyrd-border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wyrd-text3);
+}
+
+.equipColumns .equipStat,
+.equipColumns .equipPickerCost {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.equipColumns {
+  align-items: end;
+}
+
+.equipStat {
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.equipRules {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.1rem;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--ifm-color-content-secondary);
+}
+
+.equipStepper {
+  margin-left: 8px; /* breathing room after the cost */
+}
+
+/* Same footprint as the stepper it replaces. */
+.equipStashBtn {
+  justify-content: center;
+  width: 5rem;
+  height: var(--equip-step-h, auto);
+  padding: 0.3rem 0;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+}
+
+.equipStashBtn:hover {
+  background: var(--ifm-hover-overlay);
+}
+
+.equipStepper .panelStatBtn {
+  padding: 0.3rem 0.45rem;
+}
+
+.equipStepper .panelStatValue {
+  min-width: 1.6rem;
 }
 
 .equipPickerName {
-  flex: 1;
   font-size: 0.9rem;
 }
 
@@ -1758,7 +1908,8 @@
 }
 
 .equipPickerRowDisabled .equipPickerName,
-.equipPickerRowDisabled .equipPickerCost {
+.equipPickerRowDisabled .equipPickerCost,
+.equipPickerRowDisabled .equipStat {
   opacity: 0.4;
 }
 

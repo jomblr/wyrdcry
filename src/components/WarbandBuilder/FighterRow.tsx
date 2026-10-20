@@ -12,13 +12,13 @@ import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
+import FighterKeywords from './FighterKeywords';
 
 interface Props {
   instance: FighterInstance;
   stash: string[];
   remainingGold: number;
   onSetName: (name: string) => void;
-  onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
@@ -33,7 +33,7 @@ interface Props {
   onSetCostOverride: (cost: number | null) => void;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [valueModalOpen, setValueModalOpen] = useState(false);
@@ -81,7 +81,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   const isThrall = profile?.race.includes('THRALL') ?? false;
   const isDaemon = profile?.race.includes('DAEMON') ?? false;
   const noEquipment = isBeast || isThrall || isDaemon;
-  const noXpRenown = isBeast || isThrall;
+  const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
   // Pending: all equipment on a pending fighter is pending; on a purchased fighter,
@@ -275,6 +275,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           />
         </div>
         <span className={styles.fighterType}>{typeLabel}</span>
+        <FighterKeywords race={profile.race} keywords={profile.keywords} />
       </div>
 
       {/* Stats — click/scroll spinners */}
@@ -371,16 +372,9 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         />
       </div>
 
-      {/* XP */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
-        {noXpRenown ? '—' : (
-          <StatSpinner value={instance.xp} min={0} onChange={onSetXp} />
-        )}
-      </div>
-
       {/* Renown */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
-        {noXpRenown ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noRenown ? styles.lockedCell : ''}`}>
+        {noRenown ? '—' : (
           <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} />
         )}
       </div>
