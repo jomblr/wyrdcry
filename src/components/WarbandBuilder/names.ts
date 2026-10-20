@@ -45,7 +45,9 @@ function pickFrom(pool: string[], taken: Set<string>): string | null {
  * avoiding names already in the warband while any are left.
  */
 export function newFighterName(fighter: Fighter, takenNames: string[]): string {
-  if (fighter.keywords.includes('BEAST') || fighter.keywords.includes('THRALL')) {
+  // BEAST / THRALL is a keyword in 1.0 data and a race in 0.9 data, so check both.
+  const tags = [...fighter.keywords, ...fighter.race];
+  if (tags.includes('BEAST') || tags.includes('THRALL')) {
     return fighter.name;
   }
   const file = nameFileFor(fighter);
