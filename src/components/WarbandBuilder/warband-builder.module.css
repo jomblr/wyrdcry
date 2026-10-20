@@ -1511,6 +1511,11 @@
   line-height: 1.2;
 }
 
+.fighterCardType {
+  font-weight: 600;
+  color: var(--wyrd-text3);
+}
+
 .fighterCardNameEmpty {
   color: var(--wyrd-text3);
   font-style: italic;
