@@ -25,6 +25,16 @@ function costFor(id: string): number {
   );
 }
 
+/**
+ * Sale price: half the listed price, rounded down to a multiple of 5gc, but never less
+ * than 5gc (so a 25gc item sells for 10gc and a 5gc dagger still sells for 5gc).
+ * Items that cost nothing sell for nothing.
+ */
+export function salePriceFor(cost: number): number {
+  if (cost <= 0) return 0;
+  return Math.max(5, Math.floor(cost / 2 / 5) * 5);
+}
+
 export default function WarbandStash({ stash, onRemove, onSell }: Props) {
   const [modHeld, setModHeld] = useState(false);
   const [cursor, setCursor] = useState<{ x: number; y: number; text: string } | null>(null);
@@ -57,7 +67,7 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
           <span className={styles.stashEmpty}>The stash is empty</span>
         )}
         {stash.map((id, idx) => {
-          const salePrice = Math.floor(costFor(id) / 2);
+          const salePrice = salePriceFor(costFor(id));
           const label = `Sell for ${salePrice}gc`;
           return (
             <span

@@ -33,7 +33,7 @@ Any horizontally flat surface on a terrain piece that is large enough to fit a f
 
 Whenever damage is allocated to a fighter that is within ½” of the edge of a platform or climbing a ladder, the controlling player must roll a die:
 
-- **On a 1:** The fighter [falls](docs/rules/the-combat-phase/actions/move-action.md#falling)
+- **On a 1:** The fighter [falls](./the-combat-phase/actions/move.md#falling)
 - **On a 2-6:** Nothing happens
 :::
 

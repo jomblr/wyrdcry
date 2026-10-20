@@ -14,8 +14,8 @@ A fighter can make 2 actions during their activation. The first action must be c
 
 These are the most common actions that your fighters will use over the course of a battle.
 
-- #### [Attack](./actions/attack-action.md)
-- #### [Move](./actions/move-action.md)
+- #### [Attack](./actions/attack.md)
+- #### [Move](./actions/move.md)
 - #### [Retreat](./actions/retreat.md)
 - #### [Wait](./actions/wait.md)
 - #### [Channel Magic](./actions/channel-magic.md)

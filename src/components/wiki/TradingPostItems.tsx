@@ -58,15 +58,41 @@ export default function TradingPostItems({ type }: { type: ItemType }) {
   return (
     <>
       {list.map(i => (
-        <React.Fragment key={i.id}>
-          <Heading as="h3" id={i.id}>
-            {i.rare && <><CrowIcon title="Rare" />{' '}</>}
-            {i.name} ({i.cost}gc)
-          </Heading>
-          {/* Descriptions can carry markdown (bold, `KEYWORDS`); render it inline. */}
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{i.description.trim()}</ReactMarkdown>
-        </React.Fragment>
+        <ItemEntry key={i.id} item={i} />
       ))}
     </>
   );
+}
+
+/** One item as a heading + description: crow icon when rare, cost in brackets. */
+function ItemEntry({ item: i }: { item: GameData['items'][number] }) {
+  return (
+    <>
+      <Heading as="h3" id={i.id}>
+        {i.rare && <><CrowIcon title="Rare" />{' '}</>}
+        {i.name} ({i.cost}gc)
+      </Heading>
+      {/* Descriptions can carry markdown (bold, `KEYWORDS`); render it inline. */}
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{i.description.trim()}</ReactMarkdown>
+    </>
+  );
+}
+
+/**
+ * A single item from items.json, laid out like a Trading Post entry — e.g. a faction's
+ * unique equipment:  <ItemCard itemId="prayer-beads" />
+ */
+export function ItemCard({ itemId }: { itemId: string }) {
+  const { items } = useGameData();
+  const item = items.find(i => i.id === itemId);
+  if (!item) {
+    return (
+      <p>
+        <em>
+          No item found with id <code>{itemId}</code> in <code>src/data/items.json</code>.
+        </em>
+      </p>
+    );
+  }
+  return <ItemEntry item={item} />;
 }

@@ -62,6 +62,8 @@ export function WeaponRule({ id, children }: { id: string; children?: React.Reac
 /** `pills`: render each rule as a tinted chip instead of a comma list (fighter cards). */
 export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pills?: boolean }) {
   const { weaponRules } = useGameData();
+  // Rule entries live on the Weapons page; link there so pills on fighter cards work too.
+  const { weapons: weaponsPath } = useEquipmentDocPaths();
   if (rules.length === 0) return <>—</>;
   const items = rules.map((r, i) => {
     // Prefer the rule's own name from the data ("One-use"); the id is only a fallback.
@@ -74,11 +76,11 @@ export function SpecialRuleLinks({ rules, pills = false }: { rules: string[]; pi
             <div className="tooltip-breakdown weapon-rule-tooltip-content">{renderWithCode(desc)}</div>
           }>
           <span className="equip-tooltip-trigger">
-            <a href={`#${r}`}>{label}</a>
+            <Link to={`${weaponsPath}#${r}`}>{label}</Link>
           </span>
         </Tooltip>
       ) : (
-        <a href={`#${r}`}>{label}</a>
+        <Link to={`${weaponsPath}#${r}`}>{label}</Link>
       )
     ) : (
       <span>{label}</span>

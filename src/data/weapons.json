@@ -67,7 +67,7 @@
       "pierce-1"
     ],
     "power_level": 0,
-    "cost": 30
+    "cost": null
   },
   {
     "id": "crossbow-pistol",
@@ -202,7 +202,7 @@
       "brutal"
     ],
     "power_level": 5,
-    "cost": 40
+    "cost": 35
   },
   {
     "id": "great-weapon-alt",
@@ -250,7 +250,7 @@
       "pierce-2"
     ],
     "power_level": 0,
-    "cost": 45
+    "cost": null
   },
   {
     "id": "zombie-infectious-bite",
@@ -324,9 +324,11 @@
     "attacks": 3,
     "hit": 2,
     "crit": 4,
-    "special_rules": [],
+    "special_rules": [
+      "pierce-1"
+    ],
     "power_level": 0,
-    "cost": 15
+    "cost": 20
   },
   {
     "id": "warhound-savage-bite",
@@ -492,7 +494,7 @@
       "pierce-1"
     ],
     "power_level": 0,
-    "cost": 5
+    "cost": null
   },
   {
     "id": "troll-slayer-axes",
@@ -603,6 +605,21 @@
   {
     "id": "morning-star",
     "name": "Morning Star",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [
+      "pierce-1"
+    ],
+    "power_level": 0,
+    "cost": 15
+  },
+  {
+    "id": "mace",
+    "name": "Mace",
     "type": "melee",
     "exclusive": "no",
     "range": 1,

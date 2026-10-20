@@ -1,6 +1,6 @@
 ---
 slug: 05-playtest
-title: The 0.5 Playtest is LIVE
+title: Playtest 0.5 is LIVE
 authors: [jomblr]
 tags: [changelog]
 date: 2026-05-05

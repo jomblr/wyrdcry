@@ -11,9 +11,9 @@ title: Downloads
 - [The Campaign Book (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0.pdf)
 - [Warband Roster](https://downloads.wyrdcry.net/WYRDCRY-Warband-Roster.pdf)
 
-## Faction Rules
+## Factions
 ---
-The factions will be getting their own PDF:s soon, until then - please use the wiki
+The factions will be getting their own PDF:s **soon™**, until then - please use the wiki
 
 - [Clan Eshin (wiki)](./warbands/Factions/clan-eshin)
 - [Mercenaries (wiki)](./warbands/Factions/mercenaries)

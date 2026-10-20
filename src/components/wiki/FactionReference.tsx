@@ -47,7 +47,8 @@ interface EquipmentRow {
   key: string;
   name: string;
   cost: number;
-  href: string;
+  /** Where the name links to; omitted when the item has no entry anywhere to link to. */
+  href?: string;
   category: EquipCategory;
   heroOnly: boolean;
   /** Custom tooltip body (WarbandBuilder Tooltip) */
@@ -106,14 +107,14 @@ function EquipmentTooltipLink({
   content,
   children,
 }: {
-  href: string;
+  href?: string;
   content: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <Tooltip content={content}>
       <span className="equip-tooltip-trigger">
-        <Link to={href}>{children}</Link>
+        {href ? <Link to={href}>{children}</Link> : children}
       </span>
     </Tooltip>
   );
@@ -137,7 +138,14 @@ function formatEquipmentEntries(equipment: Record<string, string>, ctx: EquipCon
         key: rawKey,
         name: item.name,
         cost: item.cost,
-        href: `${ctx.docArmour}#${armourAnchorId(itemId)}`,
+        // Armour is listed on the Armour page. Faction-only items (Prayer Beads…) have an
+        // <ItemCard> on the faction page itself; other gear lives in the Trading Post.
+        href:
+          item.type === 'armour'
+            ? `${ctx.docArmour}#${armourAnchorId(itemId)}`
+            : (item as { faction?: string }).faction
+              ? `#${itemId}`
+              : `/docs/campaigns/the-trading-post#${itemId}`,
         category: 'armour',
         heroOnly,
         tooltipContent: <ArmourTooltipBody item={item} />,
@@ -149,7 +157,8 @@ function formatEquipmentEntries(equipment: Record<string, string>, ctx: EquipCon
         key: rawKey,
         name: w.name,
         cost: w.cost,
-        href: `${ctx.docWeapons}#${weaponAnchorId(rawKey)}`,
+        // Exclusive weapons (hired swords' own gear) aren't on the Weapons page: no link.
+        href: w.exclusive === 'yes' ? undefined : `${ctx.docWeapons}#${weaponAnchorId(rawKey)}`,
         category: weaponCategory(w.type),
         heroOnly,
         tooltipContent: <WeaponTooltipBody w={w} />,
@@ -227,7 +236,7 @@ export function FactionArmourEquipment({ factionId }: Props) {
   const all = useEquipmentRows(factionId);
   if (!all) return null;
   const rows = all.filter(r => r.category === 'armour');
-  return <FactionEquipmentTable rows={rows} title="Armour" />;
+  return <FactionEquipmentTable rows={rows} title="Other Equipment" />;
 }
 
 export { default as FactionFighters } from './FactionFighters';

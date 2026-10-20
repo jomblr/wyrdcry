@@ -2,7 +2,7 @@
   {
     "id": "parry",
     "name": "Parry",
-    "description": "When the bearer is the target of a melee attack action, increase their Fight characteristic by 1.",
+    "description": "When the bearer is the target of a melee attack action, add 1 to their Fight characteristic.",
     "effect": {
       "characteristic": "defense",
       "bonus": 1,
@@ -12,8 +12,8 @@
   },
   {
     "id": "pierce-1",
-    "name": "Pierce 1",
-    "description": "When making an attack action with this weapon, reduce the target’s Armour characteristic by 1 (to a minimum of 0).",
+    "name": "Piercing 1",
+    "description": "When making an attack action with this weapon, subtract 1 from the target’s Armour characteristic (to a minimum of 0).",
     "effect": {
       "characteristic": "pierce",
       "bonus": 1,
@@ -23,8 +23,8 @@
   },
   {
     "id": "pierce-2",
-    "name": "Pierce 2",
-    "description": "When making an attack action with this weapon, reduce the target’s Armour characteristic by 2 (to a minimum of 0).",
+    "name": "Piercing 2",
+    "description": "When making an attack action with this weapon, subtract 2 from the target’s Armour characteristic (to a minimum of 0).",
     "effect": {
       "characteristic": "pierce",
       "bonus": 2,
@@ -70,7 +70,7 @@
   {
     "id": "blessed",
     "name": "Blessed",
-    "description": "When making attack action with this weapon targeting a `VAMPIRE`, `DAEMON` or `THRALL`, increase the Critical Damage characteristic by 1.",
+    "description": "When making attack action with this weapon targeting a `VAMPIRE`, `DAEMON` or `THRALL`, add 1 to the Critical Damage characteristic of this weapon.",
     "effect": null,
     "cost": 10
   },
@@ -91,7 +91,7 @@
   {
     "id": "cumbersome",
     "name": "Cumbersome",
-    "description": "When the bearer is the target of a melee attack action, decrease their Fight characteristic by 1.",
+    "description": "When the bearer is the target of a melee attack action, subtract 1 from their Fight characteristic.",
     "effect": null,
     "cost": -5
   },
@@ -112,12 +112,8 @@
   {
     "id": "brutal",
     "name": "Brutal",
-    "description": "When making melee attack actions with this weapon, increase the attacker's Fight characteristic by 1.",
-    "effect": {
-      "characteristic": "fight_shoot",
-      "bonus": 1,
-      "conditional": false
-    },
+    "description": "Melee attack actions made with this weapon ignore the Parry weapon rule.",
+    "effect": null,
     "cost": 5
   }
 ]

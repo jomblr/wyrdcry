@@ -12,7 +12,7 @@ In this step, you must roll a d6 for each fighter that was taken out action duri
 - **On a 2-6:** the fighter fully recovers.
 
 ## Heroes and Injuries
-When a `Hero` is taken out of action, they risk suffering a lasting **[injury]** that affects them throughout the campaign. Roll a d66 and apply the corresponding result from the [Lasting Injury Table](#lasting-injuries).
+When a `Hero` is taken out of action, they risk suffering a lasting **[injury]** that affects them throughout the campaign. Roll a d66 and apply the corresponding result from the [Lasting Injury Table](#lasting-injury-table).
 
 A `Hero` can never have more than three injuries. If they suffer a fourth, they die. If they suffer an **[injury]** they already have, treat that result as a  [Flesh Wound](#flesh-wound) instead.
 

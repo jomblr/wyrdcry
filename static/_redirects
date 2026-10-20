@@ -10,3 +10,5 @@
 # 0.5 playtest was versioned at /docs/0.5/; it's archived now (see /archive/0.5).
 /docs/0.5      /docs/         301
 /docs/0.5/*    /docs/:splat   301
+/docs/rules/the-combat-phase/actions/move-action     /docs/rules/the-combat-phase/actions/move     301
+/docs/rules/the-combat-phase/actions/attack-action   /docs/rules/the-combat-phase/actions/attack   301

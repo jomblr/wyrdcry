@@ -386,6 +386,41 @@ pre code {
   max-width: 42rem;
 }
 
+/* Fighter-card weapon tables: five columns on desktop, stacked cards on phones
+ * (same 768px switch as the stat block above). Both are rendered; CSS picks one. */
+.weaponTableMobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .weaponTableDesktop {
+    display: none;
+  }
+
+  .weaponTableMobile {
+    display: block;
+    margin: 1rem 0;
+  }
+}
+
+.weaponMobileCard {
+  margin-bottom: 1rem;
+}
+
+/* Weapon name sits above its table as a label. */
+.weaponMobileName {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+/* The pills row spans all three stat columns. */
+.weaponMobileFull {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: normal;
+}
+
 /* Abilities block: GFM + theme headings inside fighter card */
 .fighter-abilities.markdown {
   margin-top: 0.75rem;

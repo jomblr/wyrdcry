@@ -171,6 +171,9 @@ function resolvedAbilitiesMarkdown(
 ): { preamble: string; body: string } {
   const f = fighter as { faction_ability_ids?: string[]; ability_preamble?: string; abilities?: string };
   const ids = f.faction_ability_ids;
+  // The preamble shows whenever it's filled in — even for a fighter with no abilities
+  // (e.g. the Mutant's "must roll on the mutation table").
+  const preamble = f.ability_preamble?.trim() ?? '';
   if (ids && ids.length > 0) {
     const body = ids
       .map(id => abilitiesData.find(a => a.id === id))
@@ -178,9 +181,9 @@ function resolvedAbilitiesMarkdown(
       .sort((a, b) => abilityTypeSortKey(a.ability_type) - abilityTypeSortKey(b.ability_type))
       .map(a => `**[${abilityTypeLabel(a.ability_type)}] ${a.name}:** ${a.description}`)
       .join('\n\n');
-    return { preamble: f.ability_preamble?.trim() ?? '', body };
+    return { preamble, body };
   }
-  return { preamble: '', body: f.abilities?.trim() ?? '' };
+  return { preamble, body: f.abilities?.trim() ?? '' };
 }
 
 /** Non-weapon gear a fighter comes with (`item:` entries in default_equipment) — mostly hired swords. */
@@ -217,29 +220,63 @@ function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
   if (weapons.length === 0) return null;
 
   return (
-    <div className={wb.tableScrollOuterWiki}>
-      <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.weaponRefGrid} ${wb.weaponRefGridCompact}`}>
-        <div className={wb.gridHeader}>
-          <div className={wb.hCell}>Weapon</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>Range</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>Attacks</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>Damage</div>
-          <div className={wb.hCell}>Special</div>
+    <>
+      {/* Desktop (≥768px): one five-column table. */}
+      <div className="weaponTableDesktop">
+      <div className={wb.tableScrollOuterWiki}>
+        <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.weaponRefGrid} ${wb.weaponRefGridCompact}`}>
+          <div className={wb.gridHeader}>
+            <div className={wb.hCell}>Weapon</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Range</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Attacks</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Damage</div>
+            <div className={wb.hCell}>Special</div>
+          </div>
+          {weapons.map(w => (
+            <div className={`${wb.gridRow} ${wb.gridRowNoHover}`} key={w.id}>
+              {/* Long names wrap onto a second line rather than being cut off. */}
+              <div className={`${wb.cell} ${wb.cellWrap}`}>{w.name}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
+              <div className={`${wb.cell} ${wb.cellWrap}`}>
+                <SpecialRuleLinks rules={w.special_rules} pills />
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+      </div>
+
+      {/* Phones: one stacked card per weapon, like the two-row stat block. */}
+      <div className="weaponTableMobile">
         {weapons.map(w => (
-          <div className={`${wb.gridRow} ${wb.gridRowNoHover}`} key={w.id}>
-            {/* Long names wrap onto a second line rather than being cut off. */}
-            <div className={`${wb.cell} ${wb.cellWrap}`}>{w.name}</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
-            <div className={`${wb.cell} ${wb.cellWrap}`}>
-              <SpecialRuleLinks rules={w.special_rules} pills />
+          <div className="weaponMobileCard" key={w.id}>
+            {/* Weapon name as a label above its table. */}
+            <div className="weaponMobileName">{w.name}</div>
+            <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
+            <div className={wb.gridHeader}>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Range</div>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Attacks</div>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Damage</div>
+            </div>
+            <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
+            </div>
+            {w.special_rules.length > 0 && (
+              <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+                <div className={`${wb.cell} ${wb.cellWrap} weaponMobileFull`}>
+                  <SpecialRuleLinks rules={w.special_rules} pills />
+                </div>
+              </div>
+            )}
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

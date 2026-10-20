@@ -21,4 +21,4 @@ A fighter that is within 6” of their `LEADER` may use their Bravery characteri
 The most common consequence for failing a Bravery test is for a fighter to become **panicked**. While a fighter is panicked, it must subtract 1 from its Fight and Shoot characteristics until the end of the battle round.
 
 ### Terrifying
-When a fighter makes a melee attack action against an enemy fighter with the `Terrifying` keyword, they must take a Bravery test or become Panicked. If the test is passed, that fighter does not have to take further Bravery tests caused by `Terrifying` enemies for the remainder of the battle round.
+When a fighter makes a melee attack action against an enemy fighter with the `Terrifying` keyword, they must take a Bravery test or become panicked, unless they are **TERRIFYING** themselves. If the test is passed, that fighter does not have to take further Bravery tests caused by `Terrifying` enemies for the remainder of the battle round.

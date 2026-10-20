@@ -7,7 +7,7 @@ import WeaponLink from '@site/src/components/WeaponLink';
 import HeroOnlyIcon from '@site/src/components/HeroOnlyIcon';
 import CrowIcon from '@site/src/components/CrowIcon';
 import { WeaponRule, WeaponProfiles } from '@site/src/components/wiki/WeaponsReference';
-import TradingPostItems from '@site/src/components/wiki/TradingPostItems';
+import TradingPostItems, { ItemCard } from '@site/src/components/wiki/TradingPostItems';
 
 export default {
   ...MDXComponents,
@@ -23,4 +23,6 @@ export default {
   WeaponProfiles,
   // Trading Post item lists from items.json: <TradingPostItems type="single-use" />
   TradingPostItems,
+  // A single item laid out like a Trading Post entry: <ItemCard itemId="prayer-beads" />
+  ItemCard,
 };

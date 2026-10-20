@@ -117,6 +117,9 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          // Same custom admonitions (:::inverse, :::encounter) and ==highlight== as the docs.
+          admonitions: { keywords: ['encounter', 'inverse'] },
+          beforeDefaultRemarkPlugins: [remarkHighlight],
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,

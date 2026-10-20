@@ -1,6 +1,6 @@
 ---
 slug: 09-playtest
-title: The 0.9 Playtest
+title: Playtest 0.9 is LIVE
 authors: [jomblr]
 tags: [changelog]
 date: 2026-09-30
@@ -16,7 +16,7 @@ Looking forward to hear your feedback on [discord](https://discord.gg/76vwruSRU)
 ---
 
 ## Core Principles
-- The Defense characteristic is gone and replaced by [Armour.](/docs/rules/general-principles#characteristics) (also, see the overhauled [Attack Action](/docs/rules/the-combat-phase/actions/attack-action))
+- The Defense characteristic is gone and replaced by [Armour.](/docs/rules/general-principles#characteristics) (also, see the overhauled [Attack Action](/docs/rules/the-combat-phase/actions/attack))
 - A fighter that has any damage points allocated to them is considered to be [**wounded**](/docs/rules/general-principles#wounded). This state is called upon by abilities such as Beastman rage and some vampiric abilities (it’s a nifty state for homebrew warbands too!).
 
 ## Setting Up A Battle
@@ -27,7 +27,7 @@ Looking forward to hear your feedback on [discord](https://discord.gg/76vwruSRU)
 
 ## Actions
 
-- The [Attack Action](/docs/rules/the-combat-phase/actions/attack-action) sequence has been completely overhauled.
+- The [Attack Action](/docs/rules/the-combat-phase/actions/attack) sequence has been completely overhauled.
 	- Melee attack actions now compares the Fight characteristics of both combatants
 	- Ranged attack actions compares the Shoot characteristic against a flat difficulty rating (with modifiers)
 	- Wearing armour now provides a flat damage reduction instead of a bonus to Defense
@@ -62,7 +62,7 @@ There's also [loot tables](/docs/campaigns/loot-tables) and [magical items](/doc
 ## Clan Eshin
 
 - New faction rule: [Black-Clad Killers](/docs/warbands/Factions/clan-eshin#faction-trait-black-clad-killers). You can set aside hidden Eshin fighters when splitting up your warband into search parties, and reveal them in later battle rounds.
-- All fighters now have the [Murder-Stab](/docs/warbands/Factions/clan-eshin#double-murder-stab) ability. Murder-stabbing someone in the same battle round as revealing your fighter reduces the target's Fight characteristic (***stab-stab***)
+- All fighters now have the [Murder-Stab](/docs/warbands/Factions/clan-eshin) ability. Murder-stabbing someone in the same battle round as revealing your fighter reduces the target's Fight characteristic (***stab-stab***)
 - The [Assassin Adept](/docs/warbands/Factions/clan-eshin#fighter-assassin-adept) has gained a new (old?) ability – Running Death. One with the shadows is now a [double]
 
 ## Possessed

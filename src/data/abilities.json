@@ -291,7 +291,7 @@
     "name": "Strategize",
     "category": "mercenaries",
     "ability_type": "double",
-    "description": "The next time this fighter makes a wait action this activation, roll (X) dice. For each roll of 5+, you may add 1 wyrd dice do your saved wyrd dice.\n"
+    "description": "The next time this fighter makes a wait action this activation, roll (X) dice. For each roll of 4+, you may add 1 wyrd dice do your saved wyrd dice.\n"
   },
   {
     "id": "driven-by-greed",
@@ -326,7 +326,7 @@
     "name": "Give Order",
     "category": "mercenaries",
     "ability_type": "triple",
-    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may increase their Fight or Shoot characteristic by 1 when attacking a target within 2\" of the token.\n- **Hold**: Until the end of the battleround, friendly fighters within 2\" of that token may increase their Armour and Bravery characteristics by 1."
+    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may add 1 to their Fight or Shoot characteristic when attacking a target within 2\" of that token.\n- **Hold**: Until the end of the battleround, add 1 to the Bravery characteristic of friendly fighters within 2\" of that token."
   },
   {
     "id": "condemn",
@@ -389,7 +389,7 @@
     "name": "Soulfire",
     "category": "sisters-of-sigmar",
     "ability_type": "quad",
-    "description": "Allocate (X/2) damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `Vampire`, `Daemon` or `Thrall`, allocate (X) damage points instead."
+    "description": "Allocate D3 damage points to each visible enemy fighter within 6” of this fighter. If the enemy fighter is a `Vampire`, `Daemon` or `Thrall`, allocate D3+3 damage points instead."
   },
   {
     "id": "touch-of-chaos",
@@ -410,7 +410,7 @@
     "name": "Curse of Agony",
     "category": "possessed",
     "ability_type": "double",
-    "description": "*Magical ability*. Select a visible fighter within 12\" of this fighter and roll (X) dice. For each result of 2+, allocate 1 damage point to that fighter."
+    "description": "*Magical ability*. Select a visible fighter within 12\" of this fighter. Until the end of the battle round, when that fighter makes an action other than the Wait action, allocate (X/2) damage points to that fighter."
   },
   {
     "id": "armour-of-faith",
@@ -459,7 +459,7 @@
     "name": "Shambling Horde",
     "category": "undead",
     "ability_type": "double",
-    "description": "Select up to 3 visible friendly fighters with the `Zombie` keyword. Those fighters can each immediately make a bonus move action of up to 3\", as long as they end that move action closer to this fighter."
+    "description": "Select up to (X/2) visible friendly fighters with the `Zombie` keyword. Those fighters can each immediately make a free move action of up to 3\", as long as they end that move action closer to this fighter."
   },
   {
     "id": "chilling-howl",
@@ -648,7 +648,7 @@
     "name": "Unfeeling Flesh",
     "category": "undead",
     "ability_type": "trait",
-    "description": "When resolving an attack action against this fighter, if none of the hit rolls score a critical hit, this fighter's Armour characteristic is 1 for that attack action."
+    "description": "When resolving an attack action against this fighter, if none of the hit rolls score a critical hit, add 1 to this fighter's Armour characteristic."
   },
   {
     "id": "foresight",
@@ -673,10 +673,10 @@
   },
   {
     "id": "bloody-feast",
-    "name": "Bloody Feast",
+    "name": "Gory Feast",
     "category": "undead",
     "ability_type": "double",
-    "description": "A `GHOUL` can use this ability if an enemy fighter was taken down by an attack action made by them this activation. Remove (X/2) damage points from each other visible friendly `GHOUL` within 2\" of this fighter."
+    "description": "A `GHOUL` can use this ability if an enemy fighter was taken down by an attack action made by them this activation. Remove (X/2) damage points from each friendly `GHOUL` within 2\" of this fighter."
   },
   {
     "id": "fleet-of-foot",
@@ -691,5 +691,12 @@
     "category": "hired-sword",
     "ability_type": "trait",
     "description": "Once per battleround, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
+  },
+  {
+    "id": "anointed",
+    "name": "Anointed",
+    "category": "possessed",
+    "ability_type": "trait",
+    "description": "When this fighter is recruited to the warband, it must make a roll on the mutation table."
   }
 ]

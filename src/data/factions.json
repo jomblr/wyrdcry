@@ -81,7 +81,8 @@
       "warhammer": "all",
       "blunderbuss": "all",
       "thief-throwing-dagger": "all",
-      "morning-star": "all"
+      "morning-star": "all",
+      "mace": "all"
     }
   },
   {
@@ -106,7 +107,8 @@
       "item:heavy-armour": "hero",
       "item:light-armour": "all",
       "item:shield": "all",
-      "morning-star": "all"
+      "morning-star": "all",
+      "mace": "all"
     }
   },
   {
@@ -133,7 +135,8 @@
       "pistol": "hero",
       "item:light-armour": "all",
       "item:shield": "all",
-      "morning-star": "all"
+      "morning-star": "all",
+      "mace": "all"
     }
   },
   {
@@ -159,7 +162,8 @@
       "item:light-armour": "hero",
       "item:shield": "hero",
       "flail": "hero",
-      "morning-star": "all"
+      "morning-star": "all",
+      "mace": "hero"
     }
   },
   {

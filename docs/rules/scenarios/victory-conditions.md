@@ -8,11 +8,11 @@ title: Victory Conditions
 ## 1: Occupy
 *Taking and holding buildings in this neighbourhood all-but guarantees your warband rich pickings. Unfortunately, your opponent has the same idea.*
 
-Starting with the defender, the players alternate selecting 5 terrain features on the battlefield.
+Starting with the defender, the players alternate placing 5 objective markers inside 5 different terrain features, at least 6" away from all other objective markers and fighters.
 
-During the battle, a warband controls one of those terrain features if there are more friendly fighters than enemy fighters wholly within that terrain feature. At the end of the battle, the warband controlling the most terrain features is the winner.
+At the end of the battle, the warband controlling the most objective markers is the winner.
 
-**Reward:** At the end of the battle, roll a dice for each ruin in a warband’s control. On a 2+, the warband gains 1 wyrdstone shard.
+**Reward:** At the end of the battle, roll a dice for each objective marker in a warband’s control. On a 2+, the warband gains 1 wyrdstone shard.
 :::
 :::info
 ## 2: Escape
@@ -24,7 +24,7 @@ During the battle, the attacker’s fighters cannot pick up or carry wyrdstone t
 
 At the end of the battle, if the defender escapes with 3 or more wyrdstone tokens, they win the battle. Otherwise, the attacker wins the battle.
 
-**Reward:** The defender gains 1 wyrdstone shard for each wyrdstone token carried by a fighter that escaped during the battle. The attacker gains 1 wyrdstone shard for each wyrdstone token still on the battlefield at the end of the battle.
+**Reward:** The defender gains 1 wyrdstone shard for each wyrdstone token carried by a fighter that escaped during the battle. The attacker gains 1 wyrdstone shard for each wyrdstone token on the battlefield floor at the end of the battle.
 :::
 :::info
 ## 3: Defend the Find

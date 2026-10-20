@@ -18,9 +18,9 @@ A fighter within 1" of a token in its warband's control can pick it up as a free
 Fighters with the `BEAST` or `Thrall` keywords can never pick up or carry tokens.
 
 ### Dropping Tokens
-A fighter can use an action to drop a token that they are carrying. The controlling player places the dropped token on the battlefield, within 1” of the fighter. If a fighter carrying a token is taken out of action, the controlling player must drop the token as a free action before removing the fighter from the battlefield.
+A fighter can use an action to drop a token that they are carrying. The controlling player places the dropped token on the battlefield, within 1” of the fighter. If a fighter carrying a token is taken out of action, they automatically drop the token before being removed from the battlefield.
 
 :::info
 ### Game state tokens
-Tokens may also be used to keep track of special rules affecting a fighter (such as a fighter being panicked) or faction rules (such as a fighter being condemned). Such tokens have no effect on gameplay.
+Tokens may also be used to keep track of special rules affecting a fighter (such as a fighter waiting or being panicked) or faction rules (such as a fighter being condemned). Such tokens have no effect on gameplay.
 :::

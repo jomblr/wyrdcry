@@ -135,10 +135,11 @@
     "id": "rope-and-hook",
     "name": "Rope and Hook",
     "type": "miscellaneous",
-    "description": "When the bearer climbs, they count as climbing a ladder. When climbing down, do not count the distance moved toward the fighter's Move characteristic.",
+    "description": "When the bearer climbs, they count as climbing a ladder. When climbing down, count only half of the vertical distance moved toward the fighter’s Move characteristic (rounding up).",
     "effect": null,
     "cost": 10,
-    "rare": false
+    "rare": false,
+    "faction": null
   },
   {
     "id": "shield",
@@ -155,7 +156,7 @@
     "type": "single-use",
     "description": "The bearer may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.",
     "effect": null,
-    "cost": 20,
+    "cost": 15,
     "rare": true,
     "faction": "clan-eshin"
   },

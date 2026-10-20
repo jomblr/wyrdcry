@@ -5,7 +5,7 @@ title: The Trading Post
 trading_post: true
 ---
 # The Trading Post
-The Trading Post offer warbands special equipment apart from that in their faction entry, and can be visited during the [Manage Warbands](the-aftermath-sequence/injuries.md#step-5-manage-warband) step of the Aftermath Squence. The items are available to all factions, and can be equipped by both `HENCHMEN` and `HEROES` (although a fighter can only equip one of each item.). 
+The Trading Post offer warbands special equipment apart from that in their faction entry, and can be visited during the [Manage Warbands](the-aftermath-sequence/manage-warband.md) step of the Aftermath Squence. The items are available to all factions, and can be equipped by both `HENCHMEN` and `HEROES` (although a fighter can only equip one of each item.). 
 
 ### Rare Items
 
