@@ -152,12 +152,12 @@ export default function FighterCard({
       {/* Header */}
       <div className={styles.fighterCardHeader}>
         <div className={styles.fighterCardNameBlock}>
-          {/* "Hanz (Warrior)"; beasts that kept their profile name show it once. */}
+          {/* Type as a small label above the name; beasts that kept their profile name show it once. */}
+          {instance.customName !== profile.name && (
+            <span className={styles.fighterCardType}>{profile.name}</span>
+          )}
           <span className={styles.fighterCardName}>
             {instance.customName || <span className={styles.fighterCardNameEmpty}>Unnamed</span>}
-            {instance.customName !== profile.name && (
-              <span className={styles.fighterCardType}> ({profile.name})</span>
-            )}
           </span>
           <FighterKeywords race={profile.race} keywords={profile.keywords} />
         </div>

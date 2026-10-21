@@ -1512,7 +1512,11 @@
 }
 
 .fighterCardType {
-  font-weight: 600;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
   color: var(--wyrd-text3);
 }
 
