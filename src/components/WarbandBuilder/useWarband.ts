@@ -730,7 +730,13 @@ export function useWarband() {
     reader.onload = e => {
       try {
         const wb = JSON.parse(e.target?.result as string) as Warband;
-        if (!wb.id || !wb.name) return;
+        // A warband needs an id and a fighter list. The name may be empty — unnamed
+        // warbands export with "name": "" and show as "Untitled Warband".
+        if (!wb.id || !Array.isArray(wb.fighters)) {
+          window.alert('This file doesn’t look like a Wyrdcry warband export.');
+          return;
+        }
+        wb.name = wb.name ?? '';
         wb.stash = wb.stash ?? [];
         wb.factionNotes = wb.factionNotes ?? '';
         wb.gold = wb.gold ?? campaignRules.warband_budget;
@@ -742,7 +748,7 @@ export function useWarband() {
         dispatch({ type: 'LOAD_WARBAND', warband: wb });
         dispatch({ type: 'REGISTER_WARBAND', id: wb.id });
       } catch {
-        // invalid file — ignore
+        window.alert('This file couldn’t be read as a warband (it isn’t valid JSON).');
       }
     };
     reader.readAsText(file);
