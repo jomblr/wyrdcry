@@ -147,7 +147,8 @@ export default function FighterCard({
     : null;
 
   return (
-    <div className={`${styles.fighterCard} ${instance.isPending ? styles.fighterCardPending : ''}`}>
+    // Unbought fighters aren't tinted; their gold cost (pendingCost) marks them as pending.
+    <div className={styles.fighterCard}>
 
       {/* Header */}
       <div className={styles.fighterCardHeader}>
