@@ -5,7 +5,7 @@ title: Twists
 # Twists
 ---
 ## 1: Mad Scribbles
-Starting with the defender, both players take turns selecting a terrain feature on the battlefield. During this battle, that terrain feature is covered with mad scribbles and all fighters have access to the following ability:
+Starting with the defender, both players take turns selecting a terrain piece on the battlefield. During this battle, that terrain piece is covered with mad scribbles and all fighters have access to the following ability:
 
 **[Double] Study the madness:** A fighter can use this ability while within one of the selected terrain pieces. Roll (X/2) dice. For each result of 4+, add 1 wyrd dice to your saved wyrd dice. For each result of 1, allocate 2 damage points to the fighter.
 

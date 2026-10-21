@@ -7,7 +7,7 @@ sidebar_position: 2
 
 ## 1) Set up the Battlefield
 
-Both players take turns placing terrain pieces on the battlefield, while agreeing on what types of terrain each piece is made up of. Terrain features cannot be placed within 3” of a battlefield edge. See the [terrain guidelines](./terrain.md) for setting up terrain.
+Both players take turns placing terrain pieces on the battlefield, while agreeing on what types of terrain each piece is made up of. Terrain pieces cannot be placed within 3” of a battlefield edge. See the [terrain guidelines](./terrain.md) for setting up terrain.
 
 ## 2) Determine Attacker
 
@@ -50,7 +50,7 @@ The victory condition specifies what the players must do to win the battle. If t
 
 ## 7) The Twist
 
-Twists are special rules that applies to the battle. If the twist instructs players to do things before the battle begins, those things are done in this step.
+Twists are special rules that apply to the battle. If the twist instructs players to do things before the battle begins, those things are done in this step.
 
 ## 8) Start the Battle
 

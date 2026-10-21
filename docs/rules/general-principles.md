@@ -17,7 +17,7 @@ To play a battle, you and your opponents must **start a warband** by filling in 
 ## Fighters
 ---
 
-Your warband is made up by models referred to as **fighters**, and their rules are contained in their **fighter profile.** You can find an example of a fighter profile [below](#example-fighter-profile).
+Your warband is made up of models referred to as **fighters**, and their rules are contained in their **fighter profile.** You can find an example of a fighter profile [below](#example-fighter-profile).
 
 ### Friendly and enemy fighters
 
@@ -53,7 +53,7 @@ If a rule requires you to roll a **D3**, roll a regular six-sided dice and halve
 If a rule requires you to roll a **D66**. roll a six-sided dice twice. The first roll determines the ten, and the second roll determines the unit. For example, if you rolled a 3 followed by a 5, the D66 roll would be 35.
 
 ### Re-Roll
-Some rules requires you to **re-roll dice**, meaning you roll the specified number of dice again. A dice roll can never be re-rolled more than once, and you cannot choose the original result.
+Some rules require you to **re-roll dice**, meaning you roll the specified number of dice again. A dice roll can never be re-rolled more than once, and you cannot choose the original result.
 
 ### Roll-off
 Sometimes a rule requires the players to **roll-off**. When this is the case, each player rolls a dice, and whoever rolls highest wins the roll-off. If there is a tie for the highest roll, roll-off again.
@@ -61,7 +61,7 @@ Sometimes a rule requires the players to **roll-off**. When this is the case, ea
 
 ## Modifiers
 ---
-Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule may add 1 to the Move characteristic of a fighter, or subtract 1 from the Attack characteristic of a weapon. These modifiers are always cumulative, but unless a rule says otherwise, they can never reduce a characteristic to less than 1 (or, in the case of Bravery, a 6+).
+Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule may add 1 to the Move characteristic of a fighter, or subtract 1 from the Attacks characteristic of a weapon. These modifiers are always cumulative, but unless a rule says otherwise, they can never reduce a characteristic to less than 1 (or, in the case of Bravery, a 6+).
 
 ## Sequencing
 ---
@@ -84,7 +84,7 @@ When a fighter has been allocated damage points equal to half their Health chara
 
 When a fighter is allocated damage points equal to their Health characteristic, they are taken **out of action**: the fighter is removed from the battlefield, and any leftover damage points are discarded.
 
-In a campaign game, a fighter that is taken out of action risk lasting injuries or being killed, as described in the [aftermath sequence](../campaigns/the-aftermath-sequence/injuries.md).
+In a campaign game, a fighter that is taken out of action risks lasting injuries or being killed, as described in the [aftermath sequence](../campaigns/the-aftermath-sequence/injuries.md).
 
 ## Example: Fighter Profile
 ---
@@ -104,13 +104,13 @@ Each fighter profile includes a set of keywords that describes distinctive featu
 A rule that refers to a keyword applies to all fighters with that keyword. If a rule refers to a keyword in the plural (for example, `UPPERCASE`), it is treated as a reference to the singular keyword (`Hero`).
 
 ### Special Rules
-Many fighters have one or more special rules that sets them apart from their peers:
+Many fighters have one or more special rules that set them apart from their peers:
 
 - **Traits** represent skills or racial quirks whose effects are automatically applied whenever their conditions are met.
 - **Abilities** represent tricks, spells and manoeuvres that a fighter can use during their activation by spending ability dice (marked as **[Double]**, **[Triple]** or **[Quad]**).
 - **Reactions** are things a fighter can do during an enemy fighter's activation, most commonly by spending an action.
 - **Injuries** are long-lasting wounds and mental afflictions that impair the fighter.
-Many fighters have one or more special rules that sets them apart from their peers:
+Many fighters have one or more special rules that set them apart from their peers:
 
 ### Recruitment fee
 
@@ -137,4 +137,4 @@ All weapons come in two types, **melee weapons** and **ranged weapons.**
 - **Damage**: The damage potential of the weapon. The first value represents **hit damage**, and the second value represents **critical damage.**
 
 ### Weapon Rules
-Most weapons have one or more special rules that applies to the bearer of that weapon, and you can find a comprehensive list of weapon rules [here.](../warbands/Equipment/weapons#weapon-rules)
+Most weapons have one or more special rules that apply to the bearer of that weapon, and you can find a comprehensive list of weapon rules [here.](../warbands/Equipment/weapons#weapon-rules)

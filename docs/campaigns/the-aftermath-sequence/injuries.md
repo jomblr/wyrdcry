@@ -6,7 +6,7 @@ title: Step 1 - Roll for Injuries
 # Step 1: Roll for Injuries
 ---
 
-In this step, you must roll a d6 for each fighter that was taken out action during the battle and that doesn't have the `Hero` keyword:
+In this step, you must roll a d6 for each fighter that was taken out of action during the battle and that doesn't have the `Hero` keyword:
 
 - **On a roll of 1:** the fighter dies from their injuries, or leaves the warband as a cripple.
 - **On a 2-6:** the fighter fully recovers.
@@ -36,7 +36,7 @@ If your `Leader` dies or is removed from the warband for any other reason, you m
 |23|<span id="damaged-sword-arm">**[Injury] Damaged Sword Arm**</span>: Subtract 1 from this fighter’s Fight characteristic.|
 |24|<span id="devastated-eye">**[Injury] Devastated eye**</span>: Subtract 1 from this fighter’s Shoot characteristic.|
 |25|<span id="festering-wound">**[Injury] Festering wound**</span>: Subtract 4 from this fighter’s Health characteristic. If this results in a Health characteristic of 0, they die.|
-|26|<span id="nervous-tick">**[Injury] Nervous tick**</span>: Worsen this fighter’s Bravery characteristic by 1.|
+|26|<span id="nervous-tick">**[Injury] Nervous tick**</span>: Add 1 to this fighter’s Bravery characteristic.|
 |31|<span id="stupidity">**[Injury] Stupidity**</span>: Unless activated within 3” of a visible friendly `Hero` or enemy fighter, roll a die. On a 1-4, this fighter makes a Wait action. On a 5+, this fighter may activate as normal.|
 |32|<span id="hallucinations">**[Injury] Hallucinations**</span>: To this fighter, all enemy fighters are `Terrifying`.|
 |33|<span id="claustrophobia">**[Injury] Claustrophobia**</span>: When this fighter is activated or ends a move action underneath a platform, it must pass a Bravery test or become panicked.|

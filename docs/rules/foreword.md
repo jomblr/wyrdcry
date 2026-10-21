@@ -9,7 +9,7 @@ sidebar_position: 0
 
 I’ve spent months debating cover rules, free Youngbloods (not my proudest moment) and balancing game-breaking warbands (The all-dominating Zombie meta was unalived before it began). You started creating your own faction homebrews (some of them meticulously crafted with sharpies and tape) and suddenly, battle reports started trickling in. Pictures of insane table setups, fatalistic injury rolls and smudged warband rosters.
 
-Seeing your own game played in real life is a special special kind of feeling, and I want to express my deepest gratitude to everyone who joined me on that journey. You’ve been the **HEROES** of my warband, and you’re the reason this project is finally setting sail.
+Seeing your own game played in real life is a special kind of feeling, and I want to express my deepest gratitude to everyone who joined me on that journey. You’ve been the **HEROES** of my warband, and you’re the reason this project is finally setting sail.
 
 To the newcomers – Wyrdcry was born out of my life-long obsession with the cursed city of Mordheim. I wanted to re-invigorate my gaming club with a fast and rules-light hack, with less focus on dice and more on the action. A Mordlike where the battles are just as fun as the campaign mechanics.
 

@@ -20,7 +20,7 @@ Once per battle when recruiting a `Hired Sword`, roll a dice. On a 4+, you may r
 A fighter can make this reaction after they have been allocated the total damage points by a melee attack action. This fighter makes a free Retreat action.
 
 ### [Triple] Warcry
-Select each friendly fighter within 6” of this fighter. Those fighters are no longer panicked, and does not have to take Bravery tests until the end of the battleround.
+Select each friendly fighter within 6” of this fighter. Those fighters are no longer panicked, and do not have to take Bravery tests until the end of the battle round.
 
 ### [Quad] Coordinated Assault
 *Legendary ability.* Select 3 friendly `Henchmen` within 6” of this fighter. Each selected fighter makes either a free move action, a free retreat action, or a free attack action.

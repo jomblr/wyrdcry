@@ -8,7 +8,7 @@ title: Victory Conditions
 ## 1: Occupy
 *Taking and holding buildings in this neighbourhood all-but guarantees your warband rich pickings. Unfortunately, your opponent has the same idea.*
 
-Starting with the defender, the players alternate placing 5 objective markers inside 5 different terrain features, at least 6" away from all other objective markers and fighters.
+Starting with the defender, the players alternate placing 5 objective markers inside 5 different terrain pieces, at least 6" away from all other objective markers and fighters.
 
 At the end of the battle, the warband controlling the most objective markers is the winner.
 
@@ -44,7 +44,7 @@ At the end of the battle, if 3 or more wyrdstone tokens are carried by the attac
 
 One wyrdstone token is placed by the defender on the tallest platform within 6" horizontally of the battlefield centre. Then, the players take turns placing 4 more wyrdstone tokens, starting with the attacker. Each of these tokens must be placed on the battlefield floor, within 6” horizontally of the centre of the battlefield, and more than 3” from all other wyrdstone tokens.
 
-At the end of the battle, the warband carrying the most wyrdstone tokens win.
+At the end of the battle, the warband carrying the most wyrdstone tokens wins.
 
 **Reward:** A warband gains 1 wyrdstone shard for each wyrdstone token carried by a friendly fighter at the end of the battle.
 :::

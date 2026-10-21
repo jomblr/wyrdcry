@@ -5,7 +5,7 @@ title: Step 3 - Explore District
 
 # Step 3: Explore District
 ---
-In this step, you may form a search party to explore the district. To do so, select up to 5 fighters that were not taken out of action during the battle and that doesn’t have the `BEAST`or `Thrall` keyword.
+In this step, you may form a search party to explore the district. To do so, select up to 5 fighters that were not taken out of action during the battle and that don’t have the `BEAST` or `Thrall` keyword.
 
 Then, roll a die for each fighter in the search party. This is called an **exploration roll.** Some talents, items and encounters will allow you to re-roll or modify the dice results of an exploration roll. However, you may never change die results of 1.
 
@@ -77,7 +77,7 @@ Roll twice on [the lesser loot table.](../loot-tables.md#lesser-loot-table)
 
 You may dismiss the charlatan, or spend 10 gold coin to buy the concoction. If you do, select a `Hero` in your warband with a lasting **[injury]**, and roll a dice:
 - **On a 1:** Make an injury roll for the fighter, treating results of **Robbed** or **Captured** as a **Flesh wound**.
-- **On a 2-3:** The concoction has no discernable effect
+- **On a 2-3:** The concoction has no discernible effect
 - **On a 4+:** Remove one **[injury]** from the fighter
 :::
 

@@ -33,4 +33,4 @@ In addition to actions, a fighter can use 1 ability during their activation by s
 After each action a fighter makes, the opposing player can make a reaction with one of their fighters.
 
 ## Bravery and Panic
-As fighters encounter fear-causing enemies and supernatural phenomenon, they may be forced to take Bravery tests.
+As fighters encounter fear-causing enemies and supernatural phenomena, they may be forced to take Bravery tests.

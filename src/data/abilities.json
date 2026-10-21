@@ -39,7 +39,7 @@
     "name": "Enshrouding Darkness",
     "category": "clan-eshin",
     "ability_type": "triple",
-    "description": "*Magical ability*. Until the end of the battleround, fighters within (X/2)\" of this fighter are not visible to fighters more than 1\" away from them."
+    "description": "*Magical ability*. Until the end of the battle round, fighters within (X/2)\" of this fighter are not visible to fighters more than 1\" away from them."
   },
   {
     "id": "pack-tactics",
@@ -193,7 +193,7 @@
     "name": "Rapid Reload",
     "category": "perception",
     "ability_type": "trait",
-    "description": "At the end of the battleround, you may reload one of this fighter’s weapons with the Reload special rule."
+    "description": "At the end of the battle round, you may reload one of this fighter’s weapons with the Reload special rule."
   },
   {
     "id": "surgical-precision",
@@ -242,7 +242,7 @@
     "name": "Pious",
     "category": "wits",
     "ability_type": "trait",
-    "description": "`Priest` only.Start each battle with one additional Wyrd Dice."
+    "description": "`Priest` only. Start each battle with one additional Wyrd Dice."
   },
   {
     "id": "charismatic",
@@ -284,7 +284,7 @@
     "name": "Warcry",
     "category": "wits",
     "ability_type": "double",
-    "description": "Friendly fighters within 6\" of this fighter are no longer panicked, and do not have to take Bravery tests until the end of the battleround."
+    "description": "Friendly fighters within 6\" of this fighter are no longer panicked, and do not have to take Bravery tests until the end of the battle round."
   },
   {
     "id": "strategize",
@@ -298,7 +298,7 @@
     "name": "Driven by Greed",
     "category": "mercenaries",
     "ability_type": "double",
-    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a wyrdstone token. Add 1 to the Fight and Attacks characteristic of this fighter’s next melee attack action."
+    "description": "A fighter can only use this ability if it is carrying, or is within 1” of a wyrdstone token. Add 1 to the Fight and Attacks characteristics of this fighter’s next melee attack action."
   },
   {
     "id": "hunters-eye",
@@ -326,7 +326,7 @@
     "name": "Give Order",
     "category": "mercenaries",
     "ability_type": "triple",
-    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may add 1 to their Fight or Shoot characteristic when attacking a target within 2\" of that token.\n- **Hold**: Until the end of the battleround, subtract 1 from the Bravery characteristic of friendly fighters within 2\" of that token."
+    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battle round, friendly fighters may add 1 to their Fight or Shoot characteristic when attacking a target within 2\" of that token.\n- **Hold**: Until the end of the battle round, subtract 1 from the Bravery characteristic of friendly fighters within 2\" of that token."
   },
   {
     "id": "condemn",
@@ -466,7 +466,7 @@
     "name": "Chilling Howl",
     "category": "undead",
     "ability_type": "double",
-    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battleround, those fighters cannot make reactions."
+    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battle round, those fighters cannot make reactions."
   },
   {
     "id": "whack",
@@ -508,7 +508,7 @@
     "name": "Heckle",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "Select (X/2) enemy fighters that is within 6\" of this fighter. Until the end of the battle round, when making attack actions, those fighters must reduce their Fight and Shoot characteristics by 3, unless those attack actions target this fighter."
+    "description": "Select (X/2) enemy fighters that are within 6\" of this fighter. Until the end of the battle round, when making attack actions, those fighters must reduce their Fight and Shoot characteristics by 3, unless those attack actions target this fighter."
   },
   {
     "id": "snatch",
@@ -522,7 +522,7 @@
     "name": "Wither",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "*Magical ability*. Select a visible enemy fighter within 12” of this fighter. That fighter must reduce its Move, Fight and Shoot characteristic by (X/2) until the end of the battle round."
+    "description": "*Magical ability*. Select a visible enemy fighter within 12” of this fighter. That fighter must reduce its Move, Fight and Shoot characteristics by (X/2) until the end of the battle round."
   },
   {
     "id": "flight-of-zimmerman",
@@ -592,7 +592,7 @@
     "name": "Raise Dead",
     "category": "hired-sword",
     "ability_type": "double",
-    "description": "Set up a new Zombie wholly within 3\" of this fighter, on a platform or the battlefield floor. That Zombie is considered to be a friendly fighter, and can be activated as normal in this battleround. It has (X) damage points remaining. Raised Zombies are not added to the warband roster and crumble to dust at the end of the battle."
+    "description": "Set up a new Zombie wholly within 3\" of this fighter, on a platform or the battlefield floor. That Zombie is considered to be a friendly fighter, and can be activated as normal in this battle round. It has (X) damage points remaining. Raised Zombies are not added to the warband roster and crumble to dust at the end of the battle."
   },
   {
     "id": "transference",
@@ -662,7 +662,7 @@
     "name": "Doom",
     "category": "sisters-of-sigmar",
     "ability_type": "double",
-    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battleround, those fighters cannot make reactions."
+    "description": "Select each enemy fighter within 6” of this fighter. Until the end of the battle round, those fighters cannot make reactions."
   },
   {
     "id": "running-death",
@@ -690,7 +690,7 @@
     "name": "Unerring aim",
     "category": "hired-sword",
     "ability_type": "trait",
-    "description": "Once per battleround, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
+    "description": "Once per battle round, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
   },
   {
     "id": "anointed",

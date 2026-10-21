@@ -5,11 +5,11 @@ title: The Trading Post
 trading_post: true
 ---
 # The Trading Post
-The Trading Post offer warbands special equipment apart from that in their faction entry, and can be visited during the [Manage Warbands](the-aftermath-sequence/manage-warband.md) step of the Aftermath Sequence. The items at the Trading Post are available to all factions, and can be purchased freely by both `HENCHMEN` and `HEROES` (although they can only equip one of each item).
+The Trading Post offers warbands special equipment apart from that in their faction entry, and can be visited during the [Manage Warbands](the-aftermath-sequence/manage-warband.md) step of the Aftermath Sequence. The items at the Trading Post are available to all factions, and can be purchased freely by both `HENCHMEN` and `HEROES` (although they can only equip one of each item).
 
 ### Rare Items
 
-**Rare items** (symbolized with a crow’s skull <Crow />) are hard to find and usually requires knowing the right person or carrying a big purse (usually both). All other items are considered to be **common.**
+**Rare items** (symbolized with a crow’s skull <Crow />) are hard to find and usually require knowing the right person or carrying a big purse (usually both). All other items are considered to be **common.**
 
 To find a rare item, you must make a **rarity roll**: first select a `Hero` and declare what rare item they are looking for, and then roll a dice:
 - On a 6+, the `Hero` has successfully found the item and may buy it for the listed gold cost. If the item is listed as Single Use, roll a d3 to see how many items are available.

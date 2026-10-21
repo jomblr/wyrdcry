@@ -11,7 +11,7 @@ The channel magic action can be used by a `Wizard` to generate or upgrade abilit
 
 Then, you must roll 2d6 and consult the [Magical Calamity](#magical-calamity) table below. 
 
-A `Wizard` can make this action multiple times for the same ability dice (e.g., a **[Double]** can first be upgraded to a **[Triple]**, and then have it’s value increased).
+A `Wizard` can make this action multiple times for the same ability dice (e.g., a **[Double]** can first be upgraded to a **[Triple]**, and then have its value increased).
 
 Channeled ability dice must be used for a *magical ability* during the `Wizard`’s activation. They cannot be used for other abilities or saved for another fighter, and are discarded if unused.
 
