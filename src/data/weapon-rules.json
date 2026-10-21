@@ -103,13 +103,6 @@
     "cost": 10
   },
   {
-    "id": "point-blank",
-    "name": "Point Blank",
-    "description": "This weapon may be used for melee attack actions. Subtract 1 from the bearer’s Shoot characteristic and use it instead of their Fight characteristic when making hit rolls.",
-    "effect": null,
-    "cost": 0
-  },
-  {
     "id": "brutal",
     "name": "Brutal",
     "description": "Melee attack actions made with this weapon ignore the Parry weapon rule.",

@@ -48,7 +48,7 @@ Heroic Talents are traits, reactions and abilities that Heroes can learn once th
 - [Perception](../Talents/4-perception-talents.md)
 - [Wits](../Talents/5-wits-talents.md)
 
-Each talent can only be selected once, and a fighter can never have heroic talents from more than two different talent groups. A fighter can never have more than five heroic talents.
+A fighter can never have heroic talents from more than two different talent groups.
 
 ### Legendary Abilities
 Each talent group has a ***legendary ability*** that a fighter can select once they have earned 5 levels of renown. Legendary abilities are unique, and no two fighters in the same warband can have the same legendary ability.

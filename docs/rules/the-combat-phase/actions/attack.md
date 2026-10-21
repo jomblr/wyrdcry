@@ -88,12 +88,12 @@ When making a ranged attack action, if the target is in cover, subtract 1 from t
 When making a ranged attack action, if the target is more than 12" away, subtract 1 from the Shoot characteristic of the attacking fighter.
 
 #### Threatened
-When making a ranged attack action, if there are any visible enemy fighters within 6" of the attacking fighter, the attacking fighter is **threatened**. Unless one of those enemy fighters is selected as the target, subtract 2 from the Shoot characteristic of the attacking fighter.
+When making a ranged attack action, if there are any visible enemy fighters within 6" of the attacking fighter that are not within 1" of a friendly fighter, the attacking fighter is **threatened**. Unless one of those enemy fighters is selected as the target, subtract 2 from the Shoot characteristic of the attacking fighter.
 :::
 
 ## Step 3: Allocate Damage
 ---
-To determine how much damage the target suffers, follow these steps:
+To determine how much damage is allocated to the target, follow these steps:
 
 - Total up the damage from the hit rolls. For each hit, add the weapon's **hit damage** to the total. For each critical hit, add the weapon's **critical damage** instead.
 - Then, reduce the total by the target's Armour characteristic.

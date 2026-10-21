@@ -45,8 +45,8 @@ Any gold coin not spent on fighters and equipment are stored in the **warband st
 ### Renown
 Your `Leader` starts the campaign with 1 point of renown and may immediately select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's fighter's experience and notoriety prior to arriving in the cursed city.
 
-### Favor & Standing
-Each warband has a faction standing that represents the relationship between the warband and their faction. The process of earning favour and rising in standing is explained in detail in the aftermath sequence. For now, set your warband’s favour to 0 and its standing to **'Disposable'.**
+### Favour & Standing
+Each warband has a faction standing that represents the relationship between the warband and their faction. The process of earning favour and rising in standing is explained in detail in the aftermath sequence. For now, set your warband’s favour to 0 and their standing to **'Disposable'.**
 
 ### Calculate Reputation
 Reputation is an indication of how powerful and notorious a warband is, and is primarily used for bragging rights and underdog bonuses. Reputation equals your warband’s current favour score plus the total renown of all fighters in the warband.

@@ -151,7 +151,7 @@ Select a fighter from the search party and roll 4d6.
 
 :::encounter
 ### 5555: Slaughtered Warband
-*Whatever hit them struck fast and without mercy. Bodies have been flung and crushed and armor torn like paper. There are no signs of the attacker.*
+*Whatever hit them struck fast and without mercy. Bodies have been flung and crushed and armour torn like paper. There are no signs of the attacker.*
 
 Roll twice on [the lesser loot table](../loot-tables.md#lesser-loot-table), and once on [the greater loot table.](../loot-tables.md#greater-loot-table)
 :::

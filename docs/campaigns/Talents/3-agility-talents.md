@@ -11,10 +11,7 @@ This fighter can end Retreat actions within 1” of enemy fighters.
 Once per battle round, this fighter can make the ’Counter’ reaction without having to forfeit an action to do so.
 
 ### [Trait] Infiltrator
-When this fighter is deployed on the battlefield, it may immediately make a free move action, as long as it ends that move action more than 6" from enemy fighters.
-
-### [Trait] Opportunist
-When this fighter makes melee attack actions against a target that is flanked, its weapons gain the **Piercing 1** weapon rule.
+When this fighter is deployed to the battlefield, it may immediately make a free move action, as long as it ends that move action more than 6" from enemy fighters.
 
 ### [Trait] Stealthy
 When this fighter is targeted by a ranged attack action, it is considered to be in cover if it is more than 6" away from the attacking fighter.

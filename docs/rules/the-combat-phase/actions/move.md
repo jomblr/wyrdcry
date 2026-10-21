@@ -28,7 +28,7 @@ If a fighter jumps further than half their Move characteristic (rounding up), th
 A fighter automatically falls if they drop more than 2" vertically or end a Move action while jumping.
 
 ## Falling
-When a fighter falls, the opposing player selects a reasonable position beneath them where they land. Allocate D3 damage points to the fighter for every full 2" they fell.
+When a fighter falls, the opposing player selects a reasonable position beneath them where they land (don't be a dick!). Allocate D3 damage points to the fighter for every full 2" they fell.
 
 ## Flying
 Some rules allow a fighter to fly during a Move action. Count only the horizontal distance moved, not the distance moved vertically. A flying fighter can pass over terrain pieces and other fighters, but cannot end a Move action while flying.

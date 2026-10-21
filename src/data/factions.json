@@ -23,7 +23,8 @@
       "weeping-blades": "hero",
       "flail": "all",
       "weeping-blade": "hero",
-      "item:smoke-bomb": "all"
+      "item:smoke-bomb": "all",
+      "throwing-dagger": "all"
     }
   },
   {
@@ -80,9 +81,9 @@
       "great-weapon": "all",
       "warhammer": "all",
       "blunderbuss": "all",
-      "thief-throwing-dagger": "all",
       "morning-star": "all",
-      "mace": "all"
+      "thief-throwing-dagger": "all",
+      "throwing-dagger": "all"
     }
   },
   {
@@ -107,8 +108,7 @@
       "item:heavy-armour": "hero",
       "item:light-armour": "all",
       "item:shield": "all",
-      "morning-star": "all",
-      "mace": "all"
+      "morning-star": "all"
     }
   },
   {
@@ -135,8 +135,7 @@
       "pistol": "hero",
       "item:light-armour": "all",
       "item:shield": "all",
-      "morning-star": "all",
-      "mace": "all"
+      "morning-star": "all"
     }
   },
   {
@@ -162,8 +161,7 @@
       "item:light-armour": "hero",
       "item:shield": "hero",
       "flail": "hero",
-      "morning-star": "all",
-      "mace": "hero"
+      "morning-star": "hero"
     }
   },
   {

@@ -23,11 +23,10 @@
     "crit": 3,
     "special_rules": [
       "blast",
-      "one-use",
-      "point-blank"
+      "one-use"
     ],
-    "power_level": 15,
-    "cost": 20
+    "power_level": 10,
+    "cost": 30
   },
   {
     "id": "bow",
@@ -58,7 +57,7 @@
     "name": "Crossbow",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-24",
+    "range": "1-18",
     "attacks": 2,
     "hit": 3,
     "crit": 5,
@@ -66,8 +65,8 @@
       "reload",
       "pierce-1"
     ],
-    "power_level": 0,
-    "cost": null
+    "power_level": 5,
+    "cost": 30
   },
   {
     "id": "crossbow-pistol",
@@ -77,30 +76,15 @@
     "range": 6,
     "attacks": 2,
     "hit": 3,
-    "crit": 5,
+    "crit": 4,
     "special_rules": [
       "reload",
       "brace",
       "pierce-1",
       "point-blank"
     ],
-    "power_level": 0,
-    "cost": 15
-  },
-  {
-    "id": "daemon-great-claw",
-    "name": "Daemon-Great-Claw",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 1,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [
-      "pierce-2"
-    ],
-    "power_level": 0,
-    "cost": 15
+    "power_level": 10,
+    "cost": 20
   },
   {
     "id": "possessed-daemonic-appendage",
@@ -140,6 +124,22 @@
     "special_rules": [],
     "power_level": 0,
     "cost": 25
+  },
+  {
+    "id": "troll-slayer-axes",
+    "name": "Dwarven Axes",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 4,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "parry",
+      "pierce-1"
+    ],
+    "power_level": 0,
+    "cost": 35
   },
   {
     "id": "elf-ranger-bow",
@@ -184,8 +184,8 @@
       "two-handed",
       "cumbersome"
     ],
-    "power_level": 10,
-    "cost": 15
+    "power_level": 5,
+    "cost": 20
   },
   {
     "id": "great-weapon",
@@ -202,7 +202,7 @@
       "brutal"
     ],
     "power_level": 5,
-    "cost": 35
+    "cost": 40
   },
   {
     "id": "great-weapon-alt",
@@ -232,15 +232,15 @@
     "special_rules": [
       "two-handed"
     ],
-    "power_level": 0,
-    "cost": 15
+    "power_level": 5,
+    "cost": 20
   },
   {
     "id": "handgun",
     "name": "Handgun",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-24",
+    "range": "1-18",
     "attacks": 2,
     "hit": 4,
     "crit": 6,
@@ -249,8 +249,8 @@
       "unreliable",
       "pierce-2"
     ],
-    "power_level": 0,
-    "cost": null
+    "power_level": 10,
+    "cost": 50
   },
   {
     "id": "zombie-infectious-bite",
@@ -281,6 +281,21 @@
     "cost": 30
   },
   {
+    "id": "morning-star",
+    "name": "Morning Star",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [
+      "pierce-1"
+    ],
+    "power_level": 0,
+    "cost": 15
+  },
+  {
     "id": "ogre-weapon",
     "name": "Ogre Weapon",
     "type": "melee",
@@ -309,10 +324,9 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2",
-      "point-blank"
+      "pierce-2"
     ],
-    "power_level": -5,
+    "power_level": 0,
     "cost": 30
   },
   {
@@ -382,7 +396,7 @@
       "blessed",
       "pierce-2"
     ],
-    "power_level": -5,
+    "power_level": 0,
     "cost": 30
   },
   {
@@ -408,8 +422,8 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "power_level": -5,
-    "cost": 10
+    "power_level": 0,
+    "cost": 15
   },
   {
     "id": "staff",
@@ -436,7 +450,7 @@
     "special_rules": [
       "whipcrack"
     ],
-    "power_level": -5,
+    "power_level": 0,
     "cost": 15
   },
   {
@@ -455,17 +469,17 @@
     "cost": 15
   },
   {
-    "id": "thief-throwing-dagger",
+    "id": "throwing-dagger",
     "name": "Throwing Dagger",
     "type": "ranged",
-    "exclusive": "yes",
+    "exclusive": "no",
     "range": 6,
     "attacks": 2,
-    "hit": 1,
+    "hit": 2,
     "crit": 3,
     "special_rules": [],
-    "power_level": 0,
-    "cost": 0
+    "power_level": 5,
+    "cost": 5
   },
   {
     "id": "throwing-stars",
@@ -474,11 +488,13 @@
     "exclusive": "no",
     "range": 6,
     "attacks": 2,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [],
-    "power_level": 0,
-    "cost": 5
+    "hit": 1,
+    "crit": 3,
+    "special_rules": [
+      "Poisoned"
+    ],
+    "power_level": 20,
+    "cost": 20
   },
   {
     "id": "troll-slayer-thrown-axe",
@@ -494,23 +510,7 @@
       "pierce-1"
     ],
     "power_level": 0,
-    "cost": null
-  },
-  {
-    "id": "troll-slayer-axes",
-    "name": "Dwarven Axes",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 4,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [
-      "parry",
-      "pierce-1"
-    ],
-    "power_level": 0,
-    "cost": 35
+    "cost": 5
   },
   {
     "id": "unarmed",
@@ -566,24 +566,10 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2",
-      "point-blank"
+      "pierce-2"
     ],
     "power_level": 0,
     "cost": 35
-  },
-  {
-    "id": "weird-bow",
-    "name": "Weird bow",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 4,
-    "hit": 1,
-    "crit": 2,
-    "special_rules": [],
-    "power_level": 0,
-    "cost": 5
   },
   {
     "id": "weeping-blade",
@@ -599,37 +585,7 @@
       "pierce-1",
       "Poisoned"
     ],
-    "power_level": 5,
+    "power_level": 0,
     "cost": 35
-  },
-  {
-    "id": "morning-star",
-    "name": "Morning Star",
-    "type": "melee",
-    "exclusive": "no",
-    "range": 1,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
-    "special_rules": [
-      "pierce-1"
-    ],
-    "power_level": 0,
-    "cost": 15
-  },
-  {
-    "id": "mace",
-    "name": "Mace",
-    "type": "melee",
-    "exclusive": "no",
-    "range": 1,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
-    "special_rules": [
-      "pierce-1"
-    ],
-    "power_level": 0,
-    "cost": 15
   }
 ]

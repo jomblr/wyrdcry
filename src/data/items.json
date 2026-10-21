@@ -147,8 +147,9 @@
     "type": "armour",
     "description": "Increase the bearer's Fight characteristic by 1 when targeted by a melee attack action. When targeted by a ranged attack action, the bearer is considered to be in cover.",
     "effect": null,
-    "cost": 15,
-    "rare": false
+    "cost": 20,
+    "rare": false,
+    "faction": null
   },
   {
     "id": "smoke-bomb",

@@ -63,10 +63,10 @@
     "fight": 4,
     "shoot": 3,
     "defense": 0,
-    "health": 14,
+    "health": 12,
     "bravery": 5,
     "power_level": -10,
-    "cost": 100,
+    "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
@@ -88,10 +88,10 @@
     "fight": 3,
     "shoot": 3,
     "defense": 0,
-    "health": 12,
+    "health": 10,
     "bravery": 5,
     "power_level": 15,
-    "cost": 110,
+    "cost": 100,
     "ability_preamble": "When recruiting an Eshin Sorcerer, you must select one of the following magical abilities. In addition, the Eshin Sorcerer may select another magical ability instead of selecting a heroic talent.",
     "faction_ability_ids": [
       "skitterleap",
@@ -311,9 +311,9 @@
     "fight": 2,
     "shoot": 2,
     "defense": 0,
-    "health": 12,
+    "health": 10,
     "bravery": 3,
-    "power_level": 15,
+    "power_level": 25,
     "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [
@@ -999,8 +999,9 @@
       "snatch"
     ],
     "default_equipment": [
-      "weapon:thief-shiv-and-club",
-      "weapon:thief-throwing-dagger"
+      "weapon:throwing-dagger",
+      "weapon:club",
+      "weapon:dagger"
     ],
     "race": [
       "HUMAN"

@@ -326,7 +326,7 @@
     "name": "Give Order",
     "category": "mercenaries",
     "ability_type": "triple",
-    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may add 1 to their Fight or Shoot characteristic when attacking a target within 2\" of that token.\n- **Hold**: Until the end of the battleround, add 1 to the Bravery characteristic of friendly fighters within 2\" of that token."
+    "description": "Place an **order token** within 12\" of this fighter and select one of the effects below:\n- **Seize**: Until the end of the battleround, friendly fighters may add 1 to their Fight or Shoot characteristic when attacking a target within 2\" of that token.\n- **Hold**: Until the end of the battleround, subtract 1 from the Bravery characteristic of friendly fighters within 2\" of that token."
   },
   {
     "id": "condemn",
@@ -382,7 +382,7 @@
     "name": "Hammer of Sigmar",
     "category": "sisters-of-sigmar",
     "ability_type": "triple",
-    "description": "Add (X/2) to the damage points allocated to enemy fighters by each hit and critical hit from the next melee attack action made by this fighter in this activation.\n\n"
+    "description": "Until the end of this fighter's activation, add 1 to the Hit Damage and Critical Damage characteristics of their weapon. In addition, the weapon gains the blessed weapon rule."
   },
   {
     "id": "soulfire",

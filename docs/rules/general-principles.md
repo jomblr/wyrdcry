@@ -42,7 +42,7 @@ The game uses inches (") for measuring distances and you are allowed to measure 
 The game uses regular six-sided dice (D6) to determine the outcome of various rules. The most common occurrence is to beat a target number. For example, if a rule requires a dice roll of 3 or more (usually abbreviated to 3+), every result of 3 or more is a success.
 
 :::inverse[]
-And to keep things simple: it is **always better to roll a high result**. A 1 is always bad, and a 6 is always good.
+**And to keep things simple: it is always better to roll a high result. A 1 is always bad, and a 6 is always good.**
 :::
 
 :::info[]
@@ -61,7 +61,7 @@ Sometimes a rule requires the players to **roll-off**. When this is the case, ea
 
 ## Modifiers
 ---
-Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule may decrease the Move characteristic of a fighter by 1, or increase the Attack characteristic of a weapon by 1. These modifiers are always cumulative, but unless a rule says otherwise, they can never reduce a characteristic to less than 1 (or, in the case of Bravery, a 6+).
+Sometimes, a rule will call for the characteristic of a fighter or a weapon to be modified.  For example, a rule may add 1 to the Move characteristic of a fighter, or subtract 1 from the Attack characteristic of a weapon. These modifiers are always cumulative, but unless a rule says otherwise, they can never reduce a characteristic to less than 1 (or, in the case of Bravery, a 6+).
 
 ## Sequencing
 ---
@@ -78,7 +78,7 @@ If you are unsure whether a fighter is visible, stoop down and see if any part o
 There are many ways for a fighter to suffer damage in Wyrdcry, such as being the target of an attack or ability, or falling from a height. Whatever the source, damage is allocated one point at a time.
 
 ### Wounded
-When a fighter has been allocated damage points equal to half their Health characteristic (rounding up), they are considered to be **wounded**. Being wounded does not directly affect a fighter's combat capabilities, but interacts with certain items and talents.
+When a fighter has been allocated damage points equal to half their Health characteristic (rounding up), they are considered to be **wounded**. Being wounded does not directly affect a fighter's combat capabilities, but interacts with certain rules and items.
 
 ### Out of Action
 

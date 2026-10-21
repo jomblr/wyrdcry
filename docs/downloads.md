@@ -11,6 +11,11 @@ title: Downloads
 - [The Campaign Book (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0.pdf)
 - [Warband Roster](https://downloads.wyrdcry.net/WYRDCRY-Warband-Roster.pdf)
 
+### Alternate Versions
+
+- [The Rulebook (1.0, No Background)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0-NOBG.pdf)
+- [The Campaign Book (1.0, No Background)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0-NOBG.pdf)
+
 ## Factions
 ---
 The factions will be getting their own PDF:s **soon™**, until then - please use the wiki
