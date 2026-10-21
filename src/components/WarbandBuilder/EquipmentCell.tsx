@@ -512,7 +512,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
             {renderGroup('Melee',   meleeItems,   meleeOffset)}
             {renderGroup('Ranged',  rangedItems,  rangedOffset)}
             {renderGroup('Armour',  armourItemsFlat, armourOffset)}
-            {renderGroup('Items',   gearItemsFlat, gearOffset)}
+            {renderGroup('Trading Post', gearItemsFlat, gearOffset)}
             {flatList.length === 0 && (
               <div className={styles.dropdownEmpty}>No items available</div>
             )}

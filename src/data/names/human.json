@@ -1,5 +1,6 @@
 {
   "race": "HUMAN",
+  "male_share": 0.8,
   "names": {
     "male": [
       "Dietger",

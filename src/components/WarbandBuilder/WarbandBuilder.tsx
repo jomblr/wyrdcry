@@ -55,7 +55,6 @@ export default function WarbandBuilder() {
     removeFighter,
     duplicateFighter,
     setFighterName,
-    setFighterXp,
     setFighterRenown,
     setFighterStat,
     setFighterNotes,
@@ -227,7 +226,6 @@ export default function WarbandBuilder() {
             <FighterTable
               warband={active}
               onSetFighterName={setFighterName}
-              onSetFighterXp={setFighterXp}
               onSetFighterRenown={setFighterRenown}
               onSetFighterStat={setFighterStat}
               onSetFighterNotes={setFighterNotes}

@@ -5,6 +5,7 @@ import { fightersData } from './data';
 import { compareFightersByCostThenName } from '@site/src/components/wiki/factionUtils';
 import type { FighterInstance } from './useWarband';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
+import { newFighterName } from './names';
 
 interface Props {
   factionId: string | null;
@@ -60,7 +61,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
 
   function handleSelect(fighter: (typeof fightersData)[0]) {
     setOpen(false);
-    onAdd(fighter.id, 'New Fighter');
+    onAdd(fighter.id, newFighterName(fighter, currentFighters.map(f => f.customName)));
   }
 
   useEffect(() => {

@@ -26,6 +26,7 @@ export interface FighterInstance {
   isPending: boolean;
   notes: string;
   costOverride: number | null;
+  /** Unused: XP was dropped from the rules (Renown only). Kept so older saves and imports still match. */
   xp: number;
   renown: number;
   statOverrides: Partial<Record<StatKey, number>>;
@@ -76,7 +77,6 @@ type Action =
   | { type: 'ADD_FIGHTER'; fighter: FighterInstance }
   | { type: 'REMOVE_FIGHTER'; instanceId: string }
   | { type: 'SET_FIGHTER_NAME'; instanceId: string; name: string }
-  | { type: 'SET_FIGHTER_XP'; instanceId: string; xp: number }
   | { type: 'SET_FIGHTER_RENOWN'; instanceId: string; renown: number }
   | { type: 'SET_FIGHTER_EQUIPMENT'; instanceId: string; equipment: string[] }
   | { type: 'SET_FIGHTER_PENDING_EQUIPMENT'; instanceId: string; pendingEquipment: string[] }
@@ -329,19 +329,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
           fighters: state.active.fighters.map(f =>
             f.instanceId === action.instanceId ? { ...f, customName: action.name } : f,
           ),
-        },
-      };
-
-    case 'SET_FIGHTER_XP':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          fighters: state.active.fighters.map(f => {
-            if (f.instanceId !== action.instanceId) return f;
-            if (action.xp > 3) return { ...f, xp: 0, renown: f.renown + 1 };
-            return { ...f, xp: action.xp };
-          }),
         },
       };
 
@@ -648,11 +635,6 @@ export function useWarband() {
     [],
   );
 
-  const setFighterXp = useCallback(
-    (instanceId: string, xp: number) => dispatch({ type: 'SET_FIGHTER_XP', instanceId, xp }),
-    [],
-  );
-
   const setFighterRenown = useCallback(
     (instanceId: string, renown: number) =>
       dispatch({ type: 'SET_FIGHTER_RENOWN', instanceId, renown }),
@@ -801,7 +783,6 @@ export function useWarband() {
     removeFighter,
     duplicateFighter,
     setFighterName,
-    setFighterXp,
     setFighterRenown,
     setFighterStat,
     setFighterNotes,

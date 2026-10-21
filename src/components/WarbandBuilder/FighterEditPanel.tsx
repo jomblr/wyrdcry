@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, itemsData, statLabels, weaponsData } from './data';
-import EquipmentPicker from './EquipmentPicker';
+import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 
@@ -12,7 +12,6 @@ interface Props {
   instance: FighterInstance;
   remainingGold: number;
   onSetName: (name: string) => void;
-  onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
@@ -55,7 +54,7 @@ function PanelStat({ label, value, onChange, suffix = '', step = 1, min = 1, max
 
 export default function FighterEditPanel({
   instance, remainingGold,
-  onSetName, onSetXp, onSetRenown,
+  onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onSendToStash,
   onSetStat, onSetNotes, onSetCostOverride,
@@ -70,11 +69,11 @@ export default function FighterEditPanel({
 
   const isHero = profile.keywords.includes('HERO') || instance.renown >= 4;
   const isWizard = profile.keywords.includes('WIZARD');
-  const isBeast = profile.race.includes('BEAST');
-  const isThrall = profile.race.includes('THRALL');
-  const isDaemon = profile.race.includes('DAEMON');
+  const isBeast = hasTag(profile, 'BEAST');
+  const isThrall = hasTag(profile, 'THRALL');
+  const isDaemon = hasTag(profile, 'DAEMON');
   const noEquipment = isBeast || isThrall || isDaemon;
-  const noXpRenown = isBeast || isThrall;
+  const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
   const allEquipment = instance.isPending
@@ -157,22 +156,13 @@ export default function FighterEditPanel({
           {/* Equipment */}
           <div className={styles.editPanelSection}>
             {noEquipment ? (
-              fixedEquipment.length > 0 ? (
-                <>
-                  <div className={styles.editPanelSectionTitle}>Equipment</div>
-                  <div className={styles.editPanelFixedEquip}>
-                    {fixedEquipment.map((id, idx) => (
-                      <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
-                        {weaponsData.find(w => w.id === id)?.name ?? id}
-                      </span>
-                    ))}
-                  </div>
-                </>
-              ) : null
+              // Beasts, thralls and daemons can't buy equipment: just show what they're born with.
+              <NaturalWeapons weaponIds={fixedEquipment} />
             ) : (
               <EquipmentPicker
                 allEquipment={allEquipment}
                 fixedEquipment={fixedEquipment}
+                purchasedEquipment={instance.isPending ? [] : instance.equipment}
                 factionId={profile.faction}
                 isHero={isHero}
                 isWizard={isWizard}
@@ -194,6 +184,10 @@ export default function FighterEditPanel({
                     onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== pendingIdx));
                   }
                 }}
+                onStash={id => {
+                  const idx = instance.equipment.lastIndexOf(id);
+                  if (idx !== -1) onSendToStash(idx);
+                }}
               />
             )}
           </div>
@@ -204,12 +198,11 @@ export default function FighterEditPanel({
             <SpecialRulesCell notes={instance.notes ?? ''} onChange={onSetNotes} />
           </div>
 
-          {/* XP / Renown */}
-          {!noXpRenown && (
+          {/* Renown */}
+          {!noRenown && (
             <div className={styles.editPanelSection}>
               <div className={styles.editPanelSectionTitle}>Progress</div>
               <div className={styles.editPanelProgressRow}>
-                <PanelStat label="XP" value={instance.xp} min={0} onChange={onSetXp} />
                 <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />
               </div>
             </div>
