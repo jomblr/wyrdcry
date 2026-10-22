@@ -69,8 +69,10 @@
 }
 
 .logotype {
-  max-width: min(200px, 20vh);
-  width: 100%;
+  /* An explicit width, not max-width + 100%: the SVG has only a viewBox (no intrinsic size),
+   * and inside this shrink-to-fit column Firefox resolved "100%" to a tiny fallback width. */
+  width: min(200px, 20vh);
+  max-width: 100%;
   height: auto;
   display: block;
   margin-top: 0;
@@ -185,7 +187,7 @@
   }
 
   .logotype {
-    max-width: min(160px, 18vh);
+    width: min(160px, 18vh);
   }
 
   .buttons {
