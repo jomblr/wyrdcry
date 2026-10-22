@@ -232,8 +232,8 @@
     "special_rules": [
       "two-handed"
     ],
-    "power_level": 5,
-    "cost": 20
+    "power_level": 0,
+    "cost": 15
   },
   {
     "id": "handgun",
@@ -421,9 +421,11 @@
     "attacks": 3,
     "hit": 2,
     "crit": 3,
-    "special_rules": [],
+    "special_rules": [
+      "two-handed"
+    ],
     "power_level": 0,
-    "cost": 15
+    "cost": 10
   },
   {
     "id": "staff",
