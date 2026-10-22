@@ -7,13 +7,13 @@ title: Downloads
 ## Core Rules
 ---
 
-- [The Rulebook (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0.pdf)
+- [The Rulebook (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0-1.pdf)
 - [The Campaign Book (1.0)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0.pdf)
 - [Warband Roster](https://downloads.wyrdcry.net/WYRDCRY-Warband-Roster.pdf)
 
 ### Alternate Versions
 
-- [The Rulebook (1.0, No Background)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0-NOBG.pdf)
+- [The Rulebook (1.0, No Background)](https://downloads.wyrdcry.net/WYRDCRY-Rulebook-1-0-1-NOBG.pdf)
 - [The Campaign Book (1.0, No Background)](https://downloads.wyrdcry.net/WYRDCRY-Campaign-Book-1-0-NOBG.pdf)
 
 ## Factions
