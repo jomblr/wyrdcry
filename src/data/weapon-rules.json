@@ -119,7 +119,7 @@
   {
     "id": "point-blank",
     "name": "Point Blank",
-    "description": "This ranged weapon may be used for melee\nattack actions. Use the bearer’s Fight characteristic for the hit rolls.",
+    "description": "This ranged weapon may be used for melee\nattack actions: set the weapon's Range characteristic to 1\" and use the bearer’s Fight characteristic for the hit rolls.",
     "effect": null,
     "cost": 0
   }

@@ -40,7 +40,7 @@ If your `Leader` dies or is removed from the warband for any other reason, you m
 |31|<span id="stupidity">**[Injury] Stupidity**</span>: Unless activated within 3” of a visible friendly `Hero` or enemy fighter, roll a die. On a 1-4, this fighter makes a Wait action. On a 5+, this fighter may activate as normal.|
 |32|<span id="hallucinations">**[Injury] Hallucinations**</span>: To this fighter, all enemy fighters are `Terrifying`.|
 |33|<span id="claustrophobia">**[Injury] Claustrophobia**</span>: When this fighter is activated or ends a move action underneath a platform, it must pass a Bravery test or become panicked.|
-|34|<span id="amnesia">**[Injury] Alcoholic**</span>: This fighter cannot make reactions.|
+|34|<span id="alcoholic">**[Injury] Alcoholic**</span>: This fighter cannot make reactions.|
 |35|<span id="sticky-fingers">**[Injury] Sticky Fingers**</span>: Before collecting income in the aftermath sequence, roll a dice. On a 1-3, reduce the amount of Wyrdstone Shards delivered to your faction by 1 (to a minimum of 0).|
 |36|<span id="paranoia">**[Injury] Paranoia**</span>: This fighter counts as panicked while within 1” of friendly fighters.|
 |41-56|<span id="flesh-wound">**Flesh wound**</span>: The fighter suffers no lasting effects.|
