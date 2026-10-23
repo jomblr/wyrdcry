@@ -78,13 +78,6 @@
   margin-top: 0;
 }
 
-.version {
-  margin-top: -2.4rem;
-  font-family: var(--wyrd-font-body);
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #fff;
-}
 
 /* Gothicus only ships a Regular weight — keep 400 so browsers don't fake-bold it. */
 .headline {

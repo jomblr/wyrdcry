@@ -10,7 +10,7 @@ import styles from './index.module.css';
 
 const DISCORD_INVITE = 'https://discord.gg/U6mTMfx29E';
 
-/** Full-viewport hero: logotype + version, Gothicus headline, two CTAs, Discord link. Shown at `/`. */
+/** Full-viewport hero: logotype, Gothicus headline, two CTAs, Discord link. Shown at `/`. */
 function HomepageHeader() {
   const bgUrl = useBaseUrl('img/background-variant.webp');
   return (
@@ -29,7 +29,6 @@ function HomepageHeader() {
             alt="Wyrdcry"
             className={styles.logotype}
           />
-          <div className={styles.version}>1.0</div>
         </div>
         {/* Logo stays at the top; headline, buttons and Discord centre in the space below. */}
         <div className={styles.heroMain}>

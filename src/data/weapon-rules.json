@@ -108,5 +108,19 @@
     "description": "Melee attack actions made with this weapon ignore the Parry weapon rule.",
     "effect": null,
     "cost": 5
+  },
+  {
+    "id": "unwieldy",
+    "name": "Unwieldy",
+    "description": "The bearer cannot use this weapon as part of a dual wielding attack, either as the main hand or the off-hand weapon.",
+    "effect": null,
+    "cost": -5
+  },
+  {
+    "id": "point-blank",
+    "name": "Point Blank",
+    "description": "This ranged weapon may be used for melee\nattack actions. Use the bearer’s Fight characteristic for the hit rolls.",
+    "effect": null,
+    "cost": 0
   }
 ]

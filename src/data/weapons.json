@@ -23,7 +23,8 @@
     "crit": 3,
     "special_rules": [
       "blast",
-      "one-use"
+      "one-use",
+      "point-blank"
     ],
     "power_level": 10,
     "cost": 30
@@ -33,7 +34,7 @@
     "name": "Bow",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-18",
+    "range": 18,
     "attacks": 2,
     "hit": 2,
     "crit": 3,
@@ -57,7 +58,7 @@
     "name": "Crossbow",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-18",
+    "range": 18,
     "attacks": 2,
     "hit": 3,
     "crit": 5,
@@ -146,7 +147,7 @@
     "name": "Elven bow",
     "type": "ranged",
     "exclusive": "yes",
-    "range": "1-18",
+    "range": 18,
     "attacks": 2,
     "hit": 2,
     "crit": 4,
@@ -240,7 +241,7 @@
     "name": "Handgun",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-18",
+    "range": 18,
     "attacks": 2,
     "hit": 4,
     "crit": 6,
@@ -324,7 +325,8 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2"
+      "pierce-2",
+      "point-blank"
     ],
     "power_level": 0,
     "cost": 30
@@ -404,7 +406,7 @@
     "name": "Sling",
     "type": "ranged",
     "exclusive": "no",
-    "range": "1-12",
+    "range": 12,
     "attacks": 2,
     "hit": 2,
     "crit": 3,
@@ -422,7 +424,7 @@
     "hit": 2,
     "crit": 3,
     "special_rules": [
-      "two-handed"
+      "unwieldy"
     ],
     "power_level": 0,
     "cost": 10
@@ -568,7 +570,8 @@
       "reload",
       "unreliable",
       "brace",
-      "pierce-2"
+      "pierce-2",
+      "point-blank"
     ],
     "power_level": 0,
     "cost": 35
