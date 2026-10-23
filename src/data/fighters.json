@@ -985,17 +985,16 @@
     "name": "Thief",
     "description": "Thieves have always lurked in the cities of the Old World. Where once they picked pockets and slipped into townhouses, they are now prized for their knack for striking fast and vanishing before anyone can give chase.",
     "move": 6,
-    "fight": 3,
-    "shoot": 4,
+    "fight": 2,
+    "shoot": 3,
     "defense": 0,
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 40,
+    "cost": 35,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wall-runner",
-      "fall-back",
       "snatch"
     ],
     "default_equipment": [
