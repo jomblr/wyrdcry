@@ -1523,12 +1523,6 @@
   color: var(--wyrd-text3);
 }
 
-.fighterCardNameEmpty {
-  color: var(--wyrd-text3);
-  font-style: italic;
-  font-weight: 400;
-}
-
 .fighterCardEquipList {
   display: flex;
   flex-wrap: wrap;
@@ -2413,4 +2407,25 @@ button.fighterCardTag {
 /* Dropdowns opened from inside a sheet sit above its overlay */
 .dropdownAboveSheet {
   z-index: 1100;
+}
+
+/* Doubled class beats the site-wide input font rule */
+.fighterCardName.fighterCardNameInput {
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.fighterCardNameInput {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: inherit;
+}
+
+.fighterCardNameInput::placeholder {
+  color: var(--wyrd-text3);
 }

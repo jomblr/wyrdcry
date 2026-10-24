@@ -237,9 +237,14 @@ export default function FighterCard({
           {instance.customName !== profile.name && (
             <span className={styles.fighterCardType}>{profile.name}</span>
           )}
-          <span className={styles.fighterCardName}>
-            {instance.customName || <span className={styles.fighterCardNameEmpty}>Unnamed</span>}
-          </span>
+          {/* Tap to rename, like the warband name */}
+          <input
+            className={`${styles.fighterCardName} ${styles.fighterCardNameInput}`}
+            value={instance.customName}
+            onChange={e => onSetName(e.target.value)}
+            placeholder="Unnamed"
+            aria-label="Fighter name"
+          />
         </div>
         <div className={styles.fighterCardMeta}>
           {!noRenown && <span>{instance.renown} Renown</span>}
