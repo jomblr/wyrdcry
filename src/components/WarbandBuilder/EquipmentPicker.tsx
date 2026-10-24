@@ -46,6 +46,8 @@ interface Props {
   onRemoveLast: (id: string) => void;
   /** Send one purchased copy of this item to the warband stash */
   onStash: (id: string) => void;
+  /** Sell one purchased copy of this item */
+  onSell: (id: string) => void;
   /** Items in the warband stash this fighter can take for free (purchased fighters only). */
   stash?: string[];
   onTakeFromStash?: (id: string) => void;
@@ -87,32 +89,20 @@ function InfoName({ id, name, natural }: { id: string; name: string; natural?: b
   );
 }
 
-function EquipRow({ id, name, cost, qty, addDisabled, onAdd, onRemove, onStash, fromStash }: {
-  id: string; name: string; cost: number; qty: number;
-  /** A copy is in the stash: + takes it for free instead of buying */
+/** Catalogue row: name, price and Add (or Take from stash). */
+function EquipRow({ id, name, cost, addDisabled, onAdd, fromStash }: {
+  id: string; name: string; cost: number;
+  /** A copy is in the stash: the button takes it for free instead of buying */
   fromStash?: boolean;
-  addDisabled: boolean; onAdd: () => void; onRemove: () => void;
-  /** Set for purchased equipment: replaces the stepper with a Stash button */
-  onStash?: () => void;
+  addDisabled: boolean; onAdd: () => void;
 }) {
   return (
-    <div className={`${styles.equipRow} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
-      <span className={styles.equipPickerName}>
-        <InfoName id={id} name={name} />
-        {fromStash && <span className={styles.equipFromStash}>Take from stash</span>}
-      </span>
+    <div className={`${styles.equipRow} ${addDisabled ? styles.equipPickerRowDisabled : ''}`}>
+      <span className={styles.equipPickerName}><InfoName id={id} name={name} /></span>
       <span className={styles.equipPickerCost}>{fromStash ? <s>{cost}gc</s> : `${cost}gc`}</span>
-      {onStash ? (
-        <button type="button" className={`${styles.panelStatControl} ${styles.equipStepper} ${styles.equipStashBtn}`} onClick={onStash}>
-          Stash
-        </button>
-      ) : (
-        <div className={`${styles.panelStatControl} ${styles.equipStepper}`}>
-          <button type="button" className={styles.panelStatBtn} onClick={onRemove} disabled={qty === 0}>−</button>
-          <span className={styles.panelStatValue}>{qty}</span>
-          <button type="button" className={styles.panelStatBtn} onClick={onAdd} disabled={addDisabled}>+</button>
-        </div>
-      )}
+      <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={onAdd} disabled={addDisabled}>
+        {fromStash ? 'Take from stash' : 'Add'}
+      </button>
     </div>
   );
 }
@@ -135,8 +125,15 @@ export function NaturalWeapons({ weaponIds }: { weaponIds: string[] }) {
   );
 }
 
+function nameOf(id: string): string {
+  return weaponsData.find(w => w.id === id)?.name ?? itemsData.find(i => i.id === id)?.name ?? id;
+}
+function costOf(id: string): number {
+  return weaponsData.find(w => w.id === id)?.cost ?? itemsData.find(i => i.id === id)?.cost ?? 0;
+}
+
 export default function EquipmentPicker({
-  allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash,
+  allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash, onSell,
   stash = [], onTakeFromStash,
 }: Props) {
   function inStash(id: string) { return !!onTakeFromStash && stash.includes(id); }
@@ -163,12 +160,6 @@ export default function EquipmentPicker({
     return rule === 'hero' ? isHero : true;
   }
 
-  function editableQty(id: string) { return allEquipment.filter(x => x === id).length; }
-  /** Stash button once a weapon is purchased; while a copy is still pending, keep the stepper so it can be undone. */
-  function stashHandler(id: string): (() => void) | undefined {
-    const purchased = purchasedEquipment.filter(x => x === id).length;
-    return purchased > 0 && purchased === editableQty(id) ? () => onStash(id) : undefined;
-  }
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
   function canAddMelee(w: (typeof weaponsData)[0]): boolean {
@@ -211,6 +202,38 @@ export default function EquipmentPicker({
 
   return (
     <div className={styles.equipPicker}>
+      <div>
+        <SectionHead title="Current equipment" />
+        {fixedEquipment.length === 0 && allEquipment.length === 0 && (
+          <div className={styles.equipEmpty}>No equipment yet</div>
+        )}
+        {fixedEquipment.map((id, i) => (
+          <div key={`fixed-${id}-${i}`} className={styles.equipRow}>
+            <span className={styles.equipPickerName}><InfoName id={id} name={nameOf(id)} /></span>
+          </div>
+        ))}
+        {allEquipment.map((id, i) => {
+          // Purchased copies come first in allEquipment; the rest are added but not yet bought.
+          const purchased = i < purchasedEquipment.length;
+          return (
+            <div key={`cur-${id}-${i}`} className={styles.equipRow}>
+              <span className={styles.equipPickerName}>
+                <InfoName id={id} name={nameOf(id)} />
+                {!purchased && <span className={styles.equipNotBought}>Not purchased · {costOf(id)}gc</span>}
+              </span>
+              {purchased ? (
+                <span className={styles.equipActions}>
+                  <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={() => onStash(id)}>Stash</button>
+                  <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnWhite}`} onClick={() => onSell(id)}>Sell</button>
+                </span>
+              ) : (
+                <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={() => onRemoveLast(id)}>Remove</button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
       {meleeWeapons.length > 0 && (
         <div>
           <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} />
@@ -220,12 +243,9 @@ export default function EquipmentPicker({
               id={w.id}
               name={w.name}
               cost={w.cost}
-              qty={editableQty(w.id)}
               addDisabled={!canAddMelee(w)}
               onAdd={() => add(w.id)}
               fromStash={inStash(w.id)}
-              onRemove={() => onRemoveLast(w.id)}
-              onStash={stashHandler(w.id)}
             />
           ))}
         </div>
@@ -240,12 +260,9 @@ export default function EquipmentPicker({
               id={w.id}
               name={w.name}
               cost={w.cost}
-              qty={editableQty(w.id)}
               addDisabled={!canAddRanged(w)}
               onAdd={() => add(w.id)}
               fromStash={inStash(w.id)}
-              onRemove={() => onRemoveLast(w.id)}
-              onStash={stashHandler(w.id)}
             />
           ))}
         </div>
@@ -260,11 +277,9 @@ export default function EquipmentPicker({
               id={item.id}
               name={item.name}
               cost={item.cost}
-              qty={editableQty(item.id)}
               addDisabled={!canAddArmour(item)}
               onAdd={() => add(item.id)}
               fromStash={inStash(item.id)}
-              onRemove={() => onRemoveLast(item.id)}
             />
           ))}
         </div>
@@ -283,11 +298,9 @@ export default function EquipmentPicker({
               id={item.id}
               name={item.name}
               cost={item.cost}
-              qty={editableQty(item.id)}
               addDisabled={!canAddGear(item)}
               onAdd={() => add(item.id)}
               fromStash={inStash(item.id)}
-              onRemove={() => onRemoveLast(item.id)}
             />
           ))}
         </div>

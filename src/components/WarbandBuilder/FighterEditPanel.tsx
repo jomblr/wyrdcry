@@ -7,6 +7,7 @@ import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data
 import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
+import { salePriceFor } from './WarbandStash';
 
 interface Props {
   instance: FighterInstance;
@@ -16,6 +17,7 @@ interface Props {
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
   onSendToStash: (itemIdx: number) => void;
+  onSell: (itemIdx: number, salePrice: number) => void;
   stash: string[];
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
@@ -61,6 +63,7 @@ export default function FighterEditPanel({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onSendToStash,
+  onSell,
   stash,
   onTakeFromStash,
   onSetStat, onSetNotes, onSetCostOverride,
@@ -188,6 +191,11 @@ export default function FighterEditPanel({
                 onStash={id => {
                   const idx = instance.equipment.lastIndexOf(id);
                   if (idx !== -1) onSendToStash(idx);
+                }}
+                onSell={id => {
+                  const idx = instance.equipment.lastIndexOf(id);
+                  const cost = weaponsData.find(w => w.id === id)?.cost ?? itemsData.find(i => i.id === id)?.cost ?? 0;
+                  if (idx !== -1) onSell(idx, salePriceFor(cost));
                 }}
               />
             )}

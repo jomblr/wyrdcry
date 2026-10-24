@@ -372,6 +372,7 @@ export default function FighterCard({
           onSetEquipment={onSetEquipment}
           onSetPendingEquipment={onSetPendingEquipment}
           onSendToStash={onSendToStash}
+          onSell={onSell}
           stash={stash}
           onTakeFromStash={onTakeFromStash}
           onSetStat={onSetStat}
