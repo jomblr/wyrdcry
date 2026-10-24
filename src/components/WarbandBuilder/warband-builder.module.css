@@ -1735,10 +1735,13 @@
 .editPanelStatsGrid .panelStatControl {
   width: 100%;
   justify-content: space-between;
+  padding: 0.25rem;
 }
 
+/* Inset from the control's edge, with a rounded hover highlight */
 .editPanelStatsGrid .panelStatBtn {
-  padding: 0.3rem 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--ifm-global-radius) - 2px);
 }
 
 .editPanelStatsGrid .panelStatValue {
