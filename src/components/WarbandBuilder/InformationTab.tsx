@@ -24,18 +24,23 @@ export default function InformationTab({ warband, onRemoveFromStash, onSellFromS
     <div className={styles.infoTabGrid}>
       <WarbandStash stash={warband.stash} onRemove={onRemoveFromStash} onSell={onSellFromStash} />
       <FactionRules notes={warband.factionNotes} onSetNotes={onSetNotes} />
+      {/* On mobile, weapon and ability details open from the fighter cards instead */}
+      <div className={styles.desktopOnly}>
       <WeaponReference
         warband={warband}
         onAddCustomWeapon={onAddCustomWeapon}
         onUpdateCustomWeapon={onUpdateCustomWeapon}
         onRemoveCustomWeapon={onRemoveCustomWeapon}
       />
+      </div>
+      <div className={styles.desktopOnly}>
       <AbilityReference
         warband={warband}
         onAddCustomAbility={onAddCustomAbility}
         onUpdateCustomAbility={onUpdateCustomAbility}
         onRemoveCustomAbility={onRemoveCustomAbility}
       />
+      </div>
     </div>
   );
 }
