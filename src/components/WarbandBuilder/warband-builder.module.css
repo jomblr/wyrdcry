@@ -2179,7 +2179,7 @@ button.statCard:not(:disabled) {
 .statCardLabel {
   font-family: var(--wyrd-font-body);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: #9ea3a5;
 }
 
@@ -2187,10 +2187,10 @@ button.statCard:not(:disabled) {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 1.9rem;
+  height: 1.6rem;
   font-family: var(--wyrd-font-body);
   font-weight: 600;
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-variant-numeric: lining-nums;
   line-height: 1.2;
   white-space: nowrap;
@@ -2200,7 +2200,7 @@ button.statCard:not(:disabled) {
 }
 
 .statCardValueSmall {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 799px) {
