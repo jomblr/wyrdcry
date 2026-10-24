@@ -2191,6 +2191,7 @@ button.statCard:not(:disabled) {
   font-family: var(--wyrd-font-body);
   font-weight: 600;
   font-size: 1.4rem;
+  font-variant-numeric: lining-nums;
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
