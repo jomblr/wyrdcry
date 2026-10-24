@@ -1421,17 +1421,53 @@
 .fighterCard {
   border: 1px solid var(--wyrd-border);
   border-radius: var(--ifm-global-radius);
-  padding: 0.65rem 0.75rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.9rem;
   background: var(--ifm-background-surface-color);
 }
 
 .fighterCardHeader {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
+}
+
+.fighterCardMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--wyrd-font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.fighterCardEditBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--ifm-color-emphasis-500);
+  border-radius: var(--ifm-global-radius);
+  color: var(--ifm-color-content);
+  cursor: pointer;
+}
+
+.fighterCardSection {
+  font-family: var(--wyrd-font-body);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.fighterCardSectionTitle {
+  font-weight: 700;
+  margin-bottom: 0.15rem;
 }
 
 .fighterCardNameBlock {
@@ -1444,10 +1480,20 @@
 .fighterCardFooter {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  border-top: 1px solid var(--wyrd-border);
-  padding-top: 0.4rem;
+  gap: 0.4rem;
   flex-wrap: wrap;
+  border-top: 2px dotted var(--ifm-color-emphasis-500);
+  padding-top: 0.6rem;
+  font-family: var(--wyrd-font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ifm-color-content-secondary);
+}
+
+.fighterCardKeywordSep {
+  color: var(--ifm-color-primary);
 }
 
 .fighterCardFooterItem {
@@ -1509,13 +1555,13 @@
 }
 
 .fighterCardName {
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.9rem;
+  line-height: 1.1;
 }
 
 .fighterCardType {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1536,10 +1582,6 @@
 }
 
 .fighterCardNotes {
-  font-size: 0.82rem;
-  color: var(--ifm-color-content-secondary);
-  margin: 0;
-  line-height: 1.45;
   white-space: pre-wrap;
 }
 

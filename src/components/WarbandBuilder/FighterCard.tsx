@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical, Pencil } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
-import FighterKeywords from './FighterKeywords';
 
 interface Props {
   instance: FighterInstance;
@@ -146,6 +145,22 @@ export default function FighterCard({
       )
     : null;
 
+  // Equipment as one comma list, duplicates folded into "Sword (x2)"; unbought items marked pending.
+  const equipGroups: { name: string; count: number; pending: boolean }[] = [];
+  allEquipment.forEach((eid, idx) => {
+    const pending = !instance.isPending && idx >= instance.equipment.length;
+    const name = weaponsData.find(x => x.id === eid)?.name ?? itemsData.find(x => x.id === eid)?.name ?? eid;
+    const g = equipGroups.find(x => x.name === name && x.pending === pending);
+    if (g) g.count++; else equipGroups.push({ name, count: 1, pending });
+  });
+
+  const abilities = (profile.faction_ability_ids ?? [])
+    .map(id => abilitiesData.find(a => a.id === id))
+    .filter((a): a is NonNullable<typeof a> => !!a);
+
+  // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
+  const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords]));
+
   return (
     // Unbought fighters aren't tinted; their gold cost (pendingCost) marks them as pending.
     <div className={styles.fighterCard}>
@@ -160,76 +175,77 @@ export default function FighterCard({
           <span className={styles.fighterCardName}>
             {instance.customName || <span className={styles.fighterCardNameEmpty}>Unnamed</span>}
           </span>
-          <FighterKeywords race={profile.race} keywords={profile.keywords} />
         </div>
-        <button type="button" className={styles.editBtn} onClick={() => setEditOpen(true)} aria-label="Edit fighter">
-          <Pencil size={15} />
+        <div className={styles.fighterCardMeta}>
+          {!noRenown && <span>{instance.renown} Renown</span>}
+          <span className={instance.isPending ? styles.pendingCost : undefined}>{totalCost}gc</span>
+        </div>
+        <button type="button" className={styles.fighterCardEditBtn} onClick={() => setEditOpen(true)} aria-label="Edit fighter">
+          <Pencil size={18} />
         </button>
         <button type="button" ref={btnRef} className={styles.ellipsisBtn} onClick={handleMenuToggle} aria-label="Fighter options">
           <EllipsisVertical size={16} />
         </button>
       </div>
 
-      {/* Stats — two 3-column tables, same layout as the wiki fighter entries
-          (global .fighterCardStatsGrid in custom.css stacks them on narrow screens) */}
-      <div className="fighterCardStatsGrid">
-        {[statKeys.slice(0, 3), statKeys.slice(3)].map((group, i) => (
-          <div key={i} className={`${styles.tableWrapper} ${styles.wbGrid} ${styles.fighterStatsRefGrid3} ${styles.fighterCardStats}`}>
-            <div className={styles.gridHeader}>
-              {group.map(({ label }) => (
-                <div key={label} className={`${styles.hCell} ${styles.hCellCenter}`}>{label}</div>
-              ))}
-            </div>
-            <div className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
-              {group.map(({ key, suffix }) => (
-                <div key={key} className={`${styles.cell} ${styles.cellCenter}`}>
-                  <span className={isModified(key) ? styles.statModified : undefined}>
-                    {statVal(key)}{suffix}
-                  </span>
-                </div>
-              ))}
+      {/* Stats — same dark cards as the warband header */}
+      <div className={styles.statCards}>
+        {statKeys.map(({ key, label, suffix }) => (
+          <div key={key} className={styles.statCard}>
+            <div className={styles.statCardLabel}>{label}</div>
+            <div className={`${styles.statCardValue} ${isModified(key) ? styles.statModified : ''}`}>
+              {statVal(key)}{suffix}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Equipment — static tags */}
-      {allEquipment.length > 0 && (
-        <div className={styles.fighterCardEquipList}>
-          {allEquipment.map((eid, idx) => {
-            const isPending = !instance.isPending && idx >= instance.equipment.length;
-            const w = weaponsData.find(x => x.id === eid);
-            const item = itemsData.find(x => x.id === eid);
-            const name = w?.name ?? item?.name ?? eid;
-            return (
-              <span
-                key={`${eid}-${idx}`}
-                className={`${styles.equipmentTag} ${isPending ? styles.equipmentTagPending : ''}`}
-              >
-                {name}
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Notes — static text */}
-      {instance.notes?.trim() && (
-        <p className={styles.fighterCardNotes}>{instance.notes}</p>
-      )}
-
-      {/* Footer */}
-      <div className={styles.fighterCardFooter}>
-        {!noRenown && (
-          <div className={styles.fighterCardFooterItem}>
-            <span className={styles.fighterCardFooterLabel}>R</span>
-            <span>{instance.renown}</span>
+      {equipGroups.length > 0 && (
+        <div className={styles.fighterCardSection}>
+          <div className={styles.fighterCardSectionTitle}>Equipment</div>
+          <div>
+            {equipGroups.map((g, i) => (
+              <React.Fragment key={`${g.name}-${g.pending}`}>
+                {i > 0 && ', '}
+                <span className={g.pending ? styles.pendingCost : undefined}>
+                  {g.name}{g.count > 1 && ` (x${g.count})`}
+                </span>
+              </React.Fragment>
+            ))}
           </div>
-        )}
-        <div className={`${styles.fighterCardFooterItem} ${styles.fighterCardFooterValue}`}>
-          <span className={instance.isPending ? styles.pendingCost : undefined}>{totalCost}gc</span>
         </div>
-      </div>
+      )}
+
+      {abilities.length > 0 && (
+        <div className={styles.fighterCardSection}>
+          <div className={styles.fighterCardSectionTitle}>Abilities</div>
+          <div>
+            {abilities
+              .map(a => a.ability_type && a.ability_type !== 'trait'
+                ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
+                : a.name)
+              .join(', ')}
+          </div>
+        </div>
+      )}
+
+      {instance.notes?.trim() && (
+        <div className={styles.fighterCardSection}>
+          <div className={styles.fighterCardSectionTitle}>Notes</div>
+          <div className={styles.fighterCardNotes}>{instance.notes}</div>
+        </div>
+      )}
+
+      {keywordTokens.length > 0 && (
+        <div className={styles.fighterCardFooter}>
+          {keywordTokens.map((k, i) => (
+            <React.Fragment key={k}>
+              {i > 0 && <span className={styles.fighterCardKeywordSep}>·</span>}
+              <span>{k}</span>
+            </React.Fragment>
+          ))}
+        </div>
+      )}
 
       {menu}
 
