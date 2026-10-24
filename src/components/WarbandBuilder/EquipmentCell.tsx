@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { factionsData, itemsData, weaponsData } from './data';
+import { factionsData, itemsData, weaponRulesData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import styles from './warband-builder.module.css';
 
@@ -18,6 +18,34 @@ const gearItems = () => itemsData.filter(i => i.type === 'single-use' || i.type 
 type Weapon = (typeof weaponsData)[number];
 type ArmourItem = ReturnType<typeof armourItems>[number];
 type GearItem = ReturnType<typeof gearItems>[number];
+
+// ─── Hover tooltip ────────────────────────────────────────────────────────────
+
+/** Weapon stats + special-rule names, shown beside the dropdown for the highlighted weapon. */
+function WeaponTooltipBody({ w, reason }: { w: Weapon; reason?: string | null }) {
+  const rules = w.special_rules.map(id => weaponRulesData.find(r => r.id === id)?.name ?? id);
+  return (
+    <div className="tooltip-breakdown faction-equip-tooltip-content">
+      <strong>{w.name}</strong>
+      <span>
+        Range {w.range}&quot; | {w.attacks} Attacks | {w.hit}/{w.crit} Damage
+      </span>
+      {rules.length > 0 && <span>{rules.join(', ')}</span>}
+      {reason && <span className="equip-block-reason">{reason}</span>}
+    </div>
+  );
+}
+
+/** Armour / Trading Post item: name (+ Rare) and its rule text. */
+function ItemTooltipBody({ item, reason }: { item: { name: string; description?: string; rare?: boolean }; reason?: string | null }) {
+  return (
+    <div className="tooltip-breakdown faction-equip-tooltip-content">
+      <strong>{item.name}{item.rare ? ' (RARE)' : ''}</strong>
+      {item.description?.trim() && <span>{item.description.trim()}</span>}
+      {reason && <span className="equip-block-reason">{reason}</span>}
+    </div>
+  );
+}
 
 // ─── Slot accounting ──────────────────────────────────────────────────────────
 
@@ -47,34 +75,38 @@ function hasArmour(ids: string[]): boolean {
 }
 
 // ─── Disabled checks ──────────────────────────────────────────────────────────
+// Each returns why an option can't be picked (shown in the dropdown preview), or null.
 
-function weaponDisabled(w: Weapon, equipment: string[], slots: { melee: number; ranged: number }): boolean {
+function weaponBlockReason(w: Weapon, equipment: string[], slots: { melee: number; ranged: number }): string | null {
   if (w.type === 'ranged') {
     if (w.special_rules.includes('brace')) {
       const count = equipment.filter(id => id === w.id).length;
-      if (count === 0) return slots.ranged >= RANGED_SLOTS; // needs a free slot
-      if (count === 1) return false;                        // second copy costs no extra slot
-      return true;                                          // already a full pair
+      if (count === 0) return slots.ranged >= RANGED_SLOTS ? 'Ranged weapon already equipped' : null;
+      if (count === 1) return null;                        // second copy costs no extra slot
+      return 'Already has a full pair';
     }
-    return equipment.includes(w.id) || slots.ranged >= RANGED_SLOTS;
+    if (equipment.includes(w.id)) return 'Already equipped';
+    return slots.ranged >= RANGED_SLOTS ? 'Ranged weapon already equipped' : null;
   }
   // Melee: non-two-handed weapons CAN be equipped twice, two-handed fills both slots
-  const cost = w.special_rules.includes('two-handed') ? 2 : 1;
-  return slots.melee + cost > MELEE_SLOTS;
+  const twoHanded = w.special_rules.includes('two-handed');
+  if (slots.melee + (twoHanded ? 2 : 1) <= MELEE_SLOTS) return null;
+  return twoHanded && slots.melee < MELEE_SLOTS ? 'Needs both hands free' : 'Both hands are full';
 }
 
-function armourDisabled(item: ArmourItem, equipment: string[], slots: { melee: number; ranged: number }, isWizard: boolean): boolean {
-  if (isWizard) return true; // wizards cannot wear any armour
+function armourBlockReason(item: ArmourItem, equipment: string[], slots: { melee: number; ranged: number }, isWizard: boolean): string | null {
+  if (isWizard) return 'Wizards can’t wear armour';
   if (item.id === 'shield') {
-    return equipment.includes('shield') || slots.melee + 1 > MELEE_SLOTS;
+    if (equipment.includes('shield')) return 'Shield already equipped';
+    return slots.melee + 1 > MELEE_SLOTS ? 'Both hands are full' : null;
   }
   // Light / heavy armour: mutually exclusive; can only have one
-  return hasArmour(equipment);
+  return hasArmour(equipment) ? 'Armour already equipped' : null;
 }
 
-// Gear (single-use / miscellaneous) has no slot cost and can be bought more than once
-function gearDisabled(item: GearItem, remainingGold: number): boolean {
-  return item.cost > remainingGold;
+/** Gold check, applied after the slot rules. */
+function goldBlockReason(cost: number, remainingGold: number): string | null {
+  return cost > remainingGold ? `Not enough gold (${remainingGold}gc left)` : null;
 }
 
 // ─── Label lookup (weapons + items) ──────────────────────────────────────────
@@ -199,38 +231,40 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   const filteredGear    = q ? baseGear.filter(i => i.name.toLowerCase().includes(q))    : baseGear;
 
   // Stash items eligible for this fighter (shown first in dropdown)
-  const stashGroup: { id: string; name: string; cost: number; disabled: boolean; fromStash: true }[] =
+  const stashGroup: { id: string; name: string; cost: number; disabled: boolean; reason?: string | null; fromStash: true }[] =
     stash.flatMap(id => {
       const w = weaponsData.find(x => x.id === id);
       if (w) {
         if (isBeast && w.type !== 'natural') return [];
         if (!isBeast && !factionAllows(id)) return [];
         if (q && !w.name.toLowerCase().includes(q)) return [];
-        return [{ id, name: w.name, cost: w.cost, disabled: weaponDisabled(w, equipment, slots), fromStash: true as const }];
+        const reason = weaponBlockReason(w, equipment, slots);
+        return [{ id, name: w.name, cost: w.cost, disabled: !!reason, reason, fromStash: true as const }];
       }
       const item = armourItems().find(x => x.id === id);
       if (item) {
         if (isBeast || !factionAllowsArmour(id)) return [];
         if (q && !item.name.toLowerCase().includes(q)) return [];
-        return [{ id, name: item.name, cost: item.cost, disabled: armourDisabled(item, equipment, slots, isWizard), fromStash: true as const }];
+        const reason = armourBlockReason(item, equipment, slots, isWizard);
+        return [{ id, name: item.name, cost: item.cost, disabled: !!reason, reason, fromStash: true as const }];
       }
       const gear = gearItems().find(x => x.id === id);
       if (gear) {
         if (isBeast) return [];
         if (q && !gear.name.toLowerCase().includes(q)) return [];
-        return [{ id, name: gear.name, cost: gear.cost, disabled: false, fromStash: true as const }];
+        return [{ id, name: gear.name, cost: gear.cost, disabled: false, reason: null, fromStash: true as const }];
       }
       return [];
     });
 
   // Flat list for keyboard navigation (stash first, then regular)
-  const flatList: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[] = [
+  const flatList: { id: string; name: string; cost: number; disabled: boolean; reason?: string | null; fromStash?: true }[] = [
     ...stashGroup,
-    ...filteredNatural.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
-    ...filteredMelee.map(w  => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
-    ...filteredRanged.map(w => { const cost = w.cost; return { id: w.id, name: w.name, cost, disabled: weaponDisabled(w, equipment, slots) || cost > remainingGold }; }),
-    ...filteredArmour.map(i => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: armourDisabled(i, equipment, slots, isWizard) || cost > remainingGold }; }),
-    ...filteredGear.map(i   => { const cost = i.cost; return { id: i.id, name: i.name, cost, disabled: gearDisabled(i, remainingGold) }; }),
+    ...filteredNatural.map(w => { const reason = weaponBlockReason(w, equipment, slots) ?? goldBlockReason(w.cost, remainingGold); return { id: w.id, name: w.name, cost: w.cost, disabled: !!reason, reason }; }),
+    ...filteredMelee.map(w  => { const reason = weaponBlockReason(w, equipment, slots) ?? goldBlockReason(w.cost, remainingGold); return { id: w.id, name: w.name, cost: w.cost, disabled: !!reason, reason }; }),
+    ...filteredRanged.map(w => { const reason = weaponBlockReason(w, equipment, slots) ?? goldBlockReason(w.cost, remainingGold); return { id: w.id, name: w.name, cost: w.cost, disabled: !!reason, reason }; }),
+    ...filteredArmour.map(i => { const reason = armourBlockReason(i, equipment, slots, isWizard) ?? goldBlockReason(i.cost, remainingGold); return { id: i.id, name: i.name, cost: i.cost, disabled: !!reason, reason }; }),
+    ...filteredGear.map(i   => { const reason = goldBlockReason(i.cost, remainingGold); return { id: i.id, name: i.name, cost: i.cost, disabled: !!reason, reason }; }),
   ];
 
   // ── Helpers ──
@@ -366,11 +400,11 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   function canAcceptTransfer(itemId: string): boolean {
     const w = weaponsData.find(x => x.id === itemId);
     if (w) {
-      if (isBeast) return w.type === 'natural' && !weaponDisabled(w, equipment, slots);
-      return factionAllows(itemId) && !weaponDisabled(w, equipment, slots);
+      if (isBeast) return w.type === 'natural' && !weaponBlockReason(w, equipment, slots);
+      return factionAllows(itemId) && !weaponBlockReason(w, equipment, slots);
     }
     const item = armourItems().find(x => x.id === itemId);
-    if (item) return !isBeast && factionAllowsArmour(itemId) && !armourDisabled(item, equipment, slots, isWizard);
+    if (item) return !isBeast && factionAllowsArmour(itemId) && !armourBlockReason(item, equipment, slots, isWizard);
     const gear = gearItems().find(x => x.id === itemId);
     if (gear) return !isBeast;
     return false;
@@ -463,7 +497,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
 
   function renderGroup(
     label: string,
-    items: { id: string; name: string; cost: number; disabled: boolean; fromStash?: true }[],
+    items: { id: string; name: string; cost: number; disabled: boolean; reason?: string | null; fromStash?: true }[],
     indexOffset: number,
   ) {
     if (items.length === 0) return null;
@@ -479,9 +513,16 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
               className={`${styles.dropdownItem} ${highlightIdx === idx ? styles.dropdownItemHighlighted : ''}`}
               onMouseDown={e => { e.preventDefault(); e.stopPropagation(); if (!item.disabled) handleSelect(item); }}
               onMouseEnter={() => setHighlightIdx(idx)}
-              disabled={item.disabled}
+              data-idx={idx}
+              // aria-disabled, not disabled: disabled buttons get no hover events, and the
+              // weapon info should still show for options you can't pick right now.
+              aria-disabled={item.disabled || undefined}
             >
-              <span>{item.name}</span>
+              <span>
+                {item.name}
+                {/* Same small-caps keyword style as the (HERO) tag on faction pages. */}
+                {itemsData.find(i => i.id === item.id)?.rare && <> <span className="hero-only-tag">(RARE)</span></>}
+              </span>
               <span className={styles.dropdownCost}>{item.cost === 0 ? 'free' : `${item.cost}gc`}</span>
             </button>
           );
@@ -502,6 +543,38 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   const rangedItems     = flatList.slice(rangedOffset,  armourOffset);
   const armourItemsFlat = flatList.slice(armourOffset,  gearOffset);
   const gearItemsFlat   = flatList.slice(gearOffset);
+
+  // Info beside the dropdown for the highlighted weapon or item (mouse or arrow keys).
+  // Pinned level with the dropdown's top, to its right (or left if there's no room).
+  const [infoPos, setInfoPos] = useState<{ top: number; left: number } | null>(null);
+  const highlighted = open && highlightIdx >= 0 ? flatList[highlightIdx] : undefined;
+  const highlightedWeapon = highlighted ? weaponsData.find(w => w.id === highlighted.id) : undefined;
+  const highlightedItem =
+    highlighted && !highlightedWeapon ? itemsData.find(i => i.id === highlighted.id) : undefined;
+  useEffect(() => {
+    const drop = dropRef.current;
+    const row = drop?.querySelector<HTMLElement>(`[data-idx="${highlightIdx}"]`);
+    if ((!highlightedWeapon && !highlightedItem) || !drop || !row) { setInfoPos(null); return; }
+    const d = drop.getBoundingClientRect();
+    const width = 320; // matches the tooltip's max-width
+    const fitsRight = d.right + 8 + width <= window.innerWidth;
+    setInfoPos({
+      top: d.top + window.scrollY, // pinned to the dropdown's top edge, not the hovered row
+      left: (fitsRight ? d.right + 8 : d.left - 8 - width) + window.scrollX,
+    });
+  }, [highlightIdx, highlightedWeapon, highlightedItem, open]);
+
+  const weaponInfo =
+    (highlightedWeapon || highlightedItem) && infoPos
+      ? ReactDOM.createPortal(
+          <div className="tooltip equip-dropdown-info" style={{ top: infoPos.top, left: infoPos.left }}>
+            {highlightedWeapon
+              ? <WeaponTooltipBody w={highlightedWeapon} reason={highlighted?.reason} />
+              : <ItemTooltipBody item={highlightedItem!} reason={highlighted?.reason} />}
+          </div>,
+          document.body,
+        )
+      : null;
 
   const dropdown =
     open && pos
@@ -593,6 +666,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         autoComplete="off"
       />
       {dropdown}
+      {weaponInfo}
     </div>
   );
 }

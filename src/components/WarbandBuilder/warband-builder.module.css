@@ -517,9 +517,16 @@
 }
 
 /* ─── Fighter grid ──────────────────────────────────────────────────────────── */
-/* drag | Fighter | M F S D H B | Equipment | Special Rules | R | Cost | ⋮ */
+/* drag | Fighter | Move Fight Shoot Armour Health Bravery | Equipment | Notes | R | Value | ⋮
+ * Characteristics take priority: spelled out whenever the desktop table has room (see below).
+ * Fighter is capped; Equipment is narrow, and its tags wrap onto new lines when they run out of room. */
 .fighterGrid {
-  grid-template-columns: 16px 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 3fr 3fr 0.5fr 0.8fr 0.5fr;
+  --stat-col: 2.2rem;
+  grid-template-columns:
+    16px minmax(7rem, 165px)
+    repeat(6, var(--stat-col))
+    minmax(8rem, 2.2fr) minmax(5rem, 1fr)
+    2.2rem 3.4rem 2rem;
   min-width: 780px;
 }
 
@@ -780,11 +787,11 @@
   text-align: left;
 }
 
-.dropdownItem:hover:not(:disabled) {
+.dropdownItem:hover:not([aria-disabled='true']) {
   background: var(--ifm-hover-overlay);
 }
 
-.dropdownItem:disabled {
+.dropdownItem[aria-disabled='true'] {
   opacity: 0.4;
   cursor: not-allowed;
 }
@@ -2030,5 +2037,91 @@
 }
 
 .itemRefGridCompact .cellWrap {
+  align-self: center;
+}
+
+/* Stat headers: letters (M F S A H B) by default, full names on wide windows. */
+.statFull {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .fighterGrid {
+    --stat-col: 3.35rem;
+  }
+
+  .statFull {
+    display: inline;
+  }
+
+  .statShort {
+    display: none;
+  }
+}
+
+/* Stat columns are narrow: trim the header padding so the names fit without widening them. */
+.fighterGrid .hCell:has(.statFull) {
+  padding-inline: 0;
+  overflow: visible;
+}
+
+/* Talents on phones: one single-column table per fighter type (AbilityReference). The
+ * desktop two-column table keeps only custom talents + "Add talent" at this width. */
+.abilityRefMobile {
+  display: none;
+}
+
+.abilityRefMobileGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.abilityRefMobileGrid .gridRow {
+  overflow: visible;
+}
+
+.abilityRefMobileTitle {
+  justify-content: space-between;
+  gap: 0.75rem;
+  white-space: normal;
+}
+
+@media (max-width: 800px) {
+  .abilityRefMobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .abilityRowStandard {
+    display: none;
+  }
+
+  /* The remaining custom-talent table: give the Fighter column room for its heading. */
+  .abilityRefGrid {
+    grid-template-columns: minmax(6rem, 1fr) 2fr;
+  }
+
+  /* Each per-fighter table has its own border; drop the panel's so they aren't outlined twice. */
+  .abilityRefPanel {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+}
+
+/* Fighter table: notes in a smaller size than the rest of the row. */
+.fighterGrid .notesTextarea {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Warband Builder table headings slightly smaller (wiki tables share .hCell, so scope it). */
+.builderShell .hCell {
+  font-size: 0.9rem;
+}
+
+/* Weapon table (Information tab): wrapped names stay vertically centred with their row. */
+.weaponRefName {
   align-self: center;
 }

@@ -60,7 +60,8 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
 
           {weapons.map(w => (
             <div key={w.id} className={styles.gridRow}>
-              <div className={styles.cell}>{w.name}</div>
+              {/* Long names wrap onto a second line rather than being cut off. */}
+              <div className={`${styles.cell} ${styles.cellWrap} ${styles.weaponRefName}`}>{w.name}</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.range}"</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.attacks}</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.hit}/{w.crit}</div>

@@ -23,15 +23,16 @@ import styles from './warband-builder.module.css';
 import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
-const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
+// `short` is shown instead of `label` on narrower desktop windows (see .statFull/.statShort).
+const HEADERS: { label: string; short?: string; center?: boolean; indent?: boolean }[] = [
   { label: '' },
   { label: 'Fighter' },
-  { label: 'M',             center: true },
-  { label: 'F',             center: true },
-  { label: 'S',             center: true },
-  { label: 'D',             center: true },
-  { label: 'H',             center: true },
-  { label: 'B',             center: true },
+  { label: 'Move',    short: 'M', center: true },
+  { label: 'Fight',   short: 'F', center: true },
+  { label: 'Shoot',   short: 'S', center: true },
+  { label: 'Defense', short: 'D', center: true }, // renamed from statLabels below (Armour / A)
+  { label: 'Health',  short: 'H', center: true },
+  { label: 'Bravery', short: 'B', center: true },
   { label: 'Equipment', indent: true },
   { label: 'Notes' },
   { label: 'R',             center: true },
@@ -104,8 +105,10 @@ export default function FighterTable({
 }: Props) {
   const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
-  // The Defense column is headed A (Armour); read from statLabels in gameData.
-  const headers = HEADERS.map(h => (h.label === 'D' ? { ...h, label: statLabels().defenseShort } : h));
+  // The Defense column is headed Armour; read from statLabels in gameData.
+  const headers = HEADERS.map(h =>
+    h.label === 'Defense' ? { ...h, label: statLabels().defense, short: statLabels().defenseShort } : h,
+  );
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
   const remainingGold = warband.gold - calcValue(warband, fightersData) - calcPendingCost(warband, fightersData);
@@ -180,7 +183,12 @@ export default function FighterTable({
               key={i}
               className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''}`}
             >
-              {h.label}
+              {h.short ? (
+                <>
+                  <span className={styles.statFull}>{h.label}</span>
+                  <span className={styles.statShort}>{h.short}</span>
+                </>
+              ) : h.label}
             </div>
           ))}
         </div>

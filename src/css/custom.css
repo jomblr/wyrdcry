@@ -139,12 +139,59 @@ body .tooltip:has(.faction-equip-tooltip-content),
 body .tooltip:has(.weapon-rule-tooltip-content),
 body .tooltip:has(.tooltip-breakdown) {
   white-space: normal;
-  max-width: 20rem;
+  /* max-content + max-width: take the room the text needs (up to 20rem / the screen), instead
+     of shrinking to whatever space is left right of the anchor — that made thin columns on phones. */
+  width: max-content;
+  max-width: min(20rem, calc(100vw - 16px));
   text-align: left;
   font-size: 1rem;
   line-height: 1.45;
   padding: 0.55rem 0.85rem;
   animation: wyrdFactionEquipTooltipIn 0.22s ease-out forwards;
+}
+
+/* Flipped below the target when there's no room above. */
+body .tooltip.tooltip--below {
+  transform: translate(-50%, 0);
+  animation-name: wyrdTooltipInBelow;
+}
+
+body .tooltip.tooltip--below::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: #000;
+}
+
+@keyframes wyrdTooltipInBelow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 0) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) translateY(0);
+  }
+}
+
+/* Dark theme: white tooltips with dark text, so they stand out from the black page. */
+[data-theme='dark'] .tooltip {
+  background: #fff;
+  color: #000;
+  --ifm-link-color: var(--wyrd-link);
+}
+
+[data-theme='dark'] .tooltip::after {
+  border-top-color: #fff;
+}
+
+[data-theme='dark'] .tooltip.tooltip--below::after {
+  border-top-color: transparent;
+  border-bottom-color: #fff;
+}
+
+[data-theme='dark'] .tooltip code {
+  color: #000;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1354,4 +1401,74 @@ mark code {
 
 .navbar-sidebar__brand .navbar__brand {
   display: none;
+}
+
+/* Collapsible <details> blocks: same inverted look as `:::inverse` (black in light theme,
+ * white in dark). Docusaurus renders them with Infima's alert classes, so reset those. */
+.markdown details {
+  background: #000;
+  border: 1px solid #000;
+  border-radius: var(--ifm-global-radius);
+  color: #fff;
+  box-shadow: none;
+  --ifm-heading-color: #fff;
+  --ifm-link-color: var(--wyrd-link-on-dark);
+  --ifm-link-hover-color: var(--wyrd-link-on-dark-hover);
+  --ifm-table-head-background: #fff;
+  --ifm-table-head-color: #000;
+  --ifm-table-border-color: #fff;
+  /* Arrow and the divider under the summary. */
+  --docusaurus-details-decoration-color: #fff;
+}
+
+.markdown details > summary {
+  font-weight: 700;
+  color: inherit;
+}
+
+[data-theme='dark'] .markdown details {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+  --ifm-heading-color: #000;
+  --ifm-link-color: var(--wyrd-link);
+  --ifm-link-hover-color: var(--wyrd-link-hover);
+  --ifm-table-head-background: #000;
+  --ifm-table-head-color: #fff;
+  --ifm-table-border-color: #000;
+  --docusaurus-details-decoration-color: #000;
+}
+
+/* Weapon info beside the Warband Builder's equipment dropdown: a normal tooltip box, but
+ * anchored by its top-left corner next to the list instead of centred above an element. */
+body .tooltip.equip-dropdown-info {
+  transform: none;
+  width: 20rem;
+  /* The shared tooltip animation moves the box by translate(-50%, -100%); use a plain fade. */
+  animation: wyrdEquipInfoFade 0.15s ease-out both;
+}
+
+/* No pointer arrow: the box sits beside the list, not above a single element. */
+body .tooltip.equip-dropdown-info::after {
+  display: none;
+}
+
+@keyframes wyrdEquipInfoFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Why a greyed-out option in the equipment dropdown can't be picked. */
+.equip-block-reason {
+  margin-top: 0.35rem;
+  font-weight: 700;
+  color: #ff8a80;
+}
+
+[data-theme='dark'] .equip-block-reason {
+  color: #c62828;
 }
