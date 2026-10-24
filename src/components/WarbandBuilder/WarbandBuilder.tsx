@@ -67,6 +67,7 @@ export default function WarbandBuilder() {
   } = useWarband();
 
   function handleSelect(id: string) {
+    setPlayMode(false);
     loadWarband(id);
     setView('detail');
     setTab('fighters');
@@ -77,6 +78,7 @@ export default function WarbandBuilder() {
   }
 
   function handleFactionConfirmed(factionId: string, gold: number) {
+    setPlayMode(false);
     setShowFactionModal(false);
     createNewWarband();
     setFaction(factionId);
@@ -86,6 +88,7 @@ export default function WarbandBuilder() {
   }
 
   function handleImport(file: File) {
+    setPlayMode(false);
     importWarband(file);
     setView('detail');
     setTab('fighters');
@@ -94,15 +97,9 @@ export default function WarbandBuilder() {
   const isMobile = useIsMobile();
   const { colorMode, setColorMode } = useColorMode();
 
-  // Locked / play mode (mobile): swipeable read-only cards for use at the table. Remembered per device.
-  const [playMode, setPlayModeState] = useState(false);
-  useEffect(() => {
-    try { setPlayModeState(localStorage.getItem('wb-play-mode') === '1'); } catch { /* storage unavailable */ }
-  }, []);
-  function setPlayMode(on: boolean) {
-    setPlayModeState(on);
-    try { localStorage.setItem('wb-play-mode', on ? '1' : '0'); } catch { /* storage unavailable */ }
-  }
+  // Locked / play mode (mobile): swipeable read-only cards for use at the table.
+  // Always starts unlocked when a warband is opened, created or imported.
+  const [playMode, setPlayMode] = useState(false);
   const inPlayMode = isMobile && playMode;
 
   // On mobile, an open warband takes the whole screen: hide the site navbar
