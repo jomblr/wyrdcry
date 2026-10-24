@@ -1712,12 +1712,12 @@
 /* Steppers (characteristics and equipment): buttons inset from the edge, rounded hover highlight */
 .editPanelStatsGrid .panelStatControl,
 .equipStepper.panelStatControl {
-  padding: 0.25rem;
+  padding: 0.15rem;
 }
 
 .editPanelStatsGrid .panelStatBtn,
 .equipStepper .panelStatBtn {
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0.5rem;
   border-radius: calc(var(--ifm-global-radius) - 2px);
 }
 
@@ -1771,7 +1771,8 @@
   font-size: 1.15rem;
   font-weight: 600;
   font-variant-numeric: lining-nums;
-  padding: 0.25rem 0;
+  padding: 0.1rem 0;
+  line-height: 1.2;
 }
 
 
