@@ -27,7 +27,11 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const factionFighters = fightersData.filter(f => f.faction === factionId);
-  const heroes = factionFighters.filter(f => f.keywords.includes('HERO')).sort(compareFightersByCostThenName);
+  // Leader first, then by cost and name
+  const isLeader = (f: (typeof factionFighters)[number]) => (f.keywords.includes('LEADER') ? 0 : 1);
+  const heroes = factionFighters
+    .filter(f => f.keywords.includes('HERO'))
+    .sort((a, b) => isLeader(a) - isLeader(b) || compareFightersByCostThenName(a, b));
   const henchmen = factionFighters
     .filter(f => !f.keywords.includes('HERO'))
     .sort(compareFightersByCostThenName);
