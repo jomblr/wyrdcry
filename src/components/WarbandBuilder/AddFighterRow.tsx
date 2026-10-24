@@ -16,9 +16,10 @@ interface Props {
   mobileBar?: boolean;
   hasPending?: boolean;
   onPurchase?: () => void;
+  pendingCost?: number;
 }
 
-export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar, hasPending, onPurchase }: Props) {
+export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar, hasPending, onPurchase, pendingCost = 0 }: Props) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const [btnWidth, setBtnWidth] = useState<number | null>(null);
@@ -159,7 +160,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
             onClick={onPurchase}
             disabled={!hasPending}
           >
-            Purchase
+            Purchase{hasPending && <> ◆ {pendingCost}gc</>}
           </button>
         )}
         {dropdown}

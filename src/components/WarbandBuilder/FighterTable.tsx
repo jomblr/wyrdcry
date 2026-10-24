@@ -165,6 +165,7 @@ export default function FighterTable({
           remainingGold={remainingGold}
           onAdd={onAddFighter}
           mobileBar
+          pendingCost={calcPendingCost(warband, fightersData)}
           hasPending={hasPending}
           onPurchase={onPurchase}
         />
