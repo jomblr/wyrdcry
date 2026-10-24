@@ -9,7 +9,13 @@
     "ZOMBIE",
     "THRALL",
     "DWARF",
-    "ELF"
+    "ELF",
+    "OGRE",
+    "MONSTER",
+    "BEASTMAN",
+    "CANINE",
+    "DIRE WOLF",
+    "WAR HOUND"
   ],
   "archetype": [
     "HERO",
@@ -17,6 +23,8 @@
     "HENCHMAN",
     "WIZARD",
     "MUTANT",
-    "TERRIFYING"
+    "TERRIFYING",
+    "THRALL",
+    "BEAST"
   ]
 }

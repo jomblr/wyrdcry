@@ -14,27 +14,19 @@ import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
-import {
-  mergeFighterToc,
-  resolveFactionIdForToc,
-  type FactionTocFrontMatter,
-} from '@site/src/components/wiki/mergeFighterToc';
+import { mergeWikiToc, type FactionTocFrontMatter } from '@site/src/components/wiki/mergeFighterToc';
+import { useGameData } from '@site/src/data/gameData';
 import styles from './styles.module.css';
 
 function useDocTOC() {
   const { frontMatter, toc, metadata } = useDoc();
+  const { fighters, items } = useGameData();
   const windowSize = useWindowSize();
   const hidden = frontMatter.hide_table_of_contents;
+  const fm = frontMatter as FactionTocFrontMatter;
   const mergedToc = useMemo(
-    () =>
-      mergeFighterToc(
-        toc,
-        resolveFactionIdForToc(
-          metadata.permalink,
-          (frontMatter as FactionTocFrontMatter).faction_id,
-        ),
-      ),
-    [toc, metadata.permalink, (frontMatter as FactionTocFrontMatter).faction_id],
+    () => mergeWikiToc(toc, metadata.permalink, fm, { fighters, items }),
+    [toc, metadata.permalink, fm.faction_id, fm.trading_post, fighters, items],
   );
   const canRender = !hidden && mergedToc.length > 0;
   const mobile = canRender ? <DocItemTOCMobile /> : undefined;

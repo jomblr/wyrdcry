@@ -1,9 +1,5 @@
 import { useReducer, useEffect, useCallback } from 'react';
-import campaignRules from '@site/src/data/campaign-rules.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
-import factionsData from '@site/src/data/factions.json';
-import fightersData from '@site/src/data/fighters.json';
+import { campaignRules, factionsData, fightersData, itemsData, storagePrefix, weaponsData } from './data';
 
 // crypto.randomUUID() requires a secure context (HTTPS/localhost).
 // This fallback works over plain HTTP on a local network.
@@ -30,6 +26,7 @@ export interface FighterInstance {
   isPending: boolean;
   notes: string;
   costOverride: number | null;
+  /** Unused: XP was dropped from the rules (Renown only). Kept so older saves and imports still match. */
   xp: number;
   renown: number;
   statOverrides: Partial<Record<StatKey, number>>;
@@ -80,7 +77,6 @@ type Action =
   | { type: 'ADD_FIGHTER'; fighter: FighterInstance }
   | { type: 'REMOVE_FIGHTER'; instanceId: string }
   | { type: 'SET_FIGHTER_NAME'; instanceId: string; name: string }
-  | { type: 'SET_FIGHTER_XP'; instanceId: string; xp: number }
   | { type: 'SET_FIGHTER_RENOWN'; instanceId: string; renown: number }
   | { type: 'SET_FIGHTER_EQUIPMENT'; instanceId: string; equipment: string[] }
   | { type: 'SET_FIGHTER_PENDING_EQUIPMENT'; instanceId: string; pendingEquipment: string[] }
@@ -108,8 +104,10 @@ type Action =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const STORAGE_INDEX_KEY = 'wyrdcry-warbands';
-const storageKey = (id: string) => `wyrdcry-warband-${id}`;
+// Namespaced per ruleset (see storagePrefix). For 0.5 these resolve to the original
+// keys — 'wyrdcry-warbands' / 'wyrdcry-warband-<id>' — so existing saves keep loading.
+const indexKey = () => `${storagePrefix()}warbands`;
+const storageKey = (id: string) => `${storagePrefix()}warband-${id}`;
 
 function newWarband(): Warband {
   return {
@@ -130,7 +128,7 @@ function newWarband(): Warband {
 
 function loadIndex(): string[] {
   try {
-    const raw = localStorage.getItem(STORAGE_INDEX_KEY);
+    const raw = localStorage.getItem(indexKey());
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -138,7 +136,7 @@ function loadIndex(): string[] {
 }
 
 function saveIndex(ids: string[]) {
-  localStorage.setItem(STORAGE_INDEX_KEY, JSON.stringify(ids));
+  localStorage.setItem(indexKey(), JSON.stringify(ids));
 }
 
 function loadWarband(id: string): Warband | null {
@@ -204,11 +202,7 @@ export function calcValue(warband: Warband, fightersData: { id: string; cost: nu
     if (fi.isPending) return sum;
     const profile = fightersData.find(f => f.id === fi.fighterId);
     const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-    const equipCost = fi.equipment.reduce((s, eid, idx) => {
-      // First dagger per fighter is free
-      const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-      return s + cost;
-    }, 0);
+    const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
     return sum + baseCost + equipCost;
   }, 0);
   const stashCost = warband.stash.reduce((s, id) => s + itemCost(id), 0);
@@ -220,17 +214,10 @@ export function calcPendingCost(warband: Warband, fightersData: { id: string; co
     if (fi.isPending) {
       const profile = fightersData.find(f => f.id === fi.fighterId);
       const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-      const equipCost = fi.equipment.reduce((s, eid, idx) => {
-        const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-        return s + cost;
-      }, 0);
+      const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
       return sum + baseCost + equipCost;
     }
-    return sum + fi.pendingEquipment.reduce((s, eid, idx) => {
-      const alreadyHasDagger = fi.equipment.includes('dagger');
-      const isFreeFirstDagger = eid === 'dagger' && !alreadyHasDagger && fi.pendingEquipment.indexOf('dagger') === idx;
-      return s + (isFreeFirstDagger ? 0 : itemCost(eid));
-    }, 0);
+    return sum + fi.pendingEquipment.reduce((s, eid) => s + itemCost(eid), 0);
   }, 0);
 }
 
@@ -321,10 +308,7 @@ function reducer(state: WarbandState, action: Action): WarbandState {
       if (fi && !fi.isPending) {
         const profile = fightersData.find(f => f.id === fi.fighterId);
         const baseCost = fi.costOverride ?? profile?.cost ?? 0;
-        const equipCost = fi.equipment.reduce((s, eid, idx) => {
-          const cost = eid === 'dagger' && fi.equipment.indexOf(eid) === idx ? 0 : itemCost(eid);
-          return s + cost;
-        }, 0);
+        const equipCost = fi.equipment.reduce((s, eid) => s + itemCost(eid), 0);
         goldDeduct = baseCost + equipCost;
       }
       return {
@@ -345,19 +329,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
           fighters: state.active.fighters.map(f =>
             f.instanceId === action.instanceId ? { ...f, customName: action.name } : f,
           ),
-        },
-      };
-
-    case 'SET_FIGHTER_XP':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          fighters: state.active.fighters.map(f => {
-            if (f.instanceId !== action.instanceId) return f;
-            if (action.xp > 3) return { ...f, xp: 0, renown: f.renown + 1 };
-            return { ...f, xp: action.xp };
-          }),
         },
       };
 
@@ -664,11 +635,6 @@ export function useWarband() {
     [],
   );
 
-  const setFighterXp = useCallback(
-    (instanceId: string, xp: number) => dispatch({ type: 'SET_FIGHTER_XP', instanceId, xp }),
-    [],
-  );
-
   const setFighterRenown = useCallback(
     (instanceId: string, renown: number) =>
       dispatch({ type: 'SET_FIGHTER_RENOWN', instanceId, renown }),
@@ -764,7 +730,13 @@ export function useWarband() {
     reader.onload = e => {
       try {
         const wb = JSON.parse(e.target?.result as string) as Warband;
-        if (!wb.id || !wb.name) return;
+        // A warband needs an id and a fighter list. The name may be empty — unnamed
+        // warbands export with "name": "" and show as "Untitled Warband".
+        if (!wb.id || !Array.isArray(wb.fighters)) {
+          window.alert('This file doesn’t look like a Wyrdcry warband export.');
+          return;
+        }
+        wb.name = wb.name ?? '';
         wb.stash = wb.stash ?? [];
         wb.factionNotes = wb.factionNotes ?? '';
         wb.gold = wb.gold ?? campaignRules.warband_budget;
@@ -776,7 +748,7 @@ export function useWarband() {
         dispatch({ type: 'LOAD_WARBAND', warband: wb });
         dispatch({ type: 'REGISTER_WARBAND', id: wb.id });
       } catch {
-        // invalid file — ignore
+        window.alert('This file couldn’t be read as a warband (it isn’t valid JSON).');
       }
     };
     reader.readAsText(file);
@@ -811,7 +783,6 @@ export function useWarband() {
     removeFighter,
     duplicateFighter,
     setFighterName,
-    setFighterXp,
     setFighterRenown,
     setFighterStat,
     setFighterNotes,

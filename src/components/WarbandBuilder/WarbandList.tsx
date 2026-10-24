@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import type { Warband } from './useWarband';
-import factionsData from '@site/src/data/factions.json';
+import { factionsData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -16,19 +16,18 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
 
   return (
     <div className={styles.warbandListShell}>
-      <img src="/img/warrior.png" className={styles.warbandListWarrior} aria-hidden />
-      <div className={styles.warbandListInner}>
-        <h2 className={styles.warbandListHeading}>My Warbands</h2>
+      <div className={`container ${styles.warbandListInner}`}>
+        <h1 className={styles.warbandListHeading}>Warband Builder</h1>
 
         <p>
           The Warband Builder is currently in beta and some features may change. See the <a href="/docs/warbands/warband-builder">User Guide</a> before getting started.
         </p>
 
         <div className={styles.warbandListActions}>
-          <button type="button" className="button button--primary button--md" onClick={onCreate}>
+          <button type="button" className="button button--primary button--lg" onClick={() => { (window as any).gtag?.('event', 'create_warband'); onCreate(); }}>
             Create new warband
           </button>
-          <button type="button" className="button button--secondary button--md" onClick={() => fileRef.current?.click()}>
+          <button type="button" className="button button--secondary button--lg" onClick={() => fileRef.current?.click()}>
             Import warband
           </button>
           <input
@@ -57,7 +56,7 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
                     {wb.factionId ? (factionsData.find(f => f.id === wb.factionId)?.name ?? wb.factionId) : 'No faction'}
                   </span>
                 </span>
-                <ArrowRight size={16} className={styles.warbandListArrow} />
+                <ArrowRight size={28} strokeWidth={2} className={styles.warbandListArrow} />
               </button>
             </li>
           ))}

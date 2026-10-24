@@ -75,17 +75,6 @@
   font-weight: 600;
 }
 
-.tocCreate {
-  margin-top: 0.5rem;
-  color: var(--ifm-color-content-secondary);
-  opacity: 0.7;
-}
-
-.tocCreate:disabled {
-  cursor: not-allowed;
-  opacity: 0.35;
-}
-
 /* ─── Warband list (landing page) ───────────────────────────────────────────── */
 
 .warbandListShell {
@@ -93,29 +82,14 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-end;
-  padding: 3rem 10% 0 1.25rem;
+  justify-content: center;
+  padding: 2rem 0 0;
   overflow: hidden;
 }
 
-.warbandListWarrior {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 90vh;
-  max-height: 700px;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom left;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.9;
-  z-index: 0;
-}
-
 .warbandListInner {
+  /* Width and gutters come from Infima's .container, same as the Scenario Generator. */
   width: 100%;
-  max-width: 480px;
   position: relative;
   z-index: 1;
   display: flex;
@@ -130,7 +104,7 @@
   padding: 0 0 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 1rem;
   overflow-y: auto;
   flex: 1;
   scrollbar-width: none;
@@ -140,28 +114,11 @@
   display: none;
 }
 
-@media (max-width: 996px) {
-  .warbandListShell {
-    justify-content: center;
-    padding: 2rem 1.25rem 0;
-  }
 
-  .warbandListWarrior {
-    display: none;
-  }
-}
-
+/* Matches the Scenario Generator: page h1, then cards with heading-font titles. */
 .warbandListHeading {
-  font-family: 'Alegreya', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0 0 1.25rem;
-}
-
-
-.warbandListEmpty {
-  color: var(--ifm-color-content-secondary);
-  margin-bottom: 1.25rem;
+  font-family: var(--wyrd-font-heading);
+  margin: 0 0 0.25rem;
 }
 
 .warbandListRow {
@@ -169,9 +126,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 0.9rem;
-  background: var(--ifm-color-emphasis-100);
-  border: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  padding: 1rem;
+  /* Same box as .wyrd-card (the Scenario Generator panels). */
+  background: var(--ifm-background-surface-color);
+  border: 2px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
   cursor: pointer;
   font-family: var(--wyrd-font-body);
@@ -182,12 +140,14 @@
 }
 
 .warbandListRow:hover {
-  background: var(--ifm-color-emphasis-200);
   border-color: var(--ifm-color-primary);
 }
 
 .warbandListName {
-  font-weight: 600;
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--ifm-heading-color);
 }
 
 .warbandListMeta {
@@ -204,7 +164,7 @@
 }
 
 .warbandListArrow {
-  opacity: 0.4;
+  color: var(--ifm-font-color-base);
   flex-shrink: 0;
 }
 
@@ -215,13 +175,9 @@
 
 .warbandListActions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.warbandListActions :global(.button) {
-  flex: 1;
-  text-align: center;
+  margin: 0.5rem 0 1.5rem;
 }
 
 /* ─── Main content area ─────────────────────────────────────────────────────── */
@@ -327,6 +283,17 @@
   gap: 1rem;
 }
 
+/* Mobile: tab toggle on its own row below the back/ellipsis row */
+.topBarTabRow {
+  padding-bottom: 0.75rem;
+}
+
+/* Makes the tab toggle stretch full width on mobile */
+.tabToggleFullWidth {
+  min-width: 0;
+  width: 100%;
+}
+
 .backBtn {
   display: flex;
   align-items: center;
@@ -408,11 +375,6 @@
   box-shadow: 0 1px 0 color-mix(in srgb, var(--wyrd-border) 85%, transparent);
 }
 
-/* Docs pages: viewport scroll — sit below fixed navbar */
-.gridHeaderDocs {
-  top: var(--ifm-navbar-height);
-}
-
 /* Data row: same subgrid trick, with border-top and hover */
 .gridRow {
   display: grid;
@@ -427,22 +389,6 @@
 
 .gridRowNoHover:hover {
   background: none;
-}
-
-.fighterRowPending {
-  background: color-mix(in srgb, var(--ifm-color-primary) 7%, transparent);
-}
-
-.fighterRowPending:hover {
-  background: color-mix(in srgb, var(--ifm-color-primary) 11%, var(--ifm-hover-overlay));
-}
-
-:global(html[data-theme='dark']) .fighterRowPending {
-  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 9%, transparent);
-}
-
-:global(html[data-theme='dark']) .fighterRowPending:hover {
-  background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 13%, var(--ifm-hover-overlay));
 }
 
 .goldPending {
@@ -571,11 +517,16 @@
 }
 
 /* ─── Fighter grid ──────────────────────────────────────────────────────────── */
-/*    Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
-
-/* drag | Fighter | M F S D H B | Equipment | Special Rules | XP | R | Cost | ⋮ */
+/* drag | Fighter | Move Fight Shoot Armour Health Bravery | Equipment | Notes | R | Value | ⋮
+ * Characteristics take priority: spelled out whenever the desktop table has room (see below).
+ * Fighter is capped; Equipment is narrow, and its tags wrap onto new lines when they run out of room. */
 .fighterGrid {
-  grid-template-columns: 16px 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 3fr 3fr 0.5fr 0.5fr 0.8fr 0.5fr;
+  --stat-col: 2.2rem;
+  grid-template-columns:
+    16px minmax(7rem, 165px)
+    repeat(6, var(--stat-col))
+    minmax(8rem, 2.2fr) minmax(5rem, 1fr)
+    2.2rem 3.4rem 2rem;
   min-width: 780px;
 }
 
@@ -663,13 +614,6 @@
   min-width: 360px;
 }
 
-.factionFighterRefGrid {
-  grid-template-columns:
-    minmax(6rem, 1.4fr) minmax(3rem, 0.75fr) minmax(4.5rem, 0.9fr) repeat(6, minmax(2rem, 0.55fr))
-    minmax(6rem, 1.1fr) minmax(10rem, 2fr);
-  min-width: 920px;
-}
-
 .factionEquipRefGrid {
   --faction-equip-cols: minmax(6rem, 2fr) minmax(4rem, 0.9fr);
   grid-template-columns: var(--faction-equip-cols);
@@ -681,30 +625,25 @@
   font-weight: 700;
 }
 
-/* Single-row stat line: full names (wiki faction fighter sections, same as builder look) */
-.fighterStatsRefGrid {
-  grid-template-columns:
-    minmax(3.5rem, 1fr) minmax(3.25rem, 1fr) minmax(3.5rem, 1fr) minmax(4.75rem, 1.1fr) minmax(3.75rem, 1fr)
-    minmax(4.75rem, 1.1fr);
-  min-width: 520px;
-}
-
 .fighterStatsRefGrid3 {
   grid-template-columns: repeat(3, 1fr);
 }
 
 
 /* Fighter name + type stacked */
-.fighterName {
-  font-weight: 600;
-  font-size: 0.88rem;
-  line-height: 1.2;
-  white-space: normal;
-}
-
 .fighterType {
   font-weight:600;
   font-size: 0.8rem;
+  color: var(--wyrd-text3);
+}
+
+/* Same face as inline keywords on the site (custom.css: Inconsolata, uppercase, 800). */
+.fighterKeywords {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.3;
   color: var(--wyrd-text3);
 }
 
@@ -728,24 +667,6 @@
   font-size: 10px;
   margin-bottom: 0;
   margin-right: 0.05rem;
-}
-
-/* Inline editable inputs inside cells */
-.statInput {
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: center;
-  font-family: var(--wyrd-font-body);
-  font-size: 1rem;
-  color: inherit;
-  padding: 0;
-  min-width: 0;
-}
-
-.statInput:focus {
-  outline: 1px solid var(--wyrd-border2);
-  border-radius: 2px;
 }
 
 /* Tooltip visuals: src/css/custom.css (.tooltip, .tooltip-breakdown, …) */
@@ -779,10 +700,6 @@
 /* Stat modified from base value (manual override or armour bonus) */
 .statModified {
   font-weight: 600;
-}
-
-.defenseCell {
-  position: relative;
 }
 
 .nameInput {
@@ -829,7 +746,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 200;
+  z-index: 600;
   background: var(--ifm-background-surface-color);
   border: 1px solid var(--wyrd-border);
   border-radius: var(--wyrd-radius);
@@ -870,23 +787,13 @@
   text-align: left;
 }
 
-.dropdownItem:hover:not(:disabled) {
+.dropdownItem:hover:not([aria-disabled='true']) {
   background: var(--ifm-hover-overlay);
 }
 
-.dropdownItem:disabled {
+.dropdownItem[aria-disabled='true'] {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.dropdownItemDanger {
-  color: var(--ifm-color-danger, #e53935);
-}
-
-.dropdownLimit {
-  font-size: 0.75rem;
-  color: var(--wyrd-text3);
-  margin-left: 0.5rem;
 }
 
 .dropdownCost {
@@ -967,15 +874,6 @@
   overflow: hidden;
 }
 
-.infoPanelTitle {
-  font-family: 'Alegreya', serif;
-  font-weight: 600;
-  font-size: 1rem;
-  margin: 0;
-  padding: 0.85rem 1rem;
-  color: var(--ifm-color-content-secondary);
-}
-
 /* Weapon reference table: Weapon | R | A | D | Special (builder + wiki docs) */
 .weaponRefGrid {
   grid-template-columns: 2fr 1fr 1fr 1fr 4fr;
@@ -992,7 +890,8 @@
 
 .weaponRefGridCompact {
   min-width: 0;
-  grid-template-columns: 3fr 1fr 1fr 1fr 3fr;
+  /* Stat columns size to their spelled-out headers (Range / Attacks / Damage). */
+  grid-template-columns: minmax(0, 3fr) max-content max-content max-content minmax(0, 3fr);
 }
 
 .customWeaponRow {
@@ -1169,42 +1068,6 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.stashTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.45rem;
-  border-radius: 3px;
-  background: var(--ifm-color-emphasis-200);
-  font-size: 0.75rem;
-  line-height: 1.4;
-}
-
-.stashTagName {
-  font-weight: 500;
-}
-
-.stashTagCost {
-  color: var(--ifm-color-content-secondary);
-  font-size: 0.7rem;
-}
-
-.stashTagRemove {
-  background: none;
-  border: none;
-  padding: 0 0 0 0.1rem;
-  cursor: pointer;
-  font-size: 0.95rem;
-  line-height: 1;
-  color: var(--ifm-color-content-secondary);
-  display: flex;
-  align-items: center;
-}
-
-.stashTagRemove:hover {
-  color: var(--ifm-color-danger, #e03e3e);
-}
-
 /* ── Faction Rules panel ────────────────────────────────────────────── */
 .factionRulesPanel {
   border-width: 2px;
@@ -1279,85 +1142,6 @@
 .notesPlaceholder {
   font-size: 1rem;
   color: var(--ifm-color-content-secondary);
-}
-
-.factionAbilities {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.factionAbility {
-  background: color-mix(in srgb, var(--ifm-color-emphasis-200) 60%, transparent);
-  border: 1px solid var(--wyrd-border);
-  border-radius: var(--ifm-global-radius);
-  padding: 0.45rem 0.65rem;
-}
-
-.factionAbilityHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.25rem;
-}
-
-.factionAbilityName {
-  font-weight: 600;
-  font-size: 0.82rem;
-  font-family: 'Alegreya', serif;
-}
-
-.factionAbilityDesc {
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--ifm-color-content-secondary);
-  margin: 0;
-}
-
-/* Ability type tags */
-.abilityTypeTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.05rem 0.35rem;
-  border-radius: 3px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  line-height: 1.5;
-  background: rgba(128, 128, 128, 0.14);
-  color: var(--ifm-color-content-secondary);
-}
-
-.abilityType_trait {
-  background: color-mix(in srgb, var(--ifm-color-emphasis-400) 25%, transparent);
-  color: var(--ifm-color-content-secondary);
-}
-
-.abilityType_double {
-  background: color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
-  color: var(--ifm-color-primary);
-}
-
-.abilityType_triple {
-  background: color-mix(in srgb, #3b9e5a 18%, transparent);
-  color: #3b9e5a;
-}
-
-[data-theme='dark'] .abilityType_triple {
-  background: color-mix(in srgb, #5ecf7c 15%, transparent);
-  color: #5ecf7c;
-}
-
-.abilityType_quadruple {
-  background: color-mix(in srgb, #c87c1a 18%, transparent);
-  color: #c87c1a;
-}
-
-[data-theme='dark'] .abilityType_quadruple {
-  background: color-mix(in srgb, #f0a040 15%, transparent);
-  color: #f0a040;
 }
 
 /* Placeholder hidden by default; shown on row hover or when focused/open */
@@ -1509,11 +1293,6 @@
   display: inline-block;
 }
 
-.modalFree {
-  color: var(--wyrd-text3);
-  font-style: italic;
-}
-
 .modalDivider {
   border-top: 1px solid var(--wyrd-border);
   margin: 0.15rem 0;
@@ -1587,6 +1366,12 @@
   color: var(--wyrd-text3);
 }
 
+.dropdownSep {
+  height: 1px;
+  background: var(--wyrd-border);
+  margin: 0.2rem 0;
+}
+
 .dropdownEmpty {
   padding: 0.4rem 0.75rem;
   font-size: 0.85rem;
@@ -1616,55 +1401,551 @@
   color: var(--ifm-color-content);
 }
 
-.ellipsisMenu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  z-index: 200;
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--wyrd-border);
-  border-radius: var(--wyrd-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 140px;
-  padding: 0.25rem 0;
-}
-
-.ellipsisMenuItem {
-  display: block;
-  width: 100%;
-  padding: 0.35rem 0.75rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--wyrd-font-body);
-  font-size: 0.9rem;
-  color: var(--ifm-color-content);
-  text-align: left;
-}
-
-.ellipsisMenuItem:hover {
-  background: var(--ifm-hover-overlay);
-}
-
-.ellipsisMenuItemDanger {
-  color: var(--ifm-color-danger, #e53935);
-}
-
-/* ─── Empty state ───────────────────────────────────────────────────────────── */
-
-.emptyState {
-  text-align: center;
-  padding: 2rem;
-  color: var(--wyrd-text3);
-  font-size: 0.95rem;
-}
-
 .tabPanel {
   display: block;
 }
 
 .tabPanelHidden {
   display: none;
+}
+
+/* ─── Mobile fighter cards ──────────────────────────────────────────────────── */
+
+.fighterCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.fighterCard {
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.fighterCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fighterCardNameBlock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fighterCardFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--wyrd-border);
+  padding-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.fighterCardFooterItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fighterCardFooterLabel {
+  font-size: 0.75rem;
+  color: var(--wyrd-text3);
+  font-weight: 600;
+}
+
+.fighterCardFooterValue {
+  margin-left: auto;
+  font-size: 0.9rem;
+}
+
+/* 6-column equal grid for the stat table inside a card */
+/* Sticky add fighter bar — sticks to bottom of the scroll container (.body) */
+.mobileAddFighterBar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.6rem 0 0.5rem;
+  background: var(--ifm-background-color);
+  border-top: 1px solid var(--wyrd-border);
+  z-index: 10;
+  margin-top: 0.25rem;
+}
+
+.mobileAddFighterBtn {
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* ─── Fighter card static display ──────────────────────────────────────────── */
+
+/* Card stat tables: compact, in scale with the card's other text */
+.fighterCardStats .hCell,
+.fighterCardStats .cell {
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+}
+
+.fighterCardStats .hCell {
+  font-size: 0.75rem;
+}
+
+.fighterCardStats .cell {
+  font-size: 0.85rem;
+}
+
+.fighterCardName {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.fighterCardType {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--wyrd-text3);
+}
+
+.fighterCardNameEmpty {
+  color: var(--wyrd-text3);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.fighterCardEquipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.fighterCardNotes {
+  font-size: 0.82rem;
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+/* Edit pencil button */
+.editBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  padding: 0.4rem;
+  border-radius: var(--wyrd-radius);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.editBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+/* ─── Fighter edit panel (bottom sheet) ─────────────────────────────────────── */
+
+.editPanelOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 500;
+  touch-action: none;
+}
+
+.editPanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 92vh;
+  background: var(--ifm-background-color);
+  border-radius: 14px 14px 0 0;
+  z-index: 501;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.editPanelHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ifm-color-emphasis-300);
+  margin: 10px auto 0;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.editPanelTop {
+  padding: 0.6rem 3rem 0.85rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid var(--wyrd-border);
+  flex-shrink: 0;
+}
+
+.editPanelType {
+  font-size: 0.78rem;
+  color: var(--wyrd-text3);
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+}
+
+.editPanelNameInput {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: center;
+  font-family: 'Alegreya', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: inherit;
+  padding: 0;
+}
+
+.editPanelNameInput:focus {
+  outline: none;
+}
+
+.editPanelNameInput::placeholder {
+  color: var(--wyrd-text3);
+  font-style: italic;
+}
+
+.editPanelCloseBtn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wyrd-text3);
+  padding: 0.3rem;
+  border-radius: var(--ifm-global-radius);
+  display: flex;
+  align-items: center;
+}
+
+.editPanelCloseBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+.editPanelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.1rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.editPanelSection {}
+
+.editPanelSectionTitle {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--wyrd-text3);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.editPanelSectionTitle::before,
+.editPanelSectionTitle::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wyrd-border);
+}
+
+/* 3-column characteristics grid */
+.editPanelStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* Individual stat with label + - value + control */
+.panelStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.panelStatLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+}
+
+.panelStatControl {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+}
+
+.panelStatBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.3rem 0.6rem;
+  color: var(--ifm-color-content-secondary);
+  transition: background 0.1s, color 0.1s;
+}
+
+.panelStatBtn:hover {
+  background: var(--ifm-hover-overlay);
+  color: var(--ifm-color-content);
+}
+
+.panelStatValue {
+  min-width: 2.2rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.25rem 0;
+}
+
+.editPanelProgressRow {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+
+.editPanelValue {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+/* ─── Equipment Picker ───────────────────────────────────────────────────────── */
+
+.equipPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Equipment list in the fighter edit panel: a table per section, stepper on the right. */
+.equipHead {
+  position: sticky;
+  top: -1.1rem; /* .editPanelBody's top padding, so the head pins to the panel's edge */
+  z-index: 1;
+  padding-top: 1.1rem;
+  margin-top: -1.1rem;
+  background: var(--ifm-background-color);
+}
+
+.equipHeadToggle {
+  width: 100%;
+  margin-bottom: 0.35rem;
+  padding: 0.25rem 0;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.equipRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0.6rem 0;
+}
+
+.equipRow + .equipRow {
+  border-top: 2px dotted var(--ifm-color-emphasis-400);
+}
+
+/*
+ * Name | R | A | D | Cost | stepper; special rules stacked under the name, one per line.
+ * Cells align to the top, and the name's first line, the stats and the cost are all
+ * centred on the stepper's height, so they line up however many lines the name takes.
+ */
+.equipRowWeapon {
+  --equip-step-h: 2.25rem;
+  align-items: start;
+  /* Fixed stepper column so the header row (which has no stepper) lines up with the rows. */
+  /* R / A / D share the spare width with the name, so on wide panels they sit mid-row;
+     on phones they shrink to their minimums. */
+  grid-template-columns: minmax(0, 1.25fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr) 2.2rem calc(5rem + 8px);
+  column-gap: 0.35rem;
+}
+
+/* Phones: no spare width to spread R / A / D into, so give it all to the name. */
+@media (max-width: 420px) {
+  .equipRowWeapon {
+    grid-template-columns: minmax(0, 1fr) 1.9rem 1.1rem 1.7rem 2.2rem calc(5rem + 8px);
+  }
+}
+
+/* Natural weapons: no cost or stepper columns. Comes after the phone rule so it wins there too. */
+.equipRowWeapon.equipRowReadOnly {
+  grid-template-columns: minmax(0, 2.5fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr);
+}
+
+.equipRowWeapon .equipPickerCost {
+  min-width: 0;
+}
+
+.equipRowWeapon .equipStepper {
+  justify-self: end;
+  height: var(--equip-step-h);
+  box-sizing: border-box;
+}
+
+.equipRowWeapon .equipStat,
+.equipRowWeapon .equipPickerCost {
+  line-height: var(--equip-step-h);
+}
+
+.equipRowWeapon .equipPickerName {
+  line-height: 1.3;
+  padding-top: calc((var(--equip-step-h) - 0.9rem * 1.3) / 2);
+}
+
+.equipColumns {
+  padding: 0 0 0.3rem;
+  border-bottom: 1px solid var(--wyrd-border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wyrd-text3);
+}
+
+.equipColumns .equipStat,
+.equipColumns .equipPickerCost {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.equipColumns {
+  align-items: end;
+}
+
+.equipStat {
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.equipRules {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.1rem;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--ifm-color-content-secondary);
+}
+
+.equipStepper {
+  margin-left: 8px; /* breathing room after the cost */
+}
+
+/* Same footprint as the stepper it replaces. */
+.equipStashBtn {
+  justify-content: center;
+  width: 5rem;
+  height: var(--equip-step-h, auto);
+  padding: 0.3rem 0;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+}
+
+.equipStashBtn:hover {
+  background: var(--ifm-hover-overlay);
+}
+
+.equipStepper .panelStatBtn {
+  padding: 0.3rem 0.45rem;
+}
+
+.equipStepper .panelStatValue {
+  min-width: 1.6rem;
+}
+
+.equipPickerName {
+  font-size: 0.9rem;
+}
+
+.equipPickerCost {
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.equipPickerRowDisabled .equipPickerName,
+.equipPickerRowDisabled .equipPickerCost,
+.equipPickerRowDisabled .equipStat {
+  opacity: 0.4;
+}
+
+.editPanelValueHint {
+  font-size: 0.72rem;
+  color: var(--wyrd-text3);
+  font-weight: 400;
+}
+
+/* In panel body, always show equipment input border */
+.editPanelBody .equipmentInput {
+  border-color: var(--wyrd-border);
+  background: var(--ifm-background-surface-color);
+}
+
+.editPanelBody .notesTextarea::placeholder,
+.editPanelBody .equipmentTextInput::placeholder {
+  color: var(--wyrd-text3);
+}
+
+/* In cards, always show placeholders and equipment border (no row-hover context) */
+.fighterCard .notesTextarea::placeholder,
+.fighterCard .equipmentTextInput::placeholder {
+  color: var(--wyrd-text3);
+}
+
+.fighterCard .equipmentInput {
+  border-color: var(--wyrd-border);
+  background: var(--ifm-background-color);
 }
 
 /* ─── Print styles ──────────────────────────────────────────────────────────── */
@@ -1719,25 +2000,136 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
+  .gridRow {
+    break-inside: avoid;
+  }
+
+  /* Let a long fighter table flow across pages (rows still never split), and drop the
+     horizontal scrollbar: print widths are under the 800px breakpoint, so the screen
+     rule would otherwise print a grey scrollbar under the table. */
+  .tableScrollOuter {
+    overflow: visible;
+  }
+
+  .tableScrollOuter .tableWrapper {
+    min-width: 0;
+  }
+
+  .fighterCard {
+    break-inside: avoid;
+  }
+
+  .infoPanel {
+    break-inside: avoid;
+  }
 }
 
-/* ─── Mobile layout ─────────────────────────────────────────────────────────── */
+/* Fighter-card weapon rows: when a name wraps to two lines, keep every cell vertically centred. */
+.weaponRefGridCompact .cellWrap {
+  align-self: center;
+}
 
-.mobileOnly,
-.mobileInfo,
-.mobileMenuBtn {
+/* Fighter-card list of non-weapon starting gear (armour, shields…), comma-separated. */
+.itemRefGridCompact {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.itemRefGridCompact .cellWrap {
+  align-self: center;
+}
+
+/* Stat headers: letters (M F S A H B) by default, full names on wide windows. */
+.statFull {
   display: none;
 }
 
-.mobileMenuBtn {
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem;
-  background: none;
-  border: none;
-  border-radius: var(--ifm-global-radius);
-  cursor: pointer;
-  color: var(--ifm-color-content-secondary);
+@media (min-width: 900px) {
+  .fighterGrid {
+    --stat-col: 3.35rem;
+  }
+
+  .statFull {
+    display: inline;
+  }
+
+  .statShort {
+    display: none;
+  }
+}
+
+/* Stat columns are narrow: trim the header padding so the names fit without widening them. */
+.fighterGrid .hCell:has(.statFull) {
+  padding-inline: 0;
+  overflow: visible;
+}
+
+/* Talents on phones: one single-column table per fighter type (AbilityReference). The
+ * desktop two-column table keeps only custom talents + "Add talent" at this width. */
+.abilityRefMobile {
+  display: none;
+}
+
+.abilityRefMobileGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.abilityRefMobileGrid .gridRow {
+  overflow: visible;
+}
+
+.abilityRefMobileTitle {
+  justify-content: space-between;
+  gap: 0.75rem;
+  white-space: normal;
+}
+
+@media (max-width: 800px) {
+  .abilityRefMobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .abilityRowStandard {
+    display: none;
+  }
+
+  /* The remaining custom-talent table: give the Fighter column room for its heading. */
+  .abilityRefGrid {
+    grid-template-columns: minmax(6rem, 1fr) 2fr;
+  }
+
+  /* Each per-fighter table has its own border; drop the panel's so they aren't outlined twice. */
+  .abilityRefPanel {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+}
+
+/* Fighter table: notes in a smaller size than the rest of the row. */
+.fighterGrid .notesTextarea {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Warband Builder table headings slightly smaller (wiki tables share .hCell, so scope it). */
+.builderShell .hCell {
+  font-size: 0.9rem;
+}
+
+/* Weapon table (Information tab): wrapped names stay vertically centred with their row. */
+.weaponRefName {
+  align-self: center;
+}
+
+/* ─── Mobile header + stat cards ─────────────────────────────────────────── */
+
+.mobileInfo {
+  display: none;
 }
 
 .mobileFaction {
@@ -1803,35 +2195,21 @@ button.statCard:not(:disabled) {
 
 .statCardValueSmall {
   font-size: 1rem;
+  white-space: normal;
 }
 
-.mobileTabToggle {
-  margin: 1rem 0;
-}
-
-.mobileTabToggle .tabToggleInner {
-  min-width: 0;
-  width: 100%;
-}
-
-@media (max-width: 680px) {
+@media (max-width: 799px) {
   .desktopOnly {
     display: none !important;
   }
 
-  .mobileOnly,
   .mobileInfo {
     display: block;
-  }
-
-  .mobileMenuBtn {
-    display: flex;
   }
 }
 
 @media print {
-  .mobileInfo,
-  .mobileOnly {
+  .mobileInfo {
     display: none !important;
   }
 

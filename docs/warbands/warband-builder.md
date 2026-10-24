@@ -1,11 +1,11 @@
 ---
-sidebar_position: 99
+sidebar_position: 100
 title: Warband Builder (Beta)
 ---
 
 # The Warband Builder (Beta)
 :::warning
-The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](/docs/warbands/warband-builder#export-warband) regularly to keep backups.
+The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](./warband-builder.md#export-warband) regularly to keep backups.
 :::
 
 ## The Fighter Tab
@@ -13,26 +13,34 @@ The Warband Builder stores all data locally in your browser. If you clear your c
 The fighter tab contains an overview of all the fighters in your warband.
 
 ### Adding Fighters
-Click Add Fighter at the bottom of the fighter table to recruit a new fighter. The available fighter types are determined by your warband's faction entry and its restrictions. Once your warband reaches its maximum size, the button will be disabled.
+Click Add Fighter at the bottom of the fighter table to add a new fighter to your roster. The available fighter types are determined by your warband's faction entry and its restrictions. Once your warband reaches its maximum size, the button will be disabled.
 
 ![](/img/add-fighter.png)
 
-### Purchasing Equipment
-Click a fighter's equipment field to open the equipment selector. All purchases follow the restrictions outlined [here](/docs/warbands/starting-warband#step-4-equipment). As weapons and equipment are assigned to a fighter, options that can no longer be taken will be greyed out automatically.
+#### Discounted Fighters
+Some factions allow fighters to be recruited for a lowered gold cost. To reduce the gold cost of a fighter, click the gold cost value and change the gold cost in the modal.
+
+### Adding Equipment
+Click a fighter's equipment field to open the equipment selector. All purchases follow the restrictions outlined [here](./starting-warband.md#step-4-equipment). As weapons and equipment are assigned to a fighter, options that can no longer be taken will be greyed out automatically.
 
 ![](/img/add-equipment.png)
 
-### Armour and Defense
+#### Armour and Defense
 A fighter's Defense value is automatically updated as armour and shields are equipped.
 
-### Equipment and the Warband Stash
+#### Equipment and the Warband Stash
 To move a piece of equipment to the Warband Stash rather than discarding it, **Ctrl+click** the item (or **Cmd+click** on Mac). When opening the equipment selector for a fighter, stashed items appear at the top of the list.
 
-### Experience and Renown
-The warband builder supports fighters gaining experience and renown.
-- **Left-click** a fighter's experience value to increase it by 1.
+### Purchase
+Newly added fighters and equipment aren't purchased until you click the Purchase button
+
+### Selling items
+To sell an item, navigate to the **Warband Stash** in the information tab and right click the item you want to sell.
+
+### Renown
+The warband builder tracks each fighter's renown.
+- **Left-click** a fighter's renown value to increase it by 1.
 - **Right-click** to decrease it by 1.
-- At **4 XP**, Renown increases automatically and the experience value resets to 0.
 - At **4 Renown**, the fighter is promoted to a `Hero` and gains access to the faction's `Hero` weapon options.
 
 ### Characteristic Increases
@@ -50,8 +58,8 @@ A freeform text field for campaign notes, injuries, or anything else you want to
 ### Weapon Table
 Automatically populated with every weapon currently equipped across your warband. Useful for a quick overview during play.
 
-### Talents
-Automatically populated with all traits, reactions, and abilities held by your fighters. If a fighter acquires another talent (such as an injury or gaining Renown), you can add it manually.
+### Traits
+Automatically populated with all the traits from the fighters in your warband. If a fighter acquires another talent (such as an injury or gaining Renown), you can add it manually.
 
 ## Export Warband
 ---

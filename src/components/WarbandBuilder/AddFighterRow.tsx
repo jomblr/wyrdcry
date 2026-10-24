@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
+import { fightersData } from './data';
 import { compareFightersByCostThenName } from '@site/src/components/wiki/factionUtils';
 import type { FighterInstance } from './useWarband';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
+import { newFighterName } from './names';
 
 interface Props {
   factionId: string | null;
@@ -12,11 +13,15 @@ interface Props {
   atFighterLimit: boolean;
   remainingGold: number;
   onAdd: (fighterId: string, name: string) => void;
+  mobileBar?: boolean;
+  hasPending?: boolean;
+  onPurchase?: () => void;
 }
 
-export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd }: Props) {
+export default function AddFighterRow({ factionId, currentFighters, atFighterLimit, remainingGold, onAdd, mobileBar, hasPending, onPurchase }: Props) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
+  const [btnWidth, setBtnWidth] = useState<number | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,14 +52,16 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   function handleToggle() {
     if (open) { setOpen(false); return; }
     if (btnRef.current) {
-      setPos(calcDropdownPos(btnRef.current.getBoundingClientRect()));
+      const rect = btnRef.current.getBoundingClientRect();
+      setPos(calcDropdownPos(rect));
+      setBtnWidth(rect.width);
     }
     setOpen(true);
   }
 
   function handleSelect(fighter: (typeof fightersData)[0]) {
     setOpen(false);
-    onAdd(fighter.id, 'New Fighter');
+    onAdd(fighter.id, newFighterName(fighter, currentFighters.map(f => f.customName)));
   }
 
   useEffect(() => {
@@ -86,7 +93,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   const dropdown =
     open && pos
       ? ReactDOM.createPortal(
-          <div ref={dropdownRef} className={styles.dropdown} style={dropdownStyle(pos)}>
+          <div ref={dropdownRef} className={styles.dropdown} style={{ ...dropdownStyle(pos), ...(mobileBar && btnWidth ? { width: btnWidth } : {}) }}>
             {heroes.length > 0 && (
               <>
                 <div className={styles.dropdownGroup}>Heroes</div>
@@ -123,6 +130,32 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
           document.body,
         )
       : null;
+
+  if (mobileBar) {
+    return (
+      <div className={styles.mobileAddFighterBar}>
+        <button
+          ref={btnRef}
+          className={`button button--secondary ${styles.mobileAddFighterBtn}`}
+          onClick={handleToggle}
+          disabled={!factionId || atFighterLimit}
+          title={atFighterLimit ? 'Warband is at maximum size — remove a fighter to add another' : undefined}
+        >
+          + Add fighter
+        </button>
+        {hasPending && onPurchase && (
+          <button
+            type="button"
+            className={`button button--primary ${styles.mobileAddFighterBtn}`}
+            onClick={onPurchase}
+          >
+            Purchase
+          </button>
+        )}
+        {dropdown}
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles.gridRow} ${styles.addFighterRow}`}>

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
+import { itemsData, weaponsData } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -24,6 +23,16 @@ function costFor(id: string): number {
     itemsData.find(x => x.id === id)?.cost ??
     0
   );
+}
+
+/**
+ * Sale price: half the listed price, rounded down to a multiple of 5gc, but never less
+ * than 5gc (so a 25gc item sells for 10gc and a 5gc dagger still sells for 5gc).
+ * Items that cost nothing sell for nothing.
+ */
+export function salePriceFor(cost: number): number {
+  if (cost <= 0) return 0;
+  return Math.max(5, Math.floor(cost / 2 / 5) * 5);
 }
 
 export default function WarbandStash({ stash, onRemove, onSell }: Props) {
@@ -58,9 +67,8 @@ export default function WarbandStash({ stash, onRemove, onSell }: Props) {
           <span className={styles.stashEmpty}>The stash is empty</span>
         )}
         {stash.map((id, idx) => {
-          const isDagger = id === 'dagger';
-          const salePrice = isDagger ? 0 : Math.floor(costFor(id) / 2);
-          const label = isDagger ? 'Discard' : `Sell for ${salePrice}gc`;
+          const salePrice = salePriceFor(costFor(id));
+          const label = `Sell for ${salePrice}gc`;
           return (
             <span
               key={`${id}-${idx}`}

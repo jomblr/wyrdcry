@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import factionsData from '@site/src/data/factions.json';
-import campaignRules from '@site/src/data/campaign-rules.json';
+import { campaignRules, factionsData } from './data';
 import styles from './warband-builder.module.css';
+
+// Not offered when creating a warband: hired swords aren't a faction you lead, and the
+// experimental warbands aren't ready for the builder yet. Kept in code rather than the
+// JSON so WyrdForge exports can't bring them back.
+const HIDDEN_FACTIONS = new Set(['hired-sword', 'shadow-warriors', 'dwarf-treasure']);
 
 interface Props {
   onConfirm: (factionId: string, gold: number) => void;
@@ -30,7 +34,7 @@ export default function FactionPickerModal({ onConfirm, onCancel }: Props) {
             autoFocus
           >
             <option value="" disabled>Select faction</option>
-            {factionsData.filter(f => f.id !== 'hired-sword').map(f => (
+            {factionsData.filter(f => !HIDDEN_FACTIONS.has(f.id)).map(f => (
               <option key={f.id} value={f.id}>{f.name}</option>
             ))}
           </select>

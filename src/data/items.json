@@ -1,30 +1,93 @@
 [
   {
+    "id": "blessed-water",
+    "name": "Blessed Water",
+    "type": "single-use",
+    "description": "The bearer may use this item on one of their weapons as a free action. Until the end of the battle, that weapon gains the blessed weapon rule.",
+    "effect": null,
+    "cost": 5,
+    "rare": false
+  },
+  {
+    "id": "crimson-shade",
+    "name": "Crimson Shade",
+    "type": "single-use",
+    "description": "The bearer may use this item as a free action. If they do, add 1 to their Move and Fight characteristics until the end of the battle. Then, in the aftermath sequence, roll a dice. On a 1-2, the fighter gains the 'Sticky Fingers' lasting injury.",
+    "effect": null,
+    "cost": 15,
+    "rare": false
+  },
+  {
+    "id": "dark-venom",
+    "name": "Dark Venom",
+    "type": "single-use",
+    "description": "The bearer may use this item on one of their weapons as a free action. Until the end of the battle, that weapon gains the poisoned weapon rule. ",
+    "effect": null,
+    "cost": 15,
+    "rare": true
+  },
+  {
+    "id": "elven-cloak",
+    "name": "Elven Cloak",
+    "type": "miscellaneous",
+    "description": "When this fighter is targeted by a ranged attack action, it is considered to be in cover if it is more than 6\" away from the attacking fighter.",
+    "effect": null,
+    "cost": 50,
+    "rare": true
+  },
+  {
     "id": "familiar",
     "name": "Familiar",
     "type": "single-use",
-    "description": "",
+    "description": "A Wizard may use this item to ignore the effects of a single roll on the magical calamity table. Declare this after making the roll but before resolving its effects.",
     "effect": null,
-    "cost": 50,
+    "cost": 30,
+    "rare": true
+  },
+  {
+    "id": "healing-draught",
+    "name": "Healing Draught",
+    "type": "single-use",
+    "description": "The bearer may use this item as a free action to immediately use the ‘Respite’ ability without needing or spending ability dice to do so.",
+    "effect": null,
+    "cost": 20,
     "rare": true
   },
   {
     "id": "heavy-armour",
     "name": "Heavy Armour",
     "type": "armour",
-    "description": "Increase the Defense characteristic of the bearer by 2. The bearer can never move further than 4” in a single action.",
+    "description": "Add 3 to the bearer’s Armour characteristic, and subtract 1 from their Move characteristic.",
     "effect": {
       "characteristic": "defense",
-      "bonus": 2
+      "bonus": 3
     },
     "cost": 70,
+    "rare": false
+  },
+  {
+    "id": "holy-relic",
+    "name": "Holy Relic",
+    "type": "miscellaneous",
+    "description": "If the bearer is included in your warband, you begin each battle with 1 additional Wyrd  dice.",
+    "effect": null,
+    "cost": 60,
+    "rare": true
+  },
+  {
+    "id": "lantern",
+    "name": "Lantern",
+    "type": "miscellaneous",
+    "description": "Add 1 to the bravery characteristic of friendly fighters within 3” of this fighter. However, enemy fighters may add 1 to their Shoot characteristic when targeting this fighter with ranged attack actions.",
+    "effect": null,
+    "cost": 10,
     "rare": false
   },
   {
     "id": "light-armour",
     "name": "Light Armour",
     "type": "armour",
-    "description": "Increase the Defense characteristic of the bearer by 1.",
+    "description": "Add 1 to the bearer’s Armour characteristic.",
     "effect": {
       "characteristic": "defense",
       "bonus": 1
@@ -33,15 +96,115 @@
     "rare": false
   },
   {
+    "id": "lucky-charm",
+    "name": "Lucky Charm",
+    "type": "single-use",
+    "description": "The bearer may use this item when targeted by an attack action, after the hit rolls have been made, to turn one critical hit into a hit.",
+    "effect": null,
+    "cost": 15,
+    "rare": true
+  },
+  {
+    "id": "mad-cap-mushrooms",
+    "name": "Mad Cap Mushrooms",
+    "type": "single-use",
+    "description": "The bearer may use this item as a free action. Add 3 to this fighter's Fight characteristic until the end of the battle. It also gains the 'Stupidity' injury for the duration of the battle.",
+    "effect": null,
+    "cost": 15,
+    "rare": false
+  },
+  {
+    "id": "master-wrought-weapon",
+    "name": "Master Wrought Weapon",
+    "type": "miscellaneous",
+    "description": "Purchase a weapon from the fighter’s faction entry, and increase its gold coin cost by 100 gold coin. Then, add 1 to its hit damage and critical damage characteristics.",
+    "effect": null,
+    "cost": 100,
+    "rare": true
+  },
+  {
+    "id": "mordheim-map",
+    "name": "Mordheim Map",
+    "type": "miscellaneous",
+    "description": "When this fighter's search party is deployed to the battlefield, each fighter in it can make a free Move action.",
+    "effect": null,
+    "cost": 80,
+    "rare": true
+  },
+  {
+    "id": "rope-and-hook",
+    "name": "Rope and Hook",
+    "type": "miscellaneous",
+    "description": "When the bearer climbs, they count as climbing a ladder. When climbing down, count only half of the vertical distance moved toward the fighter’s Move characteristic (rounding up).",
+    "effect": null,
+    "cost": 10,
+    "rare": false,
+    "faction": null
+  },
+  {
     "id": "shield",
     "name": "Shield",
     "type": "armour",
-    "description": "Increase the Defense characteristic of the bearer by 1.",
-    "effect": {
-      "characteristic": "defense",
-      "bonus": 1
-    },
+    "description": "Increase the bearer's Fight characteristic by 1 when targeted by a melee attack action. When targeted by a ranged attack action, the bearer is considered to be in cover.",
+    "effect": null,
     "cost": 20,
+    "rare": false,
+    "faction": null
+  },
+  {
+    "id": "smoke-bomb",
+    "name": "Smoke Bomb",
+    "type": "single-use",
+    "description": "The bearer may use this item to make a free Retreat action. During that action, enemy fighters within 3” of the bearer cannot make reactions.",
+    "effect": null,
+    "cost": 15,
+    "rare": true,
+    "faction": "clan-eshin"
+  },
+  {
+    "id": "superior-blackpowder",
+    "name": "Superior Blackpowder",
+    "type": "single-use",
+    "description": "Use this item during the ‘Present Warbands’ step. Until the end of the battle, remove the Unreliable weapon rule from all equipped weapons.",
+    "effect": null,
+    "cost": 15,
     "rare": false
+  },
+  {
+    "id": "wyrdstone-pendulum",
+    "name": "Wyrdstone Pendulum",
+    "type": "miscellaneous",
+    "description": "After making an exploration roll in the aftermath sequence, if the bearer is in the search party, you may add or subtract 1 from one dice result.",
+    "effect": null,
+    "cost": 20,
+    "rare": true
+  },
+  {
+    "id": "grimoire",
+    "name": "Grimoire",
+    "type": "miscellaneous",
+    "description": "If the bearer is a `WIZARD`, they may select one additional magical ability from the list in their fighter profile.",
+    "effect": null,
+    "cost": 60,
+    "rare": true
+  },
+  {
+    "id": "hunting-arrows",
+    "name": "Hunting Arrows",
+    "type": "single-use",
+    "description": "The bearer may use this item on one of their ranged weapons as a free action. Until the end of the battle, that weapon gains the **Piercing 1** weapon rule.",
+    "effect": null,
+    "cost": 10,
+    "rare": false
+  },
+  {
+    "id": "prayer-beads",
+    "name": "Prayer Beads",
+    "type": "miscellaneous",
+    "description": "Once per battleround, this fighter can re-roll a failed Bravery test.",
+    "effect": null,
+    "cost": 15,
+    "rare": false,
+    "faction": "sisters-of-sigmar"
   }
 ]

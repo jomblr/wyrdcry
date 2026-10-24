@@ -1,0 +1,25 @@
+{
+  "race": [
+    "SKAVEN",
+    "BEAST",
+    "HUMAN",
+    "DAEMON",
+    "VAMPIRE",
+    "GHOUL",
+    "ZOMBIE",
+    "THRALL",
+    "DWARF",
+    "ELF",
+    "OGRE",
+    "MONSTER",
+    "BEASTMAN"
+  ],
+  "archetype": [
+    "HERO",
+    "LEADER",
+    "HENCHMAN",
+    "WIZARD",
+    "MUTANT",
+    "TERRIFYING"
+  ]
+}

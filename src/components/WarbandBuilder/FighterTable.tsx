@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -17,25 +17,24 @@ import {
 import type { FighterInstance, Warband, StatKey } from './useWarband';
 import { calcValue, calcPendingCost } from './useWarband';
 import FighterRow from './FighterRow';
+import FighterCard from './FighterCard';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
-import factionsData from '@site/src/data/factions.json';
-import campaignRules from '@site/src/data/campaign-rules.json';
+import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
-const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
+// `short` is shown instead of `label` on narrower desktop windows (see .statFull/.statShort).
+const HEADERS: { label: string; short?: string; center?: boolean; indent?: boolean }[] = [
   { label: '' },
   { label: 'Fighter' },
-  { label: 'M',             center: true },
-  { label: 'F',             center: true },
-  { label: 'S',             center: true },
-  { label: 'D',             center: true },
-  { label: 'H',             center: true },
-  { label: 'B',             center: true },
+  { label: 'Move',    short: 'M', center: true },
+  { label: 'Fight',   short: 'F', center: true },
+  { label: 'Shoot',   short: 'S', center: true },
+  { label: 'Defense', short: 'D', center: true }, // renamed from statLabels below (Armour / A)
+  { label: 'Health',  short: 'H', center: true },
+  { label: 'Bravery', short: 'B', center: true },
   { label: 'Equipment', indent: true },
   { label: 'Notes' },
-  { label: 'XP',            center: true },
   { label: 'R',             center: true },
   { label: 'Value',         center: true },
   { label: '',              center: true },
@@ -44,7 +43,6 @@ const HEADERS: { label: string; center?: boolean; indent?: boolean }[] = [
 interface Props {
   warband: Warband;
   onSetFighterName: (instanceId: string, name: string) => void;
-  onSetFighterXp: (instanceId: string, xp: number) => void;
   onSetFighterRenown: (instanceId: string, renown: number) => void;
   onSetFighterEquipment: (instanceId: string, equipment: string[]) => void;
   onSetFighterPendingEquipment: (instanceId: string, equipment: string[]) => void;
@@ -58,6 +56,22 @@ interface Props {
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
+  hasPending?: boolean;
+  onPurchase?: () => void;
+}
+
+function useIsMobile(breakpoint = 800) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [breakpoint]);
+  return isMobile;
 }
 
 function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstance[], atFighterLimit: boolean): boolean {
@@ -73,7 +87,6 @@ function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstanc
 export default function FighterTable({
   warband,
   onSetFighterName,
-  onSetFighterXp,
   onSetFighterRenown,
   onSetFighterEquipment,
   onSetFighterPendingEquipment,
@@ -87,8 +100,15 @@ export default function FighterTable({
   onSetFighterStat,
   onSetFighterNotes,
   onSetFighterCostOverride,
+  hasPending,
+  onPurchase,
 }: Props) {
+  const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
+  // The Defense column is headed Armour; read from statLabels in gameData.
+  const headers = HEADERS.map(h =>
+    h.label === 'Defense' ? { ...h, label: statLabels().defense, short: statLabels().defenseShort } : h,
+  );
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
   const remainingGold = warband.gold - calcValue(warband, fightersData) - calcPendingCost(warband, fightersData);
@@ -111,18 +131,64 @@ export default function FighterTable({
     onReorderFighters(arrayMove(warband.fighters, oldIndex, newIndex));
   }
 
+  if (isMobile) {
+    return (
+      <>
+        <div className={styles.fighterCardList}>
+          {warband.fighters.map((instance: FighterInstance, idx: number) => (
+            <FighterCard
+              key={instance.instanceId}
+              instance={instance}
+              remainingGold={remainingGold}
+              canMoveUp={idx > 0}
+              canMoveDown={idx < warband.fighters.length - 1}
+              onMoveUp={() => onReorderFighters(arrayMove(warband.fighters, idx, idx - 1))}
+              onMoveDown={() => onReorderFighters(arrayMove(warband.fighters, idx, idx + 1))}
+              onSetName={name => onSetFighterName(instance.instanceId, name)}
+              onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
+              onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
+              onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
+              onRemove={() => onRemoveFighter(instance.instanceId)}
+              onDuplicate={() => onDuplicateFighter(instance.instanceId)}
+              canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
+              onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+              onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
+              onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+              onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+            />
+          ))}
+        </div>
+        <AddFighterRow
+          factionId={warband.factionId}
+          currentFighters={warband.fighters}
+          atFighterLimit={atFighterLimit}
+          remainingGold={remainingGold}
+          onAdd={onAddFighter}
+          mobileBar
+          hasPending={hasPending}
+          onPurchase={onPurchase}
+        />
+      </>
+    );
+  }
+
   return (
     <div className={styles.tableScrollOuter}>
     <div className={styles.tableWrapper}>
       <div className={`${styles.wbGrid} ${styles.fighterGrid}`}>
         {/* Header */}
         <div className={`${styles.gridHeader} ${styles.gridHeaderSticky}`}>
-          {HEADERS.map((h, i) => (
+          {headers.map((h, i) => (
             <div
               key={i}
               className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''}`}
             >
-              {h.label}
+              {h.short ? (
+                <>
+                  <span className={styles.statFull}>{h.label}</span>
+                  <span className={styles.statShort}>{h.short}</span>
+                </>
+              ) : h.label}
             </div>
           ))}
         </div>
@@ -144,7 +210,6 @@ export default function FighterTable({
                 stash={warband.stash}
                 remainingGold={remainingGold}
                 onSetName={name => onSetFighterName(instance.instanceId, name)}
-                onSetXp={xp => onSetFighterXp(instance.instanceId, xp)}
                 onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
                 onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
                 onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}

@@ -9,7 +9,9 @@
   box-sizing: border-box;
   margin-top: calc(-1 * var(--wyrd-nav-h));
   min-height: 100vh;
-  padding: calc(var(--wyrd-nav-h) + 1.6rem) 2rem 2rem;
+  min-height: 100svh;
+  /* Small top padding: the logo may sit behind the (transparent) navbar. */
+  padding: 0.75rem 2rem 2rem;
   text-align: center;
   position: relative;
   z-index: 0;
@@ -19,7 +21,7 @@
   background-position: center center;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -40,19 +42,53 @@
 .heroContent {
   position: relative;
   z-index: 1;
+  /* Fill the hero's height (minus its padding) so .heroMain can centre vertically. */
+  min-height: calc(100svh - 2.75rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* Everything below scales with viewport height too, so the buttons stay above the fold. */
+  gap: clamp(0.75rem, 3vh, 2rem);
+}
+
+.heroMain {
+  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: clamp(0.75rem, 3vh, 2rem);
+}
+
+.logoBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logotype {
-  max-width: 576px;
-  width: 100%;
+  /* An explicit width, not max-width + 100%: the SVG has only a viewBox (no intrinsic size),
+   * and inside this shrink-to-fit column Firefox resolved "100%" to a tiny fallback width. */
+  width: min(200px, 20vh);
+  max-width: 100%;
   height: auto;
   display: block;
-  margin-top: 13px;
+  margin-top: 0;
+}
+
+
+/* Gothicus only ships a Regular weight — keep 400 so browsers don't fake-bold it. */
+.headline {
+  /* 60px total from headline to buttons: this margin tops up .heroMain's gap (same clamp). */
+  margin: 0 0 calc(60px - clamp(0.75rem, 3vh, 2rem));
+  font-family: var(--wyrd-font-gothicus);
+  font-weight: 400;
+  font-size: clamp(2rem, min(7.8vw, 13vh), 9rem);
+  line-height: 1.05;
+  color: #fff;
+  text-align: center;
 }
 
 .buttons {
@@ -60,35 +96,67 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.buttons a {
+/* Desktop: exactly two rows, one per line. The headline may be wider than the
+ * Infima container, so let it break out to the viewport width. */
+.headlineLine {
+  display: block;
+  white-space: nowrap;
+}
+
+.headline {
+  width: 100vw;
+}
+
+/* Infima's large button (`button button--lg`), recoloured white — same treatment the old
+ * Discord button had. Identical in light and dark theme (the hero is always dark). */
+.heroButton {
+  font-weight: 700 !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: #ffffff !important;
+}
+
+.heroButton:hover {
+  background: #e8e8e8 !important;
+  border-color: #e8e8e8 !important;
+  color: #000000 !important;
+}
+
+.discordLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.4em;
+  font-family: var(--wyrd-font-body);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  text-decoration: none;
 }
 
-.discordButton {
-  background: #ffffff !important;
-  color: #333333 !important;
-  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+.discordLink svg {
+  font-size: 1.3em;
+  color: #fff;
 }
 
-.discordButton:hover {
-  background: #f0f0f0 !important;
-  color: #1a1a1a !important;
+.discordLink:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
-[data-theme='dark'] .discordButton {
-  background: #ffffff !important;
-  color: #1a1a1a !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
+/* Below ~1230px the left/right navbar items reach the centre and would overlap a logo
+ * sitting under the navbar, so push the hero down to start below the bar. (Phones get
+ * their own padding in the next block.) */
+@media screen and (max-width: 1230px) {
+  .heroBanner {
+    padding-top: calc(var(--wyrd-nav-h) + 0.5rem);
+  }
 
-[data-theme='dark'] .discordButton:hover {
-  background: #e8e8e8 !important;
-  color: #000000 !important;
+  .heroContent {
+    min-height: calc(100svh - var(--wyrd-nav-h) - 2.5rem);
+  }
 }
 
 @media screen and (max-width: 996px) {
@@ -96,7 +164,33 @@
     padding: calc(var(--wyrd-nav-h) + 1.2rem) 1.5rem 1.5rem;
   }
 
+  /* Phones: let the headline wrap naturally instead of the forced 2-row desktop layout. */
+  .headlineLine {
+    display: inline;
+    white-space: normal;
+  }
+
+  .headline {
+    width: auto;
+    font-size: clamp(2rem, min(10vw, 8vh), 3.5rem);
+  }
+
   .heroContent {
     gap: 1.5rem;
+  }
+
+  .logotype {
+    width: min(160px, 18vh);
+  }
+
+  .buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .heroButton {
+    width: 100%;
+    max-width: 20rem;
   }
 }

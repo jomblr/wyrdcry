@@ -3,13 +3,14 @@ sidebar_position: 4
 title: The Initiative Phase
 ---
 # The Initiative Phase
+---
 ## 1. Determine Initiative
-Each player rolls 6 dice and count the amount of singles they have. A single is a die with a score that does not match the score on any other dice in that player’s roll. The player with the most singles has the initiative.
+Each player rolls 6 dice and count the amount of **singles** they have. A single is a die with a score that does not match the score on any other dice in that player’s roll. The player with the most singles has the initiative.
 
 If both players are tied for singles, they must roll off. The winner of that roll off has the initiative.
 
 ### Ability Dice
-Group all remaining dice by their score. These are your ability dice, which are used to activate powerful maneuvers and spells in the combat phase. When referenced in a rule, an ability dice looks like this:
+The players then group all remaining dice by their score. These are **ability dice**, which are used to activate powerful abilities in the combat phase. When referenced in a rule, an ability dice looks like this:
 
 - **[Double]** = 2 dice with the same score
 - **[Triple]** = 3 dice with the same score

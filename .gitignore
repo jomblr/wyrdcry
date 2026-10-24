@@ -8,6 +8,15 @@
 .docusaurus
 .cache-loader
 
+# WyrdForge sandbox data — generated from src/data by scripts/copy-forge-data.js
+/static/forge/data
+
+# Editor / workspace state
+.obsidian/
+
+# Claude Code local settings (per-machine permissions)
+.claude/settings.local.json
+
 # Misc
 .DS_Store
 .env.local
@@ -18,3 +27,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# WyrdForge export snapshots (folders + zips) — copy the JSON you want into
+# src/data/; don't commit the exports.
+src/data/wyrdforge-*
+

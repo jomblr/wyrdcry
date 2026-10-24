@@ -5,22 +5,20 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import fightersData from '@site/src/data/fighters.json';
-import weaponsData from '@site/src/data/weapons.json';
-import itemsData from '@site/src/data/items.json';
+import { fightersData, hasTag, itemsData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
+import FighterKeywords from './FighterKeywords';
 
 interface Props {
   instance: FighterInstance;
   stash: string[];
   remainingGold: number;
   onSetName: (name: string) => void;
-  onSetXp: (xp: number) => void;
   onSetRenown: (renown: number) => void;
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
@@ -35,7 +33,7 @@ interface Props {
   onSetCostOverride: (cost: number | null) => void;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetXp, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [valueModalOpen, setValueModalOpen] = useState(false);
@@ -79,11 +77,11 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   const typeLabel = profile?.name ?? '';
   const isHero = (profile?.keywords.includes('HERO') ?? false) || instance.renown >= 4;
   const isWizard = profile?.keywords.includes('WIZARD') ?? false;
-  const isBeast = profile?.race.includes('BEAST') ?? false;
-  const isThrall = profile?.race.includes('THRALL') ?? false;
-  const isDaemon = profile?.race.includes('DAEMON') ?? false;
+  const isBeast = profile ? hasTag(profile, 'BEAST') : false;
+  const isThrall = profile ? hasTag(profile, 'THRALL') : false;
+  const isDaemon = profile ? hasTag(profile, 'DAEMON') : false;
   const noEquipment = isBeast || isThrall || isDaemon;
-  const noXpRenown = isBeast || isThrall;
+  const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
   // Pending: all equipment on a pending fighter is pending; on a purchased fighter,
@@ -93,8 +91,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     ? instance.equipment
     : [...instance.equipment, ...instance.pendingEquipment];
 
-  const equipCost = instance.equipment.reduce((sum, eid, idx) => {
-    if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return sum; // first dagger is free
+  const equipCost = instance.equipment.reduce((sum, eid) => {
     const w = weaponsData.find(x => x.id === eid);
     if (w) return sum + w.cost;
     const item = itemsData.find(x => x.id === eid);
@@ -105,8 +102,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   function buildCostBreakdown(): string | undefined {
     const lines: string[] = [`Fighter: ${baseCost}gc`];
-    instance.equipment.forEach((eid, idx) => {
-      if (eid === 'dagger' && instance.equipment.indexOf(eid) === idx) return;
+    instance.equipment.forEach(eid => {
       const w = weaponsData.find(x => x.id === eid);
       const item = itemsData.find(x => x.id === eid);
       const name = w?.name ?? item?.name ?? eid;
@@ -279,6 +275,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           />
         </div>
         <span className={styles.fighterType}>{typeLabel}</span>
+        <FighterKeywords race={profile.race} keywords={profile.keywords} />
       </div>
 
       {/* Stats — click/scroll spinners */}
@@ -375,16 +372,9 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         />
       </div>
 
-      {/* XP */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
-        {noXpRenown ? '—' : (
-          <StatSpinner value={instance.xp} min={0} onChange={onSetXp} />
-        )}
-      </div>
-
       {/* Renown */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${noXpRenown ? styles.lockedCell : ''}`}>
-        {noXpRenown ? '—' : (
+      <div className={`${styles.cell} ${styles.cellCenter} ${noRenown ? styles.lockedCell : ''}`}>
+        {noRenown ? '—' : (
           <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} />
         )}
       </div>

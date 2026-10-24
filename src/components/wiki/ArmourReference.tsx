@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
-import itemsData from '@site/src/data/items.json';
+import { useGameData } from '@site/src/data/gameData';
 import { armourAnchorId } from './wikiPaths';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
 export default function ArmourReference() {
+  const { items } = useGameData();
   const armour = useMemo(
     () =>
-      itemsData
+      items
         .filter(i => i.type === 'armour')
         .sort((a, b) => a.name.localeCompare(b.name)),
-    [],
+    [items],
   );
 
   return (

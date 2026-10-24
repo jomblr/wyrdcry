@@ -8,15 +8,12 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import rehypeSlug from 'rehype-slug';
 import Heading from '@theme/Heading';
-import fightersData from '@site/src/data/fighters.json';
-import factionsData from '@site/src/data/factions.json';
-import abilitiesData from '@site/src/data/abilities.json';
-import weaponsData from '@site/src/data/weapons.json';
+import { useGameData, type GameData } from '@site/src/data/gameData';
 import { compareFightersByRoleThenName, limitLabel } from './factionUtils';
 import { SpecialRuleLinks } from './WeaponsReference';
 import wb from '../WarbandBuilder/warband-builder.module.css';
 
-type Fighter = (typeof fightersData)[number];
+type Fighter = GameData['fighters'][number];
 
 interface Props {
   factionId: string;
@@ -84,7 +81,8 @@ function FighterAbilitiesMarkdown({ source }: { source: string }) {
  * Set front matter `faction_id` on the faction doc (see `FactionTocFrontMatter` in `mergeFighterToc.ts`) so fighter names merge into the right-hand TOC; URLs are also inferred when omitted.
  */
 export default function FactionFighters({ factionId }: Props) {
-  const fighters = fightersData
+  const { fighters: allFighters } = useGameData();
+  const fighters = allFighters
     .filter(f => f.faction === factionId)
     .sort(compareFightersByRoleThenName);
 
@@ -114,7 +112,8 @@ export default function FactionFighters({ factionId }: Props) {
 
 /** Renders a single fighter card by fighter id. */
 export function FighterCard({ fighterId }: { fighterId: string }) {
-  const fighter = fightersData.find(f => f.id === fighterId);
+  const { fighters } = useGameData();
+  const fighter = fighters.find(f => f.id === fighterId);
   if (!fighter) {
     return (
       <p>
@@ -129,8 +128,9 @@ export function FighterCard({ fighterId }: { fighterId: string }) {
 }
 
 function FighterKeywordLine({ fighter: f }: { fighter: Fighter }) {
+  const { factions } = useGameData();
   const factionName =
-    factionsData.find(x => x.id === f.faction)?.name ?? f.faction;
+    factions.find(x => x.id === f.faction)?.name ?? f.faction;
   const races = f.race ?? [];
   const roleKeywords = f.keywords ?? [];
 
@@ -160,58 +160,142 @@ function abilityTypeSortKey(type: string): number {
   return i === -1 ? ABILITY_TYPE_ORDER.length : i;
 }
 
-function resolvedAbilitiesMarkdown(fighter: Fighter): string {
+/**
+ * Abilities markdown for a fighter, with the preamble returned separately so it can be
+ * rendered in its own (italic) block — wrapping it in `*…*` inside the markdown would
+ * break as soon as a preamble carried its own emphasis or ran to several paragraphs.
+ */
+function resolvedAbilitiesMarkdown(
+  fighter: Fighter,
+  abilitiesData: GameData['abilities'],
+): { preamble: string; body: string } {
   const f = fighter as { faction_ability_ids?: string[]; ability_preamble?: string; abilities?: string };
   const ids = f.faction_ability_ids;
+  // The preamble shows whenever it's filled in — even for a fighter with no abilities
+  // (e.g. the Mutant's "must roll on the mutation table").
+  const preamble = f.ability_preamble?.trim() ?? '';
   if (ids && ids.length > 0) {
-    const preamble = f.ability_preamble?.trim() ? `${f.ability_preamble.trim()}\n\n` : '';
-    const list = ids
+    const body = ids
       .map(id => abilitiesData.find(a => a.id === id))
-      .filter((a): a is (typeof abilitiesData)[number] => a !== undefined)
+      .filter((a): a is GameData['abilities'][number] => a !== undefined)
       .sort((a, b) => abilityTypeSortKey(a.ability_type) - abilityTypeSortKey(b.ability_type))
       .map(a => `**[${abilityTypeLabel(a.ability_type)}] ${a.name}:** ${a.description}`)
       .join('\n\n');
-    return preamble + list;
+    return { preamble, body };
   }
-  return f.abilities?.trim() ?? '';
+  return { preamble, body: f.abilities?.trim() ?? '' };
 }
 
-function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
-  const weapons = equipment
-    .map(e => e.replace(/^weapon:/, ''))
-    .map(id => weaponsData.find(w => w.id === id))
-    .filter((w): w is (typeof weaponsData)[number] => w !== undefined);
+/** Non-weapon gear a fighter comes with (`item:` entries in default_equipment) — mostly hired swords. */
+function DefaultItemsTable({ equipment }: { equipment: string[] }) {
+  const { items: allItems } = useGameData();
+  const items = equipment
+    .filter(e => e.startsWith('item:'))
+    .map(e => allItems.find(i => i.id === e.slice('item:'.length)))
+    .filter((i): i is GameData['items'][number] => i !== undefined);
 
-  if (weapons.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
     <div className={wb.tableScrollOuterWiki}>
-      <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.weaponRefGrid} ${wb.weaponRefGridCompact}`}>
+      <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.itemRefGridCompact}`}>
         <div className={wb.gridHeader}>
-          <div className={wb.hCell}>Weapon</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>R</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>A</div>
-          <div className={`${wb.hCell} ${wb.hCellCenter}`}>D</div>
-          <div className={wb.hCell}>Special</div>
+          <div className={wb.hCell}>Other Equipment</div>
         </div>
-        {weapons.map(w => (
-          <div className={`${wb.gridRow} ${wb.gridRowNoHover}`} key={w.id}>
-            <div className={wb.cell}>{w.name}</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
-            <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
-            <div className={`${wb.cell} ${wb.cellWrap}`}>
-              <SpecialRuleLinks rules={w.special_rules} />
-            </div>
-          </div>
-        ))}
+        <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+          <div className={`${wb.cell} ${wb.cellWrap}`}>{items.map(i => i.name).join(', ')}</div>
+        </div>
       </div>
     </div>
   );
 }
 
+function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
+  const { weapons: allWeapons } = useGameData();
+  const weapons = equipment
+    .map(e => e.replace(/^weapon:/, ''))
+    .map(id => allWeapons.find(w => w.id === id))
+    .filter((w): w is GameData['weapons'][number] => w !== undefined);
+
+  if (weapons.length === 0) return null;
+
+  return (
+    <>
+      {/* Desktop (≥768px): one five-column table. */}
+      <div className="weaponTableDesktop">
+      <div className={wb.tableScrollOuterWiki}>
+        <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.weaponRefGrid} ${wb.weaponRefGridCompact}`}>
+          <div className={wb.gridHeader}>
+            <div className={wb.hCell}>Weapon</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Range</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Attacks</div>
+            <div className={`${wb.hCell} ${wb.hCellCenter}`}>Damage</div>
+            <div className={wb.hCell}>Special</div>
+          </div>
+          {weapons.map(w => (
+            <div className={`${wb.gridRow} ${wb.gridRowNoHover}`} key={w.id}>
+              {/* Long names wrap onto a second line rather than being cut off. */}
+              <div className={`${wb.cell} ${wb.cellWrap}`}>{w.name}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
+              <div className={`${wb.cell} ${wb.cellWrap}`}>
+                <SpecialRuleLinks rules={w.special_rules} pills />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      </div>
+
+      {/* Phones: one stacked card per weapon, like the two-row stat block. */}
+      <div className="weaponTableMobile">
+        {weapons.map(w => (
+          <div className="weaponMobileCard" key={w.id}>
+            {/* Weapon name as a label above its table. */}
+            <div className="weaponMobileName">{w.name}</div>
+            <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
+            <div className={wb.gridHeader}>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Range</div>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Attacks</div>
+              <div className={`${wb.hCell} ${wb.hCellCenter}`}>Damage</div>
+            </div>
+            <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.range}&quot;</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.attacks}</div>
+              <div className={`${wb.cell} ${wb.cellCenter}`}>{w.hit}/{w.crit}</div>
+            </div>
+            {w.special_rules.length > 0 && (
+              <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
+                <div className={`${wb.cell} ${wb.cellWrap} weaponMobileFull`}>
+                  <SpecialRuleLinks rules={w.special_rules} pills />
+                </div>
+              </div>
+            )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function recruitableByText(ids: string[], factions: GameData['factions']): string {
+  const names = ids
+    .map(id => factions.find(fac => fac.id === id)?.name ?? id)
+    .sort((a, b) => a.localeCompare(b));
+  if (names.length === 1) return `May be recruited by ${names[0]}.`;
+  const last = names[names.length - 1];
+  const rest = names.slice(0, -1);
+  return `May be recruited by ${rest.join(', ')} and ${last}.`;
+}
+
 function FighterSection({ fighter: f }: { fighter: Fighter }) {
-  const abilities = resolvedAbilitiesMarkdown(f);
+  const { abilities: abilitiesData, factions, statLabels } = useGameData();
+  // Exports may use `armour` or the older `defense` key.
+  const armourValue = (f as { armour?: number; defense?: number }).armour
+    ?? (f as { defense?: number }).defense;
+  const abilities = resolvedAbilitiesMarkdown(f, abilitiesData);
   const description = f.description?.trim() ?? '';
   const limitText = limitLabel(f.limit);
   const titleWithLimit = limitText ? `${f.name} (${limitText})` : f.name;
@@ -223,12 +307,17 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
           {titleWithLimit}
         </Heading>
         <p>
-          <strong>{f.cost} gc</strong>
+          {/* Hired swords are paid per battle, not once on recruitment. */}
+          <strong>{f.cost} gc{f.faction === 'hired-sword' ? ' / battle' : ''}</strong>
+          {(f as { recruitable_by?: string[] }).recruitable_by?.length ? (
+            <>
+              <br />
+              <em>{recruitableByText((f as { recruitable_by?: string[] }).recruitable_by!, factions)}</em>
+            </>
+          ) : null}
         </p>
         {description ? (
-          <p>
-            <em>{description}</em>
-          </p>
+          <p className="fighter-description">{description}</p>
         ) : null}
 
         <div className="fighterCardStats">
@@ -247,12 +336,12 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
             </div>
             <div className={`${wb.tableWrapper} ${wb.wbGrid} ${wb.fighterStatsRefGrid3}`}>
               <div className={wb.gridHeader}>
-                <div className={`${wb.hCell} ${wb.hCellCenter}`}>Defense</div>
+                <div className={`${wb.hCell} ${wb.hCellCenter}`}>{statLabels.defense}</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Health</div>
                 <div className={`${wb.hCell} ${wb.hCellCenter}`}>Bravery</div>
               </div>
               <div className={`${wb.gridRow} ${wb.gridRowNoHover}`}>
-                <div className={`${wb.cell} ${wb.cellCenter}`}>{f.defense}</div>
+                <div className={`${wb.cell} ${wb.cellCenter}`}>{armourValue}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.health}</div>
                 <div className={`${wb.cell} ${wb.cellCenter}`}>{f.bravery}+</div>
               </div>
@@ -261,10 +350,18 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
         </div>
 
         {(f as any).default_equipment?.length > 0 && (
-          <DefaultEquipmentTable equipment={(f as any).default_equipment} />
+          <>
+            <DefaultEquipmentTable equipment={(f as any).default_equipment} />
+            <DefaultItemsTable equipment={(f as any).default_equipment} />
+          </>
         )}
 
-        {abilities ? <FighterAbilitiesMarkdown source={abilities} /> : null}
+        {abilities.preamble ? (
+          <div className="fighter-ability-preamble">
+            <FighterAbilitiesMarkdown source={abilities.preamble} />
+          </div>
+        ) : null}
+        {abilities.body ? <FighterAbilitiesMarkdown source={abilities.body} /> : null}
 
         <FighterKeywordLine fighter={f} />
       </section>

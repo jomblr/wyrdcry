@@ -1,0 +1,4 @@
+{
+  "_comment": "Which names each faction draws from. 'random' (default for any faction not listed) = male, female and neutral names mixed; 'female' / 'male' = only that list, plus neutral.",
+  "sisters-of-sigmar": "female"
+}

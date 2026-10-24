@@ -1,8 +1,6 @@
 import React from 'react';
 import type { Warband, CustomWeapon } from './useWarband';
-import weaponsData from '@site/src/data/weapons.json';
-import fightersData from '@site/src/data/fighters.json';
-import weaponRulesData from '@site/src/data/weapon-rules.json';
+import { fightersData, hasTag, weaponRulesData, weaponsData } from './data';
 import Tooltip from './Tooltip';
 import styles from './warband-builder.module.css';
 
@@ -18,16 +16,16 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
     ...warband.fighters.flatMap(f => {
       const profile = fightersData.find(p => p.id === f.fighterId);
       const fixedIds = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
-      const isBeast = profile?.race.includes('BEAST') ?? false;
-      const isThrall = profile?.race.includes('THRALL') ?? false;
-      const isDaemon = profile?.race.includes('DAEMON') ?? false;
+      const isBeast = profile ? hasTag(profile, 'BEAST') : false;
+      const isThrall = profile ? hasTag(profile, 'THRALL') : false;
+      const isDaemon = profile ? hasTag(profile, 'DAEMON') : false;
       if (isBeast || isThrall || isDaemon) return fixedIds;
       return [...fixedIds, ...f.equipment];
     }),
     ...warband.stash,
   ];
   const seenIds = new Set<string>();
-  const weapons = allEquipment
+  const weapons = ['unarmed', ...allEquipment]
     .filter(id => {
       const w = weaponsData.find(x => x.id === id);
       if (!w) return false;
@@ -62,7 +60,8 @@ export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCu
 
           {weapons.map(w => (
             <div key={w.id} className={styles.gridRow}>
-              <div className={styles.cell}>{w.name}</div>
+              {/* Long names wrap onto a second line rather than being cut off. */}
+              <div className={`${styles.cell} ${styles.cellWrap} ${styles.weaponRefName}`}>{w.name}</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.range}"</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.attacks}</div>
               <div className={`${styles.cell} ${styles.cellCenter}`}>{w.hit}/{w.crit}</div>
