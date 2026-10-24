@@ -1430,6 +1430,8 @@
 }
 
 .fighterCardFooter {
+  /* Pinned to the card's bottom when cards share a height (locked/carousel view) */
+  margin-top: auto;
   display: flex;
   align-items: center;
   gap: 0.4rem;
