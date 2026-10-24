@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { itemsData, weaponsData } from './data';
 import styles from './warband-builder.module.css';
+import useIsMobile from './useIsMobile';
+import EquipmentInfoSheet from './EquipmentInfoSheet';
 
 interface Props {
   stash: string[];
@@ -36,6 +38,59 @@ export function salePriceFor(cost: number): number {
 }
 
 export default function WarbandStash({ stash, onRemove, onSell }: Props) {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileStash stash={stash} onSell={onSell} />;
+  return <DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} />;
+}
+
+/** Mobile: tags like the fighter cards; tapping one opens its details with Sell. */
+function MobileStash({ stash, onSell }: Pick<Props, 'stash' | 'onSell'>) {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const openId = openIdx !== null ? stash[openIdx] : undefined;
+  const close = () => setOpenIdx(null);
+
+  return (
+    <div className={`${styles.infoPanel} ${styles.stashPanel}`}>
+      <h3 className={styles.stashTitle}>Warband Stash</h3>
+      <div className={styles.fighterCardTags}>
+        {stash.length === 0 && <span className={styles.stashEmpty}>The stash is empty</span>}
+        {stash.map((id, idx) => (
+          <button
+            type="button"
+            key={`${id}-${idx}`}
+            className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
+            onClick={() => setOpenIdx(idx)}
+          >
+            {labelFor(id)}
+          </button>
+        ))}
+      </div>
+      {openId !== undefined && openIdx !== null && (
+        <EquipmentInfoSheet
+          id={openId}
+          onClose={close}
+          actions={
+            <>
+              {/* Already stashed */}
+              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} disabled>
+                Stash
+              </button>
+              <button
+                type="button"
+                className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`}
+                onClick={() => { onSell(openIdx, salePriceFor(costFor(openId))); close(); }}
+              >
+                Sell for {salePriceFor(costFor(openId))}gc
+              </button>
+            </>
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+function DesktopStash({ stash, onSell }: Props) {
   const [modHeld, setModHeld] = useState(false);
   const [cursor, setCursor] = useState<{ x: number; y: number; text: string } | null>(null);
   const hoveredRef = useRef<{ idx: number; x: number; y: number; text: string } | null>(null);

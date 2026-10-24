@@ -20,6 +20,7 @@ import FighterRow from './FighterRow';
 import FighterCard from './FighterCard';
 import AddFighterRow from './AddFighterRow';
 import styles from './warband-builder.module.css';
+import useIsMobile from './useIsMobile';
 import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
@@ -60,20 +61,6 @@ interface Props {
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
   hasPending?: boolean;
   onPurchase?: () => void;
-}
-
-function useIsMobile(breakpoint = 800) {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, [breakpoint]);
-  return isMobile;
 }
 
 function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstance[], atFighterLimit: boolean): boolean {

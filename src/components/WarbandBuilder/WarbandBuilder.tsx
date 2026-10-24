@@ -10,23 +10,10 @@ import FactionPickerModal from './FactionPickerModal';
 import FighterTable from './FighterTable';
 import InformationTab from './InformationTab';
 import styles from './warband-builder.module.css';
+import useIsMobile from './useIsMobile';
 
 type Tab = 'fighters' | 'information';
 type View = 'list' | 'detail';
-
-function useIsMobile(breakpoint = 800) {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, [breakpoint]);
-  return isMobile;
-}
 
 export default function WarbandBuilder() {
   const [tab, setTab] = useState<Tab>('fighters');
