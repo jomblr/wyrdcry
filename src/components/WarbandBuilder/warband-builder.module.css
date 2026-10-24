@@ -1447,20 +1447,6 @@
   white-space: nowrap;
 }
 
-.fighterCardEditBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  flex-shrink: 0;
-  background: none;
-  border: 1px solid var(--ifm-color-emphasis-500);
-  border-radius: var(--ifm-global-radius);
-  color: var(--ifm-color-content);
-  cursor: pointer;
-}
-
 .fighterCardSection {
   font-family: var(--wyrd-font-body);
   font-size: 0.95rem;

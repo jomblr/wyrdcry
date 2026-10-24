@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { EllipsisVertical, Pencil } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
 import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
@@ -133,6 +133,8 @@ export default function FighterCard({
             </div>
           ) : (
             <>
+              <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(true); }}>Edit fighter</button>
+              <div className={styles.dropdownSep} />
               {canMoveUp && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveUp(); }}>Move up</button>}
               {canMoveDown && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveDown(); }}>Move down</button>}
               {(canMoveUp || canMoveDown) && <div className={styles.dropdownSep} />}
@@ -180,9 +182,6 @@ export default function FighterCard({
           {!noRenown && <span>{instance.renown} Renown</span>}
           <span className={instance.isPending ? styles.pendingCost : undefined}>{totalCost}gc</span>
         </div>
-        <button type="button" className={styles.fighterCardEditBtn} onClick={() => setEditOpen(true)} aria-label="Edit fighter">
-          <Pencil size={18} />
-        </button>
         <button type="button" ref={btnRef} className={styles.ellipsisBtn} onClick={handleMenuToggle} aria-label="Fighter options">
           <EllipsisVertical size={16} />
         </button>
