@@ -2452,3 +2452,18 @@ button.fighterCardTag {
   flex: 0 0 100%;
   scroll-snap-align: center;
 }
+
+/* Mobile purchase button: room for "Purchase ◆ 120/1000gc" without clipping */
+.mobileAddFighterBtn {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.mobilePurchaseBtn {
+  flex-grow: 1.5;
+}
+
+.purchaseCost {
+  font-size: 0.85em;
+}

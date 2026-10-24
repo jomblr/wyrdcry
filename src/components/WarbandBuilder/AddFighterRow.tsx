@@ -160,12 +160,12 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
         {onPurchase && (
           <button
             type="button"
-            className={`button button--primary ${styles.mobileAddFighterBtn}`}
+            className={`button button--primary ${styles.mobileAddFighterBtn} ${styles.mobilePurchaseBtn}`}
             onClick={onPurchase}
             // remainingGold already has the pending cost taken off; add it back for the gold on hand
             disabled={!hasPending || remainingGold < 0}
           >
-            Purchase{hasPending && <> <span className={styles.purchaseDiamond} aria-hidden>◆</span> {pendingCost}/{remainingGold + pendingCost}gc</>}
+            Purchase{hasPending && <> <span className={styles.purchaseDiamond} aria-hidden>◆</span> <span className={styles.purchaseCost}>{pendingCost}/{remainingGold + pendingCost}gc</span></>}
           </button>
         )}
         {dropdown}
