@@ -216,9 +216,7 @@ export default function FighterCard({
             <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onSendToStash(ownedIdx); close(); }}>
               Stash
             </button>
-            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(ownedIdx, salePrice); close(); }}>
-              Sell for {salePrice}gc
-            </button>
+            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(ownedIdx, salePrice); close(); }}>Sell ({salePrice}gc)</button>
           </>
         ) : undefined}
       />

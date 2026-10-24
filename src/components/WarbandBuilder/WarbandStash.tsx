@@ -79,9 +79,7 @@ function MobileStash({ stash, onSell }: Pick<Props, 'stash' | 'onSell'>) {
                 type="button"
                 className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`}
                 onClick={() => { onSell(openIdx, salePriceFor(costFor(openId))); close(); }}
-              >
-                Sell for {salePriceFor(costFor(openId))}gc
-              </button>
+              >Sell ({salePriceFor(costFor(openId))}gc)</button>
             </>
           }
         />

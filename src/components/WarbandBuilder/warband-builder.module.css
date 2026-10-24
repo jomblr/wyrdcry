@@ -2339,12 +2339,7 @@ button.fighterCardTag {
   opacity: 0.4;
 }
 
-/* Edit panel equipment: Add / Remove / Stash / Sell buttons */
-.equipActions {
-  display: flex;
-  gap: 0.35rem;
-}
-
+/* Edit panel equipment: Add / Take from stash buttons */
 .equipActionBtn {
   padding: 0.3rem 0.7rem;
   border-radius: var(--ifm-global-radius);
@@ -2367,24 +2362,12 @@ button.fighterCardTag {
   color: var(--ifm-color-content);
 }
 
-.equipActionBtnWhite {
-  background: #fff;
-  border: 1px solid #fff;
-  color: #111;
-}
-
-:global(html[data-theme='light']) .equipActionBtnWhite {
-  border-color: var(--ifm-color-emphasis-500);
-}
-
-.equipNotBought {
-  display: block;
-  margin-top: 0.1rem;
-  font-size: 0.75rem;
-  color: var(--ifm-color-primary);
-}
-
 .equipEmpty {
   padding: 0.4rem 0;
   color: var(--wyrd-text3);
+}
+
+/* Room below the tags so the next sticky section head doesn't overlap them */
+.currentEquipTags {
+  margin-bottom: 1.25rem;
 }
