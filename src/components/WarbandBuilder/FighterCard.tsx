@@ -156,6 +156,13 @@ export default function FighterCard({
     if (g) g.count++; else equipGroups.push({ name, count: 1, pending });
   });
 
+  // Beasts, thralls and daemons can't buy equipment; show the weapons they're born with instead.
+  const naturalWeapons = (isBeast || isThrall || isDaemon)
+    ? (profile.default_equipment ?? [])
+        .map(id => weaponsData.find(w => w.id === id.replace('weapon:', ''))?.name)
+        .filter((n): n is string => !!n)
+    : [];
+
   const abilities = (profile.faction_ability_ids ?? [])
     .map(id => abilitiesData.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => !!a);
@@ -212,6 +219,15 @@ export default function FighterCard({
               </React.Fragment>
             ))}
           </div>
+        </div>
+      )}
+
+      {naturalWeapons.length > 0 && (
+        <div className={styles.fighterCardSection}>
+          <div className={styles.fighterCardSectionTitle}>
+            {naturalWeapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'}
+          </div>
+          <div>{naturalWeapons.join(', ')}</div>
         </div>
       )}
 
