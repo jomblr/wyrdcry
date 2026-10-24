@@ -1522,6 +1522,8 @@
 .mobileAddFighterBtn {
   flex: 1 1 0;
   min-width: 0;
+  /* Only animate colours; animating size makes the bar glitch when Purchase appears */
+  transition-property: color, background-color, border-color;
   font-size: 1rem;
 }
 
