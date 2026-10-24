@@ -152,11 +152,12 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
         >
           + Add fighter
         </button>
-        {hasPending && onPurchase && (
+        {onPurchase && (
           <button
             type="button"
             className={`button button--primary ${styles.mobileAddFighterBtn}`}
             onClick={onPurchase}
+            disabled={!hasPending}
           >
             Purchase
           </button>
