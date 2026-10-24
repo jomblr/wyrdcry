@@ -45,6 +45,9 @@ interface Props {
   onRemoveLast: (id: string) => void;
   /** Send one purchased copy of this item to the warband stash */
   onStash: (id: string) => void;
+  /** Items in the warband stash this fighter can take for free (purchased fighters only). */
+  stash?: string[];
+  onTakeFromStash?: (id: string) => void;
 }
 
 interface WeaponStats { range: string; attacks: string; damage: string; rules: string[] }
@@ -94,8 +97,10 @@ function SectionHead({ title, weaponColumns, readOnly, open, onToggle }: {
   );
 }
 
-function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onStash }: {
+function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onStash, fromStash }: {
   name: string; weapon?: WeaponStats; cost: number; qty: number;
+  /** A copy is in the stash: + takes it for free instead of buying */
+  fromStash?: boolean;
   addDisabled: boolean; onAdd: () => void; onRemove: () => void;
   /** Set for purchased equipment: replaces the stepper with a Stash button */
   onStash?: () => void;
@@ -104,6 +109,7 @@ function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onSta
     <div className={`${styles.equipRow} ${weapon ? styles.equipRowWeapon : ''} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
       <span className={styles.equipPickerName}>
         {name}
+        {fromStash && <span className={styles.equipFromStash}>Take from stash</span>}
         {weapon && weapon.rules.length > 0 && (
           <span className={styles.equipRules}>
             {weapon.rules.map(rule => <span key={rule}>{rule}</span>)}
@@ -117,7 +123,7 @@ function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onSta
           <span className={styles.equipStat}>{weapon.damage}</span>
         </>
       )}
-      <span className={styles.equipPickerCost}>{`${cost}gc`}</span>
+      <span className={styles.equipPickerCost}>{fromStash ? <s>{cost}gc</s> : `${cost}gc`}</span>
       {onStash ? (
         <button type="button" className={`${styles.panelStatControl} ${styles.equipStepper} ${styles.equipStashBtn}`} onClick={onStash}>
           Stash
@@ -166,7 +172,12 @@ export function NaturalWeapons({ weaponIds }: { weaponIds: string[] }) {
 
 export default function EquipmentPicker({
   allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash,
+  stash = [], onTakeFromStash,
 }: Props) {
+  function inStash(id: string) { return !!onTakeFromStash && stash.includes(id); }
+  /** Stash copies are free, so gold only matters when buying new. */
+  function affordable(id: string, cost: number) { return inStash(id) || cost <= remainingGold; }
+  function add(id: string) { if (inStash(id)) onTakeFromStash!(id); else onAdd(id); }
   const [tradingPostOpen, setTradingPostOpen] = useState(false);
   const combinedIds = [...fixedEquipment, ...allEquipment];
   const slots = countSlots(combinedIds);
@@ -196,14 +207,14 @@ export default function EquipmentPicker({
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
   function canAddMelee(w: (typeof weaponsData)[0]): boolean {
-    if (w.cost > remainingGold) return false;
+    if (!affordable(w.id, w.cost)) return false;
     if (w.special_rules.includes('two-handed'))
       return !combinedIds.includes(w.id) && slots.melee + 2 <= MELEE_SLOTS;
     return combinedQty(w.id) < MELEE_SLOTS && slots.melee + 1 <= MELEE_SLOTS;
   }
 
   function canAddRanged(w: (typeof weaponsData)[0]): boolean {
-    if (w.cost > remainingGold) return false;
+    if (!affordable(w.id, w.cost)) return false;
     if (w.special_rules.includes('brace')) {
       const count = combinedQty(w.id);
       if (count === 0) return slots.ranged + 1 <= RANGED_SLOTS;
@@ -217,12 +228,12 @@ export default function EquipmentPicker({
     if (isWizard) return false;
     if (item.id === 'shield')
       return !combinedIds.includes('shield') && slots.melee + 1 <= MELEE_SLOTS;
-    return !hasExclusiveArmour && item.cost <= remainingGold;
+    return !hasExclusiveArmour && affordable(item.id, item.cost);
   }
 
   // Gear has no slot cost and can be bought more than once
   function canAddGear(item: ReturnType<typeof gearItems>[number]): boolean {
-    return item.cost <= remainingGold;
+    return affordable(item.id, item.cost);
   }
 
   const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
@@ -246,7 +257,8 @@ export default function EquipmentPicker({
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddMelee(w)}
-              onAdd={() => onAdd(w.id)}
+              onAdd={() => add(w.id)}
+              fromStash={inStash(w.id)}
               onRemove={() => onRemoveLast(w.id)}
               onStash={stashHandler(w.id)}
             />
@@ -265,7 +277,8 @@ export default function EquipmentPicker({
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddRanged(w)}
-              onAdd={() => onAdd(w.id)}
+              onAdd={() => add(w.id)}
+              fromStash={inStash(w.id)}
               onRemove={() => onRemoveLast(w.id)}
               onStash={stashHandler(w.id)}
             />
@@ -283,7 +296,8 @@ export default function EquipmentPicker({
               cost={item.cost}
               qty={editableQty(item.id)}
               addDisabled={!canAddArmour(item)}
-              onAdd={() => onAdd(item.id)}
+              onAdd={() => add(item.id)}
+              fromStash={inStash(item.id)}
               onRemove={() => onRemoveLast(item.id)}
             />
           ))}
@@ -304,7 +318,8 @@ export default function EquipmentPicker({
               cost={item.cost}
               qty={editableQty(item.id)}
               addDisabled={!canAddGear(item)}
-              onAdd={() => onAdd(item.id)}
+              onAdd={() => add(item.id)}
+              fromStash={inStash(item.id)}
               onRemove={() => onRemoveLast(item.id)}
             />
           ))}

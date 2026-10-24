@@ -26,6 +26,8 @@ interface Props {
   canDuplicate: boolean;
   onSendToStash: (itemIdx: number) => void;
   onSell: (itemIdx: number, salePrice: number) => void;
+  stash: string[];
+  onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
@@ -46,7 +48,7 @@ export default function FighterCard({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
-  onSendToStash, onSell,
+  onSendToStash, onSell, stash, onTakeFromStash,
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -374,6 +376,8 @@ export default function FighterCard({
           onSetEquipment={onSetEquipment}
           onSetPendingEquipment={onSetPendingEquipment}
           onSendToStash={onSendToStash}
+          stash={stash}
+          onTakeFromStash={onTakeFromStash}
           onSetStat={onSetStat}
           onSetNotes={onSetNotes}
           onSetCostOverride={onSetCostOverride}

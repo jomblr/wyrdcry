@@ -16,6 +16,8 @@ interface Props {
   onSetEquipment: (equipment: string[]) => void;
   onSetPendingEquipment: (equipment: string[]) => void;
   onSendToStash: (itemIdx: number) => void;
+  stash: string[];
+  onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
@@ -57,6 +59,8 @@ export default function FighterEditPanel({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onSendToStash,
+  stash,
+  onTakeFromStash,
   onSetStat, onSetNotes, onSetCostOverride,
   onClose,
 }: Props) {
@@ -168,6 +172,8 @@ export default function FighterEditPanel({
                 isWizard={isWizard}
                 isBeast={isBeast}
                 remainingGold={remainingGold}
+                stash={stash}
+                onTakeFromStash={instance.isPending ? undefined : onTakeFromStash}
                 onAdd={id => {
                   if (instance.isPending) onSetEquipment([...instance.equipment, id]);
                   else onSetPendingEquipment([...instance.pendingEquipment, id]);

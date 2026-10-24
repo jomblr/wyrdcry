@@ -155,6 +155,8 @@ export default function FighterTable({
               canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
               onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
               onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
+              stash={warband.stash}
+              onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
               onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
