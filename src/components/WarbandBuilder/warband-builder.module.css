@@ -1477,12 +1477,12 @@
   right: 0;
   display: flex;
   gap: 0.5rem;
-  padding: 0.6rem 0 calc(1rem + env(safe-area-inset-bottom, 0px));
-  margin-bottom: -1rem;
+  /* bleed across .body's 1.25rem side padding so the top border spans the full width */
+  padding: 0.6rem 1.25rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  margin: 0.25rem -1.25rem -1rem;
   background: var(--ifm-background-color);
   border-top: 1px solid var(--wyrd-border);
   z-index: 10;
-  margin-top: 0.25rem;
 }
 
 .mobileAddFighterBtn {
