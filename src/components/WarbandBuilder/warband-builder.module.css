@@ -1797,11 +1797,6 @@
   padding: 0.25rem 0;
 }
 
-.editPanelProgressRow {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-}
 
 
 .editPanelValue {

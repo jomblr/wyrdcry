@@ -225,7 +225,8 @@ export default function FighterEditPanel({
           {!noRenown && (
             <div className={styles.editPanelSection}>
               <div className={styles.editPanelSectionTitle}>Progress</div>
-              <div className={styles.editPanelProgressRow}>
+              {/* Same grid as Characteristics so the stepper matches in size and style */}
+              <div className={styles.editPanelStatsGrid}>
                 <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />
               </div>
             </div>
