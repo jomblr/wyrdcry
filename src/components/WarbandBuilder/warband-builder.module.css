@@ -2273,3 +2273,22 @@ button.statCard:not(:disabled) {
 .mobileTabRow {
   padding-top: 1rem;
 }
+
+/* Mobile add-fighter menu: larger, easier-to-tap rows */
+.dropdownMobile {
+  max-height: 60vh;
+}
+
+.dropdownMobile .dropdownGroup {
+  font-size: 0.8rem;
+  padding: 0.6rem 1rem 0.2rem;
+}
+
+.dropdownMobile .dropdownItem {
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
+}
+
+.dropdownMobile .dropdownCost {
+  font-size: 1.05rem;
+}

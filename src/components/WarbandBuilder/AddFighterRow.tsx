@@ -93,7 +93,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
   const dropdown =
     open && pos
       ? ReactDOM.createPortal(
-          <div ref={dropdownRef} className={styles.dropdown} style={{ ...dropdownStyle(pos), ...(mobileBar && btnWidth ? { width: btnWidth } : {}) }}>
+          <div ref={dropdownRef} className={`${styles.dropdown} ${mobileBar ? styles.dropdownMobile : ''}`} style={{ ...dropdownStyle(pos), ...(mobileBar && btnWidth ? { width: btnWidth } : {}) }}>
             {heroes.length > 0 && (
               <>
                 <div className={styles.dropdownGroup}>Heroes</div>
