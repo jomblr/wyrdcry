@@ -260,7 +260,7 @@ export default function EquipmentPicker({
           return [{ id, name: w.name, ok: w.type === 'ranged' ? canAddRanged(w, true) : canAddMelee(w, true) }];
         }
         const armour = armourItems().find(x => x.id === id);
-        if (armour) return factionAllowsArmour(id) ? [{ id, name: armour.name, ok: canAddArmour(armour, true) }] : [];
+        if (armour) return factionAllowsArmour(id) && !isWizard ? [{ id, name: armour.name, ok: canAddArmour(armour, true) }] : [];
         const gear = gearItems().find(x => x.id === id);
         return gear ? [{ id, name: gear.name, ok: canAddGear(gear, true) }] : [];
       })
@@ -268,7 +268,8 @@ export default function EquipmentPicker({
 
   const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
   const rangedWeapons = weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
-  const availableArmour = armourItems().filter(i => factionAllowsArmour(i.id));
+  // Wizards can't wear armour, so the section is left out rather than shown greyed out
+  const availableArmour = isWizard ? [] : armourItems().filter(i => factionAllowsArmour(i.id));
 
   if (isBeast) return null;
 
