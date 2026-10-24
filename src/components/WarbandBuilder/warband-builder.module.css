@@ -3,6 +3,8 @@
 .builderShell {
   display: flex;
   height: calc(100vh - var(--ifm-navbar-height));
+  /* dvh tracks the visible viewport on mobile, so the browser toolbar does not hide the bottom bar */
+  height: calc(100dvh - var(--ifm-navbar-height));
   overflow: hidden;
 }
 
