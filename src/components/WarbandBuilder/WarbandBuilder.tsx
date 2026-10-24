@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
+import { useColorMode } from '@docusaurus/theme-common';
 import { ArrowLeft, EllipsisVertical } from 'lucide-react';
 import ReactDOM from 'react-dom';
 import { useWarband } from './useWarband';
@@ -90,6 +91,7 @@ export default function WarbandBuilder() {
   }
 
   const isMobile = useIsMobile();
+  const { colorMode, setColorMode } = useColorMode();
 
   // On mobile, an open warband takes the whole screen: hide the site navbar
   // ("← Warbands" leads back to the list, where the navbar returns).
@@ -174,6 +176,11 @@ export default function WarbandBuilder() {
                     <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
+                    <div className={styles.dropdownSep} />
+                    {/* The site navbar (with its theme switch) is hidden on mobile here */}
+                    <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); setColorMode(colorMode === 'dark' ? 'light' : 'dark'); }}>
+                      {colorMode === 'dark' ? 'Light theme' : 'Dark theme'}
+                    </button>
                   </div>,
                   document.body,
                 )
