@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useColorMode } from '@docusaurus/theme-common';
 import { ArrowLeft, EllipsisVertical } from 'lucide-react';
 import ReactDOM from 'react-dom';
-import { useWarband, calcPendingCost } from './useWarband';
+import { useWarband, calcPendingCost, calcValue } from './useWarband';
 import { fightersData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import WarbandList from './WarbandList';
@@ -103,6 +103,8 @@ export default function WarbandBuilder() {
     return () => document.documentElement.classList.remove('wb-hide-navbar');
   }, [hideNavbar]);
   const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
+  const pendingCost = calcPendingCost(active, fightersData);
+  const goldOnHand = active.gold - calcValue(active, fightersData);
 
   function handleDelete() {
     setMenuOpen(false);
@@ -215,8 +217,13 @@ export default function WarbandBuilder() {
                 </div>
                 <div className={styles.actions}>
                   {hasPending && (
-                    <button type="button" className="button button--primary button--md" onClick={purchasePending}>
-                      Purchase <span className={styles.purchaseDiamond} aria-hidden>◆</span> {calcPendingCost(active, fightersData)}gc
+                    <button
+                      type="button"
+                      className="button button--primary button--md"
+                      onClick={purchasePending}
+                      disabled={pendingCost > goldOnHand}
+                    >
+                      Purchase <span className={styles.purchaseDiamond} aria-hidden>◆</span> {pendingCost}/{goldOnHand}gc
                     </button>
                   )}
                   {menuButton}
