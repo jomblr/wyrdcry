@@ -2292,3 +2292,7 @@ button.statCard:not(:disabled) {
 .dropdownMobile .dropdownCost {
   font-size: 1.05rem;
 }
+
+.dropdownMobile .dropdownConfirmLabel {
+  font-size: 1.1rem;
+}

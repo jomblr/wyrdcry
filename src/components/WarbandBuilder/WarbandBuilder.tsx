@@ -173,7 +173,7 @@ export default function WarbandBuilder() {
             if (isMobile) {
               const mobileMenu = menuOpen && menuPos
                 ? ReactDOM.createPortal(
-                    <div ref={menuRef} className={styles.dropdown} style={dropdownStyle(menuPos, true)}>
+                    <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(menuPos, true)}>
                       <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                       <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
                       <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>

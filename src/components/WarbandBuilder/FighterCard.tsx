@@ -122,7 +122,7 @@ export default function FighterCard({
 
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
-        <div ref={menuRef} className={styles.dropdown} style={dropdownStyle(pos, true)}>
+        <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
           {confirmDelete ? (
             <div className={styles.dropdownConfirm}>
               <span className={styles.dropdownConfirmLabel}>Remove fighter?</span>
