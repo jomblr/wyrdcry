@@ -1819,10 +1819,6 @@
   padding: 0.6rem 0;
 }
 
-.equipRow + .equipRow {
-  border-top: 2px dotted var(--ifm-color-emphasis-400);
-}
-
 .equipStepper {
   margin-left: 8px; /* breathing room after the cost */
 }
