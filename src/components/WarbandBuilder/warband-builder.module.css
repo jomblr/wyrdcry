@@ -2217,3 +2217,7 @@ button.statCard:not(:disabled) {
     display: block !important;
   }
 }
+
+.mobileTabRow {
+  padding-top: 1rem;
+}

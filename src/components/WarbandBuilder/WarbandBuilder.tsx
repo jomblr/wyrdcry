@@ -224,7 +224,7 @@ export default function WarbandBuilder() {
               onSetFavour={setFavour}
               onAddGold={amount => setGold(active.gold + amount)}
             />
-            {isMobile && <div className={styles.topBarTabRow}>{tabToggleEl}</div>}
+            {isMobile && <div className={clsx(styles.topBarTabRow, styles.mobileTabRow)}>{tabToggleEl}</div>}
             <FighterTable
               warband={active}
               onSetFighterName={setFighterName}
@@ -252,7 +252,7 @@ export default function WarbandBuilder() {
               onSetFavour={setFavour}
               onAddGold={amount => setGold(active.gold + amount)}
             />
-            {isMobile && <div className={styles.topBarTabRow}>{tabToggleEl}</div>}
+            {isMobile && <div className={clsx(styles.topBarTabRow, styles.mobileTabRow)}>{tabToggleEl}</div>}
             <InformationTab
               warband={active}
               onRemoveFromStash={removeFromStash}
