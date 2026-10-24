@@ -21,7 +21,7 @@ export default function EquipmentInfoSheet({ id, onClose, natural, pending, acti
   return (
     <InfoSheet
       title={w?.name ?? item?.name ?? id}
-      subtitle={natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
+      subtitle={(natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`) + (pending ? ' · Not yet purchased' : '')}
       onClose={onClose}
       actions={actions}
     >
@@ -53,7 +53,6 @@ export default function EquipmentInfoSheet({ id, onClose, natural, pending, acti
         </>
       )}
       {item?.description && <ReactMarkdown>{item.description}</ReactMarkdown>}
-      {pending && <p className={styles.weaponRefEmpty}>Not yet purchased.</p>}
     </InfoSheet>
   );
 }
