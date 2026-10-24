@@ -990,34 +990,6 @@
   padding: 0.6rem 0.75rem;
 }
 
-/* ─── Inline delete confirmation ──────────────────────────────────────────── */
-
-.dropdownConfirm {
-  padding: 0.4rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.dropdownConfirmLabel {
-  font-family: 'Alegreya', serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--ifm-color-content);
-}
-
-.dropdownConfirmActions {
-  display: flex;
-  gap: 0.3rem;
-}
-
-.dropdownConfirmYes:global(.button),
-.dropdownConfirmNo:global(.button) {
-  flex: 1;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.85rem;
-}
-
 
 /* ─── Warband Stash panel ──────────────────────────────────────────────────── */
 
@@ -2306,10 +2278,6 @@ button.statCard:not(:disabled) {
 }
 
 .dropdownMobile .dropdownCost {
-  font-size: 1rem;
-}
-
-.dropdownMobile .dropdownConfirmLabel {
   font-size: 1rem;
 }
 

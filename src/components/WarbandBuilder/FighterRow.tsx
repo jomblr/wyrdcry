@@ -10,6 +10,7 @@ import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos'
 import EquipmentCell from './EquipmentCell';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
+import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
 import FighterKeywords from './FighterKeywords';
@@ -35,7 +36,7 @@ interface Props {
 
 export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState(false);
   const [valueModalOpen, setValueModalOpen] = useState(false);
   const [equipMultiline, setEquipMultiline] = useState(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
@@ -155,7 +156,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   }
 
   function handleToggle() {
-    if (menuOpen) { setMenuOpen(false); setConfirmDelete(false); return; }
+    if (menuOpen) { setMenuOpen(false); return; }
     if (btnRef.current) {
       setPos(calcDropdownPos(btnRef.current.getBoundingClientRect(), { alignRight: true }));
     }
@@ -171,7 +172,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         !btnRef.current?.contains(e.target as Node)
       ) {
         setMenuOpen(false);
-        setConfirmDelete(false);
       }
     }
     document.addEventListener('mousedown', handler);
@@ -180,7 +180,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   useEffect(() => {
     if (!menuOpen) return;
-    const close = () => { setMenuOpen(false); setConfirmDelete(false); };
+    const close = () => setMenuOpen(false);
     window.addEventListener('scroll', close, true);
     window.addEventListener('resize', close);
     return () => {
@@ -194,11 +194,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     onDuplicate();
   }
 
-  function handleMenuClose() {
-    setMenuOpen(false);
-    setConfirmDelete(false);
-  }
-
   if (!profile) return null;
 
   const menu =
@@ -209,26 +204,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
             className={styles.dropdown}
             style={dropdownStyle(pos, true)}
           >
-            {confirmDelete ? (
-              <div className={styles.dropdownConfirm}>
-                <span className={styles.dropdownConfirmLabel}>Remove fighter?</span>
-                <div className={styles.dropdownConfirmActions}>
-                  <button
-                    type="button"
-                    className={`button button--danger button--md ${styles.dropdownConfirmYes}`}
-                    onClick={() => {
-                      handleMenuClose();
-                      onRemove();
-                    }}
-                  >
-                    Yes
-                  </button>
-                  <button type="button" className={`button button--secondary button--md ${styles.dropdownConfirmNo}`} onClick={handleMenuClose}>
-                    No
-                  </button>
-                </div>
-              </div>
-            ) : (
               <>
                 <button
                   type="button"
@@ -238,11 +213,10 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
                 >
                   Duplicate fighter
                 </button>
-                <button type="button" className={styles.dropdownItem} onClick={() => setConfirmDelete(true)}>
+                <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); setConfirmRemove(true); }}>
                   Remove fighter
                 </button>
               </>
-            )}
           </div>,
           document.body,
         )
@@ -425,6 +399,25 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           <EllipsisVertical size={16} />
         </button>
         {menu}
+        {confirmRemove && (
+          <InfoSheet
+            title={instance.customName || profile.name}
+            subtitle="Remove fighter"
+            onClose={() => setConfirmRemove(false)}
+            actions={
+              <>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => setConfirmRemove(false)}>
+                  Cancel
+                </button>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { setConfirmRemove(false); onRemove(); }}>
+                  Remove
+                </button>
+              </>
+            }
+          >
+            Remove this fighter from the warband? This can't be undone.
+          </InfoSheet>
+        )}
       </div>
     </div>
   );
