@@ -24,6 +24,10 @@ type GearItem = ReturnType<typeof gearItems>[number];
 // ─── Hover tooltip ────────────────────────────────────────────────────────────
 
 /** Weapon stats + special-rule names, shown beside the dropdown for the highlighted weapon. */
+// Hover info beside the add-equipment dropdown is switched off for now;
+// the working version is kept on the `explore/equipment-hover-info` branch.
+const SHOW_HOVER_INFO = false;
+
 function WeaponTooltipBody({ w, reason }: { w: Weapon; reason?: string | null }) {
   const rules = w.special_rules.map(id => weaponRulesData.find(r => r.id === id)?.name ?? id);
   return (
@@ -671,7 +675,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         autoComplete="off"
       />
       {dropdown}
-      {weaponInfo}
+      {SHOW_HOVER_INFO && weaponInfo}
       {infoTag && (
         // React events bubble out of portals; keep sheet clicks from reaching the cell (which opens the dropdown)
         <span onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
