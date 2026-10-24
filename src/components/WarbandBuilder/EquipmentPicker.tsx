@@ -198,7 +198,7 @@ export default function EquipmentPicker({
   /** Stash copies are free, so `free` skips the gold check. */
   function affordable(cost: number, free = false) { return free || cost <= remainingGold; }
   const [tradingPostOpen, setTradingPostOpen] = useState(false);
-  const [stashOpen, setStashOpen] = useState(false);
+  const [stashOpen, setStashOpen] = useState(true);
   const combinedIds = [...fixedEquipment, ...allEquipment];
   const slots = countSlots(combinedIds);
   const hasExclusiveArmour = EXCLUSIVE_ARMOUR.some(a => combinedIds.includes(a));
