@@ -2487,3 +2487,8 @@ button.fighterCardTag {
   /* .editPanelTop has 3rem side padding for the close button; the toggle spans past it */
   margin: 0.75rem -2rem 0;
 }
+
+.infoSheetBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

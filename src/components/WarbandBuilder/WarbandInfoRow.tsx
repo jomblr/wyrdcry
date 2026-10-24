@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
 import { calcReputation, calcStanding, calcValue, calcPendingCost, getFavourTier } from './useWarband';
@@ -42,39 +42,40 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
     setAmountInput('');
   }
 
-  const modal = addGoldOpen ? ReactDOM.createPortal(
-    <div className={styles.modalOverlay} onClick={handleCancelAddGold}>
-      <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
-        <div className={styles.modalTitle}>Add Gold</div>
-        <div className={styles.modalField}>
-          <label className={styles.modalFieldLabel} htmlFor="add-gold-amount">Amount</label>
-          <input
-            id="add-gold-amount"
-            type="text"
-            inputMode="numeric"
-            className={styles.infoInput}
-            value={amountInput}
-            onChange={e => setAmountInput(e.target.value.replace(/[^0-9]/g, ''))}
-            autoFocus
-            onKeyDown={e => { if (e.key === 'Enter') handleConfirmAddGold(); if (e.key === 'Escape') handleCancelAddGold(); }}
-          />
-        </div>
-        <div className={styles.modalActions}>
+  const modal = addGoldOpen ? (
+    <InfoSheet
+      title="Add Gold"
+      onClose={handleCancelAddGold}
+      actions={
+        <>
+          <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={handleCancelAddGold}>
+            Cancel
+          </button>
           <button
             type="button"
-            className={`button button--primary button--md ${styles.modalSaveBtn}`}
+            className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`}
             disabled={!amountInput || amountInput === '0'}
             onClick={handleConfirmAddGold}
           >
             Add Gold
           </button>
-          <button type="button" className="button button--secondary button--md" onClick={handleCancelAddGold}>
-            Cancel
-          </button>
-        </div>
+        </>
+      }
+    >
+      <div className={styles.modalField}>
+        <label className={styles.modalFieldLabel} htmlFor="add-gold-amount">Amount</label>
+        <input
+          id="add-gold-amount"
+          type="text"
+          inputMode="numeric"
+          className={styles.infoInput}
+          value={amountInput}
+          onChange={e => setAmountInput(e.target.value.replace(/[^0-9]/g, ''))}
+          autoFocus
+          onKeyDown={e => { if (e.key === 'Enter') handleConfirmAddGold(); }}
+        />
       </div>
-    </div>,
-    document.body,
+    </InfoSheet>
   ) : null;
 
   const goldClickable = !locked && !hasPending;
