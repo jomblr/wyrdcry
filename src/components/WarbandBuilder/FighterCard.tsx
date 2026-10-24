@@ -209,14 +209,14 @@ export default function FighterCard({
       {equipGroups.length > 0 && (
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Equipment</div>
-          <div>
-            {equipGroups.map((g, i) => (
-              <React.Fragment key={`${g.name}-${g.pending}`}>
-                {i > 0 && ', '}
-                <span className={g.pending ? styles.pendingCost : undefined}>
-                  {g.name}{g.count > 1 && ` (x${g.count})`}
-                </span>
-              </React.Fragment>
+          <div className={styles.fighterCardTags}>
+            {equipGroups.map(g => (
+              <span
+                key={`${g.name}-${g.pending}`}
+                className={`${styles.equipmentTag} ${styles.fighterCardTag} ${g.pending ? styles.equipmentTagPending : ''}`}
+              >
+                {g.name}{g.count > 1 && ` (x${g.count})`}
+              </span>
             ))}
           </div>
         </div>
@@ -227,19 +227,25 @@ export default function FighterCard({
           <div className={styles.fighterCardSectionTitle}>
             {naturalWeapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'}
           </div>
-          <div>{naturalWeapons.join(', ')}</div>
+          <div className={styles.fighterCardTags}>
+            {naturalWeapons.map((n, i) => (
+              <span key={`${n}-${i}`} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}>{n}</span>
+            ))}
+          </div>
         </div>
       )}
 
       {abilities.length > 0 && (
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Abilities</div>
-          <div>
-            {abilities
-              .map(a => a.ability_type && a.ability_type !== 'trait'
-                ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
-                : a.name)
-              .join(', ')}
+          <div className={styles.fighterCardTags}>
+            {abilities.map(a => (
+              <span key={a.id} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}>
+                {a.ability_type && a.ability_type !== 'trait'
+                  ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
+                  : a.name}
+              </span>
+            ))}
           </div>
         </div>
       )}

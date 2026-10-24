@@ -2294,3 +2294,18 @@ button.statCard:not(:disabled) {
   vertical-align: 0.25em;
   margin: 0 0.2em;
 }
+
+/* Fighter card: equipment / ability names as wrapping tags, like the desktop table */
+.fighterCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.2rem;
+}
+
+.fighterCardTag {
+  font-size: 0.9rem;
+  padding: 0.1rem 0.45rem;
+  white-space: normal;
+  cursor: default;
+}
