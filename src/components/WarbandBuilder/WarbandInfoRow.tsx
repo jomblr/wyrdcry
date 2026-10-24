@@ -78,9 +78,69 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
     document.body,
   ) : null;
 
+  const goldClickable = !locked && !hasPending;
+  function openAddGold() {
+    if (!goldClickable) return;
+    setAmountInput(String(favourTier.defaultGold));
+    setAddGoldOpen(true);
+  }
+
   return (
     <>
-    <div className={styles.tableScrollOuter}>
+    {/* Mobile: header + stat cards */}
+    <div className={styles.mobileInfo}>
+      <div className={styles.mobileFaction}>{selectedFaction ? selectedFaction.name : '—'}</div>
+      <input
+        className={styles.mobileName}
+        type="text"
+        placeholder="Warband name"
+        value={warband.name}
+        onChange={e => onSetName(e.target.value)}
+        disabled={locked}
+      />
+      <div className={styles.statCards}>
+        <div className={styles.statCard}>
+          <div className={styles.statCardLabel}>Favour</div>
+          <div className={styles.statCardValue}>
+            {locked ? '—' : <StatSpinner value={warband.favour} min={0} onChange={onSetFavour} />}
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statCardLabel}>Reputation</div>
+          <div className={styles.statCardValue}>{locked ? '—' : reputation}</div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statCardLabel}>Fighters</div>
+          <div className={styles.statCardValue}>
+            {locked ? '—' : maxFighters ? `${fighterCount} / ${maxFighters}` : fighterCount}
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statCardLabel}>Standing</div>
+          <div className={`${styles.statCardValue} ${styles.statCardValueSmall}`}>{locked ? '—' : favourTier.label}</div>
+        </div>
+        <button
+          type="button"
+          className={styles.statCard}
+          onClick={openAddGold}
+          disabled={!goldClickable}
+          aria-label="Gold — tap to add gold"
+        >
+          <div className={styles.statCardLabel}>Gold</div>
+          <div className={styles.statCardValue}>
+            {locked ? '—' : pendingCost > 0
+              ? <span className={styles.goldPending}>{pendingCost}/{remainingGold}</span>
+              : remainingGold}
+          </div>
+        </button>
+        <div className={styles.statCard}>
+          <div className={styles.statCardLabel}>Value</div>
+          <div className={styles.statCardValue}>{locked ? '—' : `${spent}gc`}</div>
+        </div>
+      </div>
+    </div>
+
+    <div className={`${styles.tableScrollOuter} ${styles.desktopOnly}`}>
     <div className={styles.tableWrapper}>
       <div className={`${styles.wbGrid} ${styles.infoGrid}`}>
         {/* Header */}
@@ -141,7 +201,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
             className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''} ${!locked && !hasPending ? styles.goldCell : ''}`}
             onMouseEnter={() => !locked && !hasPending && setGoldHovered(true)}
             onMouseLeave={() => setGoldHovered(false)}
-            onClick={() => { if (!locked && !hasPending) { setAmountInput(String(favourTier.defaultGold)); setAddGoldOpen(true); } }}
+            onClick={openAddGold}
           >
             {locked ? '—' : goldHovered && !hasPending
               ? 'Add Gold'

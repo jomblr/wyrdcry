@@ -133,6 +133,34 @@ export default function WarbandBuilder() {
     );
   }
 
+  const tabToggle = (
+    <div className={styles.tabToggle} role="tablist" aria-label="Warband section">
+      <div className={styles.tabToggleInner} data-active={tab}>
+        <span className={styles.tabToggleIndicator} aria-hidden />
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'fighters'}
+          id="warband-tab-fighters"
+          className={clsx(styles.tabToggleBtn, tab === 'fighters' && styles.tabToggleBtnActive)}
+          onClick={() => setTab('fighters')}
+        >
+          Fighters
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'information'}
+          id="warband-tab-information"
+          className={clsx(styles.tabToggleBtn, tab === 'information' && styles.tabToggleBtnActive)}
+          onClick={() => setTab('information')}
+        >
+          Information
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className={styles.builderShell}>
       <div className={styles.content}>
@@ -151,34 +179,20 @@ export default function WarbandBuilder() {
                 <span>Warbands</span>
               </button>
 
-              <div className={styles.tabToggle} role="tablist" aria-label="Warband section">
-                <div className={styles.tabToggleInner} data-active={tab}>
-                  <span className={styles.tabToggleIndicator} aria-hidden />
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === 'fighters'}
-                    id="warband-tab-fighters"
-                    className={clsx(styles.tabToggleBtn, tab === 'fighters' && styles.tabToggleBtnActive)}
-                    onClick={() => setTab('fighters')}
-                  >
-                    Fighters
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === 'information'}
-                    id="warband-tab-information"
-                    className={clsx(styles.tabToggleBtn, tab === 'information' && styles.tabToggleBtnActive)}
-                    onClick={() => setTab('information')}
-                  >
-                    Information
-                  </button>
-                </div>
-              </div>
+              <div className={styles.desktopOnly}>{tabToggle}</div>
             </div>
 
-            <div className={styles.actions}>
+            <button
+              type="button"
+              ref={menuBtnRef}
+              className={clsx(styles.mobileMenuBtn, styles.mobileOnly)}
+              onClick={toggleMenu}
+              aria-label="Warband actions"
+            >
+              <EllipsisVertical size={20} />
+            </button>
+
+            <div className={clsx(styles.actions, styles.desktopOnly)}>
               <button
                 type="button"
                 className="button button--secondary button--md"
@@ -207,6 +221,7 @@ export default function WarbandBuilder() {
               onSetFavour={setFavour}
               onAddGold={amount => setGold(active.gold + amount)}
             />
+            <div className={clsx(styles.mobileOnly, styles.mobileTabToggle)}>{tabToggle}</div>
             <FighterTable
               warband={active}
               onSetFighterName={setFighterName}
@@ -233,6 +248,7 @@ export default function WarbandBuilder() {
               onSetFavour={setFavour}
               onAddGold={amount => setGold(active.gold + amount)}
             />
+            <div className={clsx(styles.mobileOnly, styles.mobileTabToggle)}>{tabToggle}</div>
             <InformationTab
               warband={active}
               onRemoveFromStash={removeFromStash}
@@ -248,6 +264,17 @@ export default function WarbandBuilder() {
           </div>
         </div>
       </div>
+      {menuOpen && menuPos && ReactDOM.createPortal(
+        <div ref={menuRef} className={styles.dropdown} style={{ ...dropdownStyle(menuPos, true), minWidth: 180 }}>
+          {hasPending && (
+            <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); purchasePending(); }}>Purchase</button>
+          )}
+          <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
+          <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); window.print(); }}>Print</button>
+          <button type="button" className={clsx(styles.dropdownItem, styles.dropdownItemDanger)} onClick={handleDelete}>Delete Warband</button>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }
