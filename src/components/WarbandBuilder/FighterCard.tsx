@@ -166,6 +166,10 @@ export default function FighterCard({
         .filter((w): w is NonNullable<typeof w> => !!w)
     : [];
 
+  function equipCostOf(id: string): number {
+    return weaponsData.find(x => x.id === id)?.cost ?? itemsData.find(x => x.id === id)?.cost ?? 0;
+  }
+
   const abilities = (profile.faction_ability_ids ?? [])
     .map(id => abilitiesData.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => !!a);
@@ -269,6 +273,8 @@ export default function FighterCard({
                 onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || instance.isPending })}
               >
                 {g.name}{g.count > 1 && ` (x${g.count})`}
+                {/* Unbought gear shows what it will cost */}
+                {(g.pending || instance.isPending) && ` (${equipCostOf(g.id) * g.count}gc)`}
               </button>
             ))}
           </div>
