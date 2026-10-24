@@ -53,8 +53,17 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
     if (open) { setOpen(false); return; }
     if (btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
-      setPos(calcDropdownPos(rect));
-      setBtnWidth(rect.width);
+      const p = calcDropdownPos(rect);
+      if (mobileBar) {
+        // Span the bar's full content width (both buttons), with a 4px gap above/below the button
+        const bar = btnRef.current.parentElement!;
+        const padX = parseFloat(getComputedStyle(bar).paddingLeft);
+        p.top += p.flipUp ? -4 : 0;
+        setBtnWidth(bar.clientWidth - padX * 2);
+      } else {
+        setBtnWidth(rect.width);
+      }
+      setPos(p);
     }
     setOpen(true);
   }
