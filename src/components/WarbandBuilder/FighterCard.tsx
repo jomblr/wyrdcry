@@ -35,6 +35,8 @@ interface Props {
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
+  /** Play mode: details only — no renaming, menu, stash or sell */
+  readOnly?: boolean;
 }
 
 const STAT_KEYS: { key: StatKey; label: string; suffix?: string }[] = [
@@ -54,6 +56,7 @@ export default function FighterCard({
   onRemove, onDuplicate, canDuplicate,
   onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader,
   onSetStat, onSetNotes, onSetCostOverride,
+  readOnly = false,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
@@ -211,7 +214,7 @@ export default function FighterCard({
         natural={info.natural}
         pending={info.pending}
         onClose={close}
-        actions={ownedIdx !== -1 ? (
+        actions={ownedIdx !== -1 && !readOnly ? (
           <>
             <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onSendToStash(ownedIdx); close(); }}>
               Stash
@@ -244,15 +247,18 @@ export default function FighterCard({
             onChange={e => onSetName(e.target.value)}
             placeholder="Unnamed"
             aria-label="Fighter name"
+            readOnly={readOnly}
           />
         </div>
         <div className={styles.fighterCardMeta}>
           {!noRenown && <span>{instance.renown} Renown</span>}
           <span className={instance.isPending ? styles.pendingCost : undefined}>{totalCost}gc</span>
         </div>
-        <button type="button" ref={btnRef} className={styles.ellipsisBtn} onClick={handleMenuToggle} aria-label="Fighter options">
-          <EllipsisVertical size={16} />
-        </button>
+        {!readOnly && (
+          <button type="button" ref={btnRef} className={styles.ellipsisBtn} onClick={handleMenuToggle} aria-label="Fighter options">
+            <EllipsisVertical size={16} />
+          </button>
+        )}
       </div>
 
       {/* Stats — same dark cards as the warband header */}

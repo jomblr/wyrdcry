@@ -94,6 +94,17 @@ export default function WarbandBuilder() {
   const isMobile = useIsMobile();
   const { colorMode, setColorMode } = useColorMode();
 
+  // Play mode (mobile): swipeable read-only cards for use at the table. Remembered per device.
+  const [playMode, setPlayModeState] = useState(false);
+  useEffect(() => {
+    try { setPlayModeState(localStorage.getItem('wb-play-mode') === '1'); } catch { /* storage unavailable */ }
+  }, []);
+  function setPlayMode(on: boolean) {
+    setPlayModeState(on);
+    try { localStorage.setItem('wb-play-mode', on ? '1' : '0'); } catch { /* storage unavailable */ }
+  }
+  const inPlayMode = isMobile && playMode;
+
   // On mobile, an open warband takes the whole screen: hide the site navbar
   // ("← Warbands" leads back to the list, where the navbar returns).
   const hideNavbar = isMobile && view === 'detail';
@@ -176,6 +187,17 @@ export default function WarbandBuilder() {
             const warbandMenu = menuOpen && menuPos
               ? ReactDOM.createPortal(
                   <div ref={menuRef} className={`${styles.dropdown} ${isMobile ? styles.dropdownMobile : ''}`} style={dropdownStyle(menuPos, true)}>
+                    {isMobile && (
+                      <>
+                        <button type="button" className={styles.dropdownItem} disabled={!playMode} onClick={() => { setMenuOpen(false); setPlayMode(false); }}>
+                          Recruitment mode{!playMode && ' ✓'}
+                        </button>
+                        <button type="button" className={styles.dropdownItem} disabled={playMode} onClick={() => { setMenuOpen(false); setPlayMode(true); }}>
+                          Play mode{playMode && ' ✓'}
+                        </button>
+                        <div className={styles.dropdownSep} />
+                      </>
+                    )}
                     <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
@@ -262,11 +284,13 @@ export default function WarbandBuilder() {
               onTakeFromStash={takeFromStash}
               hasPending={hasPending}
               onPurchase={purchasePending}
+              playMode={inPlayMode}
             />
           </div>
           <div className={tab === 'information' ? styles.tabPanel : styles.tabPanelHidden}>
             <InformationTab
               warband={active}
+              readOnly={inPlayMode}
               onRemoveFromStash={removeFromStash}
               onSellFromStash={sellFromStash}
               onSetNotes={setFactionNotes}

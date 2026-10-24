@@ -61,6 +61,8 @@ interface Props {
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
   hasPending?: boolean;
   onPurchase?: () => void;
+  /** Play mode (mobile): swipe between read-only cards, no recruiting */
+  playMode?: boolean;
 }
 
 function canDuplicateFighter(instance: FighterInstance, fighters: FighterInstance[], atFighterLimit: boolean): boolean {
@@ -93,6 +95,7 @@ export default function FighterTable({
   onSetFighterCostOverride,
   hasPending,
   onPurchase,
+  playMode = false,
 }: Props) {
   const isMobile = useIsMobile();
   const faction = factionsData.find(f => f.id === warband.factionId);
@@ -128,10 +131,11 @@ export default function FighterTable({
   if (isMobile) {
     return (
       <>
-        <div className={styles.fighterCardList}>
+        <div className={playMode ? styles.fighterCardCarousel : styles.fighterCardList}>
           {warband.fighters.map((instance: FighterInstance, idx: number) => (
             <FighterCard
               key={instance.instanceId}
+              readOnly={playMode}
               instance={instance}
               remainingGold={remainingGold}
               canMoveUp={idx > 0}
@@ -157,7 +161,7 @@ export default function FighterTable({
             />
           ))}
         </div>
-        <AddFighterRow
+        {!playMode && <AddFighterRow
           factionId={warband.factionId}
           currentFighters={warband.fighters}
           atFighterLimit={atFighterLimit}
@@ -167,7 +171,7 @@ export default function FighterTable({
           pendingCost={calcPendingCost(warband, fightersData)}
           hasPending={hasPending}
           onPurchase={onPurchase}
-        />
+        />}
       </>
     );
   }

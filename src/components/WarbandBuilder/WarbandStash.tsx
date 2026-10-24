@@ -9,6 +9,7 @@ interface Props {
   stash: string[];
   onRemove: (itemIdx: number) => void;
   onSell: (itemIdx: number, salePrice: number) => void;
+  readOnly?: boolean;
 }
 
 function labelFor(id: string): string {
@@ -37,14 +38,14 @@ export function salePriceFor(cost: number): number {
   return Math.max(5, Math.floor(cost / 2 / 5) * 5);
 }
 
-export default function WarbandStash({ stash, onRemove, onSell }: Props) {
+export default function WarbandStash({ stash, onRemove, onSell, readOnly = false }: Props) {
   const isMobile = useIsMobile();
-  if (isMobile) return <MobileStash stash={stash} onSell={onSell} />;
+  if (isMobile) return <MobileStash stash={stash} onSell={onSell} readOnly={readOnly} />;
   return <DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} />;
 }
 
 /** Mobile: tags like the fighter cards; tapping one opens its details with Sell. */
-function MobileStash({ stash, onSell }: Pick<Props, 'stash' | 'onSell'>) {
+function MobileStash({ stash, onSell, readOnly }: Pick<Props, 'stash' | 'onSell' | 'readOnly'>) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const openId = openIdx !== null ? stash[openIdx] : undefined;
   const close = () => setOpenIdx(null);
@@ -69,7 +70,7 @@ function MobileStash({ stash, onSell }: Pick<Props, 'stash' | 'onSell'>) {
         <EquipmentInfoSheet
           id={openId}
           onClose={close}
-          actions={
+          actions={readOnly ? undefined :
             <>
               {/* Already stashed */}
               <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} disabled>
@@ -88,7 +89,7 @@ function MobileStash({ stash, onSell }: Pick<Props, 'stash' | 'onSell'>) {
   );
 }
 
-function DesktopStash({ stash, onSell }: Props) {
+function DesktopStash({ stash, onSell }: Omit<Props, 'readOnly'>) {
   const [modHeld, setModHeld] = useState(false);
   const [cursor, setCursor] = useState<{ x: number; y: number; text: string } | null>(null);
   const hoveredRef = useRef<{ idx: number; x: number; y: number; text: string } | null>(null);

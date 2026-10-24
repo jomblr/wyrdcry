@@ -2429,3 +2429,26 @@ button.fighterCardTag {
 .fighterCardNameInput::placeholder {
   color: var(--wyrd-text3);
 }
+
+/* Play mode: one fighter card per screen, swipe sideways between them */
+.fighterCardCarousel {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* bleed to the screen edges so the next card peeks in from the side */
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem 1rem;
+  scroll-padding: 0 1.25rem;
+}
+
+.fighterCardCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+.fighterCardCarousel > .fighterCard {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+}
