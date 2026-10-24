@@ -55,8 +55,8 @@ export default function FighterCard({
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState(false);
   const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -105,18 +105,18 @@ export default function FighterCard({
   const totalCost = baseCost + equipCost;
 
   function handleMenuToggle() {
-    if (menuOpen) { setMenuOpen(false); setConfirmDelete(false); return; }
+    if (menuOpen) { setMenuOpen(false); return; }
     if (btnRef.current) setPos(calcDropdownPos(btnRef.current.getBoundingClientRect(), { alignRight: true }));
     setMenuOpen(true);
   }
 
-  function handleMenuClose() { setMenuOpen(false); setConfirmDelete(false); }
+  function handleMenuClose() { setMenuOpen(false); }
 
   useEffect(() => {
     if (!menuOpen) return;
     function handler(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node) && !btnRef.current?.contains(e.target as Node)) {
-        setMenuOpen(false); setConfirmDelete(false);
+        setMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handler);
@@ -125,7 +125,7 @@ export default function FighterCard({
 
   useEffect(() => {
     if (!menuOpen) return;
-    const close = () => { setMenuOpen(false); setConfirmDelete(false); };
+    const close = () => { setMenuOpen(false); };
     window.addEventListener('scroll', close, true);
     window.addEventListener('resize', close);
     return () => { window.removeEventListener('scroll', close, true); window.removeEventListener('resize', close); };
@@ -134,28 +134,16 @@ export default function FighterCard({
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
         <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
-          {confirmDelete ? (
-            <div className={styles.dropdownConfirm}>
-              <span className={styles.dropdownConfirmLabel}>Remove fighter?</span>
-              <div className={styles.dropdownConfirmActions}>
-                <button type="button" className={`button button--danger button--md ${styles.dropdownConfirmYes}`} onClick={() => { handleMenuClose(); onRemove(); }}>Yes</button>
-                <button type="button" className={`button button--secondary button--md ${styles.dropdownConfirmNo}`} onClick={handleMenuClose}>No</button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(true); }}>Edit fighter</button>
-              {canMakeLeader && isHero && (
-                <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
-              )}
-              <div className={styles.dropdownSep} />
-              {canMoveUp && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveUp(); }}>Move up</button>}
-              {canMoveDown && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveDown(); }}>Move down</button>}
-              {(canMoveUp || canMoveDown) && <div className={styles.dropdownSep} />}
-              <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); onDuplicate(); }} disabled={!canDuplicate}>Duplicate fighter</button>
-              <button type="button" className={styles.dropdownItem} onClick={() => setConfirmDelete(true)}>Remove fighter</button>
-            </>
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(true); }}>Edit fighter</button>
+          {canMakeLeader && isHero && (
+            <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
           )}
+          <div className={styles.dropdownSep} />
+          {canMoveUp && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveUp(); }}>Move up</button>}
+          {canMoveDown && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveDown(); }}>Move down</button>}
+          {(canMoveUp || canMoveDown) && <div className={styles.dropdownSep} />}
+          <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); onDuplicate(); }} disabled={!canDuplicate}>Duplicate fighter</button>
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setConfirmRemove(true); }}>Remove fighter</button>
         </div>,
         document.body,
       )
@@ -373,6 +361,25 @@ export default function FighterCard({
 
       {menu}
       {infoSheet}
+      {confirmRemove && (
+        <InfoSheet
+          title={instance.customName || profile.name}
+          subtitle="Remove fighter"
+          onClose={() => setConfirmRemove(false)}
+          actions={
+            <>
+              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => setConfirmRemove(false)}>
+                Cancel
+              </button>
+              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { setConfirmRemove(false); onRemove(); }}>
+                Remove
+              </button>
+            </>
+          }
+        >
+          Remove this fighter from the warband? This can't be undone.
+        </InfoSheet>
+      )}
 
       {editOpen && (
         <FighterEditPanel
