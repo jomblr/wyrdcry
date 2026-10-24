@@ -536,7 +536,8 @@ function reducer(state: WarbandState, action: Action): WarbandState {
 
     case 'REGISTER_WARBAND':
       if (state.savedIds.includes(action.id)) return state;
-      return { ...state, savedIds: [...state.savedIds, action.id] };
+      // Newest first in the warband list
+      return { ...state, savedIds: [action.id, ...state.savedIds] };
 
     case 'DELETE_WARBAND':
       return {
