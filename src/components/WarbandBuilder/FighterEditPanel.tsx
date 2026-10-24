@@ -64,6 +64,7 @@ export default function FighterEditPanel({
   onSetStat, onSetNotes, onSetCostOverride,
   onClose,
 }: Props) {
+  const [pane, setPane] = useState<'equipment' | 'information'>('equipment');
   const [valueModalOpen, setValueModalOpen] = useState(false);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
@@ -130,33 +131,24 @@ export default function FighterEditPanel({
           <button type="button" className={styles.editPanelCloseBtn} onClick={onClose} aria-label="Close">
             <X size={18} />
           </button>
-        </div>
-
-        {/* Body */}
-        <div className={styles.editPanelBody}>
-
-          {/* Characteristics */}
-          <div className={styles.editPanelSection}>
-            <div className={styles.editPanelSectionTitle}>Characteristics</div>
-            <div className={styles.editPanelStatsGrid}>
-              {statDefs.map(({ key, label, suffix, step, min, max, invert }) => (
-                <PanelStat
-                  key={key}
-                  label={label}
-                  value={statVal(key)}
-                  onChange={v => onSetStat(key, key === 'defense' ? v - defenseBonus : v)}
-                  suffix={suffix}
-                  step={step}
-                  min={min}
-                  max={max}
-                  invert={invert}
-                  modified={isModified(key) || (key === 'defense' && defenseBonus > 0)}
-                  readonly={isBeast}
-                />
-              ))}
+          <div className={`${styles.tabToggle} ${styles.editPanelTabs}`} role="tablist" aria-label="Fighter section">
+            <div className={`${styles.tabToggleInner} ${styles.tabToggleFullWidth}`} data-active={pane === 'equipment' ? 'fighters' : 'information'}>
+              <span className={styles.tabToggleIndicator} aria-hidden />
+              <button type="button" role="tab" aria-selected={pane === 'equipment'}
+                className={`${styles.tabToggleBtn} ${pane === 'equipment' ? styles.tabToggleBtnActive : ''}`}
+                onClick={() => setPane('equipment')}>Equipment</button>
+              <button type="button" role="tab" aria-selected={pane === 'information'}
+                className={`${styles.tabToggleBtn} ${pane === 'information' ? styles.tabToggleBtnActive : ''}`}
+                onClick={() => setPane('information')}>Information</button>
             </div>
           </div>
+        </div>
 
+        {/* Body — keyed by pane so each opens scrolled to the top */}
+        <div key={pane} className={styles.editPanelBody}>
+
+          {pane === 'equipment' ? (
+            <>
           {/* Equipment */}
           <div className={styles.editPanelSection}>
             {noEquipment ? (
@@ -198,6 +190,31 @@ export default function FighterEditPanel({
             )}
           </div>
 
+            </>
+          ) : (
+            <>
+          {/* Characteristics */}
+          <div className={styles.editPanelSection}>
+            <div className={styles.editPanelSectionTitle}>Characteristics</div>
+            <div className={styles.editPanelStatsGrid}>
+              {statDefs.map(({ key, label, suffix, step, min, max, invert }) => (
+                <PanelStat
+                  key={key}
+                  label={label}
+                  value={statVal(key)}
+                  onChange={v => onSetStat(key, key === 'defense' ? v - defenseBonus : v)}
+                  suffix={suffix}
+                  step={step}
+                  min={min}
+                  max={max}
+                  invert={invert}
+                  modified={isModified(key) || (key === 'defense' && defenseBonus > 0)}
+                  readonly={isBeast}
+                />
+              ))}
+            </div>
+          </div>
+
           {/* Notes */}
           <div className={styles.editPanelSection}>
             <div className={styles.editPanelSectionTitle}>Notes</div>
@@ -229,6 +246,8 @@ export default function FighterEditPanel({
             </div>
           </div>
 
+            </>
+          )}
         </div>
       </div>
 
