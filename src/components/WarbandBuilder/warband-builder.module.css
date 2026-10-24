@@ -2285,14 +2285,14 @@ button.statCard:not(:disabled) {
 }
 
 .dropdownMobile .dropdownItem {
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.6rem 1rem;
 }
 
 .dropdownMobile .dropdownCost {
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .dropdownMobile .dropdownConfirmLabel {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
