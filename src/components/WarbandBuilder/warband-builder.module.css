@@ -1722,8 +1722,26 @@
 /* 3-column characteristics grid */
 .editPanelStatsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+/* Steppers fill their column and shrink with it, so three fit across a phone */
+.editPanelStatsGrid .panelStat {
+  min-width: 0;
+}
+
+.editPanelStatsGrid .panelStatControl {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.editPanelStatsGrid .panelStatBtn {
+  padding: 0.3rem 0.5rem;
+}
+
+.editPanelStatsGrid .panelStatValue {
+  min-width: 0;
 }
 
 /* Individual stat with label + - value + control */
