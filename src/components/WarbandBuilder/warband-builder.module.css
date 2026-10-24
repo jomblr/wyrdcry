@@ -2309,3 +2309,107 @@ button.statCard:not(:disabled) {
   white-space: normal;
   cursor: default;
 }
+
+/* ─── Info sheet (weapon / ability details on mobile) ─────────────────────── */
+
+.infoSheetOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.infoSheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  max-height: 80dvh;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--wyrd-border);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.infoSheetHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--wyrd-border);
+}
+
+.infoSheetTitleBlock {
+  flex: 1;
+  min-width: 0;
+}
+
+.infoSheetSubtitle {
+  font-family: var(--wyrd-font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wyrd-text3);
+}
+
+.infoSheetTitle {
+  font-family: var(--wyrd-font-heading);
+  font-size: 1.7rem;
+  line-height: 1.15;
+}
+
+.infoSheetClose {
+  display: flex;
+  padding: 0.3rem;
+  background: none;
+  border: none;
+  color: var(--ifm-color-content-secondary);
+  cursor: pointer;
+}
+
+.infoSheetBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem;
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.infoSheetBody p {
+  margin: 0 0 0.6rem;
+}
+
+.infoSheetActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--wyrd-border);
+}
+
+.infoSheetActions :global(.button) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.infoSheetRule {
+  margin-top: 0.75rem;
+}
+
+.infoSheetRuleName {
+  font-weight: 700;
+}
+
+button.fighterCardTag {
+  border: none;
+  cursor: pointer;
+}

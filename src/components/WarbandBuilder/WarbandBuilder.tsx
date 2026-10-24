@@ -68,6 +68,7 @@ export default function WarbandBuilder() {
     takeFromStash,
     removeFromStash,
     sellFromStash,
+    sellFromFighter,
     loadWarband,
     createNewWarband,
     deleteWarband,
@@ -241,6 +242,7 @@ export default function WarbandBuilder() {
               onAddFighter={addFighter}
               onReorderFighters={reorderFighters}
               onSendToStash={sendToStash}
+              onSellFromFighter={sellFromFighter}
               onTakeFromStash={takeFromStash}
               hasPending={hasPending}
               onPurchase={purchasePending}

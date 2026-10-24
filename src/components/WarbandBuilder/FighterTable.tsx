@@ -52,6 +52,7 @@ interface Props {
   onAddFighter: (fighterId: string, name: string) => void;
   onReorderFighters: (fighters: FighterInstance[]) => void;
   onSendToStash: (instanceId: string, itemIdx: number) => void;
+  onSellFromFighter: (instanceId: string, itemIdx: number, salePrice: number) => void;
   onTakeFromStash: (instanceId: string, itemId: string) => void;
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
@@ -96,6 +97,7 @@ export default function FighterTable({
   onAddFighter,
   onReorderFighters,
   onSendToStash,
+  onSellFromFighter,
   onTakeFromStash,
   onSetFighterStat,
   onSetFighterNotes,
@@ -152,6 +154,7 @@ export default function FighterTable({
               onDuplicate={() => onDuplicateFighter(instance.instanceId)}
               canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
               onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+              onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
               onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}

@@ -87,6 +87,7 @@ type Action =
   | { type: 'REORDER_FIGHTERS'; fighters: FighterInstance[] }
   | { type: 'TRANSFER_EQUIPMENT'; fromId: string; toId: string; itemId: string; itemIdx: number }
   | { type: 'SEND_TO_STASH'; instanceId: string; itemIdx: number }
+  | { type: 'SELL_FROM_FIGHTER'; instanceId: string; itemIdx: number; salePrice: number }
   | { type: 'TAKE_FROM_STASH'; instanceId: string; itemId: string }
   | { type: 'REMOVE_FROM_STASH'; itemIdx: number }
   | { type: 'SET_FAVOUR'; favour: number }
@@ -480,6 +481,25 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
+    case 'SELL_FROM_FIGHTER': {
+      // Same accounting as SELL_FROM_STASH: the item leaves the warband's value, gold gains the sale price.
+      const src = state.active.fighters.find(f => f.instanceId === action.instanceId);
+      const itemId = src?.equipment[action.itemIdx];
+      if (!src || itemId === undefined) return state;
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(f =>
+            f.instanceId === action.instanceId
+              ? { ...f, equipment: f.equipment.filter((_, i) => i !== action.itemIdx) }
+              : f,
+          ),
+          gold: state.active.gold + action.salePrice - itemCost(itemId),
+        },
+      };
+    }
+
     case 'SELL_FROM_STASH': {
       const fullCost = itemCost(state.active.stash[action.itemIdx]);
       return {
@@ -696,6 +716,12 @@ export function useWarband() {
     [],
   );
 
+  const sellFromFighter = useCallback(
+    (instanceId: string, itemIdx: number, salePrice: number) =>
+      dispatch({ type: 'SELL_FROM_FIGHTER', instanceId, itemIdx, salePrice }),
+    [],
+  );
+
   const sellFromStash = useCallback(
     (itemIdx: number, salePrice: number) =>
       dispatch({ type: 'SELL_FROM_STASH', itemIdx, salePrice }),
@@ -796,6 +822,7 @@ export function useWarband() {
     takeFromStash,
     removeFromStash,
     sellFromStash,
+    sellFromFighter,
     loadWarband: loadWarband_,
     createNewWarband,
     deleteWarband,

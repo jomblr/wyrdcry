@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponRulesData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
+import InfoSheet from './InfoSheet';
+import { salePriceFor } from './WarbandStash';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
   instance: FighterInstance;
@@ -22,6 +25,7 @@ interface Props {
   onDuplicate: () => void;
   canDuplicate: boolean;
   onSendToStash: (itemIdx: number) => void;
+  onSell: (itemIdx: number, salePrice: number) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
@@ -42,12 +46,13 @@ export default function FighterCard({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
-  onSendToStash,
+  onSendToStash, onSell,
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -148,24 +153,101 @@ export default function FighterCard({
     : null;
 
   // Equipment as one comma list, duplicates folded into "Sword (x2)"; unbought items marked pending.
-  const equipGroups: { name: string; count: number; pending: boolean }[] = [];
+  const equipGroups: { id: string; name: string; count: number; pending: boolean }[] = [];
   allEquipment.forEach((eid, idx) => {
     const pending = !instance.isPending && idx >= instance.equipment.length;
     const name = weaponsData.find(x => x.id === eid)?.name ?? itemsData.find(x => x.id === eid)?.name ?? eid;
-    const g = equipGroups.find(x => x.name === name && x.pending === pending);
-    if (g) g.count++; else equipGroups.push({ name, count: 1, pending });
+    const g = equipGroups.find(x => x.id === eid && x.pending === pending);
+    if (g) g.count++; else equipGroups.push({ id: eid, name, count: 1, pending });
   });
 
   // Beasts, thralls and daemons can't buy equipment; show the weapons they're born with instead.
   const naturalWeapons = (isBeast || isThrall || isDaemon)
     ? (profile.default_equipment ?? [])
-        .map(id => weaponsData.find(w => w.id === id.replace('weapon:', ''))?.name)
-        .filter((n): n is string => !!n)
+        .map(id => weaponsData.find(w => w.id === id.replace('weapon:', '')))
+        .filter((w): w is NonNullable<typeof w> => !!w)
     : [];
 
   const abilities = (profile.faction_ability_ids ?? [])
     .map(id => abilitiesData.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => !!a);
+
+  function abilityLabel(a: (typeof abilities)[0]): string {
+    return a.ability_type && a.ability_type !== 'trait'
+      ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
+      : a.name;
+  }
+
+  let infoSheet: React.ReactNode = null;
+  if (info?.kind === 'ability') {
+    const a = abilities.find(x => x.id === info.id);
+    if (a) {
+      infoSheet = (
+        <InfoSheet
+          title={a.name}
+          subtitle={a.ability_type && a.ability_type !== 'trait' ? `${a.ability_type} ability` : 'Trait'}
+          onClose={() => setInfo(null)}
+        >
+          <ReactMarkdown>{a.description}</ReactMarkdown>
+        </InfoSheet>
+      );
+    }
+  } else if (info?.kind === 'equip') {
+    const w = weaponsData.find(x => x.id === info.id);
+    const item = itemsData.find(x => x.id === info.id);
+    const cost = w?.cost ?? item?.cost ?? 0;
+    const salePrice = salePriceFor(cost);
+    // Only bought, non-natural gear can be sold or stashed.
+    const ownedIdx = info.natural || info.pending ? -1 : instance.equipment.lastIndexOf(info.id);
+    const close = () => setInfo(null);
+    infoSheet = (
+      <InfoSheet
+        title={w?.name ?? item?.name ?? info.id}
+        subtitle={info.natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
+        onClose={close}
+        actions={ownedIdx !== -1 ? (
+          <>
+            <button type="button" className="button button--secondary" onClick={() => { onSendToStash(ownedIdx); close(); }}>
+              Stash
+            </button>
+            <button type="button" className="button button--primary" onClick={() => { onSell(ownedIdx, salePrice); close(); }}>
+              Sell for {salePrice}gc
+            </button>
+          </>
+        ) : undefined}
+      >
+        {w && (
+          <>
+            <div className={styles.statCards}>
+              <div className={styles.statCard}>
+                <div className={styles.statCardLabel}>Range</div>
+                <div className={styles.statCardValue}>{w.range}"</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statCardLabel}>Attacks</div>
+                <div className={styles.statCardValue}>{w.attacks}</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statCardLabel}>Damage</div>
+                <div className={styles.statCardValue}>{w.hit}/{w.crit}</div>
+              </div>
+            </div>
+            {w.special_rules.map(ruleId => {
+              const rule = weaponRulesData.find(r => r.id === ruleId);
+              return (
+                <div key={ruleId} className={styles.infoSheetRule}>
+                  <div className={styles.infoSheetRuleName}>{rule?.name ?? ruleId}</div>
+                  {rule?.description && <div>{rule.description}</div>}
+                </div>
+              );
+            })}
+          </>
+        )}
+        {item?.description && <ReactMarkdown>{item.description}</ReactMarkdown>}
+        {info.pending && <p className={styles.weaponRefEmpty}>Not yet purchased.</p>}
+      </InfoSheet>
+    );
+  }
 
   // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
   const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords]));
@@ -211,12 +293,14 @@ export default function FighterCard({
           <div className={styles.fighterCardSectionTitle}>Equipment</div>
           <div className={styles.fighterCardTags}>
             {equipGroups.map(g => (
-              <span
-                key={`${g.name}-${g.pending}`}
+              <button
+                type="button"
+                key={`${g.id}-${g.pending}`}
                 className={`${styles.equipmentTag} ${styles.fighterCardTag} ${g.pending ? styles.equipmentTagPending : ''}`}
+                onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || instance.isPending })}
               >
                 {g.name}{g.count > 1 && ` (x${g.count})`}
-              </span>
+              </button>
             ))}
           </div>
         </div>
@@ -228,8 +312,15 @@ export default function FighterCard({
             {naturalWeapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'}
           </div>
           <div className={styles.fighterCardTags}>
-            {naturalWeapons.map((n, i) => (
-              <span key={`${n}-${i}`} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}>{n}</span>
+            {naturalWeapons.map((w, i) => (
+              <button
+                type="button"
+                key={`${w.id}-${i}`}
+                className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
+                onClick={() => setInfo({ kind: 'equip', id: w.id, pending: false, natural: true })}
+              >
+                {w.name}
+              </button>
             ))}
           </div>
         </div>
@@ -240,11 +331,14 @@ export default function FighterCard({
           <div className={styles.fighterCardSectionTitle}>Abilities</div>
           <div className={styles.fighterCardTags}>
             {abilities.map(a => (
-              <span key={a.id} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}>
-                {a.ability_type && a.ability_type !== 'trait'
-                  ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
-                  : a.name}
-              </span>
+              <button
+                type="button"
+                key={a.id}
+                className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
+                onClick={() => setInfo({ kind: 'ability', id: a.id })}
+              >
+                {abilityLabel(a)}
+              </button>
             ))}
           </div>
         </div>
@@ -269,6 +363,7 @@ export default function FighterCard({
       )}
 
       {menu}
+      {infoSheet}
 
       {editOpen && (
         <FighterEditPanel
