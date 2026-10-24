@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
-import { calcReputation, calcStanding, calcValue, calcPendingCost, getFavourTier } from './useWarband';
+import { calcReputation, calcStanding, calcValue, getFavourTier } from './useWarband';
 import styles from './warband-builder.module.css';
 import { factionsData, fightersData } from './data';
 
@@ -22,7 +22,6 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
   const standing = calcStanding(reputation);
   const favourTier = getFavourTier(warband.favour);
   const spent = calcValue(warband, fightersData);
-  const pendingCost = calcPendingCost(warband, fightersData);
   const remainingGold = warband.gold - spent;
   const selectedFaction = factionsData.find(f => f.id === warband.factionId);
   const fighterCount = warband.fighters.length;
@@ -128,9 +127,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         >
           <div className={styles.statCardLabel}>Gold</div>
           <div className={styles.statCardValue}>
-            {locked ? '—' : pendingCost > 0
-              ? <span className={styles.goldPending}>{pendingCost}/{remainingGold}</span>
-              : remainingGold}
+            {locked ? '—' : remainingGold}
           </div>
         </button>
         <div className={styles.statCard}>
@@ -205,9 +202,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           >
             {locked ? '—' : goldHovered && !hasPending
               ? 'Add Gold'
-              : pendingCost > 0
-                ? <span className={styles.goldPending}>{pendingCost}/{remainingGold}</span>
-                : remainingGold
+              : remainingGold
             }
           </div>
 

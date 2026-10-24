@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import { useColorMode } from '@docusaurus/theme-common';
 import { ArrowLeft, EllipsisVertical } from 'lucide-react';
 import ReactDOM from 'react-dom';
-import { useWarband } from './useWarband';
+import { useWarband, calcPendingCost } from './useWarband';
+import { fightersData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import WarbandList from './WarbandList';
 import WarbandInfoRow from './WarbandInfoRow';
@@ -214,7 +215,9 @@ export default function WarbandBuilder() {
                 </div>
                 <div className={styles.actions}>
                   {hasPending && (
-                    <button type="button" className="button button--primary button--md" onClick={purchasePending}>Purchase</button>
+                    <button type="button" className="button button--primary button--md" onClick={purchasePending}>
+                      Purchase <span className={styles.purchaseDiamond} aria-hidden>◆</span> {calcPendingCost(active, fightersData)}gc
+                    </button>
                   )}
                   {menuButton}
                   {warbandMenu}
