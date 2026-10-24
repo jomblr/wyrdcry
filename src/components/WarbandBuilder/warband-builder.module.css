@@ -2367,7 +2367,16 @@ button.fighterCardTag {
   color: var(--wyrd-text3);
 }
 
-/* Room below the tags so the next sticky section head doesn't overlap them */
 .currentEquipTags {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
+}
+
+/* Current equipment, pinned in the edit panel header under the pane toggle */
+.editPanelCurrent {
+  margin: 0.85rem -2rem 0;
+  text-align: left;
+}
+
+.editPanelCurrent .editPanelSectionTitle {
+  margin-bottom: 0.35rem;
 }

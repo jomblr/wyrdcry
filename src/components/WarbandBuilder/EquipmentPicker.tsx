@@ -134,6 +134,63 @@ function costOf(id: string): number {
   return weaponsData.find(w => w.id === id)?.cost ?? itemsData.find(i => i.id === id)?.cost ?? 0;
 }
 
+/** The fighter's gear as tags; tapping one opens its details with Stash / Sell / Remove. */
+export function CurrentEquipment({ fixedEquipment, allEquipment, purchasedEquipment, onStash, onSell, onRemoveLast }: {
+  fixedEquipment: string[];
+  allEquipment: string[];
+  purchasedEquipment: string[];
+  onStash: (id: string) => void;
+  onSell: (id: string) => void;
+  onRemoveLast: (id: string) => void;
+}) {
+  const [current, setCurrent] = useState<{ id: string; kind: 'fixed' | 'purchased' | 'pending' } | null>(null);
+  return (
+    <div>
+      {fixedEquipment.length === 0 && allEquipment.length === 0 ? (
+        <div className={styles.equipEmpty}>No equipment yet</div>
+      ) : (
+        // Same tags as the fighter card; tapping one opens its details with the actions.
+        <div className={`${styles.fighterCardTags} ${styles.currentEquipTags}`}>
+          {fixedEquipment.map((id, i) => (
+            <button type="button" key={`fixed-${id}-${i}`} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
+              onClick={() => setCurrent({ id, kind: 'fixed' })}>
+              {nameOf(id)}
+            </button>
+          ))}
+          {allEquipment.map((id, i) => {
+            // Purchased copies come first in allEquipment; the rest are added but not yet bought.
+            const purchased = i < purchasedEquipment.length;
+            return (
+              <button type="button" key={`cur-${id}-${i}`}
+                className={`${styles.equipmentTag} ${styles.fighterCardTag} ${purchased ? '' : styles.equipmentTagPending}`}
+                onClick={() => setCurrent({ id, kind: purchased ? 'purchased' : 'pending' })}>
+                {nameOf(id)}{!purchased && ` (${costOf(id)}gc)`}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {current && (
+        <EquipmentInfoSheet
+          id={current.id}
+          pending={current.kind === 'pending'}
+          onClose={() => setCurrent(null)}
+          actions={
+            current.kind === 'purchased' ? (
+              <>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onStash(current.id); setCurrent(null); }}>Stash</button>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(current.id); setCurrent(null); }}>Sell ({salePriceFor(costOf(current.id))}gc)</button>
+              </>
+            ) : current.kind === 'pending' ? (
+              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onRemoveLast(current.id); setCurrent(null); }}>Remove</button>
+            ) : undefined
+          }
+        />
+      )}
+    </div>
+  );
+}
+
 export default function EquipmentPicker({
   allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash, onSell,
   stash = [], onTakeFromStash,
@@ -141,7 +198,7 @@ export default function EquipmentPicker({
   /** Stash copies are free, so `free` skips the gold check. */
   function affordable(cost: number, free = false) { return free || cost <= remainingGold; }
   const [tradingPostOpen, setTradingPostOpen] = useState(false);
-  const [current, setCurrent] = useState<{ id: string; kind: 'fixed' | 'purchased' | 'pending' } | null>(null);
+  const [stashOpen, setStashOpen] = useState(false);
   const combinedIds = [...fixedEquipment, ...allEquipment];
   const slots = countSlots(combinedIds);
   const hasExclusiveArmour = EXCLUSIVE_ARMOUR.some(a => combinedIds.includes(a));
@@ -219,55 +276,14 @@ export default function EquipmentPicker({
 
   return (
     <div className={styles.equipPicker}>
-      <div>
-        <SectionHead title="Current equipment" />
-        {fixedEquipment.length === 0 && allEquipment.length === 0 ? (
-          <div className={styles.equipEmpty}>No equipment yet</div>
-        ) : (
-          // Same tags as the fighter card; tapping one opens its details with the actions.
-          <div className={`${styles.fighterCardTags} ${styles.currentEquipTags}`}>
-            {fixedEquipment.map((id, i) => (
-              <button type="button" key={`fixed-${id}-${i}`} className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setCurrent({ id, kind: 'fixed' })}>
-                {nameOf(id)}
-              </button>
-            ))}
-            {allEquipment.map((id, i) => {
-              // Purchased copies come first in allEquipment; the rest are added but not yet bought.
-              const purchased = i < purchasedEquipment.length;
-              return (
-                <button type="button" key={`cur-${id}-${i}`}
-                  className={`${styles.equipmentTag} ${styles.fighterCardTag} ${purchased ? '' : styles.equipmentTagPending}`}
-                  onClick={() => setCurrent({ id, kind: purchased ? 'purchased' : 'pending' })}>
-                  {nameOf(id)}{!purchased && ` (${costOf(id)}gc)`}
-                </button>
-              );
-            })}
-          </div>
-        )}
-        {current && (
-          <EquipmentInfoSheet
-            id={current.id}
-            pending={current.kind === 'pending'}
-            onClose={() => setCurrent(null)}
-            actions={
-              current.kind === 'purchased' ? (
-                <>
-                  <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onStash(current.id); setCurrent(null); }}>Stash</button>
-                  <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(current.id); setCurrent(null); }}>Sell ({salePriceFor(costOf(current.id))}gc)</button>
-                </>
-              ) : current.kind === 'pending' ? (
-                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onRemoveLast(current.id); setCurrent(null); }}>Remove</button>
-              ) : undefined
-            }
-          />
-        )}
-      </div>
-
       {stashOptions.length > 0 && (
         <div>
-          <SectionHead title="Warband stash" />
-          {stashOptions.map(o => (
+          <SectionHead
+            title={stashOpen ? 'Warband stash' : `Warband stash (${stashOptions.length})`}
+            open={stashOpen}
+            onToggle={() => setStashOpen(o => !o)}
+          />
+          {stashOpen && stashOptions.map(o => (
             <EquipRow key={o.id} id={o.id} name={o.name} addDisabled={!o.ok} onAdd={() => onTakeFromStash!(o.id)} />
           ))}
         </div>

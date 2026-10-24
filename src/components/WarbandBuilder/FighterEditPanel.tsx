@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
 import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
-import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
+import EquipmentPicker, { CurrentEquipment, NaturalWeapons } from './EquipmentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
 import ValueModal from './ValueModal';
 import { salePriceFor } from './WarbandStash';
@@ -118,6 +118,28 @@ export default function FighterEditPanel({
     return override !== undefined && override !== base;
   }
 
+  const onRemoveLastItem = (id: string) => {
+    const lastIdx = allEquipment.lastIndexOf(id);
+    if (lastIdx === -1) return;
+    if (instance.isPending) {
+      onSetEquipment(instance.equipment.filter((_, i) => i !== lastIdx));
+    } else if (lastIdx < instance.equipment.length) {
+      onSendToStash(lastIdx);
+    } else {
+      const pendingIdx = lastIdx - instance.equipment.length;
+      onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== pendingIdx));
+    }
+  };
+  const onStashItem = (id: string) => {
+    const idx = instance.equipment.lastIndexOf(id);
+    if (idx !== -1) onSendToStash(idx);
+  };
+  const onSellItem = (id: string) => {
+    const idx = instance.equipment.lastIndexOf(id);
+    const cost = weaponsData.find(w => w.id === id)?.cost ?? itemsData.find(i => i.id === id)?.cost ?? 0;
+    if (idx !== -1) onSell(idx, salePriceFor(cost));
+  };
+
   const panel = (
     <>
       <div className={styles.editPanelOverlay} onClick={onClose} />
@@ -148,6 +170,19 @@ export default function FighterEditPanel({
                 onClick={() => setPane('information')}>Information</button>
             </div>
           </div>
+          {pane === 'equipment' && !noEquipment && (
+            <div className={styles.editPanelCurrent}>
+              <div className={styles.editPanelSectionTitle}>Current equipment</div>
+              <CurrentEquipment
+                fixedEquipment={fixedEquipment}
+                allEquipment={allEquipment}
+                purchasedEquipment={instance.isPending ? [] : instance.equipment}
+                onStash={onStashItem}
+                onSell={onSellItem}
+                onRemoveLast={onRemoveLastItem}
+              />
+            </div>
+          )}
         </div>
 
         {/* Body — keyed by pane so each opens scrolled to the top */}
@@ -176,27 +211,9 @@ export default function FighterEditPanel({
                   if (instance.isPending) onSetEquipment([...instance.equipment, id]);
                   else onSetPendingEquipment([...instance.pendingEquipment, id]);
                 }}
-                onRemoveLast={id => {
-                  const lastIdx = allEquipment.lastIndexOf(id);
-                  if (lastIdx === -1) return;
-                  if (instance.isPending) {
-                    onSetEquipment(instance.equipment.filter((_, i) => i !== lastIdx));
-                  } else if (lastIdx < instance.equipment.length) {
-                    onSendToStash(lastIdx);
-                  } else {
-                    const pendingIdx = lastIdx - instance.equipment.length;
-                    onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== pendingIdx));
-                  }
-                }}
-                onStash={id => {
-                  const idx = instance.equipment.lastIndexOf(id);
-                  if (idx !== -1) onSendToStash(idx);
-                }}
-                onSell={id => {
-                  const idx = instance.equipment.lastIndexOf(id);
-                  const cost = weaponsData.find(w => w.id === id)?.cost ?? itemsData.find(i => i.id === id)?.cost ?? 0;
-                  if (idx !== -1) onSell(idx, salePriceFor(cost));
-                }}
+                onRemoveLast={onRemoveLastItem}
+                onStash={onStashItem}
+                onSell={onSellItem}
               />
             )}
           </div>
