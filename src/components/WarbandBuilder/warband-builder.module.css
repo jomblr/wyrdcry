@@ -2086,7 +2086,7 @@ button.statCard:not(:disabled) {
   font-family: var(--wyrd-font-body);
   font-weight: 600;
   font-size: 0.85rem;
-  color: #fff;
+  color: #9ea3a5;
 }
 
 .statCardValue {
