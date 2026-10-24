@@ -394,16 +394,7 @@
   background: none;
 }
 
-.goldPending {
-  color: var(--ifm-color-primary);
-  font-weight: 600;
-}
-
-:global(html[data-theme='dark']) .goldPending {
-  color: var(--ifm-color-warning, #f0ad4e);
-}
-
-.pendingCost {
+:global(html[data-theme='dark']) .pendingCost {
   color: var(--ifm-color-primary);
   font-weight: 600;
 }
