@@ -217,14 +217,15 @@ export default function WarbandBuilder() {
             );
           })()}
 
+          <WarbandInfoRow
+            warband={active}
+            onSetName={setName}
+            onSetFavour={setFavour}
+            onAddGold={amount => setGold(active.gold + amount)}
+          />
+          {isMobile && <div className={clsx(styles.topBarTabRow, styles.mobileTabRow)}>{tabToggleEl}</div>}
+
           <div className={tab === 'fighters' ? styles.tabPanel : styles.tabPanelHidden}>
-            <WarbandInfoRow
-              warband={active}
-              onSetName={setName}
-              onSetFavour={setFavour}
-              onAddGold={amount => setGold(active.gold + amount)}
-            />
-            {isMobile && <div className={clsx(styles.topBarTabRow, styles.mobileTabRow)}>{tabToggleEl}</div>}
             <FighterTable
               warband={active}
               onSetFighterName={setFighterName}
@@ -246,13 +247,6 @@ export default function WarbandBuilder() {
             />
           </div>
           <div className={tab === 'information' ? styles.tabPanel : styles.tabPanelHidden}>
-            <WarbandInfoRow
-              warband={active}
-              onSetName={setName}
-              onSetFavour={setFavour}
-              onAddGold={amount => setGold(active.gold + amount)}
-            />
-            {isMobile && <div className={clsx(styles.topBarTabRow, styles.mobileTabRow)}>{tabToggleEl}</div>}
             <InformationTab
               warband={active}
               onRemoveFromStash={removeFromStash}
