@@ -2161,7 +2161,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.2rem;
   min-width: 0;
   padding: 0.6rem 0.25rem;
@@ -2184,7 +2184,12 @@ button.statCard:not(:disabled) {
 }
 
 .statCardValue {
-  font-family: 'Inconsolata', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.9rem;
+  font-family: var(--wyrd-font-body);
+  font-weight: 600;
   font-size: 1.4rem;
   line-height: 1.2;
   white-space: nowrap;
@@ -2194,8 +2199,7 @@ button.statCard:not(:disabled) {
 }
 
 .statCardValueSmall {
-  font-size: 1rem;
-  white-space: normal;
+  font-size: 1.05rem;
 }
 
 @media (max-width: 799px) {
