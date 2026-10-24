@@ -1471,10 +1471,14 @@
 /* Sticky add fighter bar — sticks to bottom of the scroll container (.body) */
 .mobileAddFighterBar {
   position: sticky;
-  bottom: 0;
+  /* .body has 1rem bottom padding; pull the bar down over it so nothing shows underneath */
+  bottom: -1rem;
   left: 0;
   right: 0;
-  padding: 0.6rem 0 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0 calc(1rem + env(safe-area-inset-bottom, 0px));
+  margin-bottom: -1rem;
   background: var(--ifm-background-color);
   border-top: 1px solid var(--wyrd-border);
   z-index: 10;
@@ -1482,7 +1486,8 @@
 }
 
 .mobileAddFighterBtn {
-  width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
   font-size: 1rem;
 }
 
