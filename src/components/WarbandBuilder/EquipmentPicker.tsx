@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import EquipmentInfoSheet from './EquipmentInfoSheet';
 import styles from './warband-builder.module.css';
-import { factionsData, itemsData, weaponRulesData, weaponsData } from './data';
+import { factionsData, itemsData, weaponsData } from './data';
 
 const armourItems = () => itemsData.filter(i => i.type === 'armour');
 // Single-use and miscellaneous items: no slot cost, no faction gating — every warband can buy them
@@ -50,24 +51,11 @@ interface Props {
   onTakeFromStash?: (id: string) => void;
 }
 
-interface WeaponStats { range: string; attacks: string; damage: string; rules: string[] }
-
-/** Characteristics as in the weapon reference table: R, A, D (hit/crit) and special rules. */
-function weaponStats(w: (typeof weaponsData)[number]): WeaponStats {
-  return {
-    range: `${w.range}"`,
-    attacks: String(w.attacks),
-    damage: `${w.hit}/${w.crit}`,
-    rules: w.special_rules.map(id => weaponRulesData.find(r => r.id === id)?.name ?? id),
-  };
-}
-
 /**
- * Sticky section heading; weapon sections also get the R / A / D column labels.
- * Pass `open` + `onToggle` to make the section foldable.
+ * Sticky section heading. Pass `open` + `onToggle` to make the section foldable.
  */
-function SectionHead({ title, weaponColumns, readOnly, open, onToggle }: {
-  title: React.ReactNode; weaponColumns?: boolean; readOnly?: boolean; open?: boolean; onToggle?: () => void;
+function SectionHead({ title, open, onToggle }: {
+  title: React.ReactNode; open?: boolean; onToggle?: () => void;
 }) {
   return (
     <div className={styles.equipHead}>
@@ -84,21 +72,23 @@ function SectionHead({ title, weaponColumns, readOnly, open, onToggle }: {
       ) : (
         <div className={styles.editPanelSectionTitle}>{title}</div>
       )}
-      {weaponColumns && (
-        <div className={`${styles.equipRow} ${styles.equipRowWeapon} ${readOnly ? styles.equipRowReadOnly : ''} ${styles.equipColumns}`}>
-          <span>Weapon</span>
-          <span className={styles.equipStat}>R</span>
-          <span className={styles.equipStat}>A</span>
-          <span className={styles.equipStat}>D</span>
-          {!readOnly && <span className={styles.equipPickerCost}>Cost</span>}
-        </div>
-      )}
     </div>
   );
 }
 
-function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onStash, fromStash }: {
-  name: string; weapon?: WeaponStats; cost: number; qty: number;
+/** Item name with a dotted underline; tapping opens its details. */
+function InfoName({ id, name, natural }: { id: string; name: string; natural?: boolean }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" className={styles.equipInfoName} onClick={() => setOpen(true)}>{name}</button>
+      {open && <EquipmentInfoSheet id={id} natural={natural} onClose={() => setOpen(false)} />}
+    </>
+  );
+}
+
+function EquipRow({ id, name, cost, qty, addDisabled, onAdd, onRemove, onStash, fromStash }: {
+  id: string; name: string; cost: number; qty: number;
   /** A copy is in the stash: + takes it for free instead of buying */
   fromStash?: boolean;
   addDisabled: boolean; onAdd: () => void; onRemove: () => void;
@@ -106,23 +96,11 @@ function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onSta
   onStash?: () => void;
 }) {
   return (
-    <div className={`${styles.equipRow} ${weapon ? styles.equipRowWeapon : ''} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
+    <div className={`${styles.equipRow} ${addDisabled && qty === 0 ? styles.equipPickerRowDisabled : ''}`}>
       <span className={styles.equipPickerName}>
-        {name}
+        <InfoName id={id} name={name} />
         {fromStash && <span className={styles.equipFromStash}>Take from stash</span>}
-        {weapon && weapon.rules.length > 0 && (
-          <span className={styles.equipRules}>
-            {weapon.rules.map(rule => <span key={rule}>{rule}</span>)}
-          </span>
-        )}
       </span>
-      {weapon && (
-        <>
-          <span className={styles.equipStat}>{weapon.range}</span>
-          <span className={styles.equipStat}>{weapon.attacks}</span>
-          <span className={styles.equipStat}>{weapon.damage}</span>
-        </>
-      )}
       <span className={styles.equipPickerCost}>{fromStash ? <s>{cost}gc</s> : `${cost}gc`}</span>
       {onStash ? (
         <button type="button" className={`${styles.panelStatControl} ${styles.equipStepper} ${styles.equipStashBtn}`} onClick={onStash}>
@@ -139,32 +117,19 @@ function EquipRow({ name, weapon, cost, qty, addDisabled, onAdd, onRemove, onSta
   );
 }
 
-/** Read-only weapon table for fighters that can't buy equipment (beasts, thralls, daemons). */
+/** Read-only list for fighters that can't buy equipment (beasts, thralls, daemons). */
 export function NaturalWeapons({ weaponIds }: { weaponIds: string[] }) {
   const weapons = weaponIds.flatMap(id => weaponsData.filter(w => w.id === id));
   if (weapons.length === 0) return null;
   return (
     <div className={styles.equipPicker}>
       <div>
-        <SectionHead title={weapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'} weaponColumns readOnly />
-        {weapons.map((w, i) => {
-          const stats = weaponStats(w);
-          return (
-            <div key={`${w.id}-${i}`} className={`${styles.equipRow} ${styles.equipRowWeapon} ${styles.equipRowReadOnly}`}>
-              <span className={styles.equipPickerName}>
-                {w.name}
-                {stats.rules.length > 0 && (
-                  <span className={styles.equipRules}>
-                    {stats.rules.map(rule => <span key={rule}>{rule}</span>)}
-                  </span>
-                )}
-              </span>
-              <span className={styles.equipStat}>{stats.range}</span>
-              <span className={styles.equipStat}>{stats.attacks}</span>
-              <span className={styles.equipStat}>{stats.damage}</span>
-            </div>
-          );
-        })}
+        <SectionHead title={weapons.length > 1 ? 'Natural Weapons' : 'Natural Weapon'} />
+        {weapons.map((w, i) => (
+          <div key={`${w.id}-${i}`} className={styles.equipRow}>
+            <span className={styles.equipPickerName}><InfoName id={w.id} name={w.name} natural /></span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -248,12 +213,12 @@ export default function EquipmentPicker({
     <div className={styles.equipPicker}>
       {meleeWeapons.length > 0 && (
         <div>
-          <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} weaponColumns />
+          <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} />
           {meleeWeapons.map(w => (
             <EquipRow
               key={w.id}
+              id={w.id}
               name={w.name}
-              weapon={weaponStats(w)}
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddMelee(w)}
@@ -268,12 +233,12 @@ export default function EquipmentPicker({
 
       {rangedWeapons.length > 0 && (
         <div>
-          <SectionHead title={<>Ranged Weapon ({slots.ranged}/{RANGED_SLOTS})</>} weaponColumns />
+          <SectionHead title={<>Ranged Weapon ({slots.ranged}/{RANGED_SLOTS})</>} />
           {rangedWeapons.map(w => (
             <EquipRow
               key={w.id}
+              id={w.id}
               name={w.name}
-              weapon={weaponStats(w)}
               cost={w.cost}
               qty={editableQty(w.id)}
               addDisabled={!canAddRanged(w)}
@@ -292,6 +257,7 @@ export default function EquipmentPicker({
           {availableArmour.map(item => (
             <EquipRow
               key={item.id}
+              id={item.id}
               name={item.name}
               cost={item.cost}
               qty={editableQty(item.id)}
@@ -314,6 +280,7 @@ export default function EquipmentPicker({
           {tradingPostOpen && gearItems().map(item => (
             <EquipRow
               key={item.id}
+              id={item.id}
               name={item.name}
               cost={item.cost}
               qty={editableQty(item.id)}

@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponRulesData, weaponsData } from './data';
+import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
+import EquipmentInfoSheet from './EquipmentInfoSheet';
 import { salePriceFor } from './WarbandStash';
 import ReactMarkdown from 'react-markdown';
 
@@ -198,9 +199,10 @@ export default function FighterCard({
     const ownedIdx = info.natural || info.pending ? -1 : instance.equipment.lastIndexOf(info.id);
     const close = () => setInfo(null);
     infoSheet = (
-      <InfoSheet
-        title={w?.name ?? item?.name ?? info.id}
-        subtitle={info.natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
+      <EquipmentInfoSheet
+        id={info.id}
+        natural={info.natural}
+        pending={info.pending}
         onClose={close}
         actions={ownedIdx !== -1 ? (
           <>
@@ -212,37 +214,7 @@ export default function FighterCard({
             </button>
           </>
         ) : undefined}
-      >
-        {w && (
-          <>
-            <div className={styles.statCards}>
-              <div className={styles.statCard}>
-                <div className={styles.statCardLabel}>Range</div>
-                <div className={styles.statCardValue}>{w.range}"</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statCardLabel}>Attacks</div>
-                <div className={styles.statCardValue}>{w.attacks}</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statCardLabel}>Damage</div>
-                <div className={styles.statCardValue}>{w.hit}/{w.crit}</div>
-              </div>
-            </div>
-            {w.special_rules.map(ruleId => {
-              const rule = weaponRulesData.find(r => r.id === ruleId);
-              return (
-                <div key={ruleId} className={styles.infoSheetRule}>
-                  <div className={styles.infoSheetRuleName}>{rule?.name ?? ruleId}</div>
-                  {rule?.description && <div>{rule.description}</div>}
-                </div>
-              );
-            })}
-          </>
-        )}
-        {item?.description && <ReactMarkdown>{item.description}</ReactMarkdown>}
-        {info.pending && <p className={styles.weaponRefEmpty}>Not yet purchased.</p>}
-      </InfoSheet>
+      />
     );
   }
 

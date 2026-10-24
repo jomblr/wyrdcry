@@ -1823,90 +1823,6 @@
   border-top: 2px dotted var(--ifm-color-emphasis-400);
 }
 
-/*
- * Name | R | A | D | Cost | stepper; special rules stacked under the name, one per line.
- * Cells align to the top, and the name's first line, the stats and the cost are all
- * centred on the stepper's height, so they line up however many lines the name takes.
- */
-.equipRowWeapon {
-  --equip-step-h: 2.25rem;
-  align-items: start;
-  /* Fixed stepper column so the header row (which has no stepper) lines up with the rows. */
-  /* R / A / D share the spare width with the name, so on wide panels they sit mid-row;
-     on phones they shrink to their minimums. */
-  grid-template-columns: minmax(0, 1.25fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr) 2.2rem calc(5rem + 8px);
-  column-gap: 0.35rem;
-}
-
-/* Phones: no spare width to spread R / A / D into, so give it all to the name. */
-@media (max-width: 420px) {
-  .equipRowWeapon {
-    grid-template-columns: minmax(0, 1fr) 1.9rem 1.1rem 1.7rem 2.2rem calc(5rem + 8px);
-  }
-}
-
-/* Natural weapons: no cost or stepper columns. Comes after the phone rule so it wins there too. */
-.equipRowWeapon.equipRowReadOnly {
-  grid-template-columns: minmax(0, 2.5fr) minmax(1.9rem, 1fr) minmax(1.1rem, 1fr) minmax(1.7rem, 1fr);
-}
-
-.equipRowWeapon .equipPickerCost {
-  min-width: 0;
-}
-
-.equipRowWeapon .equipStepper {
-  justify-self: end;
-  height: var(--equip-step-h);
-  box-sizing: border-box;
-}
-
-.equipRowWeapon .equipStat,
-.equipRowWeapon .equipPickerCost {
-  line-height: var(--equip-step-h);
-}
-
-.equipRowWeapon .equipPickerName {
-  line-height: 1.3;
-  padding-top: calc((var(--equip-step-h) - 1rem * 1.3) / 2);
-}
-
-.equipColumns {
-  padding: 0 0 0.3rem;
-  border-bottom: 1px solid var(--wyrd-border);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--wyrd-text3);
-}
-
-.equipColumns .equipStat,
-.equipColumns .equipPickerCost {
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-}
-
-.equipColumns {
-  align-items: end;
-}
-
-.equipStat {
-  font-size: 0.95rem;
-  font-variant-numeric: lining-nums;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.equipRules {
-  display: flex;
-  flex-direction: column;
-  margin-top: 0.1rem;
-  font-size: 0.85rem;
-  line-height: 1.3;
-  color: var(--ifm-color-content-secondary);
-}
-
 .equipStepper {
   margin-left: 8px; /* breathing room after the cost */
 }
@@ -1946,12 +1862,6 @@
   color: var(--ifm-color-content-secondary);
   min-width: 3rem;
   text-align: right;
-}
-
-.equipPickerRowDisabled .equipPickerName,
-.equipPickerRowDisabled .equipPickerCost,
-.equipPickerRowDisabled .equipStat {
-  opacity: 0.4;
 }
 
 .editPanelValueHint {
@@ -2459,4 +2369,21 @@ button.fighterCardTag {
 .infoSheetBtn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* Edit panel: tappable item name that opens its details */
+.equipInfoName {
+  padding: 0;
+  background: none;
+  border: none;
+  border-bottom: 1px dotted currentColor;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.equipPickerRowDisabled .equipPickerName,
+.equipPickerRowDisabled .equipPickerCost {
+  opacity: 0.4;
 }
