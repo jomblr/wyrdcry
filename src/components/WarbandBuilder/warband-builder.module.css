@@ -2371,3 +2371,46 @@ button.fighterCardTag {
 .editPanelCurrent .editPanelSectionTitle {
   margin-bottom: 0.35rem;
 }
+
+/* Form fields inside an info sheet (New Warband) */
+.sheetField + .sheetField {
+  margin-top: 1rem;
+}
+
+.sheetSelect,
+.sheetInput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.75rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  font-variant-numeric: lining-nums;
+  color: var(--ifm-color-content);
+  text-align: left;
+  cursor: pointer;
+}
+
+.sheetInput {
+  cursor: text;
+  outline: none;
+}
+
+.sheetInput:focus,
+.sheetSelect:focus-visible {
+  border-color: var(--ifm-color-primary);
+}
+
+.sheetSelectPlaceholder {
+  color: var(--wyrd-text3);
+}
+
+/* Dropdowns opened from inside a sheet sit above its overlay */
+.dropdownAboveSheet {
+  z-index: 1100;
+}
