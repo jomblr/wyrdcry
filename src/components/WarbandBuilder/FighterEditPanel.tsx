@@ -37,7 +37,7 @@ const STAT_DEFS: { key: StatKey; label: string; suffix?: string; step?: number; 
   { key: 'bravery', label: 'Bravery', suffix: '+', min: 2, max: 6, invert: true },
 ];
 
-function PanelStat({ label, value, onChange, suffix = '', step = 1, min = 1, max, invert = false, modified = false, readonly = false }: {
+export function PanelStat({ label, value, onChange, suffix = '', step = 1, min = 1, max, invert = false, modified = false, readonly = false }: {
   label: string; value: number; onChange: (v: number) => void;
   suffix?: string; step?: number; min?: number; max?: number;
   invert?: boolean; modified?: boolean; readonly?: boolean;

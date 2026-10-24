@@ -2467,3 +2467,31 @@ button.fighterCardTag {
 .purchaseCost {
   font-size: 0.85em;
 }
+
+/* Favour sheet: a single stepper, centred */
+.favourStepper {
+  grid-template-columns: minmax(0, 12rem);
+  justify-content: center;
+}
+
+/* Screen vs print: the mobile card view prints the desktop table instead */
+.printOnly {
+  display: none;
+}
+
+@media print {
+  .printOnly {
+    display: block !important;
+  }
+
+  .noPrint,
+  .mobileAddFighterBar {
+    display: none !important;
+  }
+}
+
+.topBarIcons {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

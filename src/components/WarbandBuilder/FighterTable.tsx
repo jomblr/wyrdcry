@@ -128,55 +128,7 @@ export default function FighterTable({
   const hasLeader = warband.fighters.some(f =>
     f.isLeader || fightersData.find(p => p.id === f.fighterId)?.keywords.includes('LEADER'));
 
-  if (isMobile) {
-    return (
-      <>
-        <div className={playMode ? styles.fighterCardCarousel : styles.fighterCardList}>
-          {warband.fighters.map((instance: FighterInstance, idx: number) => (
-            <FighterCard
-              key={instance.instanceId}
-              readOnly={playMode}
-              instance={instance}
-              remainingGold={remainingGold}
-              canMoveUp={idx > 0}
-              canMoveDown={idx < warband.fighters.length - 1}
-              onMoveUp={() => onReorderFighters(arrayMove(warband.fighters, idx, idx - 1))}
-              onMoveDown={() => onReorderFighters(arrayMove(warband.fighters, idx, idx + 1))}
-              onSetName={name => onSetFighterName(instance.instanceId, name)}
-              onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
-              onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
-              onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
-              onRemove={() => onRemoveFighter(instance.instanceId)}
-              onDuplicate={() => onDuplicateFighter(instance.instanceId)}
-              canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
-              onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
-              onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
-              stash={warband.stash}
-              canMakeLeader={!hasLeader}
-              onMakeLeader={() => onMakeLeader(instance.instanceId)}
-              onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
-              onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
-              onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
-              onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
-            />
-          ))}
-        </div>
-        {!playMode && <AddFighterRow
-          factionId={warband.factionId}
-          currentFighters={warband.fighters}
-          atFighterLimit={atFighterLimit}
-          remainingGold={remainingGold}
-          onAdd={onAddFighter}
-          mobileBar
-          pendingCost={calcPendingCost(warband, fightersData)}
-          hasPending={hasPending}
-          onPurchase={onPurchase}
-        />}
-      </>
-    );
-  }
-
-  return (
+  const desktopTable = (
     <div className={styles.tableScrollOuter}>
     <div className={styles.tableWrapper}>
       <div className={`${styles.wbGrid} ${styles.fighterGrid}`}>
@@ -246,4 +198,56 @@ export default function FighterTable({
     </div>
     </div>
   );
+
+  if (isMobile) {
+    return (
+      <>
+        {/* Printing from a phone uses the desktop table, same as printing from desktop */}
+        <div className={styles.printOnly}>{desktopTable}</div>
+        <div className={`${playMode ? styles.fighterCardCarousel : styles.fighterCardList} ${styles.noPrint}`}>
+          {warband.fighters.map((instance: FighterInstance, idx: number) => (
+            <FighterCard
+              key={instance.instanceId}
+              readOnly={playMode}
+              instance={instance}
+              remainingGold={remainingGold}
+              canMoveUp={idx > 0}
+              canMoveDown={idx < warband.fighters.length - 1}
+              onMoveUp={() => onReorderFighters(arrayMove(warband.fighters, idx, idx - 1))}
+              onMoveDown={() => onReorderFighters(arrayMove(warband.fighters, idx, idx + 1))}
+              onSetName={name => onSetFighterName(instance.instanceId, name)}
+              onSetRenown={renown => onSetFighterRenown(instance.instanceId, renown)}
+              onSetEquipment={equipment => onSetFighterEquipment(instance.instanceId, equipment)}
+              onSetPendingEquipment={equipment => onSetFighterPendingEquipment(instance.instanceId, equipment)}
+              onRemove={() => onRemoveFighter(instance.instanceId)}
+              onDuplicate={() => onDuplicateFighter(instance.instanceId)}
+              canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
+              onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+              onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
+              stash={warband.stash}
+              canMakeLeader={!hasLeader}
+              onMakeLeader={() => onMakeLeader(instance.instanceId)}
+              onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
+              onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
+              onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+              onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+            />
+          ))}
+        </div>
+        {!playMode && <AddFighterRow
+          factionId={warband.factionId}
+          currentFighters={warband.fighters}
+          atFighterLimit={atFighterLimit}
+          remainingGold={remainingGold}
+          onAdd={onAddFighter}
+          mobileBar
+          pendingCost={calcPendingCost(warband, fightersData)}
+          hasPending={hasPending}
+          onPurchase={onPurchase}
+        />}
+      </>
+    );
+  }
+
+  return desktopTable;
 }

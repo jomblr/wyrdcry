@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import InfoSheet from './InfoSheet';
+import { PanelStat } from './FighterEditPanel';
 import useAnimatedNumber from './useAnimatedNumber';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
@@ -12,11 +13,14 @@ interface Props {
   onSetName: (name: string) => void;
   onSetFavour: (favour: number) => void;
   onAddGold: (amount: number) => void;
+  /** Warband locked (play mode): name can't be edited */
+  nameLocked?: boolean;
 }
 
-export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddGold }: Props) {
+export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddGold, nameLocked = false }: Props) {
   const [goldHovered, setGoldHovered] = useState(false);
   const [addGoldOpen, setAddGoldOpen] = useState(false);
+  const [favourOpen, setFavourOpen] = useState(false);
   const [amountInput, setAmountInput] = useState('');
 
   const reputation = calcReputation(warband);
@@ -99,15 +103,20 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         value={warband.name}
         onChange={e => onSetName(e.target.value)}
         disabled={locked}
+        readOnly={nameLocked}
       />
       <div className={styles.mobileFaction}>{selectedFaction ? selectedFaction.name : '—'}</div>
       <div className={styles.statCards}>
-        <div className={styles.statCard}>
+        <button
+          type="button"
+          className={styles.statCard}
+          onClick={() => setFavourOpen(true)}
+          disabled={locked}
+          aria-label="Favour — tap to change"
+        >
           <div className={styles.statCardLabel}>Favour</div>
-          <div className={styles.statCardValue}>
-            {locked ? '—' : <StatSpinner value={warband.favour} min={0} onChange={onSetFavour} />}
-          </div>
-        </div>
+          <div className={styles.statCardValue}>{locked ? '—' : warband.favour}</div>
+        </button>
         <div className={styles.statCard}>
           <div className={styles.statCardLabel}>Reputation</div>
           <div className={styles.statCardValue}>{locked ? '—' : reputation}</div>
@@ -219,6 +228,23 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
     </div>
     </div>
     {modal}
+    {favourOpen && (
+      <InfoSheet
+        title="Favour"
+        subtitle={favourTier.label}
+        onClose={() => setFavourOpen(false)}
+        actions={
+          <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => setFavourOpen(false)}>
+            Done
+          </button>
+        }
+      >
+        {/* Same stepper as the fighter characteristics */}
+        <div className={`${styles.editPanelStatsGrid} ${styles.favourStepper}`}>
+          <PanelStat label="Favour" value={warband.favour} min={0} onChange={onSetFavour} />
+        </div>
+      </InfoSheet>
+    )}
     </>
   );
 }

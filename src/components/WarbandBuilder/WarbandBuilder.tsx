@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { useColorMode } from '@docusaurus/theme-common';
-import { ArrowLeft, EllipsisVertical } from 'lucide-react';
+import { ArrowLeft, EllipsisVertical, Lock, LockOpen } from 'lucide-react';
 import ReactDOM from 'react-dom';
 import { useWarband, calcPendingCost, calcValue } from './useWarband';
 import { fightersData } from './data';
@@ -94,7 +94,7 @@ export default function WarbandBuilder() {
   const isMobile = useIsMobile();
   const { colorMode, setColorMode } = useColorMode();
 
-  // Play mode (mobile): swipeable read-only cards for use at the table. Remembered per device.
+  // Locked / play mode (mobile): swipeable read-only cards for use at the table. Remembered per device.
   const [playMode, setPlayModeState] = useState(false);
   useEffect(() => {
     try { setPlayModeState(localStorage.getItem('wb-play-mode') === '1'); } catch { /* storage unavailable */ }
@@ -187,17 +187,6 @@ export default function WarbandBuilder() {
             const warbandMenu = menuOpen && menuPos
               ? ReactDOM.createPortal(
                   <div ref={menuRef} className={`${styles.dropdown} ${isMobile ? styles.dropdownMobile : ''}`} style={dropdownStyle(menuPos, true)}>
-                    {isMobile && (
-                      <>
-                        <button type="button" className={styles.dropdownItem} disabled={!playMode} onClick={() => { setMenuOpen(false); setPlayMode(false); }}>
-                          Recruitment mode{!playMode && ' ✓'}
-                        </button>
-                        <button type="button" className={styles.dropdownItem} disabled={playMode} onClick={() => { setMenuOpen(false); setPlayMode(true); }}>
-                          Play mode{playMode && ' ✓'}
-                        </button>
-                        <div className={styles.dropdownSep} />
-                      </>
-                    )}
                     <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
@@ -223,7 +212,19 @@ export default function WarbandBuilder() {
                   <button type="button" className={styles.backBtn} onClick={() => setView('list')} aria-label="Back to warband list">
                     <ArrowLeft size={16} /><span>Warbands</span>
                   </button>
-                  {menuButton}
+                  <div className={styles.topBarIcons}>
+                    {/* Locked = play mode: swipeable read-only cards, no recruiting or renaming */}
+                    <button
+                      type="button"
+                      className={styles.ellipsisBtn}
+                      onClick={() => setPlayMode(!playMode)}
+                      aria-pressed={playMode}
+                      aria-label={playMode ? 'Unlock warband' : 'Lock warband'}
+                    >
+                      {playMode ? <Lock size={18} /> : <LockOpen size={18} />}
+                    </button>
+                    {menuButton}
+                  </div>
                   {warbandMenu}
                 </div>
               );
@@ -257,6 +258,7 @@ export default function WarbandBuilder() {
 
           <WarbandInfoRow
             warband={active}
+            nameLocked={inPlayMode}
             onSetName={setName}
             onSetFavour={setFavour}
             onAddGold={amount => setGold(active.gold + amount)}
