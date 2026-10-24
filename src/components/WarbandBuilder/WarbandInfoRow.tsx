@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import InfoSheet from './InfoSheet';
+import useAnimatedNumber from './useAnimatedNumber';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
 import { calcReputation, calcStanding, calcValue, getFavourTier } from './useWarband';
@@ -23,6 +24,9 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
   const favourTier = getFavourTier(warband.favour);
   const spent = calcValue(warband, fightersData);
   const remainingGold = warband.gold - spent;
+  // Count up/down when a purchase moves gold into the warband's value
+  const shownGold = useAnimatedNumber(remainingGold);
+  const shownValue = useAnimatedNumber(spent);
   const selectedFaction = factionsData.find(f => f.id === warband.factionId);
   const fighterCount = warband.fighters.length;
   const maxFighters = selectedFaction?.warband_size ?? null;
@@ -127,12 +131,12 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         >
           <div className={styles.statCardLabel}>Gold</div>
           <div className={styles.statCardValue}>
-            {locked ? '—' : remainingGold}
+            {locked ? '—' : shownGold}
           </div>
         </button>
         <div className={styles.statCard}>
           <div className={styles.statCardLabel}>Value</div>
-          <div className={styles.statCardValue}>{locked ? '—' : `${spent}gc`}</div>
+          <div className={styles.statCardValue}>{locked ? '—' : `${shownValue}gc`}</div>
         </div>
       </div>
     </div>
@@ -202,13 +206,13 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           >
             {locked ? '—' : goldHovered && !hasPending
               ? 'Add Gold'
-              : remainingGold
+              : shownGold
             }
           </div>
 
           {/* Value */}
           <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
-            {locked ? '—' : `${spent}gc`}
+            {locked ? '—' : `${shownValue}gc`}
           </div>
         </div>
       </div>
