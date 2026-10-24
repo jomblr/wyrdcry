@@ -160,7 +160,7 @@ export default function AddFighterRow({ factionId, currentFighters, atFighterLim
             onClick={onPurchase}
             disabled={!hasPending}
           >
-            Purchase{hasPending && <> ◆ {pendingCost}gc</>}
+            Purchase{hasPending && <> <span className={styles.purchaseDiamond} aria-hidden>◆</span> {pendingCost}gc</>}
           </button>
         )}
         {dropdown}
