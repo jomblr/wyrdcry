@@ -2462,3 +2462,13 @@ button.fighterCardTag {
   border: none;
   cursor: pointer;
 }
+
+/* Mobile warband detail: no site navbar, the builder fills the screen */
+:global(html.wb-hide-navbar) :global(.navbar) {
+  display: none;
+}
+
+:global(html.wb-hide-navbar) .builderShell {
+  height: 100vh;
+  height: 100dvh;
+}

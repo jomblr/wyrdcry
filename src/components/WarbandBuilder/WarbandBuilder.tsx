@@ -102,6 +102,15 @@ export default function WarbandBuilder() {
   }
 
   const isMobile = useIsMobile();
+
+  // On mobile, an open warband takes the whole screen: hide the site navbar
+  // ("← Warbands" leads back to the list, where the navbar returns).
+  const hideNavbar = isMobile && view === 'detail';
+  useEffect(() => {
+    if (!hideNavbar) return;
+    document.documentElement.classList.add('wb-hide-navbar');
+    return () => document.documentElement.classList.remove('wb-hide-navbar');
+  }, [hideNavbar]);
   const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
 
   function handleDelete() {
