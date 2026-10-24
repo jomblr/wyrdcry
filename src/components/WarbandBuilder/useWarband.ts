@@ -30,6 +30,8 @@ export interface FighterInstance {
   xp: number;
   renown: number;
   statOverrides: Partial<Record<StatKey, number>>;
+  /** A hero promoted to leader (gains the LEADER keyword) when the warband has none. */
+  isLeader?: boolean;
 }
 
 export interface CustomAbility {
@@ -83,6 +85,7 @@ type Action =
   | { type: 'PURCHASE_PENDING' }
   | { type: 'SET_FIGHTER_STAT'; instanceId: string; stat: StatKey; value: number }
   | { type: 'SET_FIGHTER_NOTES'; instanceId: string; notes: string }
+  | { type: 'MAKE_LEADER'; instanceId: string }
   | { type: 'SET_FIGHTER_COST_OVERRIDE'; instanceId: string; costOverride: number | null }
   | { type: 'REORDER_FIGHTERS'; fighters: FighterInstance[] }
   | { type: 'TRANSFER_EQUIPMENT'; fromId: string; toId: string; itemId: string; itemIdx: number }
@@ -406,6 +409,16 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
+    case 'MAKE_LEADER':
+      // Only one promoted leader at a time
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(f => ({ ...f, isLeader: f.instanceId === action.instanceId })),
+        },
+      };
+
     case 'SET_FIGHTER_COST_OVERRIDE':
       return {
         ...state,
@@ -667,6 +680,11 @@ export function useWarband() {
     [],
   );
 
+  const makeLeader = useCallback(
+    (instanceId: string) => dispatch({ type: 'MAKE_LEADER', instanceId }),
+    [],
+  );
+
   const setFighterNotes = useCallback(
     (instanceId: string, notes: string) =>
       dispatch({ type: 'SET_FIGHTER_NOTES', instanceId, notes }),
@@ -823,6 +841,7 @@ export function useWarband() {
     removeFromStash,
     sellFromStash,
     sellFromFighter,
+    makeLeader,
     loadWarband: loadWarband_,
     createNewWarband,
     deleteWarband,

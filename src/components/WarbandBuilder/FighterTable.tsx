@@ -53,6 +53,7 @@ interface Props {
   onReorderFighters: (fighters: FighterInstance[]) => void;
   onSendToStash: (instanceId: string, itemIdx: number) => void;
   onSellFromFighter: (instanceId: string, itemIdx: number, salePrice: number) => void;
+  onMakeLeader: (instanceId: string) => void;
   onTakeFromStash: (instanceId: string, itemId: string) => void;
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
@@ -98,6 +99,7 @@ export default function FighterTable({
   onReorderFighters,
   onSendToStash,
   onSellFromFighter,
+  onMakeLeader,
   onTakeFromStash,
   onSetFighterStat,
   onSetFighterNotes,
@@ -133,6 +135,9 @@ export default function FighterTable({
     onReorderFighters(arrayMove(warband.fighters, oldIndex, newIndex));
   }
 
+  const hasLeader = warband.fighters.some(f =>
+    f.isLeader || fightersData.find(p => p.id === f.fighterId)?.keywords.includes('LEADER'));
+
   if (isMobile) {
     return (
       <>
@@ -156,6 +161,8 @@ export default function FighterTable({
               onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
               onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
               stash={warband.stash}
+              canMakeLeader={!hasLeader}
+              onMakeLeader={() => onMakeLeader(instance.instanceId)}
               onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}

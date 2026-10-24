@@ -27,6 +27,9 @@ interface Props {
   onSendToStash: (itemIdx: number) => void;
   onSell: (itemIdx: number, salePrice: number) => void;
   stash: string[];
+  /** The warband has no leader yet */
+  canMakeLeader: boolean;
+  onMakeLeader: () => void;
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
@@ -48,7 +51,7 @@ export default function FighterCard({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
-  onSendToStash, onSell, stash, onTakeFromStash,
+  onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader,
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,6 +71,7 @@ export default function FighterCard({
   const isThrall = hasTag(profile, 'THRALL');
   const isDaemon = hasTag(profile, 'DAEMON');
   const noRenown = isBeast || isThrall;
+  const isHero = hasTag(profile, 'HERO');
 
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
     const item = itemsData.find(x => x.id === eid);
@@ -141,6 +145,9 @@ export default function FighterCard({
           ) : (
             <>
               <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(true); }}>Edit fighter</button>
+              {canMakeLeader && isHero && (
+                <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
+              )}
               <div className={styles.dropdownSep} />
               {canMoveUp && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveUp(); }}>Move up</button>}
               {canMoveDown && <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMoveDown(); }}>Move down</button>}
@@ -252,7 +259,7 @@ export default function FighterCard({
   }
 
   // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
-  const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords]));
+  const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords, ...(instance.isLeader ? ['LEADER'] : [])]));
 
   return (
     // Unbought fighters aren't tinted; their gold cost (pendingCost) marks them as pending.
