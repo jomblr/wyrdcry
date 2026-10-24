@@ -2380,3 +2380,8 @@ button.fighterCardTag {
 .editPanelCurrent .editPanelSectionTitle {
   margin-bottom: 0.35rem;
 }
+
+/* Pending gold on the dark stat card stays the card's text colour in both themes */
+.statCardValue .goldPending {
+  color: inherit;
+}
