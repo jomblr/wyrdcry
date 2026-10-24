@@ -100,7 +100,8 @@ function EquipRow({ id, name, cost, addDisabled, onAdd }: {
   return (
     <div className={`${styles.equipRow} ${addDisabled ? styles.equipPickerRowDisabled : ''}`}>
       <span className={styles.equipPickerName}><InfoName id={id} name={name} /></span>
-      {cost !== undefined && <span className={styles.equipPickerCost}>{cost}gc</span>}
+      {/* Empty cost cell for stash items keeps the Add buttons in one column */}
+      <span className={styles.equipPickerCost}>{cost !== undefined && `${cost}gc`}</span>
       <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={onAdd} disabled={addDisabled}>
         Add
       </button>
