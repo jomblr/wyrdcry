@@ -56,7 +56,7 @@ export default function FighterCard({
   onSetStat, onSetNotes, onSetCostOverride,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
@@ -135,7 +135,10 @@ export default function FighterCard({
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
         <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
-          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(true); }}>Edit fighter</button>
+          {!(isBeast || isThrall || isDaemon) && (
+            <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen('equipment'); }}>Equip fighter</button>
+          )}
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen('information'); }}>Edit fighter</button>
           {canMakeLeader && isHero && (
             <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
           )}
@@ -361,6 +364,7 @@ export default function FighterCard({
 
       {editOpen && (
         <FighterEditPanel
+          initialPane={editOpen}
           instance={instance}
           remainingGold={remainingGold}
           onSetName={onSetName}

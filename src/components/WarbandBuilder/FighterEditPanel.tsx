@@ -22,6 +22,8 @@ interface Props {
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
   onClose: () => void;
+  /** Which pane opens first */
+  initialPane?: 'equipment' | 'information';
 }
 
 const STAT_DEFS: { key: StatKey; label: string; suffix?: string; step?: number; min?: number; max?: number; invert?: boolean }[] = [
@@ -63,8 +65,9 @@ export default function FighterEditPanel({
   onTakeFromStash,
   onSetStat, onSetNotes, onSetCostOverride,
   onClose,
+  initialPane = 'equipment',
 }: Props) {
-  const [pane, setPane] = useState<'equipment' | 'information'>('equipment');
+  const [pane, setPane] = useState<'equipment' | 'information'>(initialPane);
   const [valueModalOpen, setValueModalOpen] = useState(false);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
