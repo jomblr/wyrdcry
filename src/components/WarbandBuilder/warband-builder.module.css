@@ -1802,6 +1802,8 @@
   padding-top: 1.1rem;
   margin-top: -1.1rem;
   background: var(--ifm-background-color);
+  /* 1.1rem isn't a whole pixel; cover the sub-pixel seam above the pinned head */
+  box-shadow: 0 -2px 0 var(--ifm-background-color);
 }
 
 .equipHeadToggle {
