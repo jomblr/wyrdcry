@@ -181,30 +181,32 @@ export default function WarbandBuilder() {
           {(() => {
             const tabToggle = tabToggleEl;
 
-            if (isMobile) {
-              const mobileMenu = menuOpen && menuPos
-                ? ReactDOM.createPortal(
-                    <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(menuPos, true)}>
-                      <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
-                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
-                      <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
-                    </div>,
-                    document.body,
-                  )
-                : null;
+            const warbandMenu = menuOpen && menuPos
+              ? ReactDOM.createPortal(
+                  <div ref={menuRef} className={`${styles.dropdown} ${isMobile ? styles.dropdownMobile : ''}`} style={dropdownStyle(menuPos, true)}>
+                    <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
+                    <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
+                    <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
+                  </div>,
+                  document.body,
+                )
+              : null;
 
+            const menuButton = (
+              <button type="button" ref={menuBtnRef} className={styles.ellipsisBtn} onClick={toggleMenu} aria-label="Warband options">
+                <EllipsisVertical size={18} />
+              </button>
+            );
+
+            if (isMobile) {
               return (
-                <>
-                  <div className={styles.topBar}>
-                    <button type="button" className={styles.backBtn} onClick={() => setView('list')} aria-label="Back to warband list">
-                      <ArrowLeft size={16} /><span>Warbands</span>
-                    </button>
-                    <button type="button" ref={menuBtnRef} className={styles.ellipsisBtn} onClick={toggleMenu} aria-label="Warband options">
-                      <EllipsisVertical size={18} />
-                    </button>
-                    {mobileMenu}
-                  </div>
-                </>
+                <div className={styles.topBar}>
+                  <button type="button" className={styles.backBtn} onClick={() => setView('list')} aria-label="Back to warband list">
+                    <ArrowLeft size={16} /><span>Warbands</span>
+                  </button>
+                  {menuButton}
+                  {warbandMenu}
+                </div>
               );
             }
 
@@ -217,12 +219,11 @@ export default function WarbandBuilder() {
                   {tabToggle}
                 </div>
                 <div className={styles.actions}>
-                  <button type="button" className="button button--secondary button--md" onClick={handleDelete}>Delete Warband</button>
-                  <button type="button" className="button button--secondary button--md" onClick={exportWarband}>Export</button>
-                  <button type="button" className="button button--secondary button--md" onClick={() => { (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
                   {hasPending && (
                     <button type="button" className="button button--primary button--md" onClick={purchasePending}>Purchase</button>
                   )}
+                  {menuButton}
+                  {warbandMenu}
                 </div>
               </div>
             );
