@@ -28,13 +28,14 @@ interface Props {
   canDuplicate: boolean;
   onTransferEquipment: (fromInstanceId: string, itemId: string, itemIdx: number) => void;
   onSendToStash: (itemIdx: number) => void;
+  onSell: (itemIdx: number, salePrice: number) => void;
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [valueModalOpen, setValueModalOpen] = useState(false);
@@ -333,6 +334,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
               }
             }}
             onTakeFromStash={onTakeFromStash}
+            onSell={onSell}
             onTransferIn={(sourceId, itemId, itemIdx) => onTransferEquipment(sourceId, itemId, itemIdx)}
           />
         )}

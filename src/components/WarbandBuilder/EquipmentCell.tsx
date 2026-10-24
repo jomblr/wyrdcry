@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { factionsData, itemsData, weaponRulesData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
+import EquipmentInfoSheet from './EquipmentInfoSheet';
+import { salePriceFor } from './WarbandStash';
 import styles from './warband-builder.module.css';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -141,6 +143,8 @@ interface EquipDragPayload {
 let activeDrag: EquipDragPayload | null = null;
 
 interface Props {
+  /** Sell one purchased item (index into the fighter's bought equipment) */
+  onSell: (itemIdx: number, salePrice: number) => void;
   instanceId: string;
   equipment: string[];
   pendingStartIndex: number;
@@ -159,7 +163,8 @@ interface Props {
   onTransferIn: (sourceInstanceId: string, itemId: string, itemIdx: number) => void;
 }
 
-export default function EquipmentCell({ instanceId, equipment, pendingStartIndex, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, isFighterPurchased, remainingGold, onAdd, onRemoveAtIdx, onSendToStash, onTakeFromStash, onTransferIn }: Props) {
+export default function EquipmentCell({ instanceId, equipment, pendingStartIndex, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, isFighterPurchased, remainingGold, onAdd, onRemoveAtIdx, onSendToStash, onTakeFromStash, onTransferIn, onSell }: Props) {
+  const [infoTag, setInfoTag] = useState<{ id: string; idx: number | null; kind: 'fixed' | 'purchased' | 'pending' } | null>(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -298,11 +303,10 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
     requestAnimationFrame(() => { suppressScrollClose.current = false; });
   }
 
+  /** Clicking a tag opens its details (same sheet as mobile); keyboard tag navigation is unchanged. */
   function handleTagClick(e: React.MouseEvent, idx: number) {
     e.stopPropagation();
-    setFocusedTagIdx(idx);
-    inputRef.current?.focus();
-    if (!open) openDropdown();
+    setInfoTag({ id: equipment[idx], idx, kind: idx < pendingStartIndex ? 'purchased' : 'pending' });
   }
 
   function handleRemoveFocusedTag(idx: number) {
@@ -622,6 +626,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
           key={`fixed-${id}-${idx}`}
           className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}
           title={undefined}
+          onClick={e => { e.stopPropagation(); setInfoTag({ id, idx: null, kind: 'fixed' }); }}
         >
           {labelFor(id)}
         </span>
@@ -667,6 +672,31 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
       />
       {dropdown}
       {weaponInfo}
+      {infoTag && (
+        // React events bubble out of portals; keep sheet clicks from reaching the cell (which opens the dropdown)
+        <span onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
+        <EquipmentInfoSheet
+          id={infoTag.id}
+          pending={infoTag.kind === 'pending'}
+          onClose={() => setInfoTag(null)}
+          actions={
+            infoTag.kind === 'purchased' && infoTag.idx !== null ? (
+              <>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`}
+                  onClick={() => { onSendToStash(infoTag.idx!); setInfoTag(null); }}>Stash</button>
+                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`}
+                  onClick={() => { onSell(infoTag.idx!, salePriceFor(costFor(infoTag.id))); setInfoTag(null); }}>
+                  Sell ({salePriceFor(costFor(infoTag.id))}gc)
+                </button>
+              </>
+            ) : infoTag.kind === 'pending' && infoTag.idx !== null ? (
+              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`}
+                onClick={() => { onRemoveAtIdx(infoTag.idx!); setInfoTag(null); }}>Remove</button>
+            ) : undefined
+          }
+        />
+        </span>
+      )}
     </div>
   );
 }

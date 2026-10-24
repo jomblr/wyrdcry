@@ -220,6 +220,7 @@ export default function FighterTable({
                   onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
                 }
                 onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
+                onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
                 onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
                 onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
                 onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
