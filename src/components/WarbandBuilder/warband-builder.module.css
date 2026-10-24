@@ -2196,6 +2196,7 @@
 }
 
 .mobileFaction {
+  margin-bottom: 1rem;
   font-family: var(--wyrd-font-body);
   font-size: 1.05rem;
   color: var(--ifm-color-content-secondary);
@@ -2203,7 +2204,7 @@
 
 .mobileName {
   width: 100%;
-  margin: 0 0 1rem;
+  margin: 0;
   padding: 0;
   background: none;
   border: none;

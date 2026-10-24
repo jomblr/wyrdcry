@@ -88,7 +88,6 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
     <>
     {/* Mobile: header + stat cards */}
     <div className={styles.mobileInfo}>
-      <div className={styles.mobileFaction}>{selectedFaction ? selectedFaction.name : '—'}</div>
       <input
         className={styles.mobileName}
         type="text"
@@ -97,6 +96,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         onChange={e => onSetName(e.target.value)}
         disabled={locked}
       />
+      <div className={styles.mobileFaction}>{selectedFaction ? selectedFaction.name : '—'}</div>
       <div className={styles.statCards}>
         <div className={styles.statCard}>
           <div className={styles.statCardLabel}>Favour</div>
