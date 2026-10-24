@@ -291,7 +291,7 @@ export default function EquipmentPicker({
 
       {meleeWeapons.length > 0 && (
         <div>
-          <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} />
+          <SectionHead title="Melee Weapon" />
           {meleeWeapons.map(w => (
             <EquipRow
               key={w.id}
@@ -307,7 +307,7 @@ export default function EquipmentPicker({
 
       {rangedWeapons.length > 0 && (
         <div>
-          <SectionHead title={<>Ranged Weapon ({slots.ranged}/{RANGED_SLOTS})</>} />
+          <SectionHead title="Ranged Weapon" />
           {rangedWeapons.map(w => (
             <EquipRow
               key={w.id}
@@ -323,7 +323,7 @@ export default function EquipmentPicker({
 
       {availableArmour.length > 0 && (
         <div>
-          <SectionHead title={<>Armour ({combinedIds.some(id => armourItems().find(a => a.id === id)) ? 1 : 0}/1)</>} />
+          <SectionHead title="Armour" />
           {availableArmour.map(item => (
             <EquipRow
               key={item.id}
