@@ -207,10 +207,10 @@ export default function FighterCard({
         onClose={close}
         actions={ownedIdx !== -1 ? (
           <>
-            <button type="button" className="button button--secondary" onClick={() => { onSendToStash(ownedIdx); close(); }}>
+            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onSendToStash(ownedIdx); close(); }}>
               Stash
             </button>
-            <button type="button" className="button button--primary" onClick={() => { onSell(ownedIdx, salePrice); close(); }}>
+            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(ownedIdx, salePrice); close(); }}>
               Sell for {salePrice}gc
             </button>
           </>

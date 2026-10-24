@@ -2317,8 +2317,9 @@ button.statCard:not(:disabled) {
   inset: 0;
   z-index: 1000;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  padding: 1.25rem;
   background: rgba(0, 0, 0, 0.7);
 }
 
@@ -2326,12 +2327,12 @@ button.statCard:not(:disabled) {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 560px;
-  max-height: 80dvh;
+  max-width: 480px;
+  max-height: 75dvh;
   background: var(--ifm-background-color);
   border: 1px solid var(--wyrd-border);
-  border-bottom: none;
-  border-radius: 12px 12px 0 0;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
@@ -2392,13 +2393,37 @@ button.statCard:not(:disabled) {
   display: flex;
   gap: 0.5rem;
   flex-shrink: 0;
-  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  padding: 0.75rem 1rem;
   border-top: 1px solid var(--wyrd-border);
 }
 
-.infoSheetActions :global(.button) {
+.infoSheetBtn {
   flex: 1 1 0;
   min-width: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Neutral: outline only */
+.infoSheetBtnNeutral {
+  background: transparent;
+  border: 1px solid var(--ifm-color-emphasis-500);
+  color: var(--ifm-color-content);
+}
+
+/* Sell: plain white */
+.infoSheetBtnWhite {
+  background: #fff;
+  border: 1px solid #fff;
+  color: #111;
+}
+
+:global(html[data-theme='light']) .infoSheetBtnWhite {
+  border-color: var(--ifm-color-emphasis-500);
 }
 
 .infoSheetRule {
