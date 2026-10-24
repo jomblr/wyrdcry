@@ -90,19 +90,19 @@ function InfoName({ id, name, natural }: { id: string; name: string; natural?: b
   );
 }
 
-/** Catalogue row: name, price and Add (or Take from stash). */
-function EquipRow({ id, name, cost, addDisabled, onAdd, fromStash }: {
-  id: string; name: string; cost: number;
-  /** A copy is in the stash: the button takes it for free instead of buying */
-  fromStash?: boolean;
+/** Catalogue row: name, price and Add. */
+function EquipRow({ id, name, cost, addDisabled, onAdd }: {
+  id: string; name: string;
+  /** Omitted for stash items, which are free */
+  cost?: number;
   addDisabled: boolean; onAdd: () => void;
 }) {
   return (
     <div className={`${styles.equipRow} ${addDisabled ? styles.equipPickerRowDisabled : ''}`}>
       <span className={styles.equipPickerName}><InfoName id={id} name={name} /></span>
-      <span className={styles.equipPickerCost}>{fromStash ? <s>{cost}gc</s> : `${cost}gc`}</span>
+      {cost !== undefined && <span className={styles.equipPickerCost}>{cost}gc</span>}
       <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={onAdd} disabled={addDisabled}>
-        {fromStash ? 'Take from stash' : 'Add'}
+        Add
       </button>
     </div>
   );
@@ -137,10 +137,8 @@ export default function EquipmentPicker({
   allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash, onSell,
   stash = [], onTakeFromStash,
 }: Props) {
-  function inStash(id: string) { return !!onTakeFromStash && stash.includes(id); }
-  /** Stash copies are free, so gold only matters when buying new. */
-  function affordable(id: string, cost: number) { return inStash(id) || cost <= remainingGold; }
-  function add(id: string) { if (inStash(id)) onTakeFromStash!(id); else onAdd(id); }
+  /** Stash copies are free, so `free` skips the gold check. */
+  function affordable(cost: number, free = false) { return free || cost <= remainingGold; }
   const [tradingPostOpen, setTradingPostOpen] = useState(false);
   const [current, setCurrent] = useState<{ id: string; kind: 'fixed' | 'purchased' | 'pending' } | null>(null);
   const combinedIds = [...fixedEquipment, ...allEquipment];
@@ -164,15 +162,15 @@ export default function EquipmentPicker({
 
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
-  function canAddMelee(w: (typeof weaponsData)[0]): boolean {
-    if (!affordable(w.id, w.cost)) return false;
+  function canAddMelee(w: (typeof weaponsData)[0], free = false): boolean {
+    if (!affordable(w.cost, free)) return false;
     if (w.special_rules.includes('two-handed'))
       return !combinedIds.includes(w.id) && slots.melee + 2 <= MELEE_SLOTS;
     return combinedQty(w.id) < MELEE_SLOTS && slots.melee + 1 <= MELEE_SLOTS;
   }
 
-  function canAddRanged(w: (typeof weaponsData)[0]): boolean {
-    if (!affordable(w.id, w.cost)) return false;
+  function canAddRanged(w: (typeof weaponsData)[0], free = false): boolean {
+    if (!affordable(w.cost, free)) return false;
     if (w.special_rules.includes('brace')) {
       const count = combinedQty(w.id);
       if (count === 0) return slots.ranged + 1 <= RANGED_SLOTS;
@@ -182,17 +180,33 @@ export default function EquipmentPicker({
     return !combinedIds.includes(w.id) && slots.ranged + 1 <= RANGED_SLOTS;
   }
 
-  function canAddArmour(item: ReturnType<typeof armourItems>[number]): boolean {
+  function canAddArmour(item: ReturnType<typeof armourItems>[number], free = false): boolean {
     if (isWizard) return false;
     if (item.id === 'shield')
       return !combinedIds.includes('shield') && slots.melee + 1 <= MELEE_SLOTS;
-    return !hasExclusiveArmour && affordable(item.id, item.cost);
+    return !hasExclusiveArmour && affordable(item.cost, free);
   }
 
   // Gear has no slot cost and can be bought more than once
-  function canAddGear(item: ReturnType<typeof gearItems>[number]): boolean {
-    return affordable(item.id, item.cost);
+  function canAddGear(item: ReturnType<typeof gearItems>[number], free = false): boolean {
+    return affordable(item.cost, free);
   }
+
+  /** Stash items this fighter may carry (faction rules apply), with whether a slot is free. */
+  const stashOptions = onTakeFromStash
+    ? stash.flatMap((id, i) => {
+        if (stash.indexOf(id) !== i) return []; // one row per item type
+        const w = weaponsData.find(x => x.id === id);
+        if (w) {
+          if (!factionAllows(id)) return [];
+          return [{ id, name: w.name, ok: w.type === 'ranged' ? canAddRanged(w, true) : canAddMelee(w, true) }];
+        }
+        const armour = armourItems().find(x => x.id === id);
+        if (armour) return factionAllowsArmour(id) ? [{ id, name: armour.name, ok: canAddArmour(armour, true) }] : [];
+        const gear = gearItems().find(x => x.id === id);
+        return gear ? [{ id, name: gear.name, ok: canAddGear(gear, true) }] : [];
+      })
+    : [];
 
   const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
   const rangedWeapons = weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
@@ -249,6 +263,15 @@ export default function EquipmentPicker({
         )}
       </div>
 
+      {stashOptions.length > 0 && (
+        <div>
+          <SectionHead title="Warband stash" />
+          {stashOptions.map(o => (
+            <EquipRow key={o.id} id={o.id} name={o.name} addDisabled={!o.ok} onAdd={() => onTakeFromStash!(o.id)} />
+          ))}
+        </div>
+      )}
+
       {meleeWeapons.length > 0 && (
         <div>
           <SectionHead title={<>Melee Weapon ({slots.melee}/{MELEE_SLOTS})</>} />
@@ -259,8 +282,7 @@ export default function EquipmentPicker({
               name={w.name}
               cost={w.cost}
               addDisabled={!canAddMelee(w)}
-              onAdd={() => add(w.id)}
-              fromStash={inStash(w.id)}
+              onAdd={() => onAdd(w.id)}
             />
           ))}
         </div>
@@ -276,8 +298,7 @@ export default function EquipmentPicker({
               name={w.name}
               cost={w.cost}
               addDisabled={!canAddRanged(w)}
-              onAdd={() => add(w.id)}
-              fromStash={inStash(w.id)}
+              onAdd={() => onAdd(w.id)}
             />
           ))}
         </div>
@@ -293,8 +314,7 @@ export default function EquipmentPicker({
               name={item.name}
               cost={item.cost}
               addDisabled={!canAddArmour(item)}
-              onAdd={() => add(item.id)}
-              fromStash={inStash(item.id)}
+              onAdd={() => onAdd(item.id)}
             />
           ))}
         </div>
@@ -314,8 +334,7 @@ export default function EquipmentPicker({
               name={item.name}
               cost={item.cost}
               addDisabled={!canAddGear(item)}
-              onAdd={() => add(item.id)}
-              fromStash={inStash(item.id)}
+              onAdd={() => onAdd(item.id)}
             />
           ))}
         </div>
