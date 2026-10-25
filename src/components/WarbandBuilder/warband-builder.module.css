@@ -2497,3 +2497,26 @@ button.fighterCardTag {
   align-items: center;
   gap: 0.25rem;
 }
+
+/* Mobile: the fighters panel fills the remaining height, so the Add fighter / Purchase bar
+   sits at the bottom of the screen even before there are fighters to push it down. */
+@media (max-width: 799px) {
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .body > * {
+    flex-shrink: 0;
+  }
+
+  .tabPanel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+  }
+
+  .tabPanel > .mobileAddFighterBar {
+    margin-top: auto;
+  }
+}
