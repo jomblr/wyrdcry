@@ -55,7 +55,6 @@ interface Props {
   onSendToStash: (instanceId: string, itemIdx: number) => void;
   onSellFromFighter: (instanceId: string, itemIdx: number, salePrice: number) => void;
   onMakeLeader: (instanceId: string) => void;
-  onSetCurrentHealth: (instanceId: string, health: number | undefined) => void;
   onTakeFromStash: (instanceId: string, itemId: string) => void;
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
@@ -90,7 +89,6 @@ export default function FighterTable({
   onSendToStash,
   onSellFromFighter,
   onMakeLeader,
-  onSetCurrentHealth,
   onTakeFromStash,
   onSetFighterStat,
   onSetFighterNotes,
@@ -229,7 +227,6 @@ export default function FighterTable({
               stash={warband.stash}
               canMakeLeader={!hasLeader}
               onMakeLeader={() => onMakeLeader(instance.instanceId)}
-              onSetCurrentHealth={h => onSetCurrentHealth(instance.instanceId, h)}
               onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}

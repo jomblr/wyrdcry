@@ -8,7 +8,6 @@ import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos'
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import EquipmentInfoSheet from './EquipmentInfoSheet';
-import { PanelStat } from './FighterEditPanel';
 import { salePriceFor } from './WarbandStash';
 import ReactMarkdown from 'react-markdown';
 
@@ -32,7 +31,6 @@ interface Props {
   /** The warband has no leader yet */
   canMakeLeader: boolean;
   onMakeLeader: () => void;
-  onSetCurrentHealth: (health: number | undefined) => void;
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
@@ -56,14 +54,13 @@ export default function FighterCard({
   onSetName, onSetRenown,
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
-  onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader, onSetCurrentHealth,
+  onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader,
   onSetStat, onSetNotes, onSetCostOverride,
   readOnly = false,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [healthOpen, setHealthOpen] = useState(false);
   const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -91,9 +88,6 @@ export default function FighterCard({
     const override = instance.statOverrides?.[key];
     return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
   }
-
-  // Health left in the current battle (locked mode); full when unset, clamped if max health drops
-  const currentHealth = Math.min(instance.currentHealth ?? statVal('health'), statVal('health'));
 
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
@@ -270,20 +264,12 @@ export default function FighterCard({
       {/* Stats — same dark cards as the warband header */}
       <div className={styles.statCards}>
         {statKeys.map(({ key, label, suffix }) => (
-          key === 'health' && readOnly ? (
-            // Locked: track damage taken during the battle
-            <button key={key} type="button" className={styles.statCard} onClick={() => setHealthOpen(true)} aria-label="Health — tap to change">
-              <div className={styles.statCardLabel}>{label}</div>
-              <div className={styles.statCardValue}>{currentHealth}/{statVal('health')}</div>
-            </button>
-          ) : (
-            <div key={key} className={styles.statCard}>
-              <div className={styles.statCardLabel}>{label}</div>
-              <div className={`${styles.statCardValue} ${isModified(key) ? styles.statModified : ''}`}>
-                {statVal(key)}{suffix}
-              </div>
+          <div key={key} className={styles.statCard}>
+            <div className={styles.statCardLabel}>{label}</div>
+            <div className={`${styles.statCardValue} ${isModified(key) ? styles.statModified : ''}`}>
+              {statVal(key)}{suffix}
             </div>
-          )
+          </div>
         ))}
       </div>
 
@@ -365,33 +351,6 @@ export default function FighterCard({
 
       {menu}
       {infoSheet}
-      {healthOpen && (
-        <InfoSheet
-          title={instance.customName || profile.name}
-          subtitle="Health"
-          onClose={() => setHealthOpen(false)}
-          actions={
-            <>
-              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => onSetCurrentHealth(undefined)}>
-                Reset
-              </button>
-              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => setHealthOpen(false)}>
-                Done
-              </button>
-            </>
-          }
-        >
-          <div className={`${styles.editPanelStatsGrid} ${styles.favourStepper}`}>
-            <PanelStat
-              label={`Health (of ${statVal('health')})`}
-              value={currentHealth}
-              min={0}
-              max={statVal('health')}
-              onChange={v => onSetCurrentHealth(v)}
-            />
-          </div>
-        </InfoSheet>
-      )}
       {confirmRemove && (
         <InfoSheet
           title={instance.customName || profile.name}

@@ -32,8 +32,6 @@ export interface FighterInstance {
   statOverrides: Partial<Record<StatKey, number>>;
   /** A hero promoted to leader (gains the LEADER keyword) when the warband has none. */
   isLeader?: boolean;
-  /** Health left during a battle (locked mode); unset means full health. */
-  currentHealth?: number;
 }
 
 export interface CustomAbility {
@@ -88,7 +86,6 @@ type Action =
   | { type: 'SET_FIGHTER_STAT'; instanceId: string; stat: StatKey; value: number }
   | { type: 'SET_FIGHTER_NOTES'; instanceId: string; notes: string }
   | { type: 'MAKE_LEADER'; instanceId: string }
-  | { type: 'SET_CURRENT_HEALTH'; instanceId: string; health: number | undefined }
   | { type: 'SET_FIGHTER_COST_OVERRIDE'; instanceId: string; costOverride: number | null }
   | { type: 'REORDER_FIGHTERS'; fighters: FighterInstance[] }
   | { type: 'TRANSFER_EQUIPMENT'; fromId: string; toId: string; itemId: string; itemIdx: number }
@@ -412,17 +409,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
-    case 'SET_CURRENT_HEALTH':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          fighters: state.active.fighters.map(f =>
-            f.instanceId === action.instanceId ? { ...f, currentHealth: action.health } : f,
-          ),
-        },
-      };
-
     case 'MAKE_LEADER':
       // Only one promoted leader at a time
       return {
@@ -695,11 +681,6 @@ export function useWarband() {
     [],
   );
 
-  const setCurrentHealth = useCallback(
-    (instanceId: string, health: number | undefined) => dispatch({ type: 'SET_CURRENT_HEALTH', instanceId, health }),
-    [],
-  );
-
   const makeLeader = useCallback(
     (instanceId: string) => dispatch({ type: 'MAKE_LEADER', instanceId }),
     [],
@@ -862,7 +843,6 @@ export function useWarband() {
     sellFromStash,
     sellFromFighter,
     makeLeader,
-    setCurrentHealth,
     loadWarband: loadWarband_,
     createNewWarband,
     deleteWarband,

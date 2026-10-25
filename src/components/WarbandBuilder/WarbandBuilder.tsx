@@ -59,7 +59,6 @@ export default function WarbandBuilder() {
     sellFromStash,
     sellFromFighter,
     makeLeader,
-    setCurrentHealth,
     loadWarband,
     createNewWarband,
     deleteWarband,
@@ -281,7 +280,6 @@ export default function WarbandBuilder() {
               onSendToStash={sendToStash}
               onSellFromFighter={sellFromFighter}
               onMakeLeader={makeLeader}
-              onSetCurrentHealth={setCurrentHealth}
               onTakeFromStash={takeFromStash}
               hasPending={hasPending}
               onPurchase={purchasePending}
