@@ -178,7 +178,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 0,
-    "cost": 120,
+    "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
       "strategize",
@@ -207,7 +207,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 5,
-    "cost": 100,
+    "cost": 95,
     "ability_preamble": "",
     "faction_ability_ids": [
       "martial-exemplar",
@@ -420,7 +420,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 25,
-    "cost": 120,
+    "cost": 105,
     "ability_preamble": "When recruiting a Magister, you must select one of the following magical abilities. In addition, the Magister may select another magical ability instead of selecting a heroic talent.",
     "faction_ability_ids": [
       "puppet-master",
@@ -451,7 +451,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": -5,
-    "cost": 100,
+    "cost": 95,
     "ability_preamble": "",
     "faction_ability_ids": [
       "hollowed",
@@ -479,7 +479,7 @@
     "health": 18,
     "bravery": 4,
     "power_level": 20,
-    "cost": 160,
+    "cost": 155,
     "ability_preamble": "When this fighter is recruited to the warband, it must make a roll on the mutation table.",
     "faction_ability_ids": [
       "ascended"
@@ -560,7 +560,7 @@
     "health": 14,
     "bravery": 4,
     "power_level": 0,
-    "cost": 120,
+    "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
       "condemn",
@@ -589,7 +589,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 5,
-    "cost": 90,
+    "cost": 85,
     "ability_preamble": "",
     "faction_ability_ids": [
       "incite-rabble"
@@ -670,7 +670,7 @@
     "health": 8,
     "bravery": 5,
     "power_level": 0,
-    "cost": 65,
+    "cost": 75,
     "ability_preamble": "",
     "faction_ability_ids": [
       "death-grip"
@@ -699,7 +699,7 @@
     "health": 12,
     "bravery": 5,
     "power_level": -5,
-    "cost": 70,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
       "undying-loyalty"
@@ -726,7 +726,7 @@
     "health": 18,
     "bravery": 3,
     "power_level": 25,
-    "cost": 190,
+    "cost": 180,
     "ability_preamble": "",
     "faction_ability_ids": [
       "unholy-celerity",
@@ -785,7 +785,7 @@
     "health": 12,
     "bravery": 5,
     "power_level": -15,
-    "cost": 110,
+    "cost": 100,
     "ability_preamble": "",
     "faction_ability_ids": [
       "chilling-howl",
@@ -800,7 +800,8 @@
     "faction": "undead",
     "keywords": [
       "TERRIFYING",
-      "THRALL"
+      "THRALL",
+      "BEAST"
     ],
     "recruitable_by": [],
     "limit": 3
@@ -847,7 +848,7 @@
     "health": 16,
     "bravery": 3,
     "power_level": 0,
-    "cost": 50,
+    "cost": 125,
     "ability_preamble": "",
     "faction_ability_ids": [
       "indomitable",
@@ -883,7 +884,7 @@
     "health": 10,
     "bravery": 3,
     "power_level": 0,
-    "cost": 50,
+    "cost": 135,
     "ability_preamble": "",
     "faction_ability_ids": [
       "disengage",
@@ -919,7 +920,7 @@
     "health": 18,
     "bravery": 4,
     "power_level": 0,
-    "cost": 70,
+    "cost": 120,
     "ability_preamble": "",
     "faction_ability_ids": [
       "whack",
@@ -955,7 +956,7 @@
     "health": 14,
     "bravery": 3,
     "power_level": 0,
-    "cost": 50,
+    "cost": 105,
     "ability_preamble": "",
     "faction_ability_ids": [
       "duelist",
@@ -991,7 +992,7 @@
     "health": 10,
     "bravery": 5,
     "power_level": 0,
-    "cost": 35,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wall-runner",
@@ -1027,7 +1028,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wither",
@@ -1059,7 +1060,7 @@
     "health": 20,
     "bravery": 5,
     "power_level": 0,
-    "cost": 90,
+    "cost": 145,
     "ability_preamble": "",
     "faction_ability_ids": [
       "stupidity",
@@ -1093,7 +1094,7 @@
     "health": 16,
     "bravery": 4,
     "power_level": 0,
-    "cost": 50,
+    "cost": 120,
     "ability_preamble": "",
     "faction_ability_ids": [
       "endure",
@@ -1127,7 +1128,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 80,
     "ability_preamble": "",
     "faction_ability_ids": [
       "raise-dead",
@@ -1163,7 +1164,7 @@
     "health": 14,
     "bravery": 3,
     "power_level": 0,
-    "cost": 50,
+    "cost": 105,
     "ability_preamble": "",
     "faction_ability_ids": [
       "hammer-of-sigmar",
@@ -1185,6 +1186,150 @@
       "witch-hunters",
       "mercenaries"
     ],
+    "limit": null
+  },
+  {
+    "id": "chieftain",
+    "name": "Chieftain",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "bestigor",
+    "name": "Bestigor",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "shaman",
+    "name": "Shaman",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "gor",
+    "name": "Gor",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 80,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [],
+    "faction": "beastmen",
+    "keywords": [],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "ungor",
+    "name": "Ungor",
+    "description": "",
+    "move": 5,
+    "fight": 2,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [],
+    "faction": "beastmen",
+    "keywords": [],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "warhound",
+    "name": "Warhound",
+    "description": "",
+    "move": 8,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 8,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 95,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "WAR HOUND"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "BEAST"
+    ],
+    "recruitable_by": [],
     "limit": null
   }
 ]
