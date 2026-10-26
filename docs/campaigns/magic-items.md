@@ -13,11 +13,6 @@ When you obtain a magical item, you may select a fighter to equip it or store it
 
 Finally, magical items are invaluable, and bringing them to the black market would likely cause a riot. They cannot be sold, and for each magical item in your warband’s possession, you must increase your reputation by 5.
 
-:::inverse
-### Cleansing the city
-Instead of keeping a magical item, Witch Hunter and Sisters of Sigmar warbands can deposit the item to The Rock (or to the temple of Sigmar) to increase their Favour by 3. Remove the magical item from the warband. Should another warband roll to obtain the same item again, they must re-roll until they obtain another item.
-:::
-
 ## Magical Items
 ---
 
@@ -29,9 +24,9 @@ Once per battle, the bearer may use the Gnawdoom magical ability without spendin
 :::
 
 :::encounter
-### 2: The Scepter of Count Steinhardt
+### 2: The Sceptre of Count Steinhardt
 
-*This gilded and grotesque scepter enforced count Steinhardt's rule long before anyone dared to ask what he worshipped in the cellars beneath his palace.*
+*This gilded and grotesque sceptre enforced count Steinhardt’s rule long before anyone dared to ask what he worshipped in the cellars beneath his palace.*
 
 Counts as a Master-Wrought Club. If a melee attack action made by the bearer scores any critical hits, roll a dice. On a 4+, allocate 4 additional damage points to the target.
 :::

@@ -25,7 +25,7 @@ title: Loot Tables
 |:---:|:---|
 |1|An iron lockbox containing **D3 Wyrdstone Shards.**|
 |2|Old Dueling [Pistol](../warbands/Equipment/weapons#weapon-pistol)|
-|3|A dusty old Grimoire. Sell it for 40gc or discard it to give one of|
+|3|A dusty old [Grimoire](./the-trading-post#grimoire)|
 |4|D3+1 vials of [**Crimson Shade**](./the-trading-post#crimson-shade)|
 |5|[Holy Relic.](./the-trading-post#holy-relic)|
 |6|[Magical Item.](./magic-items) Roll a d6 to determine which one.|
