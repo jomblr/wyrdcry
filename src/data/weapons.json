@@ -196,30 +196,14 @@
     "range": 1,
     "attacks": 3,
     "hit": 3,
-    "crit": 4,
+    "crit": 5,
     "special_rules": [
       "two-handed",
       "pierce-2",
       "brutal"
     ],
     "power_level": 5,
-    "cost": 40
-  },
-  {
-    "id": "great-weapon-alt",
-    "name": "great weapon alt",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 3,
-    "hit": 3,
-    "crit": 6,
-    "special_rules": [
-      "two-handed",
-      "mighty-2"
-    ],
-    "power_level": 10,
-    "cost": 30
+    "cost": 45
   },
   {
     "id": "halberd",
@@ -592,5 +576,98 @@
     ],
     "power_level": 0,
     "cost": 35
+  },
+  {
+    "id": "mutation-tentacles",
+    "name": "Tentacles",
+    "type": "mutated",
+    "exclusive": "no",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [
+      "whipcrack"
+    ],
+    "power_level": 0,
+    "cost": 20
+  },
+  {
+    "id": "mutation-great-claw",
+    "name": "Great Claw",
+    "type": "mutated",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "brutal",
+      "piercing-3"
+    ],
+    "power_level": 0,
+    "cost": 35
+  },
+  {
+    "id": "mutation-scorpion-tail",
+    "name": "Scorpion Tail",
+    "type": "mutated",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 1,
+    "hit": 3,
+    "crit": 6,
+    "special_rules": [
+      "pierce-1",
+      "Poisoned"
+    ],
+    "power_level": 0,
+    "cost": 30
+  },
+  {
+    "id": "ithilmar-axe",
+    "name": "Ithilmar Axe",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "two-handed",
+      "pierce-1"
+    ],
+    "power_level": 5,
+    "cost": 30
+  },
+  {
+    "id": "ithilmar-sword",
+    "name": "Ithilmar Sword",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "parry"
+    ],
+    "power_level": 5,
+    "cost": 25
+  },
+  {
+    "id": "ithilmar-spear",
+    "name": "Ithilmar Spear",
+    "type": "melee",
+    "exclusive": "no",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "unwieldy"
+    ],
+    "power_level": 5,
+    "cost": 20
   }
 ]

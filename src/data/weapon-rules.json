@@ -122,5 +122,16 @@
     "description": "This ranged weapon may be used for melee\nattack actions: set the weapon's Range characteristic to 1\" and use the bearer’s Fight characteristic for the hit rolls.",
     "effect": null,
     "cost": 0
+  },
+  {
+    "id": "piercing-3",
+    "name": "Piercing 3",
+    "description": "When making an attack action with this weapon, subtract 3 from the target’s Armour characteristic (to a minimum of 0).",
+    "effect": {
+      "characteristic": "pierce",
+      "bonus": 3,
+      "conditional": false
+    },
+    "cost": 15
   }
 ]

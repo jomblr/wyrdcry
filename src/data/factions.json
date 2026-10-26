@@ -173,8 +173,35 @@
     "equipment": {}
   },
   {
-    "id": "shadow-warriors",
-    "name": "Shadow Warriors",
+    "id": "elf-rangers",
+    "name": "Elf rangers",
+    "status": "playtest",
+    "exclude": "no",
+    "description": "",
+    "warband_size": 10,
+    "special_rules": "",
+    "faction_ability_ids": [],
+    "fighters": [],
+    "weapons": [],
+    "equipment": {
+      "ithilmar-sword": "all",
+      "ithilmar-spear": "all",
+      "ithilmar-axe": "all",
+      "sword": "all",
+      "dagger": "all",
+      "elf-ranger-bow": "all",
+      "bow": "all",
+      "item:light-armour": "all",
+      "item:shield": "all",
+      "item:elven-cloak": "all",
+      "item:hunting-falcon": "all"
+    }
+  },
+  {
+    "id": "dwarf-treasure-hunters",
+    "name": "Dwarf Treasure Hunters",
+    "status": "playtest",
+    "exclude": "yes",
     "description": "",
     "warband_size": null,
     "special_rules": "",
@@ -184,14 +211,29 @@
     "equipment": {}
   },
   {
-    "id": "dwarf-treasure",
-    "name": "Dwarf Treasure Hunters",
+    "id": "beastmen",
+    "name": "Beastmen",
+    "status": "playtest",
+    "exclude": "yes",
     "description": "",
-    "warband_size": null,
+    "warband_size": 15,
     "special_rules": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "bestial-rage"
+    ],
     "fighters": [],
     "weapons": [],
-    "equipment": {}
+    "equipment": {
+      "axe": "all",
+      "club": "all",
+      "dagger": "all",
+      "great-weapon": "hero",
+      "morning-star": "all",
+      "spear": "all",
+      "bow": "all",
+      "troll-slayer-thrown-axe": "all",
+      "item:light-armour": "hero",
+      "item:shield": "all"
+    }
   }
 ]

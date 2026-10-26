@@ -26,7 +26,8 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "night-runner",
@@ -53,7 +54,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "black-skaven",
@@ -78,7 +80,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "eshin-sorcerer",
@@ -108,7 +111,8 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "giant-rat",
@@ -135,7 +139,8 @@
       "BEAST"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "matriarch",
@@ -165,7 +170,8 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "captain",
@@ -194,7 +200,8 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "champion",
@@ -222,7 +229,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "warrior",
@@ -249,7 +257,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "marksman",
@@ -276,7 +285,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": 5
+    "limit": 5,
+    "fighter_type": "regular"
   },
   {
     "id": "youngblood",
@@ -301,7 +311,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "augur",
@@ -330,7 +341,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "sister-superior",
@@ -357,7 +369,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "sister",
@@ -382,7 +395,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "novice",
@@ -407,7 +421,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "magister",
@@ -438,7 +453,8 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "darksoul",
@@ -466,7 +482,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "possessed",
@@ -496,7 +513,8 @@
       "MUTANT"
     ],
     "recruitable_by": [],
-    "limit": 2
+    "limit": 2,
+    "fighter_type": "regular"
   },
   {
     "id": "brethren",
@@ -521,7 +539,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "mutant",
@@ -547,7 +566,8 @@
       "MUTANT"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "witch-hunter-captain",
@@ -576,7 +596,8 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "witch-hunter",
@@ -603,7 +624,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "flagellant",
@@ -632,7 +654,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": 5
+    "limit": 5,
+    "fighter_type": "regular"
   },
   {
     "id": "zealot",
@@ -657,7 +680,8 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "war-hound",
@@ -686,7 +710,8 @@
       "BEAST"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "dreg",
@@ -713,7 +738,8 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "vampire",
@@ -744,7 +770,8 @@
       "TERRIFYING"
     ],
     "recruitable_by": [],
-    "limit": 1
+    "limit": 1,
+    "fighter_type": "regular"
   },
   {
     "id": "ghoul",
@@ -772,7 +799,8 @@
       "TERRIFYING"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "dire",
@@ -784,7 +812,7 @@
     "defense": 0,
     "health": 12,
     "bravery": 5,
-    "power_level": -15,
+    "power_level": -5,
     "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
@@ -800,10 +828,12 @@
     "faction": "undead",
     "keywords": [
       "TERRIFYING",
-      "THRALL"
+      "THRALL",
+      "BEAST"
     ],
     "recruitable_by": [],
-    "limit": 3
+    "limit": 3,
+    "fighter_type": "regular"
   },
   {
     "id": "zombie",
@@ -834,11 +864,13 @@
       "THRALL"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "regular"
   },
   {
     "id": "troll-slayer",
     "name": "Troll Slayer",
+    "fighter_type": "hired-sword",
     "description": "Troll Slayers are members of a morbid Dwarf cult, sworn to atone for some\nunforgivable shame. With flame-red hair and ritualistic tattoos, they roam\nin search of the deadliest monsters, seeking redemption in glorious battle.",
     "move": 4,
     "fight": 6,
@@ -851,8 +883,7 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "indomitable",
-      "slayer-deathwish",
-      "slayer-slayer-oath"
+      "slayer-oath"
     ],
     "default_equipment": [
       "weapon:troll-slayer-axes",
@@ -906,7 +937,8 @@
       "mercenaries",
       "witch-hunters"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "ogre-bodyguard",
@@ -942,7 +974,8 @@
       "undead",
       "witch-hunters"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "freelance-knight",
@@ -978,7 +1011,8 @@
       "mercenaries",
       "witch-hunters"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "thief",
@@ -1014,7 +1048,8 @@
       "undead",
       "possessed"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "warlock",
@@ -1046,7 +1081,8 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "rat-ogre",
@@ -1080,7 +1116,8 @@
     "recruitable_by": [
       "clan-eshin"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "beastman-warrior",
@@ -1114,7 +1151,8 @@
     "recruitable_by": [
       "possessed"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "necromancer",
@@ -1150,7 +1188,8 @@
       "mercenaries",
       "possessed"
     ],
-    "limit": null
+    "limit": null,
+    "fighter_type": "hired-sword"
   },
   {
     "id": "warrior-priest",
@@ -1185,6 +1224,251 @@
       "witch-hunters",
       "mercenaries"
     ],
+    "limit": null,
+    "fighter_type": "hired-sword"
+  },
+  {
+    "id": "chieftain",
+    "name": "Chieftain",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "bestigor",
+    "name": "Bestigor",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 14,
+    "bravery": 4,
+    "power_level": 0,
+    "cost": 100,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "shaman",
+    "name": "Shaman",
+    "description": "",
+    "move": 5,
+    "fight": 3,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 70,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "BEASTMAN"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "gor",
+    "name": "Gor",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 12,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 80,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [],
+    "faction": "beastmen",
+    "keywords": [],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "ungor",
+    "name": "Ungor",
+    "description": "",
+    "move": 5,
+    "fight": 2,
+    "shoot": 3,
+    "defense": 0,
+    "health": 10,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 50,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [],
+    "faction": "beastmen",
+    "keywords": [],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "warhound",
+    "name": "Warhound",
+    "description": "",
+    "move": 8,
+    "fight": 4,
+    "shoot": 3,
+    "defense": 0,
+    "health": 8,
+    "bravery": 5,
+    "power_level": 0,
+    "cost": 95,
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "default_equipment": [],
+    "race": [
+      "WAR HOUND"
+    ],
+    "faction": "beastmen",
+    "keywords": [
+      "BEAST"
+    ],
+    "recruitable_by": [],
+    "limit": null,
+    "fighter_type": "regular"
+  },
+  {
+    "id": "warden",
+    "name": "Warden",
+    "fighter_type": "regular",
+    "description": "",
+    "move": 5,
+    "fight": 5,
+    "shoot": 5,
+    "defense": 0,
+    "health": 12,
+    "bravery": 3,
+    "power_level": 10,
+    "cost": 150,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "unerring-aim",
+      "fleet-of-foot",
+      "call-to-battle",
+      "one-step-ahead"
+    ],
+    "default_equipment": [],
+    "race": [
+      "ELF"
+    ],
+    "faction": "elf-rangers",
+    "keywords": [
+      "HERO",
+      "LEADER"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "veilwright",
+    "name": "Veilwright",
+    "fighter_type": "regular",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 10,
+    "bravery": 4,
+    "power_level": 20,
+    "cost": 120,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "unerring-aim",
+      "fleet-of-foot",
+      "misdirection",
+      "mind-razor",
+      "fools-gold"
+    ],
+    "default_equipment": [],
+    "race": [
+      "ELF"
+    ],
+    "faction": "elf-rangers",
+    "keywords": [
+      "HERO",
+      "WIZARD"
+    ],
+    "recruitable_by": [],
+    "limit": null
+  },
+  {
+    "id": "ranger",
+    "name": "Ranger",
+    "fighter_type": "regular",
+    "description": "",
+    "move": 5,
+    "fight": 4,
+    "shoot": 4,
+    "defense": 0,
+    "health": 12,
+    "bravery": 4,
+    "power_level": 5,
+    "cost": 110,
+    "ability_preamble": "",
+    "faction_ability_ids": [
+      "unerring-aim",
+      "fleet-of-foot"
+    ],
+    "default_equipment": [],
+    "race": [
+      "ELF"
+    ],
+    "faction": "elf-rangers",
+    "keywords": [
+      "HERO"
+    ],
+    "recruitable_by": [],
     "limit": null
   }
 ]

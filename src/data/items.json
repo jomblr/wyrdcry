@@ -206,5 +206,15 @@
     "cost": 15,
     "rare": false,
     "faction": "sisters-of-sigmar"
+  },
+  {
+    "id": "hunting-falcon",
+    "name": "Hunting Falcon",
+    "type": "miscellaneous",
+    "description": "Once per activation, the bearer may forfeit an action to send the falcon to harass an enemy fighter. Select any enemy fighter on the battlefield, and roll a d6. On a 3+, allocate 2 damage points to that enemy fighter. On a 6, that fighter must also forfeit one of their actions.",
+    "effect": null,
+    "cost": 50,
+    "rare": true,
+    "faction": "elf-rangers"
   }
 ]
