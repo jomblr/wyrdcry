@@ -176,7 +176,7 @@
     "id": "elf-rangers",
     "name": "Elf rangers",
     "status": "playtest",
-    "exclude": "no",
+    "exclude": "yes",
     "description": "",
     "warband_size": 10,
     "special_rules": "",
