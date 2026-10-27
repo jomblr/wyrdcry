@@ -198,7 +198,9 @@ export default function WarbandBuilder() {
                     <button type="button" className={styles.dropdownItem} onClick={() => {
                       setMenuOpen(false);
                       (window as any).gtag?.('event', 'print_warband');
-                      // Let the menu close before the print snapshot is taken
+                      // Let the menu close before the print snapshot is taken, and drop focus so no
+                      // focus-only element (the "Skip to main content" link) shows up on the page
+                      (document.activeElement as HTMLElement | null)?.blur();
                       requestAnimationFrame(() => setTimeout(() => window.print(), 0));
                     }}>Print</button>
                     <div className={styles.dropdownSep} />

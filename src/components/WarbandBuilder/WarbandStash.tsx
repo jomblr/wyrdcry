@@ -40,7 +40,16 @@ export function salePriceFor(cost: number): number {
 
 export default function WarbandStash({ stash, onRemove, onSell, readOnly = false }: Props) {
   const isMobile = useIsMobile();
-  if (isMobile) return <MobileStash stash={stash} onSell={onSell} readOnly={readOnly} />;
+  if (isMobile) {
+    // Phones show tags on screen but print the same table as desktop
+    return (
+      // One wrapper, so the info tab's grid still sees a single stash panel
+      <div>
+        <div className={styles.noPrint}><MobileStash stash={stash} onSell={onSell} readOnly={readOnly} /></div>
+        <div className={styles.printOnly}><DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} /></div>
+      </div>
+    );
+  }
   return <DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} />;
 }
 

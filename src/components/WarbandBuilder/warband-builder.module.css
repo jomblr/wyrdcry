@@ -569,7 +569,7 @@
   margin-bottom: 1rem;
 }
 
-@media (min-width: 800px) {
+@media print, (min-width: 800px) {
   .tableScrollOuter {
     overflow-x: visible;
   }
@@ -856,7 +856,7 @@
   grid-column: 1 / -1;
 }
 
-@media (max-width: 680px) {
+@media screen and (max-width: 680px) {
   .infoTabGrid {
     grid-template-columns: 1fr;
   }
@@ -1937,7 +1937,7 @@
   display: none;
 }
 
-@media (min-width: 900px) {
+@media print, (min-width: 900px) {
   .fighterGrid {
     --stat-col: 3.35rem;
   }
@@ -1977,7 +1977,7 @@
   white-space: normal;
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   .abilityRefMobile {
     display: flex;
     flex-direction: column;
@@ -2096,7 +2096,7 @@ button.statCard:not(:disabled) {
   font-size: 0.95rem;
 }
 
-@media (max-width: 799px) {
+@media screen and (max-width: 799px) {
   .desktopOnly {
     display: none !important;
   }
@@ -2500,7 +2500,7 @@ button.fighterCardTag {
 
 /* Mobile: the fighters panel fills the remaining height, so the Add fighter / Purchase bar
    sits at the bottom of the screen even before there are fighters to push it down. */
-@media (max-width: 799px) {
+@media screen and (max-width: 799px) {
   .body {
     display: flex;
     flex-direction: column;
@@ -2533,5 +2533,17 @@ button.fighterCardTag {
 @media print {
   .builderShell {
     zoom: 0.8;
+  }
+}
+
+/* Interactive chrome that has no meaning on paper */
+@media print {
+  .tabToggle,
+  .topBarTabRow {
+    display: none !important;
+  }
+
+  :global(a[href='#__docusaurus_skipToContent_fallback']) {
+    display: none !important;
   }
 }
