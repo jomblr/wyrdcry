@@ -86,7 +86,13 @@
   align-items: flex-start;
   justify-content: center;
   padding: 2rem 0 0;
-  overflow: hidden;
+  /* The whole list page scrolls (heading, buttons and warbands together) */
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.warbandListShell::-webkit-scrollbar {
+  display: none;
 }
 
 .warbandListInner {
@@ -96,8 +102,6 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
 }
 
 .warbandListItems {
@@ -107,9 +111,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  overflow-y: auto;
-  flex: 1;
-  scrollbar-width: none;
 }
 
 .warbandListItems::-webkit-scrollbar {
