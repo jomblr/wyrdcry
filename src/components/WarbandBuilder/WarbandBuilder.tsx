@@ -110,6 +110,15 @@ export default function WarbandBuilder() {
     document.documentElement.classList.add('wb-hide-navbar');
     return () => document.documentElement.classList.remove('wb-hide-navbar');
   }, [hideNavbar]);
+  // Print the builder in landscape with slim margins. Added only while the builder is mounted,
+  // so printing other pages keeps the browser's defaults.
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = '@page { size: landscape; margin: 8mm; }';
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, []);
+
   const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
   const pendingCost = calcPendingCost(active, fightersData);
   const goldOnHand = active.gold - calcValue(active, fightersData);
@@ -186,7 +195,12 @@ export default function WarbandBuilder() {
                   <div ref={menuRef} className={`${styles.dropdown} ${isMobile ? styles.dropdownMobile : ''}`} style={dropdownStyle(menuPos, true)}>
                     <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
-                    <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); (window as any).gtag?.('event', 'print_warband'); window.print(); }}>Print</button>
+                    <button type="button" className={styles.dropdownItem} onClick={() => {
+                      setMenuOpen(false);
+                      (window as any).gtag?.('event', 'print_warband');
+                      // Let the menu close before the print snapshot is taken
+                      requestAnimationFrame(() => setTimeout(() => window.print(), 0));
+                    }}>Print</button>
                     <div className={styles.dropdownSep} />
                     {/* The site navbar (with its theme switch) is hidden on mobile here */}
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); setColorMode(colorMode === 'dark' ? 'light' : 'dark'); }}>

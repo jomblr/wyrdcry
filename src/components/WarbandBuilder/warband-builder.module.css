@@ -2520,3 +2520,18 @@ button.fighterCardTag {
     margin-top: auto;
   }
 }
+
+/* Menus and popups never belong on paper */
+@media print {
+  .dropdown,
+  .infoSheetOverlay {
+    display: none !important;
+  }
+}
+
+/* Print slightly smaller so the fighter table fits the page */
+@media print {
+  .builderShell {
+    zoom: 0.8;
+  }
+}
