@@ -153,21 +153,31 @@ export default function FighterCard({
       )
     : null;
 
+  const canEquip = !(isBeast || isThrall || isDaemon);
+  // Gear that comes with the profile (hired swords) — not in instance.equipment, can't be sold.
+  const fixedIds = canEquip ? (profile.default_equipment ?? []).map(s => s.replace(/^(weapon|item):/, '')) : [];
+
   // Equipment as one comma list, duplicates folded into "Sword (x2)"; unbought items marked pending.
-  const equipGroups: { id: string; name: string; count: number; pending: boolean }[] = [];
-  allEquipment.forEach((eid, idx) => {
-    const pending = !instance.isPending && idx >= instance.equipment.length;
+  const equipGroups: { id: string; name: string; count: number; pending: boolean; fixed: boolean }[] = [];
+  function addToGroups(eid: string, pending: boolean, fixed: boolean) {
     const name = weaponsData.find(x => x.id === eid)?.name ?? itemsData.find(x => x.id === eid)?.name ?? eid;
-    const g = equipGroups.find(x => x.id === eid && x.pending === pending);
-    if (g) g.count++; else equipGroups.push({ id: eid, name, count: 1, pending });
-  });
+    const g = equipGroups.find(x => x.id === eid && x.pending === pending && x.fixed === fixed);
+    if (g) g.count++; else equipGroups.push({ id: eid, name, count: 1, pending, fixed });
+  }
+  fixedIds.forEach(eid => addToGroups(eid, false, true));
+  allEquipment.forEach((eid, idx) => addToGroups(eid, !instance.isPending && idx >= instance.equipment.length, false));
 
   // Beasts, thralls and daemons can't buy equipment; show the weapons they're born with instead.
-  const naturalWeapons = (isBeast || isThrall || isDaemon)
-    ? (profile.default_equipment ?? [])
+  const naturalWeapons = canEquip
+    ? []
+    : (profile.default_equipment ?? [])
         .map(id => weaponsData.find(w => w.id === id.replace('weapon:', '')))
-        .filter((w): w is NonNullable<typeof w> => !!w)
-    : [];
+        .filter((w): w is NonNullable<typeof w> => !!w);
+
+  // Locked for battle: a fighter with no melee weapon (nothing, only ranged, or only armour) fights unarmed.
+  const hasMeleeWeapon = [...fixedIds, ...allEquipment, ...naturalWeapons.map(w => w.id)]
+    .some(id => weaponsData.find(w => w.id === id)?.type === 'melee');
+  const unarmed = readOnly && !hasMeleeWeapon ? weaponsData.find(w => w.id === 'unarmed') : undefined;
 
   function equipCostOf(id: string): number {
     return weaponsData.find(x => x.id === id)?.cost ?? itemsData.find(x => x.id === id)?.cost ?? 0;
@@ -270,22 +280,40 @@ export default function FighterCard({
         ))}
       </div>
 
-      {equipGroups.length > 0 && (
+      {(equipGroups.length > 0 || unarmed || (canEquip && !readOnly)) && (
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Equipment</div>
           <div className={styles.fighterCardTags}>
             {equipGroups.map(g => (
               <button
                 type="button"
-                key={`${g.id}-${g.pending}`}
+                key={`${g.id}-${g.pending}-${g.fixed}`}
                 className={`${styles.equipmentTag} ${styles.fighterCardTag} ${g.pending ? styles.equipmentTagPending : ''}`}
-                onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || instance.isPending })}
+                onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || (instance.isPending && !g.fixed) })}
               >
                 {g.name}{g.count > 1 && ` (x${g.count})`}
                 {/* Unbought gear shows what it will cost */}
-                {(g.pending || instance.isPending) && ` (${equipCostOf(g.id) * g.count}gc)`}
+                {(g.pending || (instance.isPending && !g.fixed)) && ` (${equipCostOf(g.id) * g.count}gc)`}
               </button>
             ))}
+            {unarmed && (
+              <button
+                type="button"
+                className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
+                onClick={() => setInfo({ kind: 'equip', id: unarmed.id, pending: false, natural: true })}
+              >
+                {unarmed.name}
+              </button>
+            )}
+            {equipGroups.length === 0 && canEquip && !readOnly && (
+              <button
+                type="button"
+                className={`${styles.equipmentTag} ${styles.fighterCardTag} ${styles.fighterCardTagAdd}`}
+                onClick={() => setEditOpen('equipment')}
+              >
+                + Add equipment
+              </button>
+            )}
           </div>
         </div>
       )}

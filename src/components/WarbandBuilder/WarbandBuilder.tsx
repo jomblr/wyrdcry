@@ -4,7 +4,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 import { ArrowLeft, EllipsisVertical, Lock, LockOpen } from 'lucide-react';
 import ReactDOM from 'react-dom';
 import { useWarband, calcPendingCost, calcValue } from './useWarband';
-import { fightersData } from './data';
+import { factionsData, fightersData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import WarbandList from './WarbandList';
 import WarbandInfoRow from './WarbandInfoRow';
@@ -127,6 +127,7 @@ export default function WarbandBuilder() {
   const goldOnHand = active.gold - calcValue(active, fightersData);
   const animatedPending = useAnimatedNumber(pendingCost);
   const animatedGold = useAnimatedNumber(goldOnHand);
+  const maxFighters = factionsData.find(f => f.id === active.factionId)?.warband_size;
 
   function handleDelete() {
     setMenuOpen(false);
@@ -203,7 +204,12 @@ export default function WarbandBuilder() {
       {isMobile && ReactDOM.createPortal(
         <div className={clsx(styles.stickyNav, scrolled && styles.stickyNavVisible)} aria-hidden={!scrolled}>
           <span className={styles.stickyNavName}>{active.name || 'Untitled Warband'}</span>
-          <span className={styles.stickyNavGold}>{animatedPending} / {animatedGold} gc</span>
+          <span className={styles.stickyNavGold}>
+            {maxFighters ? `${active.fighters.length} / ${maxFighters}` : active.fighters.length} fighters
+          </span>
+          <span className={clsx(styles.stickyNavGold, styles.stickyNavGoldAmount)}>
+            {hasPending ?`${animatedPending} / ${animatedGold}` : animatedGold} gc
+          </span>
         </div>,
         document.body,
       )}

@@ -239,7 +239,15 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--ifm-color-content-secondary);
-  padding-right: 0.35rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Fits "1000 / 1000 gc", so the fighter count doesn't shift as gold counts or switches format */
+.stickyNavGoldAmount {
+  min-width: 14ch;
+  text-align: right;
 }
 
 @media print {
@@ -1668,7 +1676,9 @@
   font-family: var(--wyrd-font-heading);
   font-size: 1.9rem;
   font-weight: 400;
-  line-height: 1.1;
+  /* Same as .fighterCardNameInput: tall enough that the input doesn't scroll */
+  line-height: 1.45;
+  margin-block: -0.175em;
   color: inherit;
   padding: 0;
 }
@@ -2215,6 +2225,12 @@ button.statCard:not(:disabled) {
   cursor: default;
 }
 
+.fighterCardTagAdd {
+  background: transparent;
+  border: 1px dashed var(--ifm-color-emphasis-500);
+  cursor: pointer;
+}
+
 /* ─── Info sheet (weapon / ability details on mobile) ─────────────────────── */
 
 .infoSheetOverlay {
@@ -2470,7 +2486,10 @@ button.fighterCardTag {
 .fighterCardName.fighterCardNameInput {
   font-family: var(--wyrd-font-heading);
   font-size: 1.9rem;
-  line-height: 1.1;
+  /* Below ~1.45 the heading font is taller than the line, so the input scrolls a few px.
+     The negative margin keeps the old 1.1 footprint. */
+  line-height: 1.45;
+  margin-block: -0.175em;
 }
 
 .fighterCardNameInput {
