@@ -193,6 +193,61 @@
   overflow: hidden;
 }
 
+/* ─── Sticky mobile nav (slides in on scroll) ───────────────────────────────── */
+
+.stickyNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 510;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  height: 48px;
+  gap: 0.5rem;
+  background: var(--ifm-background-color);
+  border-bottom: 1px solid var(--wyrd-border, var(--ifm-color-emphasis-300));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.stickyNavVisible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.stickyNavName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ifm-color-content);
+}
+
+
+.stickyNavGold {
+  font-family: var(--wyrd-font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+  padding-right: 0.35rem;
+}
+
+@media print {
+  .stickyNav {
+    display: none;
+  }
+}
+
 /* ─── Top bar: tabs + action buttons ───────────────────────────────────────── */
 
 .topBar {
@@ -1353,14 +1408,20 @@
 /* ─── Ellipsis menu ─────────────────────────────────────────────────────────── */
 
 .ellipsisBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--wyrd-text3);
-  padding: 0.5rem 0.5rem;
+  padding: 0;
   border-radius: var(--wyrd-radius);
   font-size: 1rem;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .ellipsisBtn:hover {
@@ -1554,7 +1615,7 @@
   background: var(--ifm-hover-overlay);
 }
 
-/* ─── Fighter edit panel (bottom sheet) ─────────────────────────────────────── */
+/* ─── Fighter edit panel (floating sheet) ───────────────────────────────────── */
 
 .editPanelOverlay {
   position: fixed;
@@ -1565,28 +1626,21 @@
 }
 
 .editPanel {
+  --edit-panel-gap: 0.75rem;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-height: 92vh;
+  left: var(--edit-panel-gap);
+  right: var(--edit-panel-gap);
+  bottom: calc(var(--edit-panel-gap) + env(safe-area-inset-bottom, 0px));
+  /* Stays below the 48px sticky nav */
+  max-height: calc(100dvh - 48px - 2 * var(--edit-panel-gap) - env(safe-area-inset-bottom, 0px));
   background: var(--ifm-background-color);
-  border-radius: 14px 14px 0 0;
+  border: 1px solid var(--wyrd-border);
+  border-radius: 14px;
   z-index: 501;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
-}
-
-.editPanelHandle {
-  width: 36px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--ifm-color-emphasis-300);
-  margin: 10px auto 0;
-  flex-shrink: 0;
-  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 .editPanelTop {

@@ -138,10 +138,7 @@ export default function FighterCard({
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
         <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
-          {!(isBeast || isThrall || isDaemon) && (
-            <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen('equipment'); }}>Equip fighter</button>
-          )}
-          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen('information'); }}>Edit fighter</button>
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(isBeast || isThrall || isDaemon ? 'information' : 'equipment'); }}>Edit fighter</button>
           {canMakeLeader && isHero && (
             <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
           )}

@@ -144,8 +144,6 @@ export default function FighterEditPanel({
     <>
       <div className={styles.editPanelOverlay} onClick={onClose} />
       <div className={styles.editPanel}>
-        <div className={styles.editPanelHandle} role="button" aria-label="Close panel" onClick={onClose} />
-
         {/* Header */}
         <div className={styles.editPanelTop}>
           <div className={styles.editPanelType}>{profile.name}</div>
@@ -277,6 +275,12 @@ export default function FighterEditPanel({
 
             </>
           )}
+        </div>
+
+        <div className={styles.infoSheetActions}>
+          <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={onClose}>
+            Done
+          </button>
         </div>
       </div>
 

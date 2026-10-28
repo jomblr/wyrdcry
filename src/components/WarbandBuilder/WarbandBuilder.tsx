@@ -13,6 +13,7 @@ import FighterTable from './FighterTable';
 import InformationTab from './InformationTab';
 import styles from './warband-builder.module.css';
 import useIsMobile from './useIsMobile';
+import useAnimatedNumber from './useAnimatedNumber';
 
 type Tab = 'fighters' | 'information';
 type View = 'list' | 'detail';
@@ -25,6 +26,8 @@ export default function WarbandBuilder() {
   const [menuPos, setMenuPos] = useState<DropdownPos | null>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   const {
     active,
@@ -122,6 +125,8 @@ export default function WarbandBuilder() {
   const hasPending = active.fighters.some(f => f.isPending || f.pendingEquipment.length > 0);
   const pendingCost = calcPendingCost(active, fightersData);
   const goldOnHand = active.gold - calcValue(active, fightersData);
+  const animatedPending = useAnimatedNumber(pendingCost);
+  const animatedGold = useAnimatedNumber(goldOnHand);
 
   function handleDelete() {
     setMenuOpen(false);
@@ -147,6 +152,17 @@ export default function WarbandBuilder() {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [menuOpen]);
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el || !isMobile || view !== 'detail') {
+      setScrolled(false);
+      return;
+    }
+    function onScroll() { setScrolled(el.scrollTop > 5); }
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [isMobile, view]);
 
   if (view === 'list') {
     return (
@@ -183,9 +199,17 @@ export default function WarbandBuilder() {
 
   return (
     <div className={styles.builderShell}>
+      {/* Mobile: slides in once the body scrolls; gold is pending cost / gold on hand, like Purchase */}
+      {isMobile && ReactDOM.createPortal(
+        <div className={clsx(styles.stickyNav, scrolled && styles.stickyNavVisible)} aria-hidden={!scrolled}>
+          <span className={styles.stickyNavName}>{active.name || 'Untitled Warband'}</span>
+          <span className={styles.stickyNavGold}>{animatedPending} / {animatedGold} gc</span>
+        </div>,
+        document.body,
+      )}
       <div className={styles.content}>
         {/* Body */}
-        <div className={styles.body}>
+        <div className={styles.body} ref={bodyRef}>
           {/* Tab toggle — shared markup */}
           {(() => {
             const tabToggle = tabToggleEl;
