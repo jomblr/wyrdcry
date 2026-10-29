@@ -20,6 +20,8 @@ interface Props {
 export default function Tooltip({ content, children }: Props) {
   const [visible, setVisible] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
+  // Where the arrow sits, in px from the tip's left edge; null = centred
+  const [arrowX, setArrowX] = useState<number | null>(null);
   // Opens above the target; flips below when there isn't room above (e.g. under the navbar).
   const [below, setBelow] = useState(false);
   const targetRef = useRef<HTMLElement>(null);
@@ -40,13 +42,11 @@ export default function Tooltip({ content, children }: Props) {
     const rect = el.getBoundingClientRect();
     anchorRect.current = rect;
     setBelow(false);
-    const maxWidth = Math.min(320, window.innerWidth - 16); // matches max-width in CSS
-    const idealLeft = rect.left + window.scrollX + rect.width / 2;
-    const minLeft = maxWidth / 2 + 8;
-    const maxLeft = window.scrollX + window.innerWidth - maxWidth / 2 - 8;
+    setArrowX(null);
+    // Centred on the target; kept on screen once its real width is known (layout effect below)
     setPos({
       top: rect.top + window.scrollY - 8,
-      left: Math.min(Math.max(idealLeft, minLeft), maxLeft),
+      left: rect.left + window.scrollX + rect.width / 2,
     });
   }, []);
 
@@ -111,6 +111,22 @@ export default function Tooltip({ content, children }: Props) {
     };
   }, [visible, hide]);
 
+  // Once rendered, keep it inside the window using its actual width, and point the arrow at the
+  // target even when the tip had to shift sideways.
+  useLayoutEffect(() => {
+    const tip = tipRef.current;
+    const rect = anchorRect.current;
+    if (!visible || !tip || !rect) return;
+    const width = tip.offsetWidth;
+    const targetX = rect.left + window.scrollX + rect.width / 2;
+    const minLeft = window.scrollX + width / 2 + 8;
+    const maxLeft = window.scrollX + window.innerWidth - width / 2 - 8;
+    const left = Math.min(Math.max(targetX, minLeft), maxLeft);
+    if (Math.abs(left - pos.left) > 0.5) setPos(p => ({ ...p, left }));
+    const arrow = Math.min(Math.max(targetX - (left - width / 2), 10), width - 10);
+    setArrowX(Math.abs(left - targetX) > 0.5 ? arrow : null);
+  }, [visible, pos.left]);
+
   // Once rendered, check it fits above the target; otherwise show it below instead.
   useLayoutEffect(() => {
     const tip = tipRef.current;
@@ -125,7 +141,11 @@ export default function Tooltip({ content, children }: Props) {
 
   const tooltip = visible && content
     ? ReactDOM.createPortal(
-        <div ref={tipRef} className={below ? 'tooltip tooltip--below' : 'tooltip'} style={{ top: pos.top, left: pos.left }}>
+        <div
+          ref={tipRef}
+          className={below ? 'tooltip tooltip--below' : 'tooltip'}
+          style={{ top: pos.top, left: pos.left, ...(arrowX !== null ? { '--tooltip-arrow-x': `${arrowX}px` } : {}) } as React.CSSProperties}
+        >
           {content}
         </div>,
         document.body,

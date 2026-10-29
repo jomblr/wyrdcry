@@ -25,7 +25,7 @@ import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
 // `short` is shown instead of `label` on narrower desktop windows (see .statFull/.statShort).
-const HEADERS: { label: string; short?: string; center?: boolean; indent?: boolean; noPrint?: boolean }[] = [
+const HEADERS: { label: string; short?: string; center?: boolean; noPrint?: boolean }[] = [
   { label: '', noPrint: true }, // drag handle
   { label: 'Fighter' },
   { label: 'Move',    short: 'M', center: true },
@@ -34,8 +34,8 @@ const HEADERS: { label: string; short?: string; center?: boolean; indent?: boole
   { label: 'Defense', short: 'D', center: true }, // renamed from statLabels below (Armour / A)
   { label: 'Health',  short: 'H', center: true },
   { label: 'Bravery', short: 'B', center: true },
-  { label: 'Equipment', indent: true },
-  { label: 'Notes' },
+  { label: 'Equipment' },
+  { label: 'Special rules' },
   { label: 'R',             center: true },
   { label: 'Value',         center: true },
   { label: '',              center: true, noPrint: true }, // ⋮ menu
@@ -137,7 +137,7 @@ export default function FighterTable({
           {headers.map((h, i) => (
             <div
               key={i}
-              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''} ${h.noPrint ? styles.noPrint : ''}`}
+              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.noPrint ? styles.noPrint : ''}`}
             >
               {h.short ? (
                 <>

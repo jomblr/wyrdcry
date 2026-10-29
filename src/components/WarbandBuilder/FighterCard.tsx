@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import EquipmentInfoSheet from './EquipmentInfoSheet';
-import { salePriceFor } from './WarbandStash';
-import ReactMarkdown from 'react-markdown';
+import FighterAbilities, { fighterAbilities } from './FighterAbilities';
 
 interface Props {
   instance: FighterInstance;
@@ -61,7 +60,7 @@ export default function FighterCard({
   const [menuOpen, setMenuOpen] = useState(false);
   const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
+  const [info, setInfo] = useState<{ id: string; natural?: boolean } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -183,55 +182,10 @@ export default function FighterCard({
     return weaponsData.find(x => x.id === id)?.cost ?? itemsData.find(x => x.id === id)?.cost ?? 0;
   }
 
-  const abilities = (profile.faction_ability_ids ?? [])
-    .map(id => abilitiesData.find(a => a.id === id))
-    .filter((a): a is NonNullable<typeof a> => !!a);
+  const abilities = fighterAbilities(profile.faction_ability_ids);
 
-  function abilityLabel(a: (typeof abilities)[0]): string {
-    return a.ability_type && a.ability_type !== 'trait'
-      ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
-      : a.name;
-  }
-
-  let infoSheet: React.ReactNode = null;
-  if (info?.kind === 'ability') {
-    const a = abilities.find(x => x.id === info.id);
-    if (a) {
-      infoSheet = (
-        <InfoSheet
-          title={a.name}
-          subtitle={a.ability_type && a.ability_type !== 'trait' ? `${a.ability_type} ability` : 'Trait'}
-          onClose={() => setInfo(null)}
-        >
-          <ReactMarkdown>{a.description}</ReactMarkdown>
-        </InfoSheet>
-      );
-    }
-  } else if (info?.kind === 'equip') {
-    const w = weaponsData.find(x => x.id === info.id);
-    const item = itemsData.find(x => x.id === info.id);
-    const cost = w?.cost ?? item?.cost ?? 0;
-    const salePrice = salePriceFor(cost);
-    // Only bought, non-natural gear can be sold or stashed.
-    const ownedIdx = info.natural || info.pending ? -1 : instance.equipment.lastIndexOf(info.id);
-    const close = () => setInfo(null);
-    infoSheet = (
-      <EquipmentInfoSheet
-        id={info.id}
-        natural={info.natural}
-        pending={info.pending}
-        onClose={close}
-        actions={ownedIdx !== -1 && !readOnly ? (
-          <>
-            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onSendToStash(ownedIdx); close(); }}>
-              Stash
-            </button>
-            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(ownedIdx, salePrice); close(); }}>Sell ({salePrice}gc)</button>
-          </>
-        ) : undefined}
-      />
-    );
-  }
+  // Read-only: stashing and selling live in the edit panel, so a tap to read can't lose gear.
+  const infoSheet = info ? <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} /> : null;
 
   // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
   const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords, ...(instance.isLeader ? ['LEADER'] : [])]));
@@ -284,23 +238,26 @@ export default function FighterCard({
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Equipment</div>
           <div className={styles.fighterCardTags}>
-            {equipGroups.map(g => (
-              <button
-                type="button"
-                key={`${g.id}-${g.pending}-${g.fixed}`}
-                className={`${styles.equipmentTag} ${styles.fighterCardTag} ${g.pending ? styles.equipmentTagPending : ''}`}
-                onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || (instance.isPending && !g.fixed) })}
-              >
-                {g.name}{g.count > 1 && ` (x${g.count})`}
-                {/* Unbought gear shows what it will cost */}
-                {(g.pending || (instance.isPending && !g.fixed)) && ` (${equipCostOf(g.id) * g.count}gc)`}
-              </button>
-            ))}
+            {equipGroups.map(g => {
+              // Unbought: new gear on a bought fighter, or any (non-fixed) gear on an unbought one
+              const unbought = g.pending || (instance.isPending && !g.fixed);
+              return (
+                <button
+                  type="button"
+                  key={`${g.id}-${g.pending}-${g.fixed}`}
+                  className={`${styles.equipmentTag} ${styles.fighterCardTag} ${unbought ? styles.equipmentTagPending : ''}`}
+                  onClick={() => setInfo({ id: g.id })}
+                >
+                  {g.name}{g.count > 1 && ` (x${g.count})`}
+                  {unbought && ` (${equipCostOf(g.id) * g.count}gc)`}
+                </button>
+              );
+            })}
             {unarmed && (
               <button
                 type="button"
                 className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'equip', id: unarmed.id, pending: false, natural: true })}
+                onClick={() => setInfo({ id: unarmed.id, natural: true })}
               >
                 {unarmed.name}
               </button>
@@ -329,7 +286,7 @@ export default function FighterCard({
                 type="button"
                 key={`${w.id}-${i}`}
                 className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'equip', id: w.id, pending: false, natural: true })}
+                onClick={() => setInfo({ id: w.id, natural: true })}
               >
                 {w.name}
               </button>
@@ -340,19 +297,8 @@ export default function FighterCard({
 
       {abilities.length > 0 && (
         <div className={styles.fighterCardSection}>
-          <div className={styles.fighterCardSectionTitle}>Abilities</div>
-          <div className={styles.fighterCardTags}>
-            {abilities.map(a => (
-              <button
-                type="button"
-                key={a.id}
-                className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'ability', id: a.id })}
-              >
-                {abilityLabel(a)}
-              </button>
-            ))}
-          </div>
+          <div className={styles.fighterCardSectionTitle}>Special rules</div>
+          <FighterAbilities abilities={abilities} tagClassName={styles.fighterCardTag} />
         </div>
       )}
 

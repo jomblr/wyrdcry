@@ -8,8 +8,8 @@ import styles from './warband-builder.module.css';
 import { fightersData, hasTag, itemsData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
-import SpecialRulesCell from './SpecialRulesCell';
-import ValueModal from './ValueModal';
+import FighterAbilities, { fighterAbilities } from './FighterAbilities';
+import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
@@ -38,25 +38,10 @@ interface Props {
 export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [valueModalOpen, setValueModalOpen] = useState(false);
-  const [equipMultiline, setEquipMultiline] = useState(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const equipCellRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cell = equipCellRef.current;
-    if (!cell) return;
-    const check = () => {
-      const inner = cell.firstElementChild as HTMLElement | null;
-      if (!inner) return;
-      setEquipMultiline(inner.clientHeight > 48);
-    };
-    const observer = new ResizeObserver(check);
-    observer.observe(cell);
-    return () => observer.disconnect();
-  }, []);
 
   const {
     attributes,
@@ -197,6 +182,8 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   if (!profile) return null;
 
+  const abilities = fighterAbilities(profile.faction_ability_ids);
+
   const menu =
     menuOpen && pos
       ? ReactDOM.createPortal(
@@ -206,6 +193,14 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
             style={dropdownStyle(pos, true)}
           >
               <>
+                <button
+                  type="button"
+                  className={styles.dropdownItem}
+                  onClick={() => { setMenuOpen(false); setEditOpen(noEquipment ? 'information' : 'equipment'); }}
+                >
+                  Edit fighter
+                </button>
+                <div className={styles.dropdownSep} />
                 <button
                   type="button"
                   className={styles.dropdownItem}
@@ -286,15 +281,15 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       </div>
 
       {/* Equipment */}
-      <div ref={equipCellRef} className={`${styles.cell} ${equipMultiline ? styles.cellTop : ''}`}>
+      <div className={styles.cell}>
         {noEquipment ? (
           fixedEquipment.length > 0
-            ? <div className={styles.cellIndent}>{fixedEquipment.map((id, idx) => (
+            ? <div>{fixedEquipment.map((id, idx) => (
                 <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
                   {weaponsData.find(w => w.id === id)?.name ?? id}
                 </span>
               ))}</div>
-            : <span className={`${styles.lockedCell} ${styles.cellIndent}`}>—</span>
+            : <span className={styles.lockedCell}>—</span>
         ) : (
           <EquipmentCell
             instanceId={instance.instanceId}
@@ -306,7 +301,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
             isHero={isHero}
             isWizard={isWizard}
             isBeast={isBeast}
-            isFighterPurchased={!instance.isPending}
             remainingGold={remainingGold}
             onAdd={id => {
               if (instance.isPending) {
@@ -324,28 +318,18 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
                 onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (idx - instance.equipment.length)));
               }
             }}
-            onSendToStash={mergedIdx => {
-              if (instance.isPending) {
-                onSetEquipment(instance.equipment.filter((_, i) => i !== mergedIdx));
-              } else if (mergedIdx < instance.equipment.length) {
-                onSendToStash(mergedIdx);
-              } else {
-                onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (mergedIdx - instance.equipment.length)));
-              }
-            }}
             onTakeFromStash={onTakeFromStash}
-            onSell={onSell}
             onTransferIn={(sourceId, itemId, itemIdx) => onTransferEquipment(sourceId, itemId, itemIdx)}
+            onOpenEditor={() => setEditOpen('equipment')}
           />
         )}
       </div>
 
-      {/* Notes */}
-      <div className={styles.cell}>
-        <SpecialRulesCell
-          notes={instance.notes ?? ''}
-          onChange={onSetNotes}
-        />
+      {/* Special rules — abilities as tags; notes (edited in the fighter panel) below so they still print */}
+      <div className={`${styles.cell} ${styles.specialRulesCell}`}>
+        {abilities.length > 0 && <FighterAbilities abilities={abilities} />}
+        {instance.notes?.trim() && <div className={styles.fighterCardNotes}>{instance.notes}</div>}
+        {abilities.length === 0 && !instance.notes?.trim() && <span className={styles.lockedCell}>—</span>}
       </div>
 
       {/* Renown */}
@@ -355,11 +339,8 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         )}
       </div>
 
-      {/* Value — clickable to edit base cost before purchase */}
-      <div
-        className={`${styles.cell} ${styles.cellCenter} ${instance.isPending ? styles.valueCell : ''}`}
-        onClick={() => instance.isPending && setValueModalOpen(true)}
-      >
+      {/* Value — the base cost is adjusted in the fighter edit panel */}
+      <div className={`${styles.cell} ${styles.cellCenter}`}>
         {(() => {
           const costBreakdown = buildCostBreakdown();
           const costSpan = (
@@ -379,15 +360,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           );
         })()}
       </div>
-      {valueModalOpen && (
-        <ValueModal
-          fighterName={instance.customName || profile?.name || 'Fighter'}
-          baseCost={baseCost}
-          equipment={instance.equipment}
-          onCostChange={cost => onSetCostOverride(cost)}
-          onClose={() => setValueModalOpen(false)}
-        />
-      )}
 
       {/* Ellipsis menu */}
       <div className={`${styles.cell} ${styles.cellCenter} ${styles.noPrint}`}>
@@ -419,6 +391,25 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           >
             Remove this fighter from the warband? This can't be undone.
           </InfoSheet>
+        )}
+        {editOpen && (
+          <FighterEditPanel
+            initialPane={editOpen}
+            instance={instance}
+            remainingGold={remainingGold}
+            onSetName={onSetName}
+            onSetRenown={onSetRenown}
+            onSetEquipment={onSetEquipment}
+            onSetPendingEquipment={onSetPendingEquipment}
+            onSendToStash={onSendToStash}
+            onSell={onSell}
+            stash={stash}
+            onTakeFromStash={onTakeFromStash}
+            onSetStat={onSetStat}
+            onSetNotes={onSetNotes}
+            onSetCostOverride={onSetCostOverride}
+            onClose={() => setEditOpen(false)}
+          />
         )}
       </div>
     </div>

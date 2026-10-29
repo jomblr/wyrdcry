@@ -173,7 +173,6 @@ export function CurrentEquipment({ fixedEquipment, allEquipment, purchasedEquipm
       {current && (
         <EquipmentInfoSheet
           id={current.id}
-          pending={current.kind === 'pending'}
           onClose={() => setCurrent(null)}
           actions={
             current.kind === 'purchased' ? (

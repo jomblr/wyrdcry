@@ -481,14 +481,6 @@
   align-items: center;
 }
 
-.hCellIndent {
-  padding-left: 0.8rem;
-}
-
-.cellIndent {
-  padding-left: 0.4rem;
-}
-
 /* Data cell */
 .cell {
   padding: 0.5rem 0.5rem;
@@ -503,11 +495,6 @@
 
 .cellCenter {
   justify-content: center;
-}
-
-.cellTop {
-  align-self: start;
-  padding-top: 0.45rem;
 }
 
 .cellWrap {
@@ -583,7 +570,7 @@
   grid-template-columns:
     16px minmax(7rem, 165px)
     repeat(6, var(--stat-col))
-    minmax(8rem, 2.2fr) minmax(5rem, 1fr)
+    minmax(8rem, 1fr) minmax(8rem, 1fr)
     2.2rem 3.4rem 2rem;
   min-width: 780px;
 }
@@ -892,6 +879,20 @@
   border-color: var(--ifm-color-primary);
 }
 
+/* Edit-panel mode: just a row of tags, not an input (the border stays for the drag highlight) */
+.equipmentInputPlain,
+.gridRow:hover .equipmentInputPlain {
+  cursor: default;
+  /* Lines up with the Special rules column: no input padding, same tag gap; the -1px cancels the
+     transparent border kept for the drag highlight */
+  padding: 0;
+  margin: -1px;
+  min-height: 0;
+  gap: 0.3rem;
+  border-color: transparent;
+  background: transparent;
+}
+
 /* Highlighted when a dragged equipment tag hovers over this cell */
 .equipmentInputDragOver {
   border-color: var(--ifm-color-primary) !important;
@@ -1189,6 +1190,7 @@
   align-items: center;
   background: rgba(128, 128, 128, 0.14);
   color: var(--ifm-color-content-secondary);
+  border: none;
   border-radius: 3px;
   padding: 0.05rem 0.3rem;
   font-size: 0.8rem;
@@ -1649,6 +1651,20 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Desktop: a centred dialog instead of a sheet along the bottom */
+@media (min-width: 800px) {
+  .editPanel {
+    --edit-panel-gap: 2rem;
+    left: 50%;
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    width: min(560px, calc(100vw - 2 * var(--edit-panel-gap)));
+    max-height: calc(100dvh - 2 * var(--edit-panel-gap));
+    transform: translate(-50%, -50%);
+  }
 }
 
 .editPanelTop {
@@ -2225,9 +2241,25 @@ button.statCard:not(:disabled) {
   cursor: default;
 }
 
+.specialRulesCell {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.3rem;
+  white-space: normal;
+}
+
+.specialRulesCell .equipmentTag {
+  white-space: normal;
+  text-align: left;
+}
+
+.specialRulesCell .fighterCardTags {
+  margin-top: 0;
+}
+
 .fighterCardTagAdd {
   background: transparent;
-  border: 1px dashed var(--ifm-color-emphasis-500);
   cursor: pointer;
 }
 
@@ -2609,12 +2641,13 @@ button.fighterCardTag {
     zoom: 0.8;
   }
 
-  /* Same tracks as .fighterGrid without the drag handle and ⋮ menu columns, which aren't printed */
+  /* Same tracks as .fighterGrid without the drag handle and ⋮ menu columns, which aren't printed.
+     7rem minimums (not 8) so the table still fits a portrait page. */
   .fighterGrid {
     grid-template-columns:
       minmax(7rem, 165px)
       repeat(6, var(--stat-col))
-      minmax(8rem, 2.2fr) minmax(5rem, 1fr)
+      minmax(7rem, 1fr) minmax(7rem, 1fr)
       2.2rem 3.4rem;
   }
 }

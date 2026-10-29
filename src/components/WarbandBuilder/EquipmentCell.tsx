@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { factionsData, itemsData, weaponRulesData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentInfoSheet from './EquipmentInfoSheet';
-import { salePriceFor } from './WarbandStash';
 import styles from './warband-builder.module.css';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -147,8 +146,6 @@ interface EquipDragPayload {
 let activeDrag: EquipDragPayload | null = null;
 
 interface Props {
-  /** Sell one purchased item (index into the fighter's bought equipment) */
-  onSell: (itemIdx: number, salePrice: number) => void;
   instanceId: string;
   equipment: string[];
   pendingStartIndex: number;
@@ -158,16 +155,16 @@ interface Props {
   isHero: boolean;
   isWizard: boolean;
   isBeast: boolean;
-  isFighterPurchased: boolean;
   remainingGold: number;
   onAdd: (id: string) => void;
   onRemoveAtIdx: (idx: number) => void;
-  onSendToStash: (itemIdx: number) => void;
   onTakeFromStash: (itemId: string) => void;
   onTransferIn: (sourceInstanceId: string, itemId: string, itemIdx: number) => void;
+  /** When set, adding opens the fighter edit panel (mobile pattern) instead of the inline dropdown */
+  onOpenEditor?: () => void;
 }
 
-export default function EquipmentCell({ instanceId, equipment, pendingStartIndex, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, isFighterPurchased, remainingGold, onAdd, onRemoveAtIdx, onSendToStash, onTakeFromStash, onTransferIn, onSell }: Props) {
+export default function EquipmentCell({ instanceId, equipment, pendingStartIndex, fixedEquipment = [], stash, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveAtIdx, onTakeFromStash, onTransferIn, onOpenEditor }: Props) {
   const [infoTag, setInfoTag] = useState<{ id: string; idx: number | null; kind: 'fixed' | 'purchased' | 'pending' } | null>(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -285,6 +282,7 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
   }
 
   function handleContainerClick(e: React.MouseEvent) {
+    if (onOpenEditor) return;
     if (dropRef.current?.contains(e.target as Node)) return;
     inputRef.current?.focus();
     if (!open) openDropdown();
@@ -602,13 +600,29 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         )
       : null;
 
-  const isActive = open || focusedTagIdx !== null;
+  // With the edit panel there's nothing to type into, so the cell never shows as an active input.
+  const isActive = !onOpenEditor && (open || focusedTagIdx !== null);
+
+  // Duplicates fold into one tag, "Club (x2)", as on mobile. Bought and unbought copies stay
+  // separate; a tag acts on its last copy (drag, stash, sell), so they go one at a time.
+  const fixedGroups: { id: string; count: number }[] = [];
+  fixedEquipment.forEach(id => {
+    const g = fixedGroups.find(x => x.id === id);
+    if (g) g.count++; else fixedGroups.push({ id, count: 1 });
+  });
+  const equipGroups: { id: string; idx: number; count: number; pending: boolean }[] = [];
+  equipment.forEach((id, idx) => {
+    const pending = idx >= pendingStartIndex;
+    const g = equipGroups.find(x => x.id === id && x.pending === pending);
+    if (g) { g.count++; g.idx = idx; } else equipGroups.push({ id, idx, count: 1, pending });
+  });
 
   return (
     <div
       ref={containerRef}
       className={[
         styles.equipmentInput,
+        onOpenEditor ? styles.equipmentInputPlain : '',
         isActive ? styles.equipmentInputFocused : '',
         dragOver === 'valid' ? styles.equipmentInputDragOver : '',
         dragOver === 'invalid' ? styles.equipmentInputDragOverInvalid : '',
@@ -625,21 +639,20 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      {fixedEquipment.map((id, idx) => (
+      {fixedGroups.map(({ id, count }) => (
         <span
-          key={`fixed-${id}-${idx}`}
+          key={`fixed-${id}`}
           className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}
           title={undefined}
           onClick={e => { e.stopPropagation(); setInfoTag({ id, idx: null, kind: 'fixed' }); }}
         >
-          {labelFor(id)}
+          {labelFor(id)}{count > 1 && ` (x${count})`}
         </span>
       ))}
-      {equipment.map((id, idx) => {
-        const isPendingTag = idx >= pendingStartIndex;
+      {equipGroups.map(({ id, idx, count, pending: isPendingTag }) => {
         return (
           <span
-            key={`${id}-${idx}`}
+            key={`${id}-${isPendingTag}`}
             className={[
               styles.equipmentTag,
               focusedTagIdx === idx ? styles.equipmentTagFocused : '',
@@ -657,10 +670,23 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
             onClick={e => handleTagClick(e, idx)}
             title={undefined}
           >
-            {labelFor(id)}{isFighterPurchased && isPendingTag ? (() => { const c = costFor(id); return c > 0 ? ` (${c}gc)` : ''; })() : ''}
+            {labelFor(id)}{count > 1 && ` (x${count})`}
+            {isPendingTag ? (() => { const c = costFor(id) * count; return c > 0 ? ` (${c}gc)` : ''; })() : ''}
           </span>
         );
       })}
+      {onOpenEditor ? (
+        // Only when empty, as on mobile; otherwise gear is edited via ⋮ → Edit fighter
+        equipment.length === 0 && fixedEquipment.length === 0 && (
+          <button
+            type="button"
+            className={`${styles.equipmentTag} ${styles.fighterCardTagAdd} ${styles.noPrint}`}
+            onClick={e => { e.stopPropagation(); onOpenEditor(); }}
+          >
+            + Add equipment
+          </button>
+        )
+      ) : (
       <input
         ref={inputRef}
         className={styles.equipmentTextInput}
@@ -674,31 +700,14 @@ export default function EquipmentCell({ instanceId, equipment, pendingStartIndex
         role="combobox"
         autoComplete="off"
       />
+      )}
       {dropdown}
       {SHOW_HOVER_INFO && weaponInfo}
       {infoTag && (
         // React events bubble out of portals; keep sheet clicks from reaching the cell (which opens the dropdown)
         <span onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
-        <EquipmentInfoSheet
-          id={infoTag.id}
-          pending={infoTag.kind === 'pending'}
-          onClose={() => setInfoTag(null)}
-          actions={
-            infoTag.kind === 'purchased' && infoTag.idx !== null ? (
-              <>
-                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`}
-                  onClick={() => { onSendToStash(infoTag.idx!); setInfoTag(null); }}>Stash</button>
-                <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`}
-                  onClick={() => { onSell(infoTag.idx!, salePriceFor(costFor(infoTag.id))); setInfoTag(null); }}>
-                  Sell ({salePriceFor(costFor(infoTag.id))}gc)
-                </button>
-              </>
-            ) : infoTag.kind === 'pending' && infoTag.idx !== null ? (
-              <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`}
-                onClick={() => { onRemoveAtIdx(infoTag.idx!); setInfoTag(null); }}>Remove</button>
-            ) : undefined
-          }
-        />
+        // Read-only: stashing, selling and removing live in the fighter edit panel
+        <EquipmentInfoSheet id={infoTag.id} onClose={() => setInfoTag(null)} />
         </span>
       )}
     </div>
