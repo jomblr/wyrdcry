@@ -113,11 +113,11 @@ export default function WarbandBuilder() {
     document.documentElement.classList.add('wb-hide-navbar');
     return () => document.documentElement.classList.remove('wb-hide-navbar');
   }, [hideNavbar]);
-  // Print the builder in landscape with slim margins. Added only while the builder is mounted,
-  // so printing other pages keeps the browser's defaults.
+  // Print the builder with slim margins. No `size`: setting one hides the orientation choice in
+  // Chrome's print dialog. Added only while the builder is mounted, so other pages keep the defaults.
   useEffect(() => {
     const style = document.createElement('style');
-    style.textContent = '@page { size: landscape; margin: 8mm; }';
+    style.textContent = '@page { margin: 8mm; }';
     document.head.appendChild(style);
     return () => style.remove();
   }, []);

@@ -2608,6 +2608,15 @@ button.fighterCardTag {
   .builderShell {
     zoom: 0.8;
   }
+
+  /* Same tracks as .fighterGrid without the drag handle and ⋮ menu columns, which aren't printed */
+  .fighterGrid {
+    grid-template-columns:
+      minmax(7rem, 165px)
+      repeat(6, var(--stat-col))
+      minmax(8rem, 2.2fr) minmax(5rem, 1fr)
+      2.2rem 3.4rem;
+  }
 }
 
 /* Interactive chrome that has no meaning on paper */

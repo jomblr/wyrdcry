@@ -226,7 +226,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   return (
     <div ref={setNodeRef} className={styles.gridRow} style={dragStyle}>
       {/* Drag handle */}
-      <div className={`${styles.cell} ${styles.cellCenter} ${styles.dragHandleCell}`}>
+      <div className={`${styles.cell} ${styles.cellCenter} ${styles.dragHandleCell} ${styles.noPrint}`}>
         <button
           type="button"
           className={styles.dragHandle}
@@ -390,7 +390,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       )}
 
       {/* Ellipsis menu */}
-      <div className={`${styles.cell} ${styles.cellCenter}`}>
+      <div className={`${styles.cell} ${styles.cellCenter} ${styles.noPrint}`}>
         <button
           type="button"
           ref={btnRef}
