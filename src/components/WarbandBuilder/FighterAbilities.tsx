@@ -30,7 +30,8 @@ export default function FighterAbilities({ abilities, tagClassName }: { abilitie
           type="button"
           key={a.id}
           className={`${styles.equipmentTag} ${tagClassName ?? ''}`}
-          onClick={() => setOpenId(a.id)}
+          // Inside a clickable table row: show the rule without also opening the fighter panel
+          onClick={e => { e.stopPropagation(); setOpenId(a.id); }}
         >
           {abilityLabel(a)}
         </button>

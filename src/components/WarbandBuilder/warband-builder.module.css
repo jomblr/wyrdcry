@@ -271,10 +271,12 @@
   align-items: center;
 }
 
+/* Tab count and active tab come from --tab-count / --tab-index (default: two tabs, first active) */
 .tabToggleInner {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, …) keeps the columns equal (the sliding indicator assumes that) whatever the labels */
+  grid-template-columns: repeat(var(--tab-count, 2), minmax(0, 1fr));
   align-items: stretch;
   padding: 3px;
   border-radius: var(--ifm-global-radius);
@@ -287,7 +289,8 @@
   top: 3px;
   bottom: 3px;
   left: 3px;
-  width: calc((100% - 6px) / 2);
+  width: calc((100% - 6px) / var(--tab-count, 2));
+  transform: translateX(calc(100% * var(--tab-index, 0)));
   border-radius: calc(var(--ifm-global-radius) - 2px);
   background: var(--ifm-color-primary);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
@@ -679,6 +682,7 @@
 .fighterType {
   font-weight:600;
   font-size: 0.8rem;
+  line-height: 1.25;
   color: var(--wyrd-text3);
 }
 
@@ -737,9 +741,10 @@
   border-radius: 2px;
 }
 
-.statReadonly {
-  cursor: default;
-  pointer-events: none;
+.statReadonly,
+.statReadonly:hover {
+  cursor: inherit;
+  background: none;
 }
 
 /* Stat modified from base value (manual override or armour bonus) */
@@ -754,6 +759,7 @@
   font-family: var(--wyrd-font-body);
   font-size: 1rem;
   font-weight: 600;
+  line-height: 1.25;
   color: inherit;
   padding: 0;
   min-width: 0;
@@ -879,31 +885,23 @@
   border-color: var(--ifm-color-primary);
 }
 
-/* Edit-panel mode: just a row of tags, not an input (the border stays for the drag highlight) */
-.equipmentInputPlain,
-.gridRow:hover .equipmentInputPlain {
-  cursor: default;
-  /* Lines up with the Special rules column: no input padding, same tag gap; the -1px cancels the
-     transparent border kept for the drag highlight */
-  padding: 0;
-  margin: -1px;
-  min-height: 0;
+/* Desktop table: equipment as plain read-only tags, same gap as the Special rules column */
+.equipmentTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 0.3rem;
-  border-color: transparent;
-  background: transparent;
+  width: 100%;
 }
 
-/* Highlighted when a dragged equipment tag hovers over this cell */
-.equipmentInputDragOver {
-  border-color: var(--ifm-color-primary) !important;
-  background: var(--ifm-color-primary-lightest, rgba(99, 179, 237, 0.12)) !important;
-  border-style: dashed !important;
+/* "No equipment": same size as the tags it stands in for */
+.equipmentTags .lockedCell {
+  font-size: 0.8rem;
 }
 
-.equipmentInputDragOverInvalid {
-  border-color: var(--ifm-color-danger, #e03e3e) !important;
-  background: color-mix(in srgb, var(--ifm-color-danger, #e03e3e) 8%, transparent) !important;
-  border-style: dashed !important;
+/* Desktop table: the whole row opens the fighter edit panel */
+.gridRowClickable {
+  cursor: pointer;
 }
 
 /* ─── Warband Stash panel ──────────────────────────────────────────────────── */
@@ -1175,16 +1173,6 @@
   color: var(--ifm-color-content-secondary);
 }
 
-/* Placeholder hidden by default; shown on row hover or when focused/open */
-.equipmentTextInput::placeholder {
-  color: transparent;
-}
-
-.gridRow:hover .equipmentTextInput::placeholder,
-.equipmentInputFocused .equipmentTextInput::placeholder {
-  color: var(--wyrd-text3);
-}
-
 .equipmentTag {
   display: inline-flex;
   align-items: center;
@@ -1202,17 +1190,6 @@
   user-select: none;
 }
 
-.equipmentTagFocused {
-  background: var(--ifm-color-primary);
-  color: var(--ifm-color-primary-contrast-foreground, #fff);
-}
-
-.equipmentTagFixed {
-  cursor: default;
-  font-style: italic;
-  background: none;
-  padding: 0;
-}
 
 .equipmentTagPending {
   background: color-mix(in srgb, var(--ifm-color-primary) 20%, rgba(128,128,128,0.14));
@@ -1222,112 +1199,6 @@
 :global(html[data-theme='dark']) .equipmentTagPending {
   background: color-mix(in srgb, var(--ifm-color-warning, #f0ad4e) 22%, rgba(128,128,128,0.14));
   color: var(--ifm-color-warning, #f0ad4e);
-}
-
-/* The invisible inline text input that grows with content */
-.equipmentTextInput {
-  flex: 1 1 0;
-  min-width: 0;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0;
-  font-family: var(--wyrd-font-body);
-  font-size: 0.8rem;
-  color: inherit;
-}
-
-.valueCell {
-  cursor: pointer;
-}
-
-.valueCell:hover span {
-  background: var(--ifm-color-emphasis-200);
-  border-radius: 3px;
-  padding: 0.1rem 0.3rem;
-  transition: background 0.1s;
-}
-
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modalBox {
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--wyrd-border);
-  border-radius: 6px;
-  padding: 1rem 1.25rem;
-  min-width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.modalTitle {
-  font-family: 'Alegreya', serif;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.modalRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.85rem;
-}
-
-.modalTotalRow {
-  font-weight: 600;
-}
-
-.modalLabel {
-  color: var(--wyrd-text2);
-}
-
-.modalTotalRow .modalLabel {
-  color: inherit;
-}
-
-.modalCostCell {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.modalCostInput {
-  width: 4rem;
-  text-align: right;
-  background: none;
-  border: 1px solid var(--wyrd-border);
-  border-radius: 3px;
-  padding: 0.1rem 0.3rem;
-  font-size: 0.85rem;
-  color: inherit;
-  font-family: var(--wyrd-font-body);
-}
-
-.modalGc {
-  font-size: 0.8rem;
-  color: var(--wyrd-text3);
-}
-
-.modalCostValue {
-  min-width: 4rem;
-  text-align: right;
-  display: inline-block;
-}
-
-.modalDivider {
-  border-top: 1px solid var(--wyrd-border);
-  margin: 0.15rem 0;
 }
 
 .modalField {
@@ -1345,32 +1216,6 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
-}
-
-.modalSaveBtn {
-  padding: 0.3rem 0.9rem;
-  font-size: 0.85rem;
-  font-family: var(--wyrd-font-body);
-  background: var(--ifm-color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-:global(html[data-theme='dark']) .modalSaveBtn {
-  color: #0a0a0a;
-}
-
-.modalSaveBtn:hover {
-  background: var(--ifm-color-primary-dark);
 }
 
 .notesTextarea {
@@ -1625,7 +1470,7 @@
   background: var(--ifm-hover-overlay);
 }
 
-/* ─── Fighter edit panel (floating sheet) ───────────────────────────────────── */
+/* ─── Fighter edit panel (floating sheet on mobile, drawer on desktop) ─────── */
 
 .editPanelOverlay {
   position: fixed;
@@ -1653,23 +1498,54 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
-/* Desktop: a centred dialog instead of a sheet along the bottom */
+/* Dark theme: a shade lighter than the black page so the panel reads as a layer. Set as the
+   variable so anything inside that matches the panel background (sticky heads) follows. */
+:global(html[data-theme='dark']) .editPanel {
+  --ifm-background-color: var(--wyrd-bg3);
+}
+
+/* Desktop: a full-height drawer that slides in from the right over the dimmed table */
 @media (min-width: 800px) {
+  .editPanelOverlay {
+    animation: editPanelFadeIn 0.2s ease-out;
+  }
+
   .editPanel {
-    --edit-panel-gap: 2rem;
-    left: 50%;
-    right: auto;
-    top: 50%;
-    bottom: auto;
-    width: min(560px, calc(100vw - 2 * var(--edit-panel-gap)));
-    max-height: calc(100dvh - 2 * var(--edit-panel-gap));
-    transform: translate(-50%, -50%);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: min(440px, 100vw);
+    max-height: none;
+    border: none;
+    border-left: 1px solid var(--wyrd-border);
+    border-radius: 0;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.35);
+    animation: editPanelSlideIn 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@keyframes editPanelSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes editPanelFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editPanel,
+  .editPanelOverlay {
+    animation: none;
   }
 }
 
 .editPanelTop {
-  padding: 0.6rem 3rem 0.85rem;
-  text-align: center;
+  /* Left edge matches the panel body (1rem); the right keeps room for the close button */
+  padding: 0.6rem 3rem 0.85rem 1rem;
+  text-align: left;
   position: relative;
   border-bottom: 1px solid var(--wyrd-border);
   flex-shrink: 0;
@@ -1688,7 +1564,7 @@
   width: 100%;
   background: none;
   border: none;
-  text-align: center;
+  text-align: left;
   font-family: var(--wyrd-font-heading);
   font-size: 1.9rem;
   font-weight: 400;
@@ -1723,6 +1599,37 @@
 }
 
 .editPanelCloseBtn:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-hover-overlay);
+}
+
+/* Name field with the random-name button before it */
+.editPanelNameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.editPanelNameRow .editPanelNameInput {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Same look as the close button. The negative margin lines the icon up with the type label above. */
+.editPanelNameRandom {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.3rem;
+  margin-left: -0.3rem;
+  background: none;
+  border: none;
+  border-radius: var(--ifm-global-radius);
+  color: var(--wyrd-text3);
+  cursor: pointer;
+}
+
+.editPanelNameRandom:hover {
   color: var(--ifm-color-content);
   background: var(--ifm-hover-overlay);
 }
@@ -1770,6 +1677,41 @@
 
 .editPanelStatsGrid .panelStatControl {
   padding: 0.15rem;
+}
+
+/* Recruitment cost: same box as the steppers, a typed number plus "gc", centred */
+.editPanelStatsGrid .panelCostControl {
+  justify-content: center;
+  gap: 0;
+}
+
+.panelCostInput {
+  min-width: 0;
+  width: auto;
+  padding: 0.1rem 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-family: inherit;
+  text-align: right;
+}
+
+.panelCostControl:focus-within {
+  border-color: var(--ifm-color-primary);
+}
+
+/* Locked characteristic (Armour, beasts): same box, dimmed, buttons inactive */
+.panelStatControlDisabled {
+  opacity: 0.45;
+}
+
+.panelStatControlDisabled .panelStatBtn {
+  cursor: not-allowed;
+}
+
+.panelStatControlDisabled .panelStatBtn:hover {
+  background: none;
 }
 
 .editPanelStatsGrid .panelStatBtn {
@@ -1833,16 +1775,6 @@
 
 
 
-.editPanelValue {
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-}
-
 /* ─── Equipment Picker ───────────────────────────────────────────────────────── */
 
 .equipPicker {
@@ -1863,6 +1795,29 @@
   box-shadow: 0 -2px 0 var(--ifm-background-color);
 }
 
+/* Equipment list headings (Current equipment, Melee Weapon, …): small grey capitals, like the
+   fighter type above the name, so the items stand out */
+.equipHead .editPanelSectionTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wyrd-text3);
+}
+
+/* A full-width divider above every section but the first. The section reaches to the panel edges
+   (out of the body's 1rem padding) and its top padding is more than the 1.1rem the pinned heading's
+   background extends above the heading, so that background never covers the line. */
+.equipPicker > div {
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+}
+
+.equipPicker > div + div {
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--wyrd-border);
+}
+
 .equipHeadToggle {
   width: 100%;
   margin-bottom: 0.35rem;
@@ -1881,6 +1836,27 @@
   padding: 0.6rem 0;
 }
 
+/* Edit panel equipment list: a faint full-width line between items; sections get the stronger
+   line above them. Rows and headings reach out of their section's 1rem padding to the panel
+   edges and pad their content back in. */
+.equipPicker {
+  --equip-line: color-mix(in srgb, var(--wyrd-border) 15%, transparent);
+}
+
+:global(html[data-theme='dark']) .equipPicker {
+  --equip-line: var(--wyrd-bg4);
+}
+
+.equipPicker .equipHead,
+.equipPicker .equipRow {
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+}
+
+.equipPicker .equipRow + .equipRow {
+  border-top: 1px solid var(--equip-line);
+}
+
 .equipPickerName {
   font-size: 1rem;
 }
@@ -1893,26 +1869,18 @@
   text-align: right;
 }
 
-.editPanelValueHint {
-  font-size: 0.72rem;
-  color: var(--wyrd-text3);
-  font-weight: 400;
-}
-
 /* In panel body, always show equipment input border */
 .editPanelBody .equipmentInput {
   border-color: var(--wyrd-border);
   background: var(--ifm-background-surface-color);
 }
 
-.editPanelBody .notesTextarea::placeholder,
-.editPanelBody .equipmentTextInput::placeholder {
+.editPanelBody .notesTextarea::placeholder {
   color: var(--wyrd-text3);
 }
 
 /* In cards, always show placeholders and equipment border (no row-hover context) */
-.fighterCard .notesTextarea::placeholder,
-.fighterCard .equipmentTextInput::placeholder {
+.fighterCard .notesTextarea::placeholder {
   color: var(--wyrd-text3);
 }
 
@@ -2342,6 +2310,19 @@ button.statCard:not(:disabled) {
   margin: 0 0 0.6rem;
 }
 
+/* Keywords in rule text (`Terrifying`): same as on the rule pages (custom.css `.markdown code`) */
+.infoSheetBody code {
+  font-family: 'Inconsolata', monospace;
+  font-size: var(--ifm-code-font-size);
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
 .infoSheetActions {
   display: flex;
   gap: 0.5rem;
@@ -2403,8 +2384,22 @@ button.fighterCardTag {
 }
 
 .editPanelTabs {
-  /* .editPanelTop has 3rem side padding for the close button; the toggle spans past it */
-  margin: 0.75rem -2rem 0;
+  /* .editPanelTop has 3rem right padding for the close button; the toggle spans past it */
+  margin: 0.75rem -2rem 0 0;
+}
+
+/* Up to three tabs here: one line each, tighter padding */
+.editPanelTabs .tabToggleBtn {
+  padding-inline: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 799px) {
+  .editPanelTabs .tabToggleBtn {
+    font-size: 0.85rem;
+  }
 }
 
 .infoSheetBtn:disabled {
@@ -2417,7 +2412,6 @@ button.fighterCardTag {
   padding: 0;
   background: none;
   border: none;
-  border-bottom: 1px dotted currentColor;
   font: inherit;
   color: inherit;
   text-align: left;
@@ -2457,18 +2451,11 @@ button.fighterCardTag {
   color: var(--wyrd-text3);
 }
 
-.currentEquipTags {
-  margin-bottom: 0;
-}
-
-/* Current equipment, pinned in the edit panel header under the pane toggle */
-.editPanelCurrent {
-  margin: 0.85rem -2rem 0;
-  text-align: left;
-}
-
-.editPanelCurrent .editPanelSectionTitle {
-  margin-bottom: 0.35rem;
+/* Current equipment rows: Remove, or Stash + Sell, in the Add buttons' column */
+.equipRowActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
 }
 
 /* Form fields inside an info sheet (New Warband) */

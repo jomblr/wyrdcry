@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import { fightersData, hasTag, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
@@ -33,7 +33,10 @@ interface Props {
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
+  onSetTalents: (talents: string[]) => void;
   onSetCostOverride: (cost: number | null) => void;
+  /** Other fighters' names, so a random name in the edit panel avoids them */
+  otherNames: string[];
   /** Play mode: details only — no renaming, menu, stash or sell */
   readOnly?: boolean;
 }
@@ -54,7 +57,7 @@ export default function FighterCard({
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
   onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader,
-  onSetStat, onSetNotes, onSetCostOverride,
+  onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames,
   readOnly = false,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -137,7 +140,7 @@ export default function FighterCard({
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
         <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
-          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(isBeast || isThrall || isDaemon ? 'information' : 'equipment'); }}>Edit fighter</button>
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen((isBeast || isThrall || isDaemon) && !hasTag(profile, 'MUTANT') ? 'information' : 'equipment'); }}>Edit fighter</button>
           {canMakeLeader && isHero && (
             <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
           )}
@@ -175,14 +178,15 @@ export default function FighterCard({
 
   // Locked for battle: a fighter with no melee weapon (nothing, only ranged, or only armour) fights unarmed.
   const hasMeleeWeapon = [...fixedIds, ...allEquipment, ...naturalWeapons.map(w => w.id)]
-    .some(id => weaponsData.find(w => w.id === id)?.type === 'melee');
+    .some(id => ['melee', 'mutated'].includes(weaponsData.find(w => w.id === id)?.type ?? ''));
   const unarmed = readOnly && !hasMeleeWeapon ? weaponsData.find(w => w.id === 'unarmed') : undefined;
 
   function equipCostOf(id: string): number {
     return weaponsData.find(x => x.id === id)?.cost ?? itemsData.find(x => x.id === id)?.cost ?? 0;
   }
 
-  const abilities = fighterAbilities(profile.faction_ability_ids);
+  // Profile abilities, then talents, injuries and mutations taken in the campaign
+  const abilities = fighterAbilities([...(profile.faction_ability_ids ?? []), ...(instance.talents ?? [])]);
 
   // Read-only: stashing and selling live in the edit panel, so a tap to read can't lose gear.
   const infoSheet = info ? <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} /> : null;
@@ -240,7 +244,8 @@ export default function FighterCard({
           <div className={styles.fighterCardTags}>
             {equipGroups.map(g => {
               // Unbought: new gear on a bought fighter, or any (non-fixed) gear on an unbought one
-              const unbought = g.pending || (instance.isPending && !g.fixed);
+              // (mutated weapons are never bought, so never shown as unbought or priced)
+              const unbought = !isMutatedWeapon(g.id) && (g.pending || (instance.isPending && !g.fixed));
               return (
                 <button
                   type="button"
@@ -358,6 +363,8 @@ export default function FighterCard({
           onSetStat={onSetStat}
           onSetNotes={onSetNotes}
           onSetCostOverride={onSetCostOverride}
+          onSetTalents={onSetTalents}
+          otherNames={otherNames}
           onClose={() => setEditOpen(false)}
         />
       )}

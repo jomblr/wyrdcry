@@ -20,7 +20,7 @@ export default function EquipmentInfoSheet({ id, onClose, natural, actions }: Pr
   return (
     <InfoSheet
       title={w?.name ?? item?.name ?? id}
-      subtitle={natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
+      subtitle={natural ? 'Natural weapon' : w?.type === 'mutated' ? 'Mutated weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
       onClose={onClose}
       actions={actions}
     >

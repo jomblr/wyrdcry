@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { X } from 'lucide-react';
+import { Dices, X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
-import EquipmentPicker, { CurrentEquipment, NaturalWeapons } from './EquipmentPicker';
+import { fightersData, hasTag, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
+import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
+import TalentPicker from './TalentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
-import ValueModal from './ValueModal';
+import { newFighterName } from './names';
 import { salePriceFor } from './WarbandStash';
 
 interface Props {
@@ -23,9 +24,12 @@ interface Props {
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
   onSetCostOverride: (cost: number | null) => void;
+  onSetTalents: (talents: string[]) => void;
   onClose: () => void;
   /** Which pane opens first */
   initialPane?: 'equipment' | 'information';
+  /** Other fighters' names, so a random name avoids them */
+  otherNames: string[];
 }
 
 const STAT_DEFS: { key: StatKey; label: string; suffix?: string; step?: number; min?: number; max?: number; invert?: boolean }[] = [
@@ -49,10 +53,46 @@ export function PanelStat({ label, value, onChange, suffix = '', step = 1, min =
   return (
     <div className={styles.panelStat}>
       <span className={styles.panelStatLabel}>{label}</span>
-      <div className={styles.panelStatControl}>
-        {!readonly && <button type="button" className={styles.panelStatBtn} onClick={dec}>−</button>}
+      {/* Locked stats keep their buttons, disabled, so every box has the same layout */}
+      <div className={`${styles.panelStatControl} ${readonly ? styles.panelStatControlDisabled : ''}`}>
+        <button type="button" className={styles.panelStatBtn} onClick={dec} disabled={readonly} aria-label={`Lower ${label}`}>−</button>
         <span className={`${styles.panelStatValue} ${modified ? styles.statModified : ''}`}>{value}{suffix}</span>
-        {!readonly && <button type="button" className={styles.panelStatBtn} onClick={inc}>+</button>}
+        <button type="button" className={styles.panelStatBtn} onClick={inc} disabled={readonly} aria-label={`Raise ${label}`}>+</button>
+      </div>
+    </div>
+  );
+}
+
+/** Typed-in cost in the same box as the steppers, no buttons. Saves on Enter or when leaving the field. */
+function CostField({ label, value, locked, onCommit }: { label: string; value: number; locked: boolean; onCommit: (v: number) => void }) {
+  const [draft, setDraft] = useState(String(value));
+  const id = useId();
+  useEffect(() => setDraft(String(value)), [value]);
+
+  function commit() {
+    const n = parseInt(draft, 10);
+    if (!isNaN(n) && n >= 0 && n !== value) onCommit(n);
+    else setDraft(String(value));
+  }
+
+  return (
+    <div className={styles.panelStat}>
+      <label className={styles.panelStatLabel} htmlFor={id}>{label}</label>
+      <div className={`${styles.panelStatControl} ${styles.panelCostControl} ${locked ? styles.panelStatControlDisabled : ''}`}>
+        <input
+          id={id}
+          className={`${styles.panelStatValue} ${styles.panelCostInput}`}
+          type="text"
+          inputMode="numeric"
+          value={draft}
+          // Digits only, so `ch` (width of "0") fits the number exactly and "gc" sits right after it
+          style={{ width: `${Math.max(draft.length, 1)}ch` }}
+          disabled={locked}
+          onChange={e => setDraft(e.target.value.replace(/[^0-9]/g, ''))}
+          onBlur={commit}
+          onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+        />
+        <span className={styles.panelStatValue}>gc</span>
       </div>
     </div>
   );
@@ -66,12 +106,12 @@ export default function FighterEditPanel({
   onSell,
   stash,
   onTakeFromStash,
-  onSetStat, onSetNotes, onSetCostOverride,
+  onSetStat, onSetNotes, onSetCostOverride, onSetTalents,
   onClose,
   initialPane = 'equipment',
+  otherNames,
 }: Props) {
-  const [pane, setPane] = useState<'equipment' | 'information'>(initialPane);
-  const [valueModalOpen, setValueModalOpen] = useState(false);
+  const [pane, setPane] = useState<'equipment' | 'talents' | 'information'>(initialPane);
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
   // The label (Armour) comes from statLabels in gameData.
@@ -83,6 +123,15 @@ export default function FighterEditPanel({
   const isBeast = hasTag(profile, 'BEAST');
   const isThrall = hasTag(profile, 'THRALL');
   const isDaemon = hasTag(profile, 'DAEMON');
+  const isMutant = hasTag(profile, 'MUTANT');
+  const profileRules = profile.faction_ability_ids ?? [];
+  // Special rules tab for fighters with rules of their own, or that can take heroic talents and
+  // injuries (heroes) or mutations (MUTANTs)
+  const tabs: { id: 'equipment' | 'talents' | 'information'; label: string }[] = [
+    { id: 'equipment', label: 'Equipment' },
+    ...(profileRules.length > 0 || isHero || isMutant ? [{ id: 'talents' as const, label: 'Special rules' }] : []),
+    { id: 'information', label: 'Information' },
+  ];
   const noEquipment = isBeast || isThrall || isDaemon;
   const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
@@ -97,14 +146,7 @@ export default function FighterEditPanel({
     return sum;
   }, 0);
 
-  const equipCost = instance.equipment.reduce((sum, eid) => {
-    const w = weaponsData.find(x => x.id === eid);
-    if (w) return sum + w.cost;
-    const item = itemsData.find(x => x.id === eid);
-    return sum + (item?.cost ?? 0);
-  }, 0);
   const baseCost = instance.costOverride ?? profile.cost ?? 0;
-  const totalCost = baseCost + equipCost;
 
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
@@ -118,10 +160,19 @@ export default function FighterEditPanel({
     return override !== undefined && override !== base;
   }
 
+  // Bought gear waits in pendingEquipment until Purchase; a mutated weapon isn't bought, so it
+  // goes straight onto the fighter
+  const onAddItem = (id: string) => {
+    if (instance.isPending || isMutatedWeapon(id)) onSetEquipment([...instance.equipment, id]);
+    else onSetPendingEquipment([...instance.pendingEquipment, id]);
+  };
   const onRemoveLastItem = (id: string) => {
     const lastIdx = allEquipment.lastIndexOf(id);
     if (lastIdx === -1) return;
-    if (instance.isPending) {
+    if (isMutatedWeapon(id) && lastIdx < instance.equipment.length) {
+      // Not stashed: a mutation can't be handed to another fighter
+      onSetEquipment(instance.equipment.filter((_, i) => i !== lastIdx));
+    } else if (instance.isPending) {
       onSetEquipment(instance.equipment.filter((_, i) => i !== lastIdx));
     } else if (lastIdx < instance.equipment.length) {
       onSendToStash(lastIdx);
@@ -147,54 +198,83 @@ export default function FighterEditPanel({
         {/* Header */}
         <div className={styles.editPanelTop}>
           <div className={styles.editPanelType}>{profile.name}</div>
-          <input
-            className={styles.editPanelNameInput}
-            value={instance.customName}
-            onChange={e => onSetName(e.target.value)}
-            placeholder="Fighter name"
-            aria-label="Fighter name"
-          />
+          <div className={styles.editPanelNameRow}>
+            {/* Beasts and thralls keep their profile name, so there's nothing to reroll */}
+            {!isBeast && !isThrall && (
+              <button
+                type="button"
+                className={styles.editPanelNameRandom}
+                onClick={() => onSetName(newFighterName(profile, [...otherNames, instance.customName]))}
+                aria-label="Random name"
+                title="Random name"
+              >
+                <Dices size={18} />
+              </button>
+            )}
+            <input
+              className={styles.editPanelNameInput}
+              value={instance.customName}
+              onChange={e => onSetName(e.target.value)}
+              placeholder="Fighter name"
+              aria-label="Fighter name"
+            />
+          </div>
           <button type="button" className={styles.editPanelCloseBtn} onClick={onClose} aria-label="Close">
             <X size={18} />
           </button>
           <div className={`${styles.tabToggle} ${styles.editPanelTabs}`} role="tablist" aria-label="Fighter section">
-            <div className={`${styles.tabToggleInner} ${styles.tabToggleFullWidth}`} data-active={pane === 'equipment' ? 'fighters' : 'information'}>
+            <div
+              className={`${styles.tabToggleInner} ${styles.tabToggleFullWidth}`}
+              style={{ '--tab-count': tabs.length, '--tab-index': Math.max(0, tabs.findIndex(t => t.id === pane)) } as React.CSSProperties}
+            >
               <span className={styles.tabToggleIndicator} aria-hidden />
-              <button type="button" role="tab" aria-selected={pane === 'equipment'}
-                className={`${styles.tabToggleBtn} ${pane === 'equipment' ? styles.tabToggleBtnActive : ''}`}
-                onClick={() => setPane('equipment')}>Equipment</button>
-              <button type="button" role="tab" aria-selected={pane === 'information'}
-                className={`${styles.tabToggleBtn} ${pane === 'information' ? styles.tabToggleBtnActive : ''}`}
-                onClick={() => setPane('information')}>Information</button>
+              {tabs.map(t => (
+                <button key={t.id} type="button" role="tab" aria-selected={pane === t.id}
+                  className={`${styles.tabToggleBtn} ${pane === t.id ? styles.tabToggleBtnActive : ''}`}
+                  onClick={() => setPane(t.id)}>{t.label}</button>
+              ))}
             </div>
           </div>
-          {pane === 'equipment' && !noEquipment && (
-            <div className={styles.editPanelCurrent}>
-              <div className={styles.editPanelSectionTitle}>Current equipment</div>
-              <CurrentEquipment
-                fixedEquipment={fixedEquipment}
-                allEquipment={allEquipment}
-                purchasedEquipment={instance.isPending ? [] : instance.equipment}
-                onStash={onStashItem}
-                onSell={onSellItem}
-                onRemoveLast={onRemoveLastItem}
-              />
-            </div>
-          )}
         </div>
 
         {/* Body — keyed by pane so each opens scrolled to the top */}
         <div key={pane} className={styles.editPanelBody}>
 
-          {pane === 'equipment' ? (
+          {pane === 'talents' ? (
+            <div className={styles.editPanelSection}>
+              <TalentPicker profileRules={profileRules} talents={instance.talents ?? []} isHero={isHero} isMutant={isMutant} onChange={onSetTalents} />
+            </div>
+          ) : pane === 'equipment' ? (
             <>
           {/* Equipment */}
           <div className={styles.editPanelSection}>
             {noEquipment ? (
               // Beasts, thralls and daemons can't buy equipment: just show what they're born with.
-              <NaturalWeapons weaponIds={fixedEquipment} />
+              // MUTANTs among them (the Possessed) can still grow the mutated weapons.
+              <>
+                {!isMutant && <NaturalWeapons weaponIds={fixedEquipment} />}
+                {isMutant && (
+                  <EquipmentPicker
+                    mutatedOnly
+                    naturalWeapons={fixedEquipment}
+                    allEquipment={allEquipment}
+                    fixedEquipment={[]}
+                    purchasedEquipment={instance.isPending ? [] : instance.equipment}
+                    factionId={profile.faction}
+                    isHero={isHero}
+                    isWizard={isWizard}
+                    isBeast={false}
+                    remainingGold={remainingGold}
+                    onAdd={onAddItem}
+                    onRemoveLast={onRemoveLastItem}
+                    onStash={onStashItem}
+                    onSell={onSellItem}
+                  />
+                )}
+              </>
             ) : (
               <EquipmentPicker
+                isMutant={isMutant}
                 allEquipment={allEquipment}
                 fixedEquipment={fixedEquipment}
                 purchasedEquipment={instance.isPending ? [] : instance.equipment}
@@ -205,10 +285,7 @@ export default function FighterEditPanel({
                 remainingGold={remainingGold}
                 stash={stash}
                 onTakeFromStash={instance.isPending ? undefined : onTakeFromStash}
-                onAdd={id => {
-                  if (instance.isPending) onSetEquipment([...instance.equipment, id]);
-                  else onSetPendingEquipment([...instance.pendingEquipment, id]);
-                }}
+                onAdd={onAddItem}
                 onRemoveLast={onRemoveLastItem}
                 onStash={onStashItem}
                 onSell={onSellItem}
@@ -235,7 +312,8 @@ export default function FighterEditPanel({
                   max={max}
                   invert={invert}
                   modified={isModified(key) || (key === 'defense' && defenseBonus > 0)}
-                  readonly={isBeast}
+                  // Armour comes from the profile plus armour items, so it isn't set by hand
+                  readonly={isBeast || key === 'defense'}
                 />
               ))}
             </div>
@@ -247,29 +325,12 @@ export default function FighterEditPanel({
             <SpecialRulesCell notes={instance.notes ?? ''} onChange={onSetNotes} />
           </div>
 
-          {/* Renown */}
-          {!noRenown && (
-            <div className={styles.editPanelSection}>
-              <div className={styles.editPanelSectionTitle}>Progress</div>
-              {/* Same grid as Characteristics so the stepper matches in size and style */}
-              <div className={styles.editPanelStatsGrid}>
-                <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />
-              </div>
-            </div>
-          )}
-
-          {/* Value */}
+          {/* Renown and recruitment cost side by side, in the Characteristics grid. The cost
+              can only change before the fighter is bought. */}
           <div className={styles.editPanelSection}>
-            <div className={styles.editPanelSectionTitle}>Value</div>
-            <div
-              className={`${styles.editPanelValue} ${instance.isPending ? styles.valueCell : ''}`}
-              onClick={() => instance.isPending && setValueModalOpen(true)}
-            >
-              <span className={instance.isPending ? styles.pendingCost : undefined}>
-                {totalCost}gc
-                {instance.costOverride !== null && instance.costOverride !== undefined && instance.costOverride !== (profile?.cost ?? 0) ? '*' : ''}
-              </span>
-              {instance.isPending && <span className={styles.editPanelValueHint}>tap to adjust base cost</span>}
+            <div className={styles.editPanelStatsGrid}>
+              {!noRenown && <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />}
+              <CostField label="Recruitment cost" value={baseCost} locked={!instance.isPending} onCommit={onSetCostOverride} />
             </div>
           </div>
 
@@ -284,15 +345,6 @@ export default function FighterEditPanel({
         </div>
       </div>
 
-      {valueModalOpen && (
-        <ValueModal
-          fighterName={instance.customName || profile?.name || 'Fighter'}
-          baseCost={baseCost}
-          equipment={instance.equipment}
-          onCostChange={cost => onSetCostOverride(cost)}
-          onClose={() => setValueModalOpen(false)}
-        />
-      )}
     </>
   );
 

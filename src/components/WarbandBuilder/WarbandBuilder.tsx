@@ -50,12 +50,12 @@ export default function WarbandBuilder() {
     setFighterRenown,
     setFighterStat,
     setFighterNotes,
+    setFighterTalents,
     setFighterCostOverride,
     setFighterEquipment,
     setFighterPendingEquipment,
     purchasePending,
     reorderFighters,
-    transferEquipment,
     sendToStash,
     takeFromStash,
     removeFromStash,
@@ -315,12 +315,12 @@ export default function WarbandBuilder() {
               onSetFighterRenown={setFighterRenown}
               onSetFighterStat={setFighterStat}
               onSetFighterNotes={setFighterNotes}
+              onSetFighterTalents={setFighterTalents}
               onSetFighterCostOverride={setFighterCostOverride}
               onSetFighterEquipment={setFighterEquipment}
               onSetFighterPendingEquipment={setFighterPendingEquipment}
               onRemoveFighter={removeFighter}
               onDuplicateFighter={duplicateFighter}
-              onTransferEquipment={transferEquipment}
               onAddFighter={addFighter}
               onReorderFighters={reorderFighters}
               onSendToStash={sendToStash}

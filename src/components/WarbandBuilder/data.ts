@@ -23,14 +23,28 @@
  */
 import { STABLE_DATA, type GameData, type StatLabels } from '@site/src/data/gameData';
 
-let active: GameData = STABLE_DATA;
+/**
+ * Mutated weapons (Tentacles, Great Claw, …) come from rolling on the mutation table, never
+ * from buying, so the builder treats them as free whatever cost the data gives them. Done here
+ * once so totals, the Purchase sum, affordability and sale prices all agree.
+ */
+function forBuilder(data: GameData): GameData {
+  return { ...data, weapons: data.weapons.map(w => (w.type === 'mutated' ? { ...w, cost: 0 } : w)) };
+}
+
+let active: GameData = forBuilder(STABLE_DATA);
 
 /**
  * Point the builder at a version's data. Call before the builder renders
  * (warband-builder.tsx does this, then keys the builder by version).
  */
 export function setBuilderData(data: GameData): void {
-  active = data;
+  active = forBuilder(data);
+}
+
+/** Mutated weapons are part of the fighter's body: free, added straight away, and only removed. */
+export function isMutatedWeapon(id: string): boolean {
+  return active.weapons.some(w => w.id === id && w.type === 'mutated');
 }
 
 /** Forward every property read to the active version's value for `key`. */

@@ -14,5 +14,5 @@ export default function FighterKeywords({ race, keywords }: Props) {
   // Some keywords (THRALL, BEAST) exist as both a race and an archetype.
   const tokens = Array.from(new Set([...race, ...keywords]));
   if (tokens.length === 0) return null;
-  return <span className={styles.fighterKeywords}>{tokens.join(', ')}</span>;
+  return <span className={styles.fighterKeywords}>{tokens.join(' · ')}</span>;
 }
