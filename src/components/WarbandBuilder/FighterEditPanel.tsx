@@ -65,8 +65,8 @@ export function PanelStat({ label, value, onChange, suffix = '', step = 1, min =
 
 /** Typed-in cost in the same box as the steppers, no buttons. Saves on Enter or when leaving the field. */
 /**
- * A labelled box you type a whole number into, e.g. "120 gc": recruitment cost, Add Gold and
- * Favour. Controlled: `value` is the text as typed (digits only).
+ * A labelled box you type a whole number into, e.g. "120 gc": recruitment cost and Add Gold.
+ * Controlled: `value` is the text as typed (digits only).
  */
 export function NumberField({ label, value, onChange, suffix, disabled = false, autoFocus, onBlur, onEnter }: {
   label: string;
@@ -104,7 +104,7 @@ export function NumberField({ label, value, onChange, suffix, disabled = false, 
 }
 
 /** A NumberField for a stored value: saved on Enter or leaving the field, reset if left empty. */
-export function CommitNumberField({ label, value, suffix, locked = false, onCommit }: {
+function CommitNumberField({ label, value, suffix, locked = false, onCommit }: {
   label: string; value: number; suffix?: string; locked?: boolean; onCommit: (v: number) => void;
 }) {
   const [draft, setDraft] = useState(String(value));

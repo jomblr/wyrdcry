@@ -467,7 +467,8 @@
   font-weight: 600;
 }
 
-.goldCell {
+/* Desktop info row: Favour and Gold open their dialogs */
+.clickableCell {
   cursor: pointer;
 }
 
@@ -2067,6 +2068,12 @@ button.statCard:not(:disabled) {
   font-weight: 600;
   font-size: 0.85rem;
   color: #9ea3a5;
+}
+
+/* Favour and Gold are buttons: a dotted underline shows they can be changed (not while locked) */
+.statCard:enabled .statCardLabel {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
 }
 
 .statCardValue {

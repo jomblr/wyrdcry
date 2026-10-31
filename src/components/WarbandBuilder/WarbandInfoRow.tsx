@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import InfoSheet from './InfoSheet';
-import { CommitNumberField, NumberField } from './FighterEditPanel';
+import { NumberField, PanelStat } from './FighterEditPanel';
 import useAnimatedNumber from './useAnimatedNumber';
-import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
 import { calcReputation, calcStanding, calcValue, getFavourTier } from './useWarband';
 import styles from './warband-builder.module.css';
@@ -175,10 +174,11 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           </div>
 
           {/* Favour */}
-          <div className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''}`}>
-            {locked ? '—' : (
-              <StatSpinner value={warband.favour} min={0} onChange={onSetFavour} />
-            )}
+          <div
+            className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : styles.clickableCell}`}
+            onClick={() => !locked && setFavourOpen(true)}
+          >
+            {locked ? '—' : warband.favour}
           </div>
 
           {/* Standing */}
@@ -198,7 +198,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
 
           {/* Gold */}
           <div
-            className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''} ${!locked && !hasPending ? styles.goldCell : ''}`}
+            className={`${styles.cell} ${styles.cellCenter} ${locked ? styles.lockedCell : ''} ${!locked && !hasPending ? styles.clickableCell : ''}`}
             onMouseEnter={() => !locked && !hasPending && setGoldHovered(true)}
             onMouseLeave={() => setGoldHovered(false)}
             onClick={openAddGold}
@@ -229,8 +229,9 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           </button>
         }
       >
+        {/* Same stepper as the fighter characteristics */}
         <div className={`${styles.editPanelStatsGrid} ${styles.singleNumberField}`}>
-          <CommitNumberField label="Favour" value={warband.favour} onCommit={onSetFavour} />
+          <PanelStat label="Favour" value={warband.favour} min={0} onChange={onSetFavour} />
         </div>
       </InfoSheet>
     )}
