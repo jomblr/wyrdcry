@@ -5,7 +5,7 @@ title: Step 3 - Explore District
 
 # Step 3: Explore District
 ---
-In this step, you may form a search party to explore the district. To do so, select up to 5 fighters that were not taken out of action during the battle and that don’t have the `BEAST` or `Thrall` keyword.
+In this step, you may form a search party to explore the district. To do so, select up to 5 fighters that were not taken out of action during the battle and that don’t have the `BEAST` or `THRALL` keyword.
 
 Then, roll a die for each fighter in the search party. This is called an **exploration roll.** Some talents, items and encounters will allow you to re-roll or modify the dice results of an exploration roll. However, you may never change die results of 1.
 

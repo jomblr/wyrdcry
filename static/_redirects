@@ -12,3 +12,12 @@
 /docs/0.5/*    /docs/:splat   301
 /docs/rules/the-combat-phase/actions/move-action     /docs/rules/the-combat-phase/actions/move     301
 /docs/rules/the-combat-phase/actions/attack-action   /docs/rules/the-combat-phase/actions/attack   301
+# Faction pages moved from /warbands/Factions/ to core-factions/ and playtest-factions/.
+/docs/warbands/Factions/clan-eshin          /docs/warbands/core-factions/clan-eshin          301
+/docs/warbands/Factions/mercenaries         /docs/warbands/core-factions/mercenaries         301
+/docs/warbands/Factions/possessed           /docs/warbands/core-factions/possessed           301
+/docs/warbands/Factions/sisters-of-sigmar   /docs/warbands/core-factions/sisters-of-sigmar   301
+/docs/warbands/Factions/undead              /docs/warbands/core-factions/undead              301
+/docs/warbands/Factions/witch-hunters       /docs/warbands/core-factions/witch-hunters       301
+/docs/warbands/Factions/Playtest/elven-rangers   /docs/warbands/playtest-factions/elf-rangers   301
+/docs/warbands/Factions                     /docs/warbands/core-factions/clan-eshin          301

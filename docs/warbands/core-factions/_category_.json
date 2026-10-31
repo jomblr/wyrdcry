@@ -1,5 +1,6 @@
 {
-  "label": "Factions",
+  "label": "Core Factions",
+  "position": 2,
   "collapsible": true,
   "collapsed": false
 }

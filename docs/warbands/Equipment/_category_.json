@@ -1,5 +1,6 @@
 {
   "label": "Equipment",
   "collapsible": true,
-  "collapsed": false
+  "collapsed": false,
+  "position": 4
 }

@@ -60,16 +60,16 @@ This means that there's now a shiny new tab on the website with downloads for bo
 ### Factions
 ---
 - **Clan Eshin**
-	- Nerfed [Black-Clad Killers](/docs/warbands/Factions/clan-eshin#faction-trait-black-clad-killers) by forcing revealed fighters to be set up on the battlefield floor. Also removed bonus to Fight. Setting fighters up anywhere felt amazing (very Vermintide) but it was a very stacked ability.
-	- The faction ability Murder-Stab is gone, and replaced by the trait [Strength In Numbers](/docs/warbands/Factions/clan-eshin#trait-strength-in-numbers). Flanking a target now also gives Eshin weapons the piercing 1 weapon rule.
+	- Nerfed [Black-Clad Killers](/docs/warbands/core-factions/clan-eshin#faction-trait-black-clad-killers) by forcing revealed fighters to be set up on the battlefield floor. Also removed bonus to Fight. Setting fighters up anywhere felt amazing (very Vermintide) but it was a very stacked ability.
+	- The faction ability Murder-Stab is gone, and replaced by the trait [Strength In Numbers](/docs/warbands/core-factions/clan-eshin#trait-strength-in-numbers). Flanking a target now also gives Eshin weapons the piercing 1 weapon rule.
 
 - **Possessed**
 	- Applied some of the new weapon rules to the **Mutations** in the mutation Table. The **Scorpion Tail** is now ***poisonous***, and the **Great Claw** is ***brutal***. Tentacles have been corrected to have the **Whipcrack** weapon rule (I guess it can still cause a *whiplash?* hehe.)
 	- The **Mutant** wasn't properly displaying a line saying that you must roll once on the mutation table when recruiting them to the warband.
     
 - **The Undead**
-	- [Ghouls](/docs/warbands/Factions/undead#fighter-ghoul) are a bit weaker and have come down in price so that you can use them for scenario actions! Gory Feast now affects the active Ghoul as well!
-	- The **rotten fangs** of the [Dire Wolf](/docs/warbands/Factions/undead#fighter-dire) now has the Piercing 1 weapon rule.
+	- [Ghouls](/docs/warbands/core-factions/undead#fighter-ghoul) are a bit weaker and have come down in price so that you can use them for scenario actions! Gory Feast now affects the active Ghoul as well!
+	- The **rotten fangs** of the [Dire Wolf](/docs/warbands/core-factions/undead#fighter-dire) now has the Piercing 1 weapon rule.
 
 - **Witch Hunters**
 	- No updates. Feels great on the table.
@@ -78,8 +78,8 @@ This means that there's now a shiny new tab on the website with downloads for bo
 	- Sisters can now buy **Prayer beads** to re-roll failed Bravery tests (great for generating Wyrd Dice with prayer! Make #prayermeta happen!)
 
 - **Mercenaries**
-	- As you can now only [Strategize](/docs/warbands/Factions/mercenaries#fighter-captain) once per battle round the Captain now generates Wyrd Dice on a 4+.
-	- Increasing Armour on a faction that thrives on fighters wearing heavy armour was silly. [Give Order](/docs/warbands/Factions/mercenaries#fighter-captain) now either gives you an offensive boost (Add 1 to fight or shoot) or bolsters morale (Add 1 to Bravery).
+	- As you can now only [Strategize](/docs/warbands/core-factions/mercenaries#fighter-captain) once per battle round the Captain now generates Wyrd Dice on a 4+.
+	- Increasing Armour on a faction that thrives on fighters wearing heavy armour was silly. [Give Order](/docs/warbands/core-factions/mercenaries#fighter-captain) now either gives you an offensive boost (Add 1 to fight or shoot) or bolsters morale (Add 1 to Bravery).
 
 :::inverse[]
 ## What's next?

@@ -20,9 +20,9 @@ Use this version if you
 ---
 The factions will be getting their own PDF:s **soon™**, until then - please use the wiki
 
-- [Clan Eshin (wiki)](./warbands/Factions/clan-eshin)
-- [Mercenaries (wiki)](./warbands/Factions/mercenaries)
-- [Sisters of Sigmar (wiki)](./warbands/Factions/sisters-of-sigmar)
-- [Cult of the Possessed (wiki)](./warbands/Factions/possessed)
-- [The Undead (wiki)](./warbands/Factions/undead)
-- [Witch Hunters (wiki)](./warbands/Factions/witch-hunters)
+- [Clan Eshin (wiki)](./warbands/core-factions/clan-eshin)
+- [Mercenaries (wiki)](./warbands/core-factions/mercenaries)
+- [Sisters of Sigmar (wiki)](./warbands/core-factions/sisters-of-sigmar)
+- [Cult of the Possessed (wiki)](./warbands/core-factions/possessed)
+- [The Undead (wiki)](./warbands/core-factions/undead)
+- [Witch Hunters (wiki)](./warbands/core-factions/witch-hunters)

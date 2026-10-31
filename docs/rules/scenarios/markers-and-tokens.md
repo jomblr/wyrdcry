@@ -15,7 +15,7 @@ A warband is said to be in control of a marker or token if there are more friend
 ### Carrying tokens
 A fighter within 1" of a token in its warband's control can pick it up as a free action. Remove the token from the battlefield, or keep it next to the fighter to indicate that it is carried. A fighter cannot carry more than one token.
 
-Fighters with the `BEAST` or `Thrall` keywords can never pick up or carry tokens.
+Fighters with the `BEAST` keyword can never pick up or carry tokens.
 
 ### Dropping Tokens
 A fighter can use an action to drop a token that they are carrying. The controlling player places the dropped token on the battlefield, within 1” of the fighter. If a fighter carrying a token is taken out of action, they automatically drop the token before being removed from the battlefield.

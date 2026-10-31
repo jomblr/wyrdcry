@@ -11,12 +11,12 @@ You may either [download a roster](/files/warband-roster.pdf) or use the [Warban
 ---
 All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. The factions are:
 
-- [Clan Eshin](./Factions/clan-eshin.mdx)
-- [Mercenaries](./Factions/mercenaries.mdx)
-- [Witch Hunters](Factions/witch-hunters.mdx)
-- [The Cult of The Possessed](./Factions/possessed.mdx)
-- [Sisters of Sigmar](./Factions/sisters-of-sigmar.mdx)
-- [The Undead](./Factions/undead.mdx)
+- [Clan Eshin](core-factions/clan-eshin.mdx)
+- [Mercenaries](core-factions/mercenaries.mdx)
+- [Witch Hunters](core-factions/witch-hunters.mdx)
+- [The Cult of The Possessed](core-factions/possessed.mdx)
+- [Sisters of Sigmar](core-factions/sisters-of-sigmar.mdx)
+- [The Undead](core-factions/undead.mdx)
 
 After selecting a faction you must note down the faction name on your warband roster.
 
@@ -35,7 +35,7 @@ Purchase equipment for your fighters while following these restrictions:
 - A fighter may be equipped with up to two melee weapons, one ranged weapon and a suit of armour.
 	- A fighter can forfeit one melee weapon to wear a shield.
 - Any equipment marked with `Hero` may only be equipped by a `Hero`
-- `Beasts` cannot use any equipment, and their natural weapons are listed in their respective fighter profile.
+- `BEASTS` cannot use any equipment, and their natural weapons are listed in their respective fighter profile.
 
 ## Step 5: Finishing Touches
 ---

@@ -306,3 +306,32 @@ export function FactionSpecialRules({ factionId }: Props) {
     </div>
   );
 }
+
+const ABILITY_TYPE_ORDER = ['trait', 'reaction', 'double', 'triple', 'quad'];
+
+/**
+ * The faction's own abilities: its `faction_ability_ids` in `factions.json` (not every ability filed
+ * under the faction). Sorted Trait → Reaction → Double → Triple → Quad, formatted like the fighter cards.
+ * Put your heading in MDX above this. Renders nothing if there are none.
+ */
+export function FactionAbilities({ factionId }: Props) {
+  const { abilities } = useGameData();
+  const faction = useFactionOrNull(factionId);
+  const ids = new Set<string>((faction?.faction_ability_ids ?? []) as string[]);
+  const list = abilities
+    .filter(a => ids.has(a.id))
+    .sort((a, b) => {
+      const rank = (t: string) => (ABILITY_TYPE_ORDER.indexOf(t) + 1 || ABILITY_TYPE_ORDER.length + 1);
+      return rank(a.ability_type) - rank(b.ability_type) || a.name.localeCompare(b.name);
+    });
+  if (list.length === 0) {
+    return null;
+  }
+  const label = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+  const source = list.map(a => `**[${label(a.ability_type)}] ${a.name}:** ${a.description}`).join('\n\n');
+  return (
+    <div className={clsx('fighter-abilities', ThemeClassNames.docs.docMarkdown, 'markdown')}>
+      <ReactMarkdown components={specialRulesMarkdownComponents}>{source}</ReactMarkdown>
+    </div>
+  );
+}

@@ -4,8 +4,6 @@ title: Appendix - Keywords
 ---
 
 # Keywords
-## Racial Keywords
-These keywords are primarily used when a fighter gains Renown and makes a characteristic increase, but are sometimes used for special rules such as hatred.
 ## Faction Keywords
 - `Witch Hunters`
 - `Sisters of Sigmar`
@@ -30,8 +28,14 @@ These keywords are primarily used when a fighter gains Renown and makes a charac
 	- Cannot be equipped with armour
 - <span Id='Henchman'>`Henchman`</span>
 	- Can increase a characteristic when [earning renown](../campaigns/the-aftermath-sequence/earn-renown.md). Each characteristic can be increased once.
-	- Becomes a `hero` when earning their 4th point of Renown
-- <span Id='Beast'>`Beasts` and `Thralls`</span>
+	- Becomes a `HERO` when earning their 4th point of Renown
+- <span Id='Beast'>`BEAST`</span>
 	- Never earns Renown
+	- Cannot be part of a search party
 	- Cannot pick up or carry tokens
 	- Cannot be given equipment, but uses [natural weapons](../warbands/Equipment/weapons.mdx#natural-weapons)
+- <span Id='Thrall'>`THRALL`</span>
+	- Never earns Renown
+	- Cannot be part of a search party
+	- Cannot be given equipment, but uses [natural weapons](../warbands/Equipment/weapons.mdx#natural-weapons)
+	- Suffers 2 damage points when activated while their warband is wavering

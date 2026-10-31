@@ -129,8 +129,10 @@ export function FighterCard({ fighterId }: { fighterId: string }) {
 
 function FighterKeywordLine({ fighter: f }: { fighter: Fighter }) {
   const { factions } = useGameData();
-  const factionName =
-    factions.find(x => x.id === f.faction)?.name ?? f.faction;
+  // Same rule as the faction page header: `warband_keyword` when set (e.g. "Rangers"), else the faction name
+  const faction = factions.find(x => x.id === f.faction) as
+    (typeof factions)[number] & { warband_keyword?: string | null } | undefined;
+  const factionName = faction?.warband_keyword?.trim() || faction?.name || f.faction;
   const races = f.race ?? [];
   const roleKeywords = f.keywords ?? [];
 

@@ -38,7 +38,7 @@ export function mergeWikiToc(
 
 /** Prefer permalink (SSR-safe) over client-only pathname. */
 export function factionIdFromPermalink(permalink: string): string | null {
-  const fromFactions = permalink.match(/\/Factions\/([^/]+)\/?$/i);
+  const fromFactions = permalink.match(/\/(?:Factions|core-factions|playtest-factions)\/([^/]+)\/?$/i);
   if (fromFactions?.[1]) {
     return fromFactions[1];
   }

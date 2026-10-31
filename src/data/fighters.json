@@ -906,6 +906,7 @@
   {
     "id": "elf-ranger",
     "name": "Elf Ranger",
+    "fighter_type": "hired-sword",
     "description": "Elf rangers work as scouts and spies beyond the borders of the high elf realms,\ntracking targets of interest and eliminating them where possible. As hired\nswords, they offer little in comradery, but plenty in murderous efficiency.",
     "move": 6,
     "fight": 4,
@@ -937,8 +938,7 @@
       "mercenaries",
       "witch-hunters"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "ogre-bodyguard",
@@ -1122,6 +1122,7 @@
   {
     "id": "beastman-warrior",
     "name": "Beastman Warrior",
+    "fighter_type": "hired-sword",
     "description": "Beastmen are savage brutes that infest the forests of the Empire: massive horned creatures with a furious temper and an inhuman resistance to pain.",
     "move": 5,
     "fight": 5,
@@ -1151,8 +1152,7 @@
     "recruitable_by": [
       "possessed"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "necromancer",
@@ -1230,15 +1230,16 @@
   {
     "id": "chieftain",
     "name": "Chieftain",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 4,
     "shoot": 3,
     "defense": 0,
-    "health": 14,
+    "health": 16,
     "bravery": 4,
     "power_level": 0,
-    "cost": 100,
+    "cost": 120,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
@@ -1251,8 +1252,7 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "bestigor",
@@ -1310,28 +1310,33 @@
   {
     "id": "gor",
     "name": "Gor",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
-    "fight": 4,
+    "fight": 3,
     "shoot": 3,
     "defense": 0,
     "health": 12,
     "bravery": 5,
-    "power_level": 0,
-    "cost": 80,
+    "power_level": 5,
+    "cost": 75,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
-    "race": [],
+    "race": [
+      "BEASTMAN"
+    ],
     "faction": "beastmen",
-    "keywords": [],
+    "keywords": [
+      "HENCHMAN"
+    ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "ungor",
     "name": "Ungor",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 2,
@@ -1339,30 +1344,34 @@
     "defense": 0,
     "health": 10,
     "bravery": 5,
-    "power_level": 0,
-    "cost": 50,
+    "power_level": 5,
+    "cost": 55,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
-    "race": [],
+    "race": [
+      "BEASTMAN"
+    ],
     "faction": "beastmen",
-    "keywords": [],
+    "keywords": [
+      "HENCHMAN"
+    ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
-    "id": "warhound",
-    "name": "Warhound",
+    "id": "chaos-hound",
+    "name": "Chaos Hound",
+    "fighter_type": "regular",
     "description": "",
-    "move": 8,
+    "move": 6,
     "fight": 4,
     "shoot": 3,
-    "defense": 0,
+    "defense": 1,
     "health": 8,
     "bravery": 5,
     "power_level": 0,
-    "cost": 95,
+    "cost": 65,
     "ability_preamble": "",
     "faction_ability_ids": [],
     "default_equipment": [],
@@ -1374,8 +1383,7 @@
       "BEAST"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "warden",
@@ -1392,8 +1400,6 @@
     "cost": 150,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "unerring-aim",
-      "fleet-of-foot",
       "call-to-battle",
       "one-step-ahead"
     ],
@@ -1422,10 +1428,8 @@
     "bravery": 4,
     "power_level": 20,
     "cost": 120,
-    "ability_preamble": "",
+    "ability_preamble": "When recruiting a Veilwright, you must select one of the following magical abilities. In addition, the Veilwright may select another magical ability instead of selecting a heroic talent.",
     "faction_ability_ids": [
-      "unerring-aim",
-      "fleet-of-foot",
       "misdirection",
       "mind-razor",
       "fools-gold"
@@ -1456,10 +1460,7 @@
     "power_level": 5,
     "cost": 110,
     "ability_preamble": "",
-    "faction_ability_ids": [
-      "unerring-aim",
-      "fleet-of-foot"
-    ],
+    "faction_ability_ids": [],
     "default_equipment": [],
     "race": [
       "ELF"

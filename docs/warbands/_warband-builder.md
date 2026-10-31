@@ -5,7 +5,7 @@ title: Warband Builder (Beta)
 
 # The Warband Builder (Beta)
 :::warning
-The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](./warband-builder.md#export-warband) regularly to keep backups.
+The Warband Builder stores all data locally in your browser. If you clear your cache or browser data, **your warbands will be permanently lost**. Use the [Export function](_warband-builder.md#export-warband) regularly to keep backups.
 :::
 
 ## The Fighter Tab

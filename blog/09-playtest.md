@@ -61,40 +61,40 @@ There's also [loot tables](/docs/campaigns/loot-tables) and [magical items](/doc
 ---
 ## Clan Eshin
 
-- New faction rule: [Black-Clad Killers](/docs/warbands/Factions/clan-eshin#faction-trait-black-clad-killers). You can set aside hidden Eshin fighters when splitting up your warband into search parties, and reveal them in later battle rounds.
-- All fighters now have the [Murder-Stab](/docs/warbands/Factions/clan-eshin) ability. Murder-stabbing someone in the same battle round as revealing your fighter reduces the target's Fight characteristic (***stab-stab***)
-- The [Assassin Adept](/docs/warbands/Factions/clan-eshin#fighter-assassin-adept) has gained a new (old?) ability – Running Death. One with the shadows is now a [double]
+- New faction rule: [Black-Clad Killers](/docs/warbands/core-factions/clan-eshin#faction-trait-black-clad-killers). You can set aside hidden Eshin fighters when splitting up your warband into search parties, and reveal them in later battle rounds.
+- All fighters now have the [Murder-Stab](/docs/warbands/core-factions/clan-eshin) ability. Murder-stabbing someone in the same battle round as revealing your fighter reduces the target's Fight characteristic (***stab-stab***)
+- The [Assassin Adept](/docs/warbands/core-factions/clan-eshin#fighter-assassin-adept) has gained a new (old?) ability – Running Death. One with the shadows is now a [double]
 
 ## Possessed
 
-- Mutants are now consumed by chaos on a [stability roll](/docs/warbands/Factions/possessed#mutants-and-mutations) of 9+ (***as ordained by the changer of ways***)
-- The [Mutation Table](/docs/warbands/Factions/possessed#mutation-table) now uses a d66 to make it more chaotic (***the shadowlord doesn’t care for probabilities***)
+- Mutants are now consumed by chaos on a [stability roll](/docs/warbands/core-factions/possessed#mutants-and-mutations) of 9+ (***as ordained by the changer of ways***)
+- The [Mutation Table](/docs/warbands/core-factions/possessed#mutation-table) now uses a d66 to make it more chaotic (***the shadowlord doesn’t care for probabilities***)
 	- The new dual-wielding rules has opened up the design space around Daemonic Weapons. Tentacles, Great Claws and Scorpion Tails now have unique weapon profiles.
-- All fighters can use [Glorious Death](/docs/warbands/Factions/possessed#reaction-glorious-death) as a reaction to generate Wyrd Dice for their Magister
-- You may now field up to two [Possessed](/docs/warbands/Factions/possessed#fighter-possessed), and they're always marked for greatness
-- The [Darksoul](/docs/warbands/Factions/possessed#fighter-darksoul) has a new ability – Baleful Challenge, replacing Display of Brutality
+- All fighters can use [Glorious Death](/docs/warbands/core-factions/possessed#reaction-glorious-death) as a reaction to generate Wyrd Dice for their Magister
+- You may now field up to two [Possessed](/docs/warbands/core-factions/possessed#fighter-possessed), and they're always marked for greatness
+- The [Darksoul](/docs/warbands/core-factions/possessed#fighter-darksoul) has a new ability – Baleful Challenge, replacing Display of Brutality
     
 
 ## The Undead
 
-- The [Vampire](/docs/warbands/Factions/undead#fighter-vampire) was a hot mess. Ravenous / Empowered is out. Vampires can always make a free move action instead. Feed also generates Wyrd Dice.
-- They’re also immortal and doesn’t roll on the injury table. Take them out of action however, and the warband starts **wavering** - and while an undead warband is wavering, all [`thralls`](/docs/warbands/Factions/undead#thralls) suffer damage.
-- [Ghouls](/docs/warbands/Factions/undead#fighter-ghoul) are no longer terrifying but gained a new ability (bloody feast)   
-- The Terrifying Howl of the [Dire Wolf](/docs/warbands/Factions/undead#fighter-dire) now tags enemy fighters when activated and prohibits tagged enemy fighters from making reactions.
+- The [Vampire](/docs/warbands/core-factions/undead#fighter-vampire) was a hot mess. Ravenous / Empowered is out. Vampires can always make a free move action instead. Feed also generates Wyrd Dice.
+- They’re also immortal and doesn’t roll on the injury table. Take them out of action however, and the warband starts **wavering** - and while an undead warband is wavering, all [`thralls`](/docs/warbands/core-factions/undead#thralls) suffer damage.
+- [Ghouls](/docs/warbands/core-factions/undead#fighter-ghoul) are no longer terrifying but gained a new ability (bloody feast)   
+- The Terrifying Howl of the [Dire Wolf](/docs/warbands/core-factions/undead#fighter-dire) now tags enemy fighters when activated and prohibits tagged enemy fighters from making reactions.
 
 ## Witch Hunters
 
-- Reworked the [Zeal Table and its thresholds](/docs/warbands/Factions/witch-hunters#faction-trait-religious-zeal)
-- [Sudden Accusation](/docs/warbands/Factions/witch-hunters#reaction-sudden-accusation) is now available to all fighters, so that Witch Hunters can save their actions to reload their new hard-hitting crossbows.  
-- Witch Hunters and their captains can now [incite rabble](/docs/warbands/Factions/witch-hunters#fighter-witch-hunter-captain) to get their henchmen into the fray quicker. Also generates Zeal.
-- Flagellant [Self-Flagellation](/docs/warbands/Factions/witch-hunters#fighter-flagellant) is now a budget onslaught rather than a free attack action
-- The War Hound's [Death Grip](/docs/warbands/Factions/witch-hunters#fighter-war-hound) triggers on hit or crit (rather than only hits)
+- Reworked the [Zeal Table and its thresholds](/docs/warbands/core-factions/witch-hunters#faction-trait-religious-zeal)
+- [Sudden Accusation](/docs/warbands/core-factions/witch-hunters#reaction-sudden-accusation) is now available to all fighters, so that Witch Hunters can save their actions to reload their new hard-hitting crossbows.  
+- Witch Hunters and their captains can now [incite rabble](/docs/warbands/core-factions/witch-hunters#fighter-witch-hunter-captain) to get their henchmen into the fray quicker. Also generates Zeal.
+- Flagellant [Self-Flagellation](/docs/warbands/core-factions/witch-hunters#fighter-flagellant) is now a budget onslaught rather than a free attack action
+- The War Hound's [Death Grip](/docs/warbands/core-factions/witch-hunters#fighter-war-hound) triggers on hit or crit (rather than only hits)
 
 ## Sisters of Sigmar
 
-- Sisters can now [pray](/docs/warbands/Factions/sisters-of-sigmar#trait-fervent-prayer) while Waiting to generate Wyrd Dice (***#prayermeta***)
-- [The Augur](/docs/warbands/Factions/sisters-of-sigmar#fighter-augur) has a more defined role: she can use Foresight to aid a fellow sister, or Doom her enemies.
+- Sisters can now [pray](/docs/warbands/core-factions/sisters-of-sigmar#trait-fervent-prayer) while Waiting to generate Wyrd Dice (***#prayermeta***)
+- [The Augur](/docs/warbands/core-factions/sisters-of-sigmar#fighter-augur) has a more defined role: she can use Foresight to aid a fellow sister, or Doom her enemies.
 
 ## Mercenaries
 
-- [Strategize](/docs/warbands/Factions/mercenaries#fighter-captain) is now a double, generating Wyrd Dice on a 5+.
+- [Strategize](/docs/warbands/core-factions/mercenaries#fighter-captain) is now a double, generating Wyrd Dice on a 5+.
