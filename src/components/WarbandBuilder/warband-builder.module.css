@@ -522,7 +522,7 @@
 /*    Faction | Warband Name | Favour | Standing | Reputation | Fighters | Value */
 
 .infoGrid {
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1.6fr 0.8fr 1fr 1fr 0.8fr 0.8fr 0.8fr;
   min-width: 540px;
 }
 
@@ -900,8 +900,8 @@
   font-size: 0.8rem;
 }
 
-/* "Pick a starting ability": reads like "No equipment", but opens the ability picker */
-.pickAbilityPrompt {
+/* Desktop table: "Add equipment" and "Select starting ability", muted text that opens the panel's tab */
+.emptyCellPrompt {
   padding: 0;
   border: none;
   background: none;
@@ -911,7 +911,7 @@
   cursor: pointer;
 }
 
-.pickAbilityPrompt:hover {
+.emptyCellPrompt:hover {
   text-decoration: underline;
 }
 
@@ -2508,7 +2508,7 @@ button.fighterCardTag {
 }
 
 /* Favour sheet: a single stepper, centred */
-.favourStepper {
+.singleNumberField {
   grid-template-columns: minmax(0, 12rem);
   justify-content: center;
 }

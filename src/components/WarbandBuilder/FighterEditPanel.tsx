@@ -64,9 +64,50 @@ export function PanelStat({ label, value, onChange, suffix = '', step = 1, min =
 }
 
 /** Typed-in cost in the same box as the steppers, no buttons. Saves on Enter or when leaving the field. */
-function CostField({ label, value, locked, onCommit }: { label: string; value: number; locked: boolean; onCommit: (v: number) => void }) {
-  const [draft, setDraft] = useState(String(value));
+/**
+ * A labelled box you type a whole number into, e.g. "120 gc": recruitment cost, Add Gold and
+ * Favour. Controlled: `value` is the text as typed (digits only).
+ */
+export function NumberField({ label, value, onChange, suffix, disabled = false, autoFocus, onBlur, onEnter }: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  suffix?: string;
+  disabled?: boolean;
+  autoFocus?: boolean;
+  onBlur?: () => void;
+  onEnter?: (input: HTMLInputElement) => void;
+}) {
   const id = useId();
+  return (
+    <div className={styles.panelStat}>
+      <label className={styles.panelStatLabel} htmlFor={id}>{label}</label>
+      <div className={`${styles.panelStatControl} ${styles.panelCostControl} ${disabled ? styles.panelStatControlDisabled : ''}`}>
+        <input
+          id={id}
+          className={`${styles.panelStatValue} ${styles.panelCostInput}`}
+          type="text"
+          inputMode="numeric"
+          value={value}
+          // Digits only, so `ch` (width of "0") fits the number exactly and the suffix sits right after it
+          style={{ width: `${Math.max(value.length, 1)}ch` }}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          onChange={e => onChange(e.target.value.replace(/[^0-9]/g, ''))}
+          onBlur={onBlur}
+          onKeyDown={e => { if (e.key === 'Enter') onEnter?.(e.currentTarget); }}
+        />
+        {suffix && <span className={styles.panelStatValue}>{suffix}</span>}
+      </div>
+    </div>
+  );
+}
+
+/** A NumberField for a stored value: saved on Enter or leaving the field, reset if left empty. */
+export function CommitNumberField({ label, value, suffix, locked = false, onCommit }: {
+  label: string; value: number; suffix?: string; locked?: boolean; onCommit: (v: number) => void;
+}) {
+  const [draft, setDraft] = useState(String(value));
   useEffect(() => setDraft(String(value)), [value]);
 
   function commit() {
@@ -76,25 +117,15 @@ function CostField({ label, value, locked, onCommit }: { label: string; value: n
   }
 
   return (
-    <div className={styles.panelStat}>
-      <label className={styles.panelStatLabel} htmlFor={id}>{label}</label>
-      <div className={`${styles.panelStatControl} ${styles.panelCostControl} ${locked ? styles.panelStatControlDisabled : ''}`}>
-        <input
-          id={id}
-          className={`${styles.panelStatValue} ${styles.panelCostInput}`}
-          type="text"
-          inputMode="numeric"
-          value={draft}
-          // Digits only, so `ch` (width of "0") fits the number exactly and "gc" sits right after it
-          style={{ width: `${Math.max(draft.length, 1)}ch` }}
-          disabled={locked}
-          onChange={e => setDraft(e.target.value.replace(/[^0-9]/g, ''))}
-          onBlur={commit}
-          onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur(); }}
-        />
-        <span className={styles.panelStatValue}>gc</span>
-      </div>
-    </div>
+    <NumberField
+      label={label}
+      value={draft}
+      onChange={setDraft}
+      suffix={suffix}
+      disabled={locked}
+      onBlur={commit}
+      onEnter={input => input.blur()}
+    />
   );
 }
 
@@ -336,7 +367,7 @@ export default function FighterEditPanel({
           <div className={styles.editPanelSection}>
             <div className={styles.editPanelStatsGrid}>
               {!noRenown && <PanelStat label="Renown" value={instance.renown} min={0} onChange={onSetRenown} />}
-              <CostField label="Recruitment cost" value={baseCost} locked={!instance.isPending} onCommit={onSetCostOverride} />
+              <CommitNumberField label="Recruitment cost" value={baseCost} suffix="gc" locked={!instance.isPending} onCommit={onSetCostOverride} />
             </div>
           </div>
 

@@ -19,10 +19,12 @@ interface Props {
   fixedEquipment?: string[];
   /** The fixed gear is natural weapons (beasts, thralls, daemons) */
   fixedAreNatural?: boolean;
+  /** Opens the panel's Equipment tab; without it an empty cell says "No equipment" */
+  onAdd?: () => void;
 }
 
 /** Desktop table: the fighter's equipment as read-only tags. Tapping one shows its details. */
-export default function EquipmentCell({ equipment, pendingStartIndex, fixedEquipment = [], fixedAreNatural = false }: Props) {
+export default function EquipmentCell({ equipment, pendingStartIndex, fixedEquipment = [], fixedAreNatural = false, onAdd }: Props) {
   const [info, setInfo] = useState<{ id: string; natural: boolean } | null>(null);
 
   // Duplicates fold into one tag, "Club (x2)", as on mobile; bought and unbought copies stay separate.
@@ -60,8 +62,15 @@ export default function EquipmentCell({ equipment, pendingStartIndex, fixedEquip
           {pending && costFor(id) > 0 && ` (${costFor(id) * count}gc)`}
         </button>
       ))}
-      {/* Clicking the row opens the edit panel, so no add button is needed here */}
-      {equipment.length === 0 && fixedEquipment.length === 0 && <span className={styles.lockedCell}>No equipment</span>}
+      {equipment.length === 0 && fixedEquipment.length === 0 && (onAdd ? (
+        <button
+          type="button"
+          className={`${styles.lockedCell} ${styles.emptyCellPrompt}`}
+          onClick={e => { e.stopPropagation(); onAdd(); }}
+        >
+          Add equipment
+        </button>
+      ) : <span className={styles.lockedCell}>No equipment</span>)}
       {info && <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} />}
     </div>
   );

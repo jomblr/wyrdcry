@@ -304,6 +304,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           pendingStartIndex={pendingStartIndex}
           fixedEquipment={fixedEquipment}
           fixedAreNatural={noEquipment}
+          onAdd={noEquipment ? undefined : () => setEditOpen('equipment')}
         />
       </div>
 

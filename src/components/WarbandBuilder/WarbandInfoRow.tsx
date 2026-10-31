@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InfoSheet from './InfoSheet';
-import { PanelStat } from './FighterEditPanel';
+import { CommitNumberField, NumberField } from './FighterEditPanel';
 import useAnimatedNumber from './useAnimatedNumber';
 import StatSpinner from './StatSpinner';
 import type { Warband } from './useWarband';
@@ -69,18 +69,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
         </>
       }
     >
-      <div className={styles.modalField}>
-        <label className={styles.modalFieldLabel} htmlFor="add-gold-amount">Amount</label>
-        <input
-          id="add-gold-amount"
-          type="text"
-          inputMode="numeric"
-          className={styles.infoInput}
-          value={amountInput}
-          onChange={e => setAmountInput(e.target.value.replace(/[^0-9]/g, ''))}
-          autoFocus
-          onKeyDown={e => { if (e.key === 'Enter') handleConfirmAddGold(); }}
-        />
+      <div className={`${styles.editPanelStatsGrid} ${styles.singleNumberField}`}>
+        <NumberField label="Amount" value={amountInput} onChange={setAmountInput} suffix="gc" autoFocus onEnter={handleConfirmAddGold} />
       </div>
     </InfoSheet>
   ) : null;
@@ -239,9 +229,8 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
           </button>
         }
       >
-        {/* Same stepper as the fighter characteristics */}
-        <div className={`${styles.editPanelStatsGrid} ${styles.favourStepper}`}>
-          <PanelStat label="Favour" value={warband.favour} min={0} onChange={onSetFavour} />
+        <div className={`${styles.editPanelStatsGrid} ${styles.singleNumberField}`}>
+          <CommitNumberField label="Favour" value={warband.favour} onCommit={onSetFavour} />
         </div>
       </InfoSheet>
     )}
