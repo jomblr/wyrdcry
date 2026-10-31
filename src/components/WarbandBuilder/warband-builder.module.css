@@ -991,33 +991,6 @@
   line-height: 1.5;
 }
 
-.abilityCell {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4rem;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: unset;
-}
-
-.abilityTextarea {
-  flex: 1 1 0;
-  width: 0;
-  min-width: 0;
-  resize: none;
-  overflow: hidden;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  line-height: 1.4;
-  padding: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
 .customWeaponRemove {
   flex-shrink: 0;
   background: none;
@@ -2005,51 +1978,6 @@
 .fighterGrid .hCell:has(.statFull) {
   padding-inline: 0;
   overflow: visible;
-}
-
-/* Talents on phones: one single-column table per fighter type (AbilityReference). The
- * desktop two-column table keeps only custom talents + "Add talent" at this width. */
-.abilityRefMobile {
-  display: none;
-}
-
-.abilityRefMobileGrid {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.abilityRefMobileGrid .gridRow {
-  overflow: visible;
-}
-
-.abilityRefMobileTitle {
-  justify-content: space-between;
-  gap: 0.75rem;
-  white-space: normal;
-}
-
-@media screen and (max-width: 800px) {
-  .abilityRefMobile {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .abilityRowStandard {
-    display: none;
-  }
-
-  /* The remaining custom-talent table: give the Fighter column room for its heading. */
-  .abilityRefGrid {
-    grid-template-columns: minmax(6rem, 1fr) 2fr;
-  }
-
-  /* Each per-fighter table has its own border; drop the panel's so they aren't outlined twice. */
-  .abilityRefPanel {
-    border: none;
-    border-radius: 0;
-    overflow: visible;
-  }
 }
 
 /* Fighter table: notes in a smaller size than the rest of the row. */

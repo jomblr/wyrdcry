@@ -4,104 +4,55 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import clsx from 'clsx';
-import type { Warband, CustomAbility, FighterInstance } from './useWarband';
-import { abilitiesData, fightersData, fixedAbilityIds, optionalAbilityIds } from './data';
+import type { Warband } from './useWarband';
+import { abilitiesData, fightersData, fixedAbilityIds } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {
   warband: Warband;
-  onAddCustomAbility: () => void;
-  onUpdateCustomAbility: (id: string, patch: Partial<Omit<CustomAbility, 'id'>>) => void;
-  onRemoveCustomAbility: (id: string) => void;
-}
-
-/** The profile's abilities, with only the optional ones (wizards' spells) this fighter picked */
-function profileAbilityIds(profile: (typeof fightersData)[number], fi: FighterInstance): string[] {
-  const optional = optionalAbilityIds(profile);
-  return [...fixedAbilityIds(profile), ...optional.filter(id => fi.talents?.includes(id))];
 }
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export default function AbilityReference({ warband, onAddCustomAbility, onUpdateCustomAbility, onRemoveCustomAbility }: Props) {
-  const customAbilities = warband.customAbilities ?? [];
+// "Ghouls" when the warband has more than one; Skaven/-s names stay as they are.
+const plural = (name: string, n: number) => (n > 1 && !/(s|skaven)$/i.test(name) ? `${name}s` : name);
 
-  const abilityMap = new Map<string, string[]>();
+/**
+ * Every ability on every fighter in the warband, once each, with who has it. A profile's own
+ * abilities are listed under the fighter type ("Ghouls"); talents, picked spells, injuries and
+ * mutations under the fighter who took them ("Randolf").
+ */
+export default function AbilityReference({ warband }: Props) {
+  const typeCounts = new Map<string, number>();
+  for (const fi of warband.fighters) typeCounts.set(fi.fighterId, (typeCounts.get(fi.fighterId) ?? 0) + 1);
+
+  const holders = new Map<string, string[]>();
+  const addHolder = (abilityId: string, who: string) => {
+    const list = holders.get(abilityId) ?? [];
+    if (!list.includes(who)) list.push(who);
+    holders.set(abilityId, list);
+  };
   for (const fi of warband.fighters) {
     const profile = fightersData.find(f => f.id === fi.fighterId);
     if (!profile) continue;
-    const typeName = profile.name;
-    for (const abilityId of profileAbilityIds(profile, fi)) {
-      const existing = abilityMap.get(abilityId);
-      if (existing) {
-        if (!existing.includes(typeName)) existing.push(typeName);
-      } else {
-        abilityMap.set(abilityId, [typeName]);
-      }
-    }
+    const typeName = plural(profile.name, typeCounts.get(profile.id) ?? 1);
+    fixedAbilityIds(profile).forEach(id => addHolder(id, typeName));
+    (fi.talents ?? []).forEach(id => addHolder(id, fi.customName || profile.name));
   }
 
-  const abilityRows = Array.from(abilityMap.entries()).map(([abilityId, fighters]) => {
+  const abilityRows = Array.from(holders.entries()).map(([abilityId, who]) => {
     const ability = abilitiesData.find(a => a.id === abilityId);
     return {
       id: abilityId,
-      fighters: fighters.join(', '),
+      fighters: who.join(', '),
       label: ability ? `**[${capitalize(ability.ability_type)}] ${ability.name}:** ${ability.description}` : abilityId,
     };
   });
 
-  const isEmpty = abilityRows.length === 0 && customAbilities.length === 0;
-
-  // Phones: one single-column table per fighter type, listing only that type's abilities,
-  // headed by the type and the names of the warband's fighters of that type.
-  const byType = new Map<string, { title: string; count: number; abilityIds: string[] }>();
-  for (const fi of warband.fighters) {
-    const profile = fightersData.find(f => f.id === fi.fighterId);
-    if (!profile) continue;
-    const ids = profileAbilityIds(profile, fi);
-    const entry = byType.get(profile.id) ?? { title: profile.name, count: 0, abilityIds: [] };
-    // Fighters of one type can pick different spells, so list every one picked
-    ids.forEach(id => { if (!entry.abilityIds.includes(id)) entry.abilityIds.push(id); });
-    entry.count += 1;
-    byType.set(profile.id, entry);
-  }
-  // "Assassin Adepts" when the warband has more than one; Skaven/-s names stay as they are.
-  const plural = (name: string, n: number) => (n > 1 && !/(s|skaven)$/i.test(name) ? `${name}s` : name);
-  const abilityMarkdown = (id: string) => {
-    const a = abilitiesData.find(x => x.id === id);
-    return a ? `**[${capitalize(a.ability_type)}] ${a.name}:** ${a.description}` : id;
-  };
-
   return (
     <div className={`${styles.infoPanel} ${styles.abilityRefPanel}`}>
-      <div className={styles.abilityRefMobile}>
-        {Array.from(byType.entries()).filter(([, t]) => t.abilityIds.length > 0).map(([typeId, t]) => (
-          <div key={typeId} className={styles.tableWrapper}>
-            <div className={`${styles.wbGrid} ${styles.abilityRefMobileGrid}`}>
-              <div className={styles.gridHeader}>
-                <div className={`${styles.hCell} ${styles.abilityRefMobileTitle}`}>
-                  <span>{plural(t.title, t.count)}</span>
-                  <span>{t.abilityIds.length === 1 ? 'Ability' : 'Abilities'}</span>
-                </div>
-              </div>
-              {t.abilityIds.map(id => (
-                <div key={id} className={`${styles.gridRow} ${styles.gridRowNoHover}`}>
-                  <div className={`${styles.cell} ${styles.abilityCellStatic}`}>
-                    <div className={clsx('fighter-abilities', 'ability-ref-entry', ThemeClassNames.docs.docMarkdown, 'markdown')}>
-                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ p: ({ children }) => <>{children}</> }}>
-                        {abilityMarkdown(id)}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
       <div className={styles.tableWrapper}>
         <div className={`${styles.wbGrid} ${styles.abilityRefGrid}`}>
           <div className={`${styles.gridHeader} ${styles.gridHeaderSticky}`}>
@@ -109,10 +60,10 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
             <div className={styles.hCell}>Ability</div>
           </div>
 
-          {isEmpty && (
+          {abilityRows.length === 0 && (
             <div className={`${styles.gridRow} ${styles.abilityRowStandard}`}>
               <div className={`${styles.cell} ${styles.weaponRefEmpty}`} style={{ gridColumn: '1 / -1' }}>
-                No talents
+                No abilities
               </div>
             </div>
           )}
@@ -129,51 +80,6 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
               </div>
             </div>
           ))}
-
-          {customAbilities.map(ab => (
-            <div key={ab.id} className={`${styles.gridRow} ${styles.customWeaponRow}`}>
-              <div className={`${styles.cell} ${styles.cellWrap}`}>
-                <input
-                  className={styles.customWeaponInput}
-                  value={ab.fighter}
-                  onChange={e => onUpdateCustomAbility(ab.id, { fighter: e.target.value })}
-                  placeholder="Fighter name"
-                />
-              </div>
-              <div className={`${styles.cell} ${styles.abilityCell}`}>
-                <textarea
-                  className={styles.abilityTextarea}
-                  value={ab.ability}
-                  ref={el => {
-                    if (el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
-                  }}
-                  onChange={e => {
-                    onUpdateCustomAbility(ab.id, { ability: e.target.value });
-                    const el = e.target;
-                    el.style.height = 'auto';
-                    el.style.height = el.scrollHeight + 'px';
-                  }}
-                  placeholder="Talent description"
-                  rows={1}
-                />
-                <button
-                  className={styles.customWeaponRemove}
-                  onClick={() => onRemoveCustomAbility(ab.id)}
-                  title="Remove talent"
-                >
-                  ×
-                </button>
-              </div>
-            </div>
-          ))}
-
-          <div className={`${styles.gridRow} ${styles.addFighterRow}`}>
-            <div className={`${styles.cell} ${styles.cellFull}`}>
-              <button className={styles.addFighterBtn} onClick={onAddCustomAbility}>
-                Add talent
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

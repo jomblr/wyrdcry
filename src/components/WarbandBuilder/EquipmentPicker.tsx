@@ -250,7 +250,7 @@ export default function EquipmentPicker({
   function canAddArmour(item: ReturnType<typeof armourItems>[number], free = false): boolean {
     if (isWizard) return false;
     if (item.id === 'shield')
-      return !combinedIds.includes('shield') && slots.melee + 1 <= MELEE_SLOTS;
+      return !combinedIds.includes('shield') && slots.melee + 1 <= MELEE_SLOTS && affordable(item.cost, free);
     return !hasExclusiveArmour && affordable(item.cost, free);
   }
 

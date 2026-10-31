@@ -40,9 +40,6 @@ export default function WarbandBuilder() {
     addCustomWeapon,
     updateCustomWeapon,
     removeCustomWeapon,
-    addCustomAbility,
-    updateCustomAbility,
-    removeCustomAbility,
     addFighter,
     removeFighter,
     duplicateFighter,
@@ -342,9 +339,6 @@ export default function WarbandBuilder() {
               onAddCustomWeapon={addCustomWeapon}
               onUpdateCustomWeapon={updateCustomWeapon}
               onRemoveCustomWeapon={removeCustomWeapon}
-              onAddCustomAbility={addCustomAbility}
-              onUpdateCustomAbility={updateCustomAbility}
-              onRemoveCustomAbility={removeCustomAbility}
             />
           </div>
         </div>

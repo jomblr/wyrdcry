@@ -63,6 +63,7 @@ export interface Warband {
   stash: string[]; // item IDs parked in warband stash
   factionNotes: string;
   customWeapons: CustomWeapon[];
+  /** Unused: hand-written talents were dropped. Kept so older saves and imports still match. */
   customAbilities: CustomAbility[];
 }
 
@@ -100,9 +101,6 @@ type Action =
   | { type: 'ADD_CUSTOM_WEAPON'; weapon: CustomWeapon }
   | { type: 'UPDATE_CUSTOM_WEAPON'; id: string; patch: Partial<Omit<CustomWeapon, 'id'>> }
   | { type: 'REMOVE_CUSTOM_WEAPON'; id: string }
-  | { type: 'ADD_CUSTOM_ABILITY'; ability: CustomAbility }
-  | { type: 'UPDATE_CUSTOM_ABILITY'; id: string; patch: Partial<Omit<CustomAbility, 'id'>> }
-  | { type: 'REMOVE_CUSTOM_ABILITY'; id: string }
   | { type: 'LOAD_WARBAND'; warband: Warband }
   | { type: 'NEW_WARBAND' }
   | { type: 'REGISTER_WARBAND'; id: string }
@@ -273,29 +271,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         active: {
           ...state.active,
           customWeapons: state.active.customWeapons.filter(w => w.id !== action.id),
-        },
-      };
-
-    case 'ADD_CUSTOM_ABILITY':
-      return { ...state, active: { ...state.active, customAbilities: [...state.active.customAbilities, action.ability] } };
-
-    case 'UPDATE_CUSTOM_ABILITY':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          customAbilities: state.active.customAbilities.map(a =>
-            a.id === action.id ? { ...a, ...action.patch } : a,
-          ),
-        },
-      };
-
-    case 'REMOVE_CUSTOM_ABILITY':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          customAbilities: state.active.customAbilities.filter(a => a.id !== action.id),
         },
       };
 
@@ -599,19 +574,6 @@ export function useWarband() {
     [],
   );
 
-  const addCustomAbility = useCallback(() =>
-    dispatch({ type: 'ADD_CUSTOM_ABILITY', ability: { id: uuid(), fighter: '', type: '', ability: '' } }),
-  []);
-  const updateCustomAbility = useCallback(
-    (id: string, patch: Partial<Omit<CustomAbility, 'id'>>) =>
-      dispatch({ type: 'UPDATE_CUSTOM_ABILITY', id, patch }),
-    [],
-  );
-  const removeCustomAbility = useCallback(
-    (id: string) => dispatch({ type: 'REMOVE_CUSTOM_ABILITY', id }),
-    [],
-  );
-
   const addFighter = useCallback((fighterId: string, name: string) => {
     dispatch({
       type: 'ADD_FIGHTER',
@@ -817,9 +779,6 @@ export function useWarband() {
     addCustomWeapon,
     updateCustomWeapon,
     removeCustomWeapon,
-    addCustomAbility,
-    updateCustomAbility,
-    removeCustomAbility,
     addFighter,
     removeFighter,
     duplicateFighter,
