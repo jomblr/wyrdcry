@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
@@ -77,7 +77,7 @@ export default function FighterCard({
   const isThrall = hasTag(profile, 'THRALL');
   const isDaemon = hasTag(profile, 'DAEMON');
   const noRenown = isBeast || isThrall;
-  const isHero = hasTag(profile, 'HERO');
+  const isHero = isHeroNow(profile, instance);
 
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
     const item = itemsData.find(x => x.id === eid);
@@ -85,16 +85,20 @@ export default function FighterCard({
     return sum;
   }, 0);
 
+  // Changes from abilities the fighter has (Daemonic Chitin, injuries, …)
+  const abilityDelta = (key: StatKey) =>
+    abilityStatChanges(fighterAbilityIds(profile!, instance), key).reduce((sum, c) => sum + c.value, 0);
+
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
+    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0) + abilityDelta(key);
   }
 
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined && override !== base) || (key === 'defense' && defenseBonus > 0);
+    return (override !== undefined && override !== base) || (key === 'defense' && defenseBonus > 0) || abilityDelta(key) !== 0;
   }
 
   const allEquipment = instance.isPending
@@ -186,13 +190,13 @@ export default function FighterCard({
   }
 
   // Profile abilities, then talents, injuries and mutations taken in the campaign
-  const abilities = fighterAbilities([...(profile.faction_ability_ids ?? []), ...(instance.talents ?? [])]);
+  const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
 
   // Read-only: stashing and selling live in the edit panel, so a tap to read can't lose gear.
   const infoSheet = info ? <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} /> : null;
 
   // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
-  const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords, ...(instance.isLeader ? ['LEADER'] : [])]));
+  const keywordTokens = currentKeywords(profile, instance);
 
   return (
     // Unbought fighters aren't tinted; their gold cost (pendingCost) marks them as pending.

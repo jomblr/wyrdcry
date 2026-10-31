@@ -5,7 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, itemsData, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, itemsData, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
 import FighterAbilities, { fighterAbilities } from './FighterAbilities';
@@ -109,16 +109,20 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     return sum;
   }, 0);
 
+  // Changes from abilities the fighter has (Daemonic Chitin, injuries, …)
+  const abilityIds = fighterAbilityIds(profile, instance);
+  const abilityDelta = (key: StatKey) => abilityStatChanges(abilityIds, key).reduce((sum, c) => sum + c.value, 0);
+
   // Helper: resolved stat value (override ?? base) + any auto bonus
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
+    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0) + abilityDelta(key);
   }
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return override !== undefined && override !== base;
+    return (override !== undefined && override !== base) || abilityDelta(key) !== 0;
   }
 
   function buildTooltip(key: StatKey): string | undefined {
@@ -127,7 +131,8 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     const bonus = key === 'defense' ? defenseBonus : 0;
     const hasManual = override !== undefined && override !== base;
     const hasBonus = bonus > 0;
-    if (!hasManual && !hasBonus) return undefined;
+    const abilityChanges = abilityStatChanges(abilityIds, key);
+    if (!hasManual && !hasBonus && abilityChanges.length === 0) return undefined;
     const manualDelta = hasManual ? override! - base : 0;
     const lines: string[] = [`Base: ${base}`];
     if (manualDelta !== 0) lines.push(`Modifier: ${manualDelta > 0 ? '+' : ''}${manualDelta}`);
@@ -139,6 +144,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         }
       });
     }
+    abilityChanges.forEach(c => lines.push(`${c.name}: ${c.value > 0 ? '+' : ''}${c.value}`));
     lines.push(`Total: ${statVal(key)}`);
     return lines.join('\n');
   }
@@ -185,7 +191,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   if (!profile) return null;
 
   // Profile abilities, then talents, injuries and mutations taken in the campaign
-  const abilities = fighterAbilities([...(profile.faction_ability_ids ?? []), ...(instance.talents ?? [])]);
+  const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
 
   const menu =
     menuOpen && pos
@@ -254,7 +260,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           <span className={styles.nameInput}>{instance.customName}</span>
         </div>
         <span className={styles.fighterType}>{typeLabel}</span>
-        <FighterKeywords race={profile.race} keywords={profile.keywords} />
+        <FighterKeywords keywords={currentKeywords(profile, instance)} />
       </div>
 
       {/* Stats — read-only here (edited in the panel); the tooltip still explains modifiers */}

@@ -4,8 +4,8 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import clsx from 'clsx';
-import type { Warband, CustomAbility } from './useWarband';
-import { abilitiesData, fightersData } from './data';
+import type { Warband, CustomAbility, FighterInstance } from './useWarband';
+import { abilitiesData, fightersData, fixedAbilityIds, optionalAbilityIds } from './data';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -13,6 +13,12 @@ interface Props {
   onAddCustomAbility: () => void;
   onUpdateCustomAbility: (id: string, patch: Partial<Omit<CustomAbility, 'id'>>) => void;
   onRemoveCustomAbility: (id: string) => void;
+}
+
+/** The profile's abilities, with only the optional ones (wizards' spells) this fighter picked */
+function profileAbilityIds(profile: (typeof fightersData)[number], fi: FighterInstance): string[] {
+  const optional = optionalAbilityIds(profile);
+  return [...fixedAbilityIds(profile), ...optional.filter(id => fi.talents?.includes(id))];
 }
 
 function capitalize(s: string) {
@@ -27,7 +33,7 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
     const profile = fightersData.find(f => f.id === fi.fighterId);
     if (!profile) continue;
     const typeName = profile.name;
-    for (const abilityId of profile.faction_ability_ids) {
+    for (const abilityId of profileAbilityIds(profile, fi)) {
       const existing = abilityMap.get(abilityId);
       if (existing) {
         if (!existing.includes(typeName)) existing.push(typeName);
@@ -53,8 +59,11 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
   const byType = new Map<string, { title: string; count: number; abilityIds: string[] }>();
   for (const fi of warband.fighters) {
     const profile = fightersData.find(f => f.id === fi.fighterId);
-    if (!profile || profile.faction_ability_ids.length === 0) continue;
-    const entry = byType.get(profile.id) ?? { title: profile.name, count: 0, abilityIds: profile.faction_ability_ids };
+    if (!profile) continue;
+    const ids = profileAbilityIds(profile, fi);
+    const entry = byType.get(profile.id) ?? { title: profile.name, count: 0, abilityIds: [] };
+    // Fighters of one type can pick different spells, so list every one picked
+    ids.forEach(id => { if (!entry.abilityIds.includes(id)) entry.abilityIds.push(id); });
     entry.count += 1;
     byType.set(profile.id, entry);
   }
@@ -68,7 +77,7 @@ export default function AbilityReference({ warband, onAddCustomAbility, onUpdate
   return (
     <div className={`${styles.infoPanel} ${styles.abilityRefPanel}`}>
       <div className={styles.abilityRefMobile}>
-        {Array.from(byType.entries()).map(([typeId, t]) => (
+        {Array.from(byType.entries()).filter(([, t]) => t.abilityIds.length > 0).map(([typeId, t]) => (
           <div key={typeId} className={styles.tableWrapper}>
             <div className={`${styles.wbGrid} ${styles.abilityRefMobileGrid}`}>
               <div className={styles.gridHeader}>

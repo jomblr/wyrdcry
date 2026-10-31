@@ -2,6 +2,8 @@
   {
     "id": "clan-eshin",
     "name": "Clan Eshin",
+    "status": "core",
+    "exclude": "no",
     "description": "",
     "warband_size": 20,
     "special_rules": "",
@@ -24,11 +26,14 @@
       "weeping-blade": "hero",
       "item:smoke-bomb": "all",
       "throwing-dagger": "all"
-    }
+    },
+    "warband_keyword": "Eshin"
   },
   {
     "id": "sisters-of-sigmar",
     "name": "Sisters of Sigmar",
+    "status": "core",
+    "exclude": "no",
     "description": "",
     "warband_size": 15,
     "special_rules": "",
@@ -50,7 +55,8 @@
       "sigmarite-warhammer": "hero",
       "dagger": "all",
       "item:prayer-beads": "all"
-    }
+    },
+    "warband_keyword": "Sisters of Sigmar"
   },
   {
     "id": "mercenaries",
@@ -85,7 +91,9 @@
   },
   {
     "id": "possessed",
-    "name": "Possessed",
+    "name": "Cult of the Possessed",
+    "status": "core",
+    "exclude": "no",
     "description": "",
     "warband_size": 15,
     "special_rules": "",
@@ -106,11 +114,14 @@
       "item:light-armour": "all",
       "item:shield": "all",
       "morning-star": "all"
-    }
+    },
+    "warband_keyword": "Possessed"
   },
   {
     "id": "witch-hunters",
     "name": "Witch Hunters",
+    "status": "core",
+    "exclude": "no",
     "description": "",
     "warband_size": 15,
     "special_rules": "",
@@ -133,11 +144,14 @@
       "item:light-armour": "all",
       "item:shield": "all",
       "morning-star": "all"
-    }
+    },
+    "warband_keyword": "Witch Hunters"
   },
   {
     "id": "undead",
     "name": "Undead",
+    "status": "core",
+    "exclude": "no",
     "description": "",
     "warband_size": 15,
     "special_rules": "",
@@ -159,7 +173,8 @@
       "item:shield": "hero",
       "flail": "hero",
       "morning-star": "hero"
-    }
+    },
+    "warband_keyword": "Undead"
   },
   {
     "id": "hired-sword",
@@ -176,11 +191,14 @@
     "id": "elf-rangers",
     "name": "Elf rangers",
     "status": "playtest",
-    "exclude": "yes",
+    "exclude": "no",
     "description": "",
     "warband_size": 10,
     "special_rules": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "unerring-aim",
+      "fleet-of-foot"
+    ],
     "fighters": [],
     "weapons": [],
     "equipment": {
@@ -194,8 +212,10 @@
       "item:light-armour": "all",
       "item:shield": "all",
       "item:elven-cloak": "all",
-      "item:hunting-falcon": "all"
-    }
+      "item:hunting-falcon": "all",
+      "spear": "all"
+    },
+    "warband_keyword": "Rangers"
   },
   {
     "id": "dwarf-treasure-hunters",
@@ -208,7 +228,8 @@
     "faction_ability_ids": [],
     "fighters": [],
     "weapons": [],
-    "equipment": {}
+    "equipment": {},
+    "warband_keyword": "Treasure Hunters"
   },
   {
     "id": "beastmen",
@@ -234,6 +255,7 @@
       "troll-slayer-thrown-axe": "all",
       "item:light-armour": "hero",
       "item:shield": "all"
-    }
+    },
+    "warband_keyword": "Raiders"
   }
 ]

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Dices, X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, fixedAbilityIds, hasTag, isHeroNow, isMutatedWeapon, itemsData, optionalAbilityIds, statLabels, weaponsData } from './data';
 import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
 import TalentPicker from './TalentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
@@ -118,18 +118,19 @@ export default function FighterEditPanel({
   const statDefs = STAT_DEFS.map(d => (d.key === 'defense' ? { ...d, label: statLabels().defense } : d));
   if (!profile) return null;
 
-  const isHero = profile.keywords.includes('HERO') || instance.renown >= 4;
+  const isHero = isHeroNow(profile, instance);
   const isWizard = profile.keywords.includes('WIZARD');
   const isBeast = hasTag(profile, 'BEAST');
   const isThrall = hasTag(profile, 'THRALL');
   const isDaemon = hasTag(profile, 'DAEMON');
   const isMutant = hasTag(profile, 'MUTANT');
-  const profileRules = profile.faction_ability_ids ?? [];
-  // Special rules tab for fighters with rules of their own, or that can take heroic talents and
-  // injuries (heroes) or mutations (MUTANTs)
+  const profileRules = fixedAbilityIds(profile);
+  const optionalRules = optionalAbilityIds(profile);
+  // Special rules tab for fighters with rules of their own or abilities to pick, or that can take
+  // heroic talents and injuries (heroes) or mutations (MUTANTs)
   const tabs: { id: 'equipment' | 'talents' | 'information'; label: string }[] = [
     { id: 'equipment', label: 'Equipment' },
-    ...(profileRules.length > 0 || isHero || isMutant ? [{ id: 'talents' as const, label: 'Special rules' }] : []),
+    ...(profileRules.length > 0 || optionalRules.length > 0 || isHero || isMutant || hasTag(profile, 'VAMPIRE') ? [{ id: 'talents' as const, label: 'Special rules' }] : []),
     { id: 'information', label: 'Information' },
   ];
   const noEquipment = isBeast || isThrall || isDaemon;
@@ -148,16 +149,20 @@ export default function FighterEditPanel({
 
   const baseCost = instance.costOverride ?? profile.cost ?? 0;
 
+  // Changes from abilities the fighter has (Daemonic Chitin, injuries, …)
+  const abilityDelta = (key: StatKey) =>
+    abilityStatChanges(fighterAbilityIds(profile, instance), key).reduce((sum, c) => sum + c.value, 0);
+
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
+    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0) + abilityDelta(key);
   }
 
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return override !== undefined && override !== base;
+    return (override !== undefined && override !== base) || abilityDelta(key) !== 0;
   }
 
   // Bought gear waits in pendingEquipment until Purchase; a mutated weapon isn't bought, so it
@@ -242,7 +247,7 @@ export default function FighterEditPanel({
 
           {pane === 'talents' ? (
             <div className={styles.editPanelSection}>
-              <TalentPicker profileRules={profileRules} talents={instance.talents ?? []} isHero={isHero} isMutant={isMutant} onChange={onSetTalents} />
+              <TalentPicker profileRules={profileRules} optionalRules={optionalRules} talents={instance.talents ?? []} isHero={isHero} keywords={currentKeywords(profile, instance)} onChange={onSetTalents} />
             </div>
           ) : pane === 'equipment' ? (
             <>
@@ -305,7 +310,8 @@ export default function FighterEditPanel({
                   key={key}
                   label={label}
                   value={statVal(key)}
-                  onChange={v => onSetStat(key, key === 'defense' ? v - defenseBonus : v)}
+                  // Store the hand-set value; armour and ability changes are added on top when shown
+                  onChange={v => onSetStat(key, v - (key === 'defense' ? defenseBonus : 0) - abilityDelta(key))}
                   suffix={suffix}
                   step={step}
                   min={min}

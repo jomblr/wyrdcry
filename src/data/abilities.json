@@ -289,7 +289,7 @@
   {
     "id": "stupidity",
     "name": "Stupidity",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "Unless activated within 3\" of a visible friendly `HERO` or enemy fighter, roll a die. On a 1-4, this fighter makes a Wait action. On a 5+, this fighter may activate as normal."
   },
@@ -310,7 +310,7 @@
   {
     "id": "bestial-rage",
     "name": "Bestial Rage",
-    "category": "unique",
+    "category": "beastmen",
     "ability_type": "trait",
     "description": "While this fighter is wounded, you may use the 'Onslaught' ability without needing or spending the ability dice to do so."
   },
@@ -422,156 +422,197 @@
   {
     "id": "fleet-of-foot",
     "name": "Fleet of foot",
-    "category": "hired-sword",
+    "category": "elf-rangers",
     "ability_type": "trait",
     "description": "Once per activation, this fighter can make a free Move action."
   },
   {
     "id": "unerring-aim",
     "name": "Unerring aim",
-    "category": "hired-sword",
+    "category": "elf-rangers",
     "ability_type": "trait",
     "description": "Once per battle round, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
   },
   {
     "id": "wyrdlung-rot",
     "name": "Wyrdlung Rot",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "This fighter can only make one Move action per battle round."
   },
   {
     "id": "crippled-leg",
     "name": "Crippled leg",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
-    "description": "Subtract 1 from this fighter’s Move characteristic."
+    "description": "Subtract 1 from this fighter’s Move characteristic.",
+    "modifiers": [
+      {
+        "characteristic": "move",
+        "modifier": -1
+      }
+    ]
   },
   {
     "id": "damaged-sword-arm",
     "name": "Damaged Sword Arm",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
-    "description": "Subtract 1 from this fighter’s Fight characteristic."
+    "description": "Subtract 1 from this fighter’s Fight characteristic.",
+    "modifiers": [
+      {
+        "characteristic": "fight",
+        "modifier": -1
+      }
+    ]
   },
   {
     "id": "devastated-eye",
     "name": "Devastated eye",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
-    "description": "Subtract 1 from this fighter’s Shoot characteristic."
+    "description": "Subtract 1 from this fighter’s Shoot characteristic.",
+    "modifiers": [
+      {
+        "characteristic": "shoot",
+        "modifier": -1
+      }
+    ]
   },
   {
     "id": "festering-wound",
     "name": "Festering wound",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
-    "description": "Subtract 4 from this fighter’s Health characteristic. If this results in a Health characteristic of 0, they die."
+    "description": "Subtract 4 from this fighter’s Health characteristic. If this results in a Health characteristic of 0, they die.",
+    "modifiers": [
+      {
+        "characteristic": "health",
+        "modifier": -4
+      }
+    ]
   },
   {
     "id": "nervous-tick",
     "name": "Nervous tick",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
-    "description": "Add 1 to this fighter’s Bravery characteristic."
+    "description": "Add 1 to this fighter’s Bravery characteristic.",
+    "modifiers": [
+      {
+        "characteristic": "bravery",
+        "modifier": 1
+      }
+    ]
   },
   {
     "id": "hallucinations",
     "name": "Hallucinations",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "To this fighter, all enemy fighters are `Terrifying`."
   },
   {
     "id": "claustrophobia",
     "name": "Claustrophobia",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "When this fighter is activated or ends a move action underneath a platform, it must pass a Bravery test or become panicked."
   },
   {
     "id": "alcoholic",
     "name": "Alcoholic",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "This fighter cannot make reactions."
   },
   {
     "id": "sticky-fingers",
     "name": "Sticky Fingers",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "Before collecting income in the aftermath sequence, roll a dice. On a 1-3, reduce the amount of Wyrdstone Shards delivered to your faction by 1 (to a minimum of 0)."
   },
   {
     "id": "paranoia",
     "name": "Paranoia",
-    "category": "unique",
+    "category": "injuries",
     "ability_type": "injury",
     "description": "This fighter counts as panicked while within 1” of friendly fighters."
   },
   {
     "id": "mutation-vessel-of-the-gods",
     "name": "Vessel of the Gods",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "When this fighter is deployed to the battlefield, you may add an additional wyrd dice to your saved wyrd dice."
   },
   {
     "id": "mutation-deformed-wings",
     "name": "Deformed Wings",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Once per battle round, when this fighter makes a move action, it may count as flying; however, when flying, they cannot move vertically upwards more than 3\". In addition, this fighter does not suffer damage when falling, regardless of the distance."
   },
   {
     "id": "mutation-black-blood",
     "name": "Black Blood",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Whenever this fighter is allocated damage from an attack action that scored a critical hit, allocate 1 damage to every visible fighter within 1”."
   },
   {
     "id": "mutation-temporal-instability",
     "name": "Temporal Instability",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Once per battle round, when this fighter makes a Move action, you may subtract 2 from their Move characteristic to treat an obstacle as insignificant terrain."
   },
   {
     "id": "mutation-horrific-appearance",
     "name": "Horrific Appearance",
-    "category": "unique",
-    "ability_type": "trait",
-    "description": "This fighter gains the `Terrifying` keyword."
+    "category": "mutations",
+    "ability_type": "mutation",
+    "description": "This fighter gains the `Terrifying` keyword.",
+    "modifiers": [
+      {
+        "keyword": "TERRIFYING"
+      }
+    ]
   },
   {
     "id": "mutation-cloud-of-flies",
     "name": "Cloud of Flies",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Subtract 1 from the Fight and Shoot characteristics (to a minimum of 1) of all fighters within 2” of this fighter."
   },
   {
     "id": "mutation-metabolic-overdrive",
     "name": "Metabolic Overdrive",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Once per battle round, this fighter can make a free move action. If it does, allocate D3 damage points to this fighter."
   },
   {
     "id": "mutation-rapid-regeneration",
     "name": "Rapid Regeneration",
-    "category": "unique",
-    "ability_type": "trait",
+    "category": "mutations",
+    "ability_type": "mutation",
     "description": "Each time this fighter is activated, you can remove D3 damage points allocated to them."
   },
   {
     "id": "mutation-daemonic-chitin",
     "name": "Daemonic Chitin",
-    "category": "unique",
-    "ability_type": "trait",
-    "description": "Add 1 to this fighter's Armour characteristic."
+    "category": "mutations",
+    "ability_type": "mutation",
+    "description": "Add 1 to this fighter's Armour characteristic.",
+    "modifiers": [
+      {
+        "characteristic": "defense",
+        "modifier": 1
+      }
+    ]
   },
   {
     "id": "misdirection",
@@ -620,7 +661,12 @@
     "name": "Fearsome",
     "category": "strength",
     "ability_type": "trait",
-    "description": "This fighter gains the `Terrifying` keyword."
+    "description": "This fighter gains the `Terrifying` keyword.",
+    "modifiers": [
+      {
+        "keyword": "TERRIFYING"
+      }
+    ]
   },
   {
     "id": "maintain-momentum-wits",
@@ -683,7 +729,13 @@
     "name": "Tough as Nails",
     "category": "toughness",
     "ability_type": "trait",
-    "description": "Increase this fighter's Health characteristic by 4."
+    "description": "Increase this fighter's Health characteristic by 4.",
+    "modifiers": [
+      {
+        "characteristic": "health",
+        "modifier": 4
+      }
+    ]
   },
   {
     "id": "bulwark",
@@ -873,5 +925,59 @@
     "category": "wits",
     "ability_type": "quad",
     "description": "*Legendary ability.* Select 3 friendly `Henchmen` within 6” of this fighter. Each selected fighter makes either a free move action, a free retreat action, or a free attack action."
+  },
+  {
+    "id": "horrible-scars",
+    "name": "Horrible Scars",
+    "category": "injuries",
+    "ability_type": "trait",
+    "description": "This fighter gains the `Terrifying` keyword.",
+    "modifiers": [
+      {
+        "keyword": "TERRIFYING"
+      }
+    ]
+  },
+  {
+    "id": "dark-allure",
+    "name": "Dark Allure",
+    "category": "blood-of-von-carstein",
+    "ability_type": "trait",
+    "description": "When this fighter makes melee attack actions, enemy fighters cannot make reactions unless they pass a Bravery test."
+  },
+  {
+    "id": "royal-blood",
+    "name": "Royal Blood",
+    "category": "blood-of-von-carstein",
+    "ability_type": "trait",
+    "description": "This fighter can use multiple abilities in each activation. The same ability can be used more than once, but abilities that grant free actions must be fully resolved before another ability can be used."
+  },
+  {
+    "id": "thrill-of-the-hunt",
+    "name": "Thrill of the Hunt",
+    "category": "blood-of-von-carstein",
+    "ability_type": "trait",
+    "description": "When this fighter uses the 'Onslaught' ability, if the target is wounded, increase this fighter's Attacks characteristic by 2 instead of 1."
+  },
+  {
+    "id": "transfixing-glare",
+    "name": "Transfixing Glare",
+    "category": "blood-of-von-carstein",
+    "ability_type": "reaction",
+    "description": "Use this reaction when a visible enemy fighter within 6\" of this fighter uses an action. That fighter must take a Bravery test. If the test fails, they must forfeit that action."
+  },
+  {
+    "id": "bat-form",
+    "name": "Bat Form",
+    "category": "blood-of-von-carstein",
+    "ability_type": "double",
+    "description": "For this fighter’s next move action, add 3 to its Move characteristic. During that move action, this fighter can fly."
+  },
+  {
+    "id": "blood-maddened-frenzy",
+    "name": "Blood-maddened Frenzy",
+    "category": "blood-of-von-carstein",
+    "ability_type": "triple",
+    "description": "A fighter can only use this ability if an enemy fighter has been taken down by an attack action made by this fighter this activation. This fighter makes a free attack action."
   }
 ]
