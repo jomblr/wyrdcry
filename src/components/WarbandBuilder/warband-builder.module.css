@@ -2373,7 +2373,7 @@ button.fighterCardTag {
   cursor: pointer;
 }
 
-/* Mobile warband detail: no site navbar, the builder fills the screen */
+/* Warband detail: no site navbar, the builder fills the screen */
 :global(html.wb-hide-navbar) :global(.navbar) {
   display: none;
 }
