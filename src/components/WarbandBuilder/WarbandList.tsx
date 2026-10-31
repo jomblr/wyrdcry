@@ -20,7 +20,7 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
         <h1 className={styles.warbandListHeading}>Warband Builder</h1>
 
         <p>
-          The Warband Builder is currently in beta and some features may change. See the <a href="/docs/warbands/warband-builder">User Guide</a> before getting started.
+          The Warband Builder is currently in beta and some features may change.
         </p>
 
         <div className={styles.warbandListActions}>
