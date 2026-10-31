@@ -461,7 +461,8 @@
   background: none;
 }
 
-:global(html[data-theme='dark']) .pendingCost {
+/* An unbought fighter's value, in the interaction colour until Purchase */
+.pendingCost {
   color: var(--ifm-color-primary);
   font-weight: 600;
 }
