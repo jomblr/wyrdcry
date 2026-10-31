@@ -310,7 +310,7 @@ export default function FighterCard({
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Special rules</div>
           {abilities.length > 0 && <FighterAbilities abilities={abilities} tagClassName={styles.fighterCardTag} />}
-          {pickAbility && <PickAbilityPrompt onClick={() => setEditOpen('talents')} tagClassName={styles.fighterCardTag} />}
+          {pickAbility && <div className={styles.fighterCardTags}><PickAbilityPrompt card onClick={() => setEditOpen('talents')} /></div>}
         </div>
       )}
 

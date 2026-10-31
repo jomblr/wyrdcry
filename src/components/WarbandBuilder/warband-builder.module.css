@@ -900,6 +900,21 @@
   font-size: 0.8rem;
 }
 
+/* "Pick a starting ability": reads like "No equipment", but opens the ability picker */
+.pickAbilityPrompt {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pickAbilityPrompt:hover {
+  text-decoration: underline;
+}
+
 /* Desktop table: the whole row opens the fighter edit panel */
 .gridRowClickable {
   cursor: pointer;

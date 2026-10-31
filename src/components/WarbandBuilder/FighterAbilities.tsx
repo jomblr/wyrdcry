@@ -18,15 +18,20 @@ function abilityLabel(a: Ability): string {
     : a.name;
 }
 
-/** In place of the missing ability: a tag in the interaction colour that opens the picker. */
-export function PickAbilityPrompt({ onClick, tagClassName }: { onClick: () => void; tagClassName?: string }) {
+/**
+ * In place of the missing ability, opening the picker: muted text like "No equipment" in the
+ * table, and on a card a button like "+ Add equipment".
+ */
+export function PickAbilityPrompt({ onClick, card }: { onClick: () => void; card?: boolean }) {
   return (
     <button
       type="button"
-      className={`${styles.equipmentTag} ${styles.equipmentTagPending} ${tagClassName ?? ''}`}
+      className={card
+        ? `${styles.equipmentTag} ${styles.fighterCardTag} ${styles.fighterCardTagAdd}`
+        : `${styles.lockedCell} ${styles.pickAbilityPrompt}`}
       onClick={e => { e.stopPropagation(); onClick(); }}
     >
-      Pick a starting ability
+      {card ? '+ Pick a starting ability' : 'Pick a starting ability'}
     </button>
   );
 }
