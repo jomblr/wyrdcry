@@ -28,7 +28,7 @@ title: Appendix - Keywords
 	- Cannot be equipped with armour
 - <span Id='Henchman'>`Henchman`</span>
 	- Can increase a characteristic when [earning renown](../campaigns/the-aftermath-sequence/earn-renown.md). Each characteristic can be increased once.
-	- Becomes a `HERO` when earning their 4th point of Renown
+	- Becomes a `HERO` when earning their 3rd point of Renown
 - <span Id='Beast'>`BEAST`</span>
 	- Never earns Renown
 	- Cannot be part of a search party
