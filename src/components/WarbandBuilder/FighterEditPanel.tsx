@@ -27,7 +27,7 @@ interface Props {
   onSetTalents: (talents: string[]) => void;
   onClose: () => void;
   /** Which pane opens first */
-  initialPane?: 'equipment' | 'information';
+  initialPane?: 'equipment' | 'talents' | 'information';
   /** Other fighters' names, so a random name avoids them */
   otherNames: string[];
 }

@@ -5,10 +5,10 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, itemsData, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, itemsData, needsStartingAbility, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
-import FighterAbilities, { fighterAbilities } from './FighterAbilities';
+import FighterAbilities, { fighterAbilities, PickAbilityPrompt } from './FighterAbilities';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
@@ -40,7 +40,7 @@ interface Props {
 export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'talents' | 'information'>(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -192,6 +192,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   // Profile abilities, then talents, injuries and mutations taken in the campaign
   const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
+  const pickAbility = needsStartingAbility(profile, instance);
 
   const menu =
     menuOpen && pos
@@ -309,8 +310,9 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       {/* Special rules — abilities as tags; notes (edited in the fighter panel) below so they still print */}
       <div className={`${styles.cell} ${styles.specialRulesCell}`}>
         {abilities.length > 0 && <FighterAbilities abilities={abilities} />}
+        {pickAbility && <PickAbilityPrompt onClick={() => setEditOpen('talents')} />}
         {instance.notes?.trim() && <div className={styles.fighterCardNotes}>{instance.notes}</div>}
-        {abilities.length === 0 && !instance.notes?.trim() && <span className={styles.lockedCell}>—</span>}
+        {abilities.length === 0 && !pickAbility && !instance.notes?.trim() && <span className={styles.lockedCell}>—</span>}
       </div>
 
       {/* Renown */}

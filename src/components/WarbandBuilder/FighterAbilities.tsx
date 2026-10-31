@@ -18,6 +18,19 @@ function abilityLabel(a: Ability): string {
     : a.name;
 }
 
+/** In place of the missing ability: a tag in the interaction colour that opens the picker. */
+export function PickAbilityPrompt({ onClick, tagClassName }: { onClick: () => void; tagClassName?: string }) {
+  return (
+    <button
+      type="button"
+      className={`${styles.equipmentTag} ${styles.equipmentTagPending} ${tagClassName ?? ''}`}
+      onClick={e => { e.stopPropagation(); onClick(); }}
+    >
+      Pick a starting ability
+    </button>
+  );
+}
+
 /** A fighter's special rules as tags; tapping one opens its description. */
 export default function FighterAbilities({ abilities, tagClassName }: { abilities: Ability[]; tagClassName?: string }) {
   const [openId, setOpenId] = useState<string | null>(null);

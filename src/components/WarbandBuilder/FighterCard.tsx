@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, statLabels, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, needsStartingAbility, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import EquipmentInfoSheet from './EquipmentInfoSheet';
-import FighterAbilities, { fighterAbilities } from './FighterAbilities';
+import FighterAbilities, { fighterAbilities, PickAbilityPrompt } from './FighterAbilities';
 
 interface Props {
   instance: FighterInstance;
@@ -61,7 +61,7 @@ export default function FighterCard({
   readOnly = false,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'talents' | 'information'>(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [info, setInfo] = useState<{ id: string; natural?: boolean } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
@@ -191,6 +191,8 @@ export default function FighterCard({
 
   // Profile abilities, then talents, injuries and mutations taken in the campaign
   const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
+  // Not in play mode, where the panel can't be opened
+  const pickAbility = !readOnly && needsStartingAbility(profile, instance);
 
   // Read-only: stashing and selling live in the edit panel, so a tap to read can't lose gear.
   const infoSheet = info ? <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} /> : null;
@@ -304,10 +306,11 @@ export default function FighterCard({
         </div>
       )}
 
-      {abilities.length > 0 && (
+      {(abilities.length > 0 || pickAbility) && (
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Special rules</div>
-          <FighterAbilities abilities={abilities} tagClassName={styles.fighterCardTag} />
+          {abilities.length > 0 && <FighterAbilities abilities={abilities} tagClassName={styles.fighterCardTag} />}
+          {pickAbility && <PickAbilityPrompt onClick={() => setEditOpen('talents')} tagClassName={styles.fighterCardTag} />}
         </div>
       )}
 

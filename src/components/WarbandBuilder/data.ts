@@ -103,6 +103,12 @@ export function optionalAbilityIds(fighter: AbilityProfile): string[] {
   return CHOOSE_ONE.test(fighter.ability_preamble ?? '') ? fighter.faction_ability_ids ?? [] : [];
 }
 
+/** A wizard (or the Matriarch) who hasn't picked their starting ability yet. */
+export function needsStartingAbility(fighter: AbilityProfile, instance: { talents?: string[] }): boolean {
+  const options = optionalAbilityIds(fighter);
+  return options.length > 0 && !options.some(id => instance.talents?.includes(id));
+}
+
 /** The abilities the fighter always has. */
 export function fixedAbilityIds(fighter: AbilityProfile): string[] {
   return optionalAbilityIds(fighter).length > 0 ? [] : fighter.faction_ability_ids ?? [];
