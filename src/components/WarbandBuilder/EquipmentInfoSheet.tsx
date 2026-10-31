@@ -8,12 +8,11 @@ interface Props {
   id: string;
   onClose: () => void;
   natural?: boolean;
-  pending?: boolean;
   actions?: React.ReactNode;
 }
 
 /** Weapon / item details: stats, special rules and description. */
-export default function EquipmentInfoSheet({ id, onClose, natural, pending, actions }: Props) {
+export default function EquipmentInfoSheet({ id, onClose, natural, actions }: Props) {
   const w = weaponsData.find(x => x.id === id);
   const item = itemsData.find(x => x.id === id);
   const cost = w?.cost ?? item?.cost ?? 0;
@@ -21,7 +20,7 @@ export default function EquipmentInfoSheet({ id, onClose, natural, pending, acti
   return (
     <InfoSheet
       title={w?.name ?? item?.name ?? id}
-      subtitle={(natural ? 'Natural weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`) + (pending ? ' · Not yet purchased' : '')}
+      subtitle={natural ? 'Natural weapon' : w?.type === 'mutated' ? 'Mutated weapon' : w ? `${w.type} weapon · ${cost}gc` : `${item?.type ?? 'Item'} · ${cost}gc`}
       onClose={onClose}
       actions={actions}
     >

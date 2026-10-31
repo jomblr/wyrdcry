@@ -111,7 +111,8 @@ h3 {
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
+  /* Set by Tooltip.tsx when the tip is shifted to stay on screen, so the arrow still points at the target */
+  left: var(--tooltip-arrow-x, 50%);
   transform: translateX(-50%);
   border: 5px solid transparent;
   border-top-color: #000;

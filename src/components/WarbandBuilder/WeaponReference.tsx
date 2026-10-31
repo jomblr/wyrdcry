@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Warband, CustomWeapon } from './useWarband';
-import { fightersData, hasTag, weaponRulesData, weaponsData } from './data';
+import { fightersData, weaponRulesData, weaponsData } from './data';
 import Tooltip from './Tooltip';
 import styles from './warband-builder.module.css';
 
@@ -13,13 +13,10 @@ interface Props {
 
 export default function WeaponReference({ warband, onAddCustomWeapon, onUpdateCustomWeapon, onRemoveCustomWeapon }: Props) {
   const allEquipment = [
+    // Fighters that can't buy gear have none added, except MUTANT daemons' mutated weapons
     ...warband.fighters.flatMap(f => {
       const profile = fightersData.find(p => p.id === f.fighterId);
       const fixedIds = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
-      const isBeast = profile ? hasTag(profile, 'BEAST') : false;
-      const isThrall = profile ? hasTag(profile, 'THRALL') : false;
-      const isDaemon = profile ? hasTag(profile, 'DAEMON') : false;
-      if (isBeast || isThrall || isDaemon) return fixedIds;
       return [...fixedIds, ...f.equipment];
     }),
     ...warband.stash,

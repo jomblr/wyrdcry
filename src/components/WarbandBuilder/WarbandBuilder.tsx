@@ -40,9 +40,6 @@ export default function WarbandBuilder() {
     addCustomWeapon,
     updateCustomWeapon,
     removeCustomWeapon,
-    addCustomAbility,
-    updateCustomAbility,
-    removeCustomAbility,
     addFighter,
     removeFighter,
     duplicateFighter,
@@ -50,12 +47,12 @@ export default function WarbandBuilder() {
     setFighterRenown,
     setFighterStat,
     setFighterNotes,
+    setFighterTalents,
     setFighterCostOverride,
     setFighterEquipment,
     setFighterPendingEquipment,
     purchasePending,
     reorderFighters,
-    transferEquipment,
     sendToStash,
     takeFromStash,
     removeFromStash,
@@ -105,9 +102,9 @@ export default function WarbandBuilder() {
   const [playMode, setPlayMode] = useState(false);
   const inPlayMode = isMobile && playMode;
 
-  // On mobile, an open warband takes the whole screen: hide the site navbar
+  // An open warband takes the whole screen: hide the site navbar
   // ("← Warbands" leads back to the list, where the navbar returns).
-  const hideNavbar = isMobile && view === 'detail';
+  const hideNavbar = view === 'detail';
   useEffect(() => {
     if (!hideNavbar) return;
     document.documentElement.classList.add('wb-hide-navbar');
@@ -234,7 +231,7 @@ export default function WarbandBuilder() {
                       requestAnimationFrame(() => setTimeout(() => window.print(), 0));
                     }}>Print</button>
                     <div className={styles.dropdownSep} />
-                    {/* The site navbar (with its theme switch) is hidden on mobile here */}
+                    {/* The site navbar (with its theme switch) is hidden here */}
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); setColorMode(colorMode === 'dark' ? 'light' : 'dark'); }}>
                       {colorMode === 'dark' ? 'Light theme' : 'Dark theme'}
                     </button>
@@ -315,12 +312,12 @@ export default function WarbandBuilder() {
               onSetFighterRenown={setFighterRenown}
               onSetFighterStat={setFighterStat}
               onSetFighterNotes={setFighterNotes}
+              onSetFighterTalents={setFighterTalents}
               onSetFighterCostOverride={setFighterCostOverride}
               onSetFighterEquipment={setFighterEquipment}
               onSetFighterPendingEquipment={setFighterPendingEquipment}
               onRemoveFighter={removeFighter}
               onDuplicateFighter={duplicateFighter}
-              onTransferEquipment={transferEquipment}
               onAddFighter={addFighter}
               onReorderFighters={reorderFighters}
               onSendToStash={sendToStash}
@@ -342,9 +339,6 @@ export default function WarbandBuilder() {
               onAddCustomWeapon={addCustomWeapon}
               onUpdateCustomWeapon={updateCustomWeapon}
               onRemoveCustomWeapon={removeCustomWeapon}
-              onAddCustomAbility={addCustomAbility}
-              onUpdateCustomAbility={updateCustomAbility}
-              onRemoveCustomAbility={removeCustomAbility}
             />
           </div>
         </div>

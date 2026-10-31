@@ -61,11 +61,12 @@ export default function StatSpinner({ value, onChange, modified, prefix, suffix,
     accumulated.current = 0;
   }
 
-  if (readonly) {
-    return <span className={`${styles.statSpinner} ${styles.statReadonly}`}>{prefix}{value}{suffix}</span>;
-  }
-
-  const span = (
+  // Read-only keeps the modified colour and the breakdown tooltip; only editing is switched off.
+  const span = readonly ? (
+    <span className={`${styles.statSpinner} ${styles.statReadonly} ${modified ? styles.statModified : ''}`}>
+      {prefix}{value}{suffix}
+    </span>
+  ) : (
     <span
       className={`${styles.statSpinner} ${modified ? styles.statModified : ''}`}
       onClick={increment}

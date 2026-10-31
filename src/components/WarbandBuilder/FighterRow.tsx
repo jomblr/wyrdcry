@@ -5,11 +5,11 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { fightersData, hasTag, itemsData, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, itemsData, needsStartingAbility, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
-import SpecialRulesCell from './SpecialRulesCell';
-import ValueModal from './ValueModal';
+import FighterAbilities, { fighterAbilities, PickAbilityPrompt } from './FighterAbilities';
+import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import StatSpinner from './StatSpinner';
 import Tooltip from './Tooltip';
@@ -26,37 +26,24 @@ interface Props {
   onRemove: () => void;
   onDuplicate: () => void;
   canDuplicate: boolean;
-  onTransferEquipment: (fromInstanceId: string, itemId: string, itemIdx: number) => void;
   onSendToStash: (itemIdx: number) => void;
   onSell: (itemIdx: number, salePrice: number) => void;
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
+  onSetTalents: (talents: string[]) => void;
   onSetCostOverride: (cost: number | null) => void;
+  /** Other fighters' names, so a random name in the edit panel avoids them */
+  otherNames: string[];
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onTransferEquipment, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetCostOverride }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [valueModalOpen, setValueModalOpen] = useState(false);
-  const [equipMultiline, setEquipMultiline] = useState(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'talents' | 'information'>(false);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const equipCellRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cell = equipCellRef.current;
-    if (!cell) return;
-    const check = () => {
-      const inner = cell.firstElementChild as HTMLElement | null;
-      if (!inner) return;
-      setEquipMultiline(inner.clientHeight > 48);
-    };
-    const observer = new ResizeObserver(check);
-    observer.observe(cell);
-    return () => observer.disconnect();
-  }, []);
 
   const {
     attributes,
@@ -77,12 +64,12 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   const profile = fightersData.find(f => f.id === instance.fighterId);
   const typeLabel = profile?.name ?? '';
-  const isHero = (profile?.keywords.includes('HERO') ?? false) || instance.renown >= 4;
-  const isWizard = profile?.keywords.includes('WIZARD') ?? false;
   const isBeast = profile ? hasTag(profile, 'BEAST') : false;
   const isThrall = profile ? hasTag(profile, 'THRALL') : false;
   const isDaemon = profile ? hasTag(profile, 'DAEMON') : false;
   const noEquipment = isBeast || isThrall || isDaemon;
+  // The edit panel opens on Equipment unless there's nothing to equip (MUTANT daemons can grow weapons)
+  const firstPane = noEquipment && !(profile && hasTag(profile, 'MUTANT')) ? 'information' : 'equipment';
   const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile?.default_equipment ?? []).map(s => s.replace('weapon:', ''));
 
@@ -122,16 +109,20 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     return sum;
   }, 0);
 
+  // Changes from abilities the fighter has (Daemonic Chitin, injuries, …)
+  const abilityIds = fighterAbilityIds(profile, instance);
+  const abilityDelta = (key: StatKey) => abilityStatChanges(abilityIds, key).reduce((sum, c) => sum + c.value, 0);
+
   // Helper: resolved stat value (override ?? base) + any auto bonus
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
+    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0) + abilityDelta(key);
   }
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return override !== undefined && override !== base;
+    return (override !== undefined && override !== base) || abilityDelta(key) !== 0;
   }
 
   function buildTooltip(key: StatKey): string | undefined {
@@ -140,7 +131,8 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
     const bonus = key === 'defense' ? defenseBonus : 0;
     const hasManual = override !== undefined && override !== base;
     const hasBonus = bonus > 0;
-    if (!hasManual && !hasBonus) return undefined;
+    const abilityChanges = abilityStatChanges(abilityIds, key);
+    if (!hasManual && !hasBonus && abilityChanges.length === 0) return undefined;
     const manualDelta = hasManual ? override! - base : 0;
     const lines: string[] = [`Base: ${base}`];
     if (manualDelta !== 0) lines.push(`Modifier: ${manualDelta > 0 ? '+' : ''}${manualDelta}`);
@@ -152,6 +144,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         }
       });
     }
+    abilityChanges.forEach(c => lines.push(`${c.name}: ${c.value > 0 ? '+' : ''}${c.value}`));
     lines.push(`Total: ${statVal(key)}`);
     return lines.join('\n');
   }
@@ -197,6 +190,10 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   if (!profile) return null;
 
+  // Profile abilities, then talents, injuries and mutations taken in the campaign
+  const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
+  const pickAbility = needsStartingAbility(profile, instance);
+
   const menu =
     menuOpen && pos
       ? ReactDOM.createPortal(
@@ -206,6 +203,14 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
             style={dropdownStyle(pos, true)}
           >
               <>
+                <button
+                  type="button"
+                  className={styles.dropdownItem}
+                  onClick={() => { setMenuOpen(false); setEditOpen(firstPane); }}
+                >
+                  Edit fighter
+                </button>
+                <div className={styles.dropdownSep} />
                 <button
                   type="button"
                   className={styles.dropdownItem}
@@ -223,8 +228,18 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
         )
       : null;
 
+  const openPanel = () => setEditOpen(firstPane);
+
+  // All edits happen in the panel; a click anywhere on the row opens it. Clicks inside portals
+  // (menu, info sheets, the panel itself) still bubble here through React, so only count clicks
+  // whose target is really inside the row.
+  function handleRowClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (!e.currentTarget.contains(e.target as Node)) return;
+    openPanel();
+  }
+
   return (
-    <div ref={setNodeRef} className={styles.gridRow} style={dragStyle}>
+    <div ref={setNodeRef} className={`${styles.gridRow} ${styles.gridRowClickable}`} style={dragStyle} onClick={handleRowClick}>
       {/* Drag handle */}
       <div className={`${styles.cell} ${styles.cellCenter} ${styles.dragHandleCell} ${styles.noPrint}`}>
         <button
@@ -232,6 +247,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           className={styles.dragHandle}
           {...attributes}
           {...listeners}
+          onClick={e => e.stopPropagation()}
           aria-label="Drag to reorder"
           tabIndex={0}
         >
@@ -242,29 +258,24 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
       {/* Fighter name + type */}
       <div className={`${styles.cell} ${styles.fighterNameCell}`}>
         <div className={styles.fighterNameRow}>
-          <input
-            className={styles.nameInput}
-            value={instance.customName}
-            onChange={e => onSetName(e.target.value)}
-            aria-label="Fighter name"
-          />
+          <span className={styles.nameInput}>{instance.customName}</span>
         </div>
         <span className={styles.fighterType}>{typeLabel}</span>
-        <FighterKeywords race={profile.race} keywords={profile.keywords} />
+        <FighterKeywords keywords={currentKeywords(profile, instance)} />
       </div>
 
-      {/* Stats — click/scroll spinners */}
+      {/* Stats — read-only here (edited in the panel); the tooltip still explains modifiers */}
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner value={statVal('move')} modified={isModified('move')} suffix='"'
-          breakdown={buildTooltip('move')} onChange={v => onSetStat('move', v)} readonly={isBeast} />
+          breakdown={buildTooltip('move')} onChange={v => onSetStat('move', v)} readonly />
       </div>
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner value={statVal('fight')} modified={isModified('fight')}
-          breakdown={buildTooltip('fight')} onChange={v => onSetStat('fight', v)} readonly={isBeast} />
+          breakdown={buildTooltip('fight')} onChange={v => onSetStat('fight', v)} readonly />
       </div>
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner value={statVal('shoot')} modified={isModified('shoot')}
-          breakdown={buildTooltip('shoot')} onChange={v => onSetStat('shoot', v)} readonly={isBeast} />
+          breakdown={buildTooltip('shoot')} onChange={v => onSetStat('shoot', v)} readonly />
       </div>
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner
@@ -272,94 +283,47 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           modified={isModified('defense') || defenseBonus > 0}
           breakdown={buildTooltip('defense')}
           onChange={v => onSetStat('defense', v - defenseBonus)}
-          readonly={isBeast}
+          readonly
         />
       </div>
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner value={statVal('health')} modified={isModified('health')} step={2}
-          breakdown={buildTooltip('health')} onChange={v => onSetStat('health', v)} readonly={isBeast} />
+          breakdown={buildTooltip('health')} onChange={v => onSetStat('health', v)} readonly />
       </div>
       <div className={`${styles.cell} ${styles.cellCenter}`}>
         <StatSpinner value={statVal('bravery')} modified={isModified('bravery')} suffix='+'
           min={2} max={6} invert breakdown={buildTooltip('bravery')}
-          onChange={v => onSetStat('bravery', v)} readonly={isBeast} />
+          onChange={v => onSetStat('bravery', v)} readonly />
       </div>
 
       {/* Equipment */}
-      <div ref={equipCellRef} className={`${styles.cell} ${equipMultiline ? styles.cellTop : ''}`}>
-        {noEquipment ? (
-          fixedEquipment.length > 0
-            ? <div className={styles.cellIndent}>{fixedEquipment.map((id, idx) => (
-                <span key={`${id}-${idx}`} className={`${styles.equipmentTag} ${styles.equipmentTagFixed}`}>
-                  {weaponsData.find(w => w.id === id)?.name ?? id}
-                </span>
-              ))}</div>
-            : <span className={`${styles.lockedCell} ${styles.cellIndent}`}>—</span>
-        ) : (
-          <EquipmentCell
-            instanceId={instance.instanceId}
-            equipment={allEquipment}
-            pendingStartIndex={pendingStartIndex}
-            fixedEquipment={fixedEquipment}
-            stash={stash}
-            factionId={profile.faction}
-            isHero={isHero}
-            isWizard={isWizard}
-            isBeast={isBeast}
-            isFighterPurchased={!instance.isPending}
-            remainingGold={remainingGold}
-            onAdd={id => {
-              if (instance.isPending) {
-                onSetEquipment([...instance.equipment, id]);
-              } else {
-                onSetPendingEquipment([...instance.pendingEquipment, id]);
-              }
-            }}
-            onRemoveAtIdx={idx => {
-              if (instance.isPending) {
-                onSetEquipment(instance.equipment.filter((_, i) => i !== idx));
-              } else if (idx < instance.equipment.length) {
-                onSendToStash(idx);
-              } else {
-                onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (idx - instance.equipment.length)));
-              }
-            }}
-            onSendToStash={mergedIdx => {
-              if (instance.isPending) {
-                onSetEquipment(instance.equipment.filter((_, i) => i !== mergedIdx));
-              } else if (mergedIdx < instance.equipment.length) {
-                onSendToStash(mergedIdx);
-              } else {
-                onSetPendingEquipment(instance.pendingEquipment.filter((_, i) => i !== (mergedIdx - instance.equipment.length)));
-              }
-            }}
-            onTakeFromStash={onTakeFromStash}
-            onSell={onSell}
-            onTransferIn={(sourceId, itemId, itemIdx) => onTransferEquipment(sourceId, itemId, itemIdx)}
-          />
-        )}
+      <div className={styles.cell}>
+        {/* For beasts, thralls and daemons the fixed weapons are natural ones */}
+        <EquipmentCell
+          equipment={allEquipment}
+          pendingStartIndex={pendingStartIndex}
+          fixedEquipment={fixedEquipment}
+          fixedAreNatural={noEquipment}
+        />
       </div>
 
-      {/* Notes */}
-      <div className={styles.cell}>
-        <SpecialRulesCell
-          notes={instance.notes ?? ''}
-          onChange={onSetNotes}
-        />
+      {/* Special rules — abilities as tags; notes (edited in the fighter panel) below so they still print */}
+      <div className={`${styles.cell} ${styles.specialRulesCell}`}>
+        {abilities.length > 0 && <FighterAbilities abilities={abilities} />}
+        {pickAbility && <PickAbilityPrompt onClick={() => setEditOpen('talents')} />}
+        {instance.notes?.trim() && <div className={styles.fighterCardNotes}>{instance.notes}</div>}
+        {abilities.length === 0 && !pickAbility && !instance.notes?.trim() && <span className={styles.lockedCell}>—</span>}
       </div>
 
       {/* Renown */}
       <div className={`${styles.cell} ${styles.cellCenter} ${noRenown ? styles.lockedCell : ''}`}>
         {noRenown ? '—' : (
-          <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} />
+          <StatSpinner value={instance.renown} min={0} onChange={onSetRenown} readonly />
         )}
       </div>
 
-      {/* Value — clickable to edit base cost before purchase */}
-      <div
-        className={`${styles.cell} ${styles.cellCenter} ${instance.isPending ? styles.valueCell : ''}`}
-        onClick={() => instance.isPending && setValueModalOpen(true)}
-      >
+      {/* Value — the base cost is adjusted in the fighter edit panel */}
+      <div className={`${styles.cell} ${styles.cellCenter}`}>
         {(() => {
           const costBreakdown = buildCostBreakdown();
           const costSpan = (
@@ -379,15 +343,6 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           );
         })()}
       </div>
-      {valueModalOpen && (
-        <ValueModal
-          fighterName={instance.customName || profile?.name || 'Fighter'}
-          baseCost={baseCost}
-          equipment={instance.equipment}
-          onCostChange={cost => onSetCostOverride(cost)}
-          onClose={() => setValueModalOpen(false)}
-        />
-      )}
 
       {/* Ellipsis menu */}
       <div className={`${styles.cell} ${styles.cellCenter} ${styles.noPrint}`}>
@@ -395,7 +350,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           type="button"
           ref={btnRef}
           className={styles.ellipsisBtn}
-          onClick={handleToggle}
+          onClick={e => { e.stopPropagation(); handleToggle(); }}
           aria-label="Fighter options"
         >
           <EllipsisVertical size={16} />
@@ -419,6 +374,27 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           >
             Remove this fighter from the warband? This can't be undone.
           </InfoSheet>
+        )}
+        {editOpen && (
+          <FighterEditPanel
+            initialPane={editOpen}
+            instance={instance}
+            remainingGold={remainingGold}
+            onSetName={onSetName}
+            onSetRenown={onSetRenown}
+            onSetEquipment={onSetEquipment}
+            onSetPendingEquipment={onSetPendingEquipment}
+            onSendToStash={onSendToStash}
+            onSell={onSell}
+            stash={stash}
+            onTakeFromStash={onTakeFromStash}
+            onSetStat={onSetStat}
+            onSetNotes={onSetNotes}
+            onSetCostOverride={onSetCostOverride}
+            onSetTalents={onSetTalents}
+            otherNames={otherNames}
+            onClose={() => setEditOpen(false)}
+          />
         )}
       </div>
     </div>

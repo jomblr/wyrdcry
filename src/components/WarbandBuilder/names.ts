@@ -1,8 +1,9 @@
 /**
- * Random names for newly added fighters, from the pools in `src/data/names/`
+ * Random names for fighters, from the pools in `src/data/names/`
  * (see the README there for the file format).
  *
- * Only used when a fighter is added; a name the user has typed is never replaced.
+ * Used when a fighter is added, and by the edit panel's random-name button. A name the user has
+ * typed is only replaced when they press that button.
  */
 import { hasTag, type fightersData } from './data';
 import factionRules from '@site/src/data/names/factions.json';

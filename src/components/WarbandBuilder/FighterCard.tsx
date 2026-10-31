@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilitiesData, fightersData, hasTag, itemsData, statLabels, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, needsStartingAbility, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
 import EquipmentInfoSheet from './EquipmentInfoSheet';
-import { salePriceFor } from './WarbandStash';
-import ReactMarkdown from 'react-markdown';
+import FighterAbilities, { fighterAbilities, PickAbilityPrompt } from './FighterAbilities';
 
 interface Props {
   instance: FighterInstance;
@@ -34,7 +33,10 @@ interface Props {
   onTakeFromStash: (itemId: string) => void;
   onSetStat: (stat: StatKey, value: number) => void;
   onSetNotes: (notes: string) => void;
+  onSetTalents: (talents: string[]) => void;
   onSetCostOverride: (cost: number | null) => void;
+  /** Other fighters' names, so a random name in the edit panel avoids them */
+  otherNames: string[];
   /** Play mode: details only — no renaming, menu, stash or sell */
   readOnly?: boolean;
 }
@@ -55,13 +57,13 @@ export default function FighterCard({
   onSetEquipment, onSetPendingEquipment,
   onRemove, onDuplicate, canDuplicate,
   onSendToStash, onSell, stash, onTakeFromStash, canMakeLeader, onMakeLeader,
-  onSetStat, onSetNotes, onSetCostOverride,
+  onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames,
   readOnly = false,
 }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'information'>(false);
+  const [editOpen, setEditOpen] = useState<false | 'equipment' | 'talents' | 'information'>(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [info, setInfo] = useState<{ kind: 'equip'; id: string; pending: boolean; natural?: boolean } | { kind: 'ability'; id: string } | null>(null);
+  const [info, setInfo] = useState<{ id: string; natural?: boolean } | null>(null);
   const [pos, setPos] = useState<DropdownPos | null>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -75,7 +77,7 @@ export default function FighterCard({
   const isThrall = hasTag(profile, 'THRALL');
   const isDaemon = hasTag(profile, 'DAEMON');
   const noRenown = isBeast || isThrall;
-  const isHero = hasTag(profile, 'HERO');
+  const isHero = isHeroNow(profile, instance);
 
   const defenseBonus = instance.equipment.reduce((sum, eid) => {
     const item = itemsData.find(x => x.id === eid);
@@ -83,16 +85,20 @@ export default function FighterCard({
     return sum;
   }, 0);
 
+  // Changes from abilities the fighter has (Daemonic Chitin, injuries, …)
+  const abilityDelta = (key: StatKey) =>
+    abilityStatChanges(fighterAbilityIds(profile!, instance), key).reduce((sum, c) => sum + c.value, 0);
+
   function statVal(key: StatKey): number {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0);
+    return (override !== undefined ? override : base) + (key === 'defense' ? defenseBonus : 0) + abilityDelta(key);
   }
 
   function isModified(key: StatKey): boolean {
     const base = profile![key as keyof typeof profile] as number;
     const override = instance.statOverrides?.[key];
-    return (override !== undefined && override !== base) || (key === 'defense' && defenseBonus > 0);
+    return (override !== undefined && override !== base) || (key === 'defense' && defenseBonus > 0) || abilityDelta(key) !== 0;
   }
 
   const allEquipment = instance.isPending
@@ -138,7 +144,7 @@ export default function FighterCard({
   const menu = menuOpen && pos
     ? ReactDOM.createPortal(
         <div ref={menuRef} className={`${styles.dropdown} ${styles.dropdownMobile}`} style={dropdownStyle(pos, true)}>
-          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen(isBeast || isThrall || isDaemon ? 'information' : 'equipment'); }}>Edit fighter</button>
+          <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); setEditOpen((isBeast || isThrall || isDaemon) && !hasTag(profile, 'MUTANT') ? 'information' : 'equipment'); }}>Edit fighter</button>
           {canMakeLeader && isHero && (
             <button type="button" className={styles.dropdownItem} onClick={() => { handleMenuClose(); onMakeLeader(); }}>Make leader</button>
           )}
@@ -176,65 +182,23 @@ export default function FighterCard({
 
   // Locked for battle: a fighter with no melee weapon (nothing, only ranged, or only armour) fights unarmed.
   const hasMeleeWeapon = [...fixedIds, ...allEquipment, ...naturalWeapons.map(w => w.id)]
-    .some(id => weaponsData.find(w => w.id === id)?.type === 'melee');
+    .some(id => ['melee', 'mutated'].includes(weaponsData.find(w => w.id === id)?.type ?? ''));
   const unarmed = readOnly && !hasMeleeWeapon ? weaponsData.find(w => w.id === 'unarmed') : undefined;
 
   function equipCostOf(id: string): number {
     return weaponsData.find(x => x.id === id)?.cost ?? itemsData.find(x => x.id === id)?.cost ?? 0;
   }
 
-  const abilities = (profile.faction_ability_ids ?? [])
-    .map(id => abilitiesData.find(a => a.id === id))
-    .filter((a): a is NonNullable<typeof a> => !!a);
+  // Profile abilities, then talents, injuries and mutations taken in the campaign
+  const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
+  // Not in play mode, where the panel can't be opened
+  const pickAbility = !readOnly && needsStartingAbility(profile, instance);
 
-  function abilityLabel(a: (typeof abilities)[0]): string {
-    return a.ability_type && a.ability_type !== 'trait'
-      ? `[${a.ability_type[0].toUpperCase()}${a.ability_type.slice(1)}] ${a.name}`
-      : a.name;
-  }
-
-  let infoSheet: React.ReactNode = null;
-  if (info?.kind === 'ability') {
-    const a = abilities.find(x => x.id === info.id);
-    if (a) {
-      infoSheet = (
-        <InfoSheet
-          title={a.name}
-          subtitle={a.ability_type && a.ability_type !== 'trait' ? `${a.ability_type} ability` : 'Trait'}
-          onClose={() => setInfo(null)}
-        >
-          <ReactMarkdown>{a.description}</ReactMarkdown>
-        </InfoSheet>
-      );
-    }
-  } else if (info?.kind === 'equip') {
-    const w = weaponsData.find(x => x.id === info.id);
-    const item = itemsData.find(x => x.id === info.id);
-    const cost = w?.cost ?? item?.cost ?? 0;
-    const salePrice = salePriceFor(cost);
-    // Only bought, non-natural gear can be sold or stashed.
-    const ownedIdx = info.natural || info.pending ? -1 : instance.equipment.lastIndexOf(info.id);
-    const close = () => setInfo(null);
-    infoSheet = (
-      <EquipmentInfoSheet
-        id={info.id}
-        natural={info.natural}
-        pending={info.pending}
-        onClose={close}
-        actions={ownedIdx !== -1 && !readOnly ? (
-          <>
-            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnNeutral}`} onClick={() => { onSendToStash(ownedIdx); close(); }}>
-              Stash
-            </button>
-            <button type="button" className={`${styles.infoSheetBtn} ${styles.infoSheetBtnWhite}`} onClick={() => { onSell(ownedIdx, salePrice); close(); }}>Sell ({salePrice}gc)</button>
-          </>
-        ) : undefined}
-      />
-    );
-  }
+  // Read-only: stashing and selling live in the edit panel, so a tap to read can't lose gear.
+  const infoSheet = info ? <EquipmentInfoSheet id={info.id} natural={info.natural} onClose={() => setInfo(null)} /> : null;
 
   // Race then role keywords; the faction keyword is shared by the whole warband, so it's left out.
-  const keywordTokens = Array.from(new Set([...profile.race, ...profile.keywords, ...(instance.isLeader ? ['LEADER'] : [])]));
+  const keywordTokens = currentKeywords(profile, instance);
 
   return (
     // Unbought fighters aren't tinted; their gold cost (pendingCost) marks them as pending.
@@ -284,23 +248,27 @@ export default function FighterCard({
         <div className={styles.fighterCardSection}>
           <div className={styles.fighterCardSectionTitle}>Equipment</div>
           <div className={styles.fighterCardTags}>
-            {equipGroups.map(g => (
-              <button
-                type="button"
-                key={`${g.id}-${g.pending}-${g.fixed}`}
-                className={`${styles.equipmentTag} ${styles.fighterCardTag} ${g.pending ? styles.equipmentTagPending : ''}`}
-                onClick={() => setInfo({ kind: 'equip', id: g.id, pending: g.pending || (instance.isPending && !g.fixed) })}
-              >
-                {g.name}{g.count > 1 && ` (x${g.count})`}
-                {/* Unbought gear shows what it will cost */}
-                {(g.pending || (instance.isPending && !g.fixed)) && ` (${equipCostOf(g.id) * g.count}gc)`}
-              </button>
-            ))}
+            {equipGroups.map(g => {
+              // Unbought: new gear on a bought fighter, or any (non-fixed) gear on an unbought one
+              // (mutated weapons are never bought, so never shown as unbought or priced)
+              const unbought = !isMutatedWeapon(g.id) && (g.pending || (instance.isPending && !g.fixed));
+              return (
+                <button
+                  type="button"
+                  key={`${g.id}-${g.pending}-${g.fixed}`}
+                  className={`${styles.equipmentTag} ${styles.fighterCardTag} ${unbought ? styles.equipmentTagPending : ''}`}
+                  onClick={() => setInfo({ id: g.id })}
+                >
+                  {g.name}{g.count > 1 && ` (x${g.count})`}
+                  {unbought && ` (${equipCostOf(g.id) * g.count}gc)`}
+                </button>
+              );
+            })}
             {unarmed && (
               <button
                 type="button"
                 className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'equip', id: unarmed.id, pending: false, natural: true })}
+                onClick={() => setInfo({ id: unarmed.id, natural: true })}
               >
                 {unarmed.name}
               </button>
@@ -329,7 +297,7 @@ export default function FighterCard({
                 type="button"
                 key={`${w.id}-${i}`}
                 className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'equip', id: w.id, pending: false, natural: true })}
+                onClick={() => setInfo({ id: w.id, natural: true })}
               >
                 {w.name}
               </button>
@@ -338,21 +306,11 @@ export default function FighterCard({
         </div>
       )}
 
-      {abilities.length > 0 && (
+      {(abilities.length > 0 || pickAbility) && (
         <div className={styles.fighterCardSection}>
-          <div className={styles.fighterCardSectionTitle}>Abilities</div>
-          <div className={styles.fighterCardTags}>
-            {abilities.map(a => (
-              <button
-                type="button"
-                key={a.id}
-                className={`${styles.equipmentTag} ${styles.fighterCardTag}`}
-                onClick={() => setInfo({ kind: 'ability', id: a.id })}
-              >
-                {abilityLabel(a)}
-              </button>
-            ))}
-          </div>
+          <div className={styles.fighterCardSectionTitle}>Special rules</div>
+          {abilities.length > 0 && <FighterAbilities abilities={abilities} tagClassName={styles.fighterCardTag} />}
+          {pickAbility && <PickAbilityPrompt onClick={() => setEditOpen('talents')} tagClassName={styles.fighterCardTag} />}
         </div>
       )}
 
@@ -412,6 +370,8 @@ export default function FighterCard({
           onSetStat={onSetStat}
           onSetNotes={onSetNotes}
           onSetCostOverride={onSetCostOverride}
+          onSetTalents={onSetTalents}
+          otherNames={otherNames}
           onClose={() => setEditOpen(false)}
         />
       )}

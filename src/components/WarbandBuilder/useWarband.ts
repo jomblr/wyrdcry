@@ -32,6 +32,8 @@ export interface FighterInstance {
   statOverrides: Partial<Record<StatKey, number>>;
   /** A hero promoted to leader (gains the LEADER keyword) when the warband has none. */
   isLeader?: boolean;
+  /** Heroic talents, injuries and mutations taken in the campaign (ids in abilities.json). Missing in older saves. */
+  talents?: string[];
 }
 
 export interface CustomAbility {
@@ -61,6 +63,7 @@ export interface Warband {
   stash: string[]; // item IDs parked in warband stash
   factionNotes: string;
   customWeapons: CustomWeapon[];
+  /** Unused: hand-written talents were dropped. Kept so older saves and imports still match. */
   customAbilities: CustomAbility[];
 }
 
@@ -85,10 +88,10 @@ type Action =
   | { type: 'PURCHASE_PENDING' }
   | { type: 'SET_FIGHTER_STAT'; instanceId: string; stat: StatKey; value: number }
   | { type: 'SET_FIGHTER_NOTES'; instanceId: string; notes: string }
+  | { type: 'SET_FIGHTER_TALENTS'; instanceId: string; talents: string[] }
   | { type: 'MAKE_LEADER'; instanceId: string }
   | { type: 'SET_FIGHTER_COST_OVERRIDE'; instanceId: string; costOverride: number | null }
   | { type: 'REORDER_FIGHTERS'; fighters: FighterInstance[] }
-  | { type: 'TRANSFER_EQUIPMENT'; fromId: string; toId: string; itemId: string; itemIdx: number }
   | { type: 'SEND_TO_STASH'; instanceId: string; itemIdx: number }
   | { type: 'SELL_FROM_FIGHTER'; instanceId: string; itemIdx: number; salePrice: number }
   | { type: 'TAKE_FROM_STASH'; instanceId: string; itemId: string }
@@ -98,9 +101,6 @@ type Action =
   | { type: 'ADD_CUSTOM_WEAPON'; weapon: CustomWeapon }
   | { type: 'UPDATE_CUSTOM_WEAPON'; id: string; patch: Partial<Omit<CustomWeapon, 'id'>> }
   | { type: 'REMOVE_CUSTOM_WEAPON'; id: string }
-  | { type: 'ADD_CUSTOM_ABILITY'; ability: CustomAbility }
-  | { type: 'UPDATE_CUSTOM_ABILITY'; id: string; patch: Partial<Omit<CustomAbility, 'id'>> }
-  | { type: 'REMOVE_CUSTOM_ABILITY'; id: string }
   | { type: 'LOAD_WARBAND'; warband: Warband }
   | { type: 'NEW_WARBAND' }
   | { type: 'REGISTER_WARBAND'; id: string }
@@ -274,29 +274,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
-    case 'ADD_CUSTOM_ABILITY':
-      return { ...state, active: { ...state.active, customAbilities: [...state.active.customAbilities, action.ability] } };
-
-    case 'UPDATE_CUSTOM_ABILITY':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          customAbilities: state.active.customAbilities.map(a =>
-            a.id === action.id ? { ...a, ...action.patch } : a,
-          ),
-        },
-      };
-
-    case 'REMOVE_CUSTOM_ABILITY':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          customAbilities: state.active.customAbilities.filter(a => a.id !== action.id),
-        },
-      };
-
     case 'ADD_FIGHTER':
       return {
         ...state,
@@ -409,6 +386,17 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
+    case 'SET_FIGHTER_TALENTS':
+      return {
+        ...state,
+        active: {
+          ...state.active,
+          fighters: state.active.fighters.map(f =>
+            f.instanceId === action.instanceId ? { ...f, talents: action.talents } : f,
+          ),
+        },
+      };
+
     case 'MAKE_LEADER':
       // Only one promoted leader at a time
       return {
@@ -432,23 +420,6 @@ function reducer(state: WarbandState, action: Action): WarbandState {
 
     case 'REORDER_FIGHTERS':
       return { ...state, active: { ...state.active, fighters: action.fighters } };
-
-    case 'TRANSFER_EQUIPMENT':
-      return {
-        ...state,
-        active: {
-          ...state.active,
-          fighters: state.active.fighters.map(f => {
-            if (f.instanceId === action.fromId) {
-              return { ...f, equipment: f.equipment.filter((_, i) => i !== action.itemIdx) };
-            }
-            if (f.instanceId === action.toId) {
-              return { ...f, equipment: [...f.equipment, action.itemId] };
-            }
-            return f;
-          }),
-        },
-      };
 
     case 'SEND_TO_STASH': {
       const src = state.active.fighters.find(f => f.instanceId === action.instanceId);
@@ -603,19 +574,6 @@ export function useWarband() {
     [],
   );
 
-  const addCustomAbility = useCallback(() =>
-    dispatch({ type: 'ADD_CUSTOM_ABILITY', ability: { id: uuid(), fighter: '', type: '', ability: '' } }),
-  []);
-  const updateCustomAbility = useCallback(
-    (id: string, patch: Partial<Omit<CustomAbility, 'id'>>) =>
-      dispatch({ type: 'UPDATE_CUSTOM_ABILITY', id, patch }),
-    [],
-  );
-  const removeCustomAbility = useCallback(
-    (id: string) => dispatch({ type: 'REMOVE_CUSTOM_ABILITY', id }),
-    [],
-  );
-
   const addFighter = useCallback((fighterId: string, name: string) => {
     dispatch({
       type: 'ADD_FIGHTER',
@@ -692,6 +650,12 @@ export function useWarband() {
     [],
   );
 
+  const setFighterTalents = useCallback(
+    (instanceId: string, talents: string[]) =>
+      dispatch({ type: 'SET_FIGHTER_TALENTS', instanceId, talents }),
+    [],
+  );
+
   const setFighterCostOverride = useCallback(
     (instanceId: string, costOverride: number | null) =>
       dispatch({ type: 'SET_FIGHTER_COST_OVERRIDE', instanceId, costOverride }),
@@ -714,12 +678,6 @@ export function useWarband() {
 
   const reorderFighters = useCallback(
     (fighters: FighterInstance[]) => dispatch({ type: 'REORDER_FIGHTERS', fighters }),
-    [],
-  );
-
-  const transferEquipment = useCallback(
-    (fromId: string, toId: string, itemId: string, itemIdx: number) =>
-      dispatch({ type: 'TRANSFER_EQUIPMENT', fromId, toId, itemId, itemIdx }),
     [],
   );
 
@@ -821,9 +779,6 @@ export function useWarband() {
     addCustomWeapon,
     updateCustomWeapon,
     removeCustomWeapon,
-    addCustomAbility,
-    updateCustomAbility,
-    removeCustomAbility,
     addFighter,
     removeFighter,
     duplicateFighter,
@@ -831,12 +786,12 @@ export function useWarband() {
     setFighterRenown,
     setFighterStat,
     setFighterNotes,
+    setFighterTalents,
     setFighterCostOverride,
     setFighterEquipment,
     setFighterPendingEquipment,
     purchasePending,
     reorderFighters,
-    transferEquipment,
     sendToStash,
     takeFromStash,
     removeFromStash,

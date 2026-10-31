@@ -25,7 +25,7 @@ import { campaignRules, factionsData, fightersData, statLabels } from './data';
 
 // leading '' is the drag-handle column
 // `short` is shown instead of `label` on narrower desktop windows (see .statFull/.statShort).
-const HEADERS: { label: string; short?: string; center?: boolean; indent?: boolean; noPrint?: boolean }[] = [
+const HEADERS: { label: string; short?: string; center?: boolean; noPrint?: boolean }[] = [
   { label: '', noPrint: true }, // drag handle
   { label: 'Fighter' },
   { label: 'Move',    short: 'M', center: true },
@@ -34,8 +34,8 @@ const HEADERS: { label: string; short?: string; center?: boolean; indent?: boole
   { label: 'Defense', short: 'D', center: true }, // renamed from statLabels below (Armour / A)
   { label: 'Health',  short: 'H', center: true },
   { label: 'Bravery', short: 'B', center: true },
-  { label: 'Equipment', indent: true },
-  { label: 'Notes' },
+  { label: 'Equipment' },
+  { label: 'Special rules' },
   { label: 'R',             center: true },
   { label: 'Value',         center: true },
   { label: '',              center: true, noPrint: true }, // ⋮ menu
@@ -49,7 +49,6 @@ interface Props {
   onSetFighterPendingEquipment: (instanceId: string, equipment: string[]) => void;
   onRemoveFighter: (instanceId: string) => void;
   onDuplicateFighter: (instanceId: string) => void;
-  onTransferEquipment: (fromId: string, toId: string, itemId: string, itemIdx: number) => void;
   onAddFighter: (fighterId: string, name: string) => void;
   onReorderFighters: (fighters: FighterInstance[]) => void;
   onSendToStash: (instanceId: string, itemIdx: number) => void;
@@ -58,6 +57,7 @@ interface Props {
   onTakeFromStash: (instanceId: string, itemId: string) => void;
   onSetFighterStat: (instanceId: string, stat: StatKey, value: number) => void;
   onSetFighterNotes: (instanceId: string, notes: string) => void;
+  onSetFighterTalents: (instanceId: string, talents: string[]) => void;
   onSetFighterCostOverride: (instanceId: string, cost: number | null) => void;
   hasPending?: boolean;
   onPurchase?: () => void;
@@ -83,7 +83,6 @@ export default function FighterTable({
   onSetFighterPendingEquipment,
   onRemoveFighter,
   onDuplicateFighter,
-  onTransferEquipment,
   onAddFighter,
   onReorderFighters,
   onSendToStash,
@@ -92,6 +91,7 @@ export default function FighterTable({
   onTakeFromStash,
   onSetFighterStat,
   onSetFighterNotes,
+  onSetFighterTalents,
   onSetFighterCostOverride,
   hasPending,
   onPurchase,
@@ -106,6 +106,8 @@ export default function FighterTable({
   const maxFighters = faction && 'warband_size' in faction ? (faction.warband_size as number) : null;
   const atFighterLimit = maxFighters !== null && warband.fighters.length >= maxFighters;
   const remainingGold = warband.gold - calcValue(warband, fightersData) - calcPendingCost(warband, fightersData);
+  const otherNamesFor = (instance: FighterInstance) =>
+    warband.fighters.filter(f => f.instanceId !== instance.instanceId).map(f => f.customName);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -137,7 +139,7 @@ export default function FighterTable({
           {headers.map((h, i) => (
             <div
               key={i}
-              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.indent ? styles.hCellIndent : ''} ${h.noPrint ? styles.noPrint : ''}`}
+              className={`${styles.hCell} ${h.center ? styles.hCellCenter : ''} ${h.noPrint ? styles.noPrint : ''}`}
             >
               {h.short ? (
                 <>
@@ -172,15 +174,14 @@ export default function FighterTable({
                 onRemove={() => onRemoveFighter(instance.instanceId)}
                 onDuplicate={() => onDuplicateFighter(instance.instanceId)}
                 canDuplicate={canDuplicateFighter(instance, warband.fighters, atFighterLimit)}
-                onTransferEquipment={(fromId, itemId, itemIdx) =>
-                  onTransferEquipment(fromId, instance.instanceId, itemId, itemIdx)
-                }
                 onSendToStash={itemIdx => onSendToStash(instance.instanceId, itemIdx)}
                 onSell={(itemIdx, price) => onSellFromFighter(instance.instanceId, itemIdx, price)}
                 onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
                 onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
                 onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+                onSetTalents={talents => onSetFighterTalents(instance.instanceId, talents)}
                 onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+                otherNames={otherNamesFor(instance)}
               />
             ))}
           </SortableContext>
@@ -230,7 +231,9 @@ export default function FighterTable({
               onTakeFromStash={itemId => onTakeFromStash(instance.instanceId, itemId)}
               onSetStat={(stat, value) => onSetFighterStat(instance.instanceId, stat, value)}
               onSetNotes={notes => onSetFighterNotes(instance.instanceId, notes)}
+              onSetTalents={talents => onSetFighterTalents(instance.instanceId, talents)}
               onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
+              otherNames={otherNamesFor(instance)}
             />
           ))}
         </div>
