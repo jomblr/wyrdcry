@@ -615,14 +615,14 @@
     "exclusive": "no",
     "range": 1,
     "attacks": 1,
-    "hit": 3,
-    "crit": 6,
+    "hit": 2,
+    "crit": 4,
     "special_rules": [
       "pierce-1",
       "Poisoned"
     ],
     "power_level": 0,
-    "cost": 30
+    "cost": 10
   },
   {
     "id": "ithilmar-axe",
