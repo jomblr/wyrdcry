@@ -196,7 +196,7 @@ function CurrentEquipment({ naturalWeapons, fixedEquipment, allEquipment, purcha
   return (
     <div>
       {overLimit.length > 0 && (
-        <div className={styles.equipOverLimitNote}>Too many weapons for the slots: stash or sell the marked gear.</div>
+        <div className={styles.equipOverLimitNote}>This fighter has too many weapons</div>
       )}
       {rows.map(({ id, kind, count }) => (
         <div key={`${kind}-${id}`} className={styles.equipRow}>
