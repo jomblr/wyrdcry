@@ -9,6 +9,7 @@ import { hasTag, type fightersData } from './data';
 import factionRules from '@site/src/data/names/factions.json';
 import human from '@site/src/data/names/human.json';
 import skaven from '@site/src/data/names/skaven.json';
+import elf from '@site/src/data/names/elf.json';
 
 type Fighter = (typeof fightersData)[number];
 
@@ -20,7 +21,7 @@ interface NameFile {
 }
 
 // A new race file must be imported and listed here as well.
-const NAME_FILES: NameFile[] = [human, skaven];
+const NAME_FILES: NameFile[] = [human, skaven, elf];
 
 /** Races with no list of their own (VAMPIRE, GHOUL, DAEMON, …) belong to human warbands. */
 const FALLBACK_RACE = 'HUMAN';

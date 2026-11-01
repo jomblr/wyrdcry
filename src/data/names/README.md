@@ -8,7 +8,7 @@ Random-name pools for the Warband Builder, so new fighters get a name instead of
 - Everyone else gets a name from their race's file, avoiding names already in the warband.
 - Races with no file of their own (Vampire, Ghoul, Daemon, …) use `human.json`.
 
-## Race files — `skaven.json`, `human.json`, …
+## Race files — `skaven.json`, `human.json`, `elf.json`, …
 
 One file per race, named after the race in lowercase with hyphens (`dire-wolf.json`).
 A new file also has to be added to `NAME_FILES` in `names.ts`.
