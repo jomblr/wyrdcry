@@ -274,14 +274,18 @@ function reducer(state: WarbandState, action: Action): WarbandState {
         },
       };
 
-    case 'ADD_FIGHTER':
+    case 'ADD_FIGHTER': {
+      // A LEADER starts with 1 Renown
+      const isLeader = fightersData.find(p => p.id === action.fighter.fighterId)?.keywords.includes('LEADER');
+      const fighter = isLeader ? { ...action.fighter, renown: Math.max(action.fighter.renown, 1) } : action.fighter;
       return {
         ...state,
         active: {
           ...state.active,
-          fighters: [...state.active.fighters, action.fighter],
+          fighters: [...state.active.fighters, fighter],
         },
       };
+    }
 
     case 'REMOVE_FIGHTER': {
       const fi = state.active.fighters.find(f => f.instanceId === action.instanceId);
@@ -398,12 +402,14 @@ function reducer(state: WarbandState, action: Action): WarbandState {
       };
 
     case 'MAKE_LEADER':
-      // Only one promoted leader at a time
+      // Only one promoted leader at a time; like any LEADER, they have at least 1 Renown
       return {
         ...state,
         active: {
           ...state.active,
-          fighters: state.active.fighters.map(f => ({ ...f, isLeader: f.instanceId === action.instanceId })),
+          fighters: state.active.fighters.map(f => f.instanceId === action.instanceId
+            ? { ...f, isLeader: true, renown: Math.max(f.renown, 1) }
+            : { ...f, isLeader: false }),
         },
       };
 
