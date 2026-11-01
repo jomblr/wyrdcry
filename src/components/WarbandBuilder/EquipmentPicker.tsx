@@ -12,6 +12,26 @@ const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
 
+/** Which slots a piece of gear fills, if any. */
+function slotOf(id: string): 'melee' | 'ranged' | null {
+  if (id === 'shield') return 'melee';
+  const w = weaponsData.find(x => x.id === id);
+  if (!w) return null;
+  if (w.type === 'melee' || isMutatedWeapon(id)) return 'melee';
+  return w.type === 'ranged' ? 'ranged' : null;
+}
+
+/**
+ * Gear that no longer fits: a mutation's natural weapon fills a slot, so a fighter who already
+ * had two melee weapons now has one too many. Every piece of gear in the overfull slot type is
+ * returned, since the player chooses which to stash or sell.
+ */
+export function overLimitGear(naturalIds: string[], fixedIds: string[], equipmentIds: string[]): string[] {
+  const { melee, ranged } = countSlots([...naturalIds, ...fixedIds, ...equipmentIds]);
+  return equipmentIds.filter(id =>
+    (melee > MELEE_SLOTS && slotOf(id) === 'melee') || (ranged > RANGED_SLOTS && slotOf(id) === 'ranged'));
+}
+
 function countSlots(ids: string[]): { melee: number; ranged: number } {
   let melee = 0, ranged = 0;
   const seenBrace = new Set<string>();
@@ -19,8 +39,8 @@ function countSlots(ids: string[]): { melee: number; ranged: number } {
     if (id === 'shield') { melee += 1; continue; }
     const w = weaponsData.find(x => x.id === id);
     if (!w) continue;
-    // Mutated weapons (Tentacles, …) take melee slots like any melee weapon
-    if (w.type === 'melee' || w.type === 'mutated') melee += w.special_rules.includes('two-handed') ? 2 : 1;
+    // A mutation's natural weapon (Tentacles, …) takes melee slots like any melee weapon
+    if (w.type === 'melee' || isMutatedWeapon(id)) melee += w.special_rules.includes('two-handed') ? 2 : 1;
     else if (w.type === 'ranged') {
       if (w.special_rules.includes('brace')) {
         if (!seenBrace.has(id)) { ranged += 1; seenBrace.add(id); }
@@ -53,11 +73,10 @@ interface Props {
   /** Items in the warband stash this fighter can take for free (purchased fighters only). */
   stash?: string[];
   onTakeFromStash?: (id: string) => void;
-  /** MUTANTs can also take the mutated weapons (Tentacles, Great Claw), in their own section after the melee weapons */
-  isMutant?: boolean;
-  /** Only the mutated weapons: for MUTANTs that can't buy other equipment (the Possessed) */
-  mutatedOnly?: boolean;
-  /** Weapons the fighter is born with, listed first (fighters that can't buy equipment) */
+  /**
+   * Weapons the fighter's mutations give it, listed first in Current equipment. They can't be
+   * stashed, sold or removed here, and they fill melee slots.
+   */
   naturalWeapons?: string[];
 }
 
@@ -146,38 +165,47 @@ function costOf(id: string): number {
  * on the right. Unbought gear can be removed; bought gear can be stashed or sold. Duplicates share
  * a row ("Club (x2)") and each button acts on one copy.
  */
-function CurrentEquipment({ fixedEquipment, allEquipment, purchasedEquipment, onStash, onSell, onRemoveLast }: {
+function CurrentEquipment({ naturalWeapons, fixedEquipment, allEquipment, purchasedEquipment, overLimit, onStash, onSell, onRemoveLast }: {
+  /** A mutation's weapons, listed first and labelled rather than given buttons */
+  naturalWeapons: string[];
   fixedEquipment: string[];
+  /** Gear that no longer fits (see overLimitGear), marked so the player stashes or sells it */
+  overLimit: string[];
   allEquipment: string[];
   purchasedEquipment: string[];
   onStash: (id: string) => void;
   onSell: (id: string) => void;
   onRemoveLast: (id: string) => void;
 }) {
-  if (fixedEquipment.length === 0 && allEquipment.length === 0) {
+  if (naturalWeapons.length === 0 && fixedEquipment.length === 0 && allEquipment.length === 0) {
     return <div className={styles.equipEmpty}>None</div>;
   }
 
   // 'mutated': a mutated weapon, never bought, so no price and only Remove
-  type Kind = 'fixed' | 'purchased' | 'pending' | 'mutated';
+  type Kind = 'natural' | 'fixed' | 'purchased' | 'pending' | 'mutated';
   const rows: { id: string; kind: Kind; count: number }[] = [];
   const add = (id: string, kind: Kind) => {
     const r = rows.find(x => x.id === id && x.kind === kind);
     if (r) r.count++; else rows.push({ id, kind, count: 1 });
   };
+  naturalWeapons.forEach(id => add(id, 'natural'));
   fixedEquipment.forEach(id => add(id, 'fixed'));
   // Purchased copies come first in allEquipment; the rest are added but not yet bought.
   allEquipment.forEach((id, i) => add(id, isMutatedWeapon(id) ? 'mutated' : i < purchasedEquipment.length ? 'purchased' : 'pending'));
 
   return (
     <div>
+      {overLimit.length > 0 && (
+        <div className={styles.equipOverLimitNote}>Too many weapons for the slots: stash or sell the marked gear.</div>
+      )}
       {rows.map(({ id, kind, count }) => (
         <div key={`${kind}-${id}`} className={styles.equipRow}>
-          <span className={styles.equipPickerName}>
-            <InfoName id={id} name={count > 1 ? `${nameOf(id)} (x${count})` : nameOf(id)} />
+          <span className={`${styles.equipPickerName} ${(kind === 'purchased' || kind === 'pending') && overLimit.includes(id) ? styles.equipOverLimit : ''}`}>
+            <InfoName id={id} name={count > 1 ? `${nameOf(id)} (x${count})` : nameOf(id)} natural={kind === 'natural'} />
           </span>
           <span className={styles.equipPickerCost}>{kind === 'pending' && `${costOf(id)}gc`}</span>
           <span className={styles.equipRowActions}>
+            {kind === 'natural' && <span className={styles.equipRowNote}>Natural Weapon</span>}
             {(kind === 'pending' || kind === 'mutated') && (
               <button type="button" className={`${styles.equipActionBtn} ${styles.equipActionBtnNeutral}`} onClick={() => onRemoveLast(id)}>
                 Remove
@@ -202,13 +230,13 @@ function CurrentEquipment({ fixedEquipment, allEquipment, purchasedEquipment, on
 
 export default function EquipmentPicker({
   allEquipment, fixedEquipment, purchasedEquipment, factionId, isHero, isWizard, isBeast, remainingGold, onAdd, onRemoveLast, onStash, onSell,
-  stash = [], onTakeFromStash, isMutant = false, mutatedOnly = false, naturalWeapons = [],
+  stash = [], onTakeFromStash, naturalWeapons = [],
 }: Props) {
   /** Stash copies are free, so `free` skips the gold check. */
   function affordable(cost: number, free = false) { return free || cost <= remainingGold; }
   const [tradingPostOpen, setTradingPostOpen] = useState(false);
   const [stashOpen, setStashOpen] = useState(true);
-  const combinedIds = [...fixedEquipment, ...allEquipment];
+  const combinedIds = [...naturalWeapons, ...fixedEquipment, ...allEquipment];
   const slots = countSlots(combinedIds);
   const hasExclusiveArmour = EXCLUSIVE_ARMOUR.some(a => combinedIds.includes(a));
 
@@ -259,15 +287,8 @@ export default function EquipmentPicker({
     return affordable(item.cost, free);
   }
 
-  // Free, and only one of each (a repeated mutation is rerolled), but it fills melee slots like
-  // any melee weapon
-  function canAddMutated(w: (typeof weaponsData)[0]): boolean {
-    const needs = w.special_rules.includes('two-handed') ? 2 : 1;
-    return !combinedIds.includes(w.id) && slots.melee + needs <= MELEE_SLOTS;
-  }
-
   /** Stash items this fighter may carry (faction rules apply), with whether a slot is free. */
-  const stashOptions = onTakeFromStash && !mutatedOnly
+  const stashOptions = onTakeFromStash
     ? stash.flatMap((id, i) => {
         if (stash.indexOf(id) !== i) return []; // one row per item type
         const w = weaponsData.find(x => x.id === id);
@@ -282,39 +303,26 @@ export default function EquipmentPicker({
       })
     : [];
 
-  const meleeWeapons = mutatedOnly ? [] : weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
-  const mutatedWeapons = isMutant || mutatedOnly ? weaponsData.filter(w => w.type === 'mutated') : [];
-  const rangedWeapons = mutatedOnly ? [] : weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
+  const meleeWeapons = weaponsData.filter(w => w.type === 'melee' && factionAllows(w.id));
+  const rangedWeapons = weaponsData.filter(w => w.type === 'ranged' && factionAllows(w.id));
   // Wizards can't wear armour, so the section is left out rather than shown greyed out
-  const availableArmour = isWizard || mutatedOnly ? [] : armourItems().filter(i => factionAllowsArmour(i.id));
+  const availableArmour = isWizard ? [] : armourItems().filter(i => factionAllowsArmour(i.id));
 
   if (isBeast) return null;
 
   const tradingPostCount = allEquipment.filter(id => gearItems().some(i => i.id === id)).length;
 
-  const natural = naturalWeapons.flatMap(id => weaponsData.filter(w => w.id === id));
-
   return (
     <div className={styles.equipPicker}>
-      {/* Part of this list (not a block above it) so it gets the same section spacing */}
-      {natural.length > 0 && (
-        <div>
-          <SectionHead title={natural.length > 1 ? 'Natural Weapons' : 'Natural Weapon'} />
-          {natural.map((w, i) => (
-            <div key={`${w.id}-${i}`} className={styles.equipRow}>
-              <span className={styles.equipPickerName}><InfoName id={w.id} name={w.name} natural /></span>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* What the fighter has, first in the same scrolling list as everything it can get */}
       <div>
         <SectionHead title="Current equipment" />
         <CurrentEquipment
+          naturalWeapons={naturalWeapons}
           fixedEquipment={fixedEquipment}
           allEquipment={allEquipment}
           purchasedEquipment={purchasedEquipment}
+          overLimit={overLimitGear(naturalWeapons, fixedEquipment, allEquipment)}
           onStash={onStash}
           onSell={onSell}
           onRemoveLast={onRemoveLast}
@@ -344,22 +352,6 @@ export default function EquipmentPicker({
               name={w.name}
               cost={w.cost}
               addDisabled={!canAddMelee(w)}
-              onAdd={() => onAdd(w.id)}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* No price: mutated weapons come from the mutation table, not the Trading Post */}
-      {mutatedWeapons.length > 0 && (
-        <div>
-          <SectionHead title="Mutated Weapons" />
-          {mutatedWeapons.map(w => (
-            <EquipRow
-              key={w.id}
-              id={w.id}
-              name={w.name}
-              addDisabled={!canAddMutated(w)}
               onAdd={() => onAdd(w.id)}
             />
           ))}
@@ -398,7 +390,7 @@ export default function EquipmentPicker({
         </div>
       )}
 
-      {!mutatedOnly && gearItems().length > 0 && (
+      {gearItems().length > 0 && (
         <div>
           <SectionHead
             title={tradingPostCount > 0 && !tradingPostOpen ? `Trading Post (${tradingPostCount})` : 'Trading Post'}

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { EllipsisVertical } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, needsStartingAbility, statLabels, weaponsData } from './data';
+import { overLimitGear } from './EquipmentPicker';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fighterGrantedWeapons, fightersData, hasTag, isHeroNow, isMutatedWeapon, itemsData, needsStartingAbility, statLabels, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import FighterEditPanel from './FighterEditPanel';
 import InfoSheet from './InfoSheet';
@@ -174,15 +175,21 @@ export default function FighterCard({
   allEquipment.forEach((eid, idx) => addToGroups(eid, !instance.isPending && idx >= instance.equipment.length, false));
 
   // Beasts, thralls and daemons can't buy equipment; show the weapons they're born with instead.
-  const naturalWeapons = canEquip
-    ? []
-    : (profile.default_equipment ?? [])
-        .map(id => weaponsData.find(w => w.id === id.replace('weapon:', '')))
-        .filter((w): w is NonNullable<typeof w> => !!w);
+  // Mutations' weapons (Tentacles, …) are natural weapons too, for any fighter.
+  const naturalWeapons = [
+    ...(canEquip ? [] : (profile.default_equipment ?? []).map(id => id.replace('weapon:', ''))),
+    // An older save may also hold the same weapon in its equipment: show it once
+    ...fighterGrantedWeapons(profile, instance).filter(id => !allEquipment.includes(id)),
+  ]
+    .map(id => weaponsData.find(w => w.id === id))
+    .filter((w): w is NonNullable<typeof w> => !!w);
+
+  // Gear pushed out of its slot by a mutation's weapon, marked so the player stashes or sells it
+  const overLimit = canEquip ? overLimitGear(fighterGrantedWeapons(profile, instance), fixedIds, allEquipment) : [];
 
   // Locked for battle: a fighter with no melee weapon (nothing, only ranged, or only armour) fights unarmed.
   const hasMeleeWeapon = [...fixedIds, ...allEquipment, ...naturalWeapons.map(w => w.id)]
-    .some(id => ['melee', 'mutated'].includes(weaponsData.find(w => w.id === id)?.type ?? ''));
+    .some(id => ['melee', 'mutated', 'natural'].includes(weaponsData.find(w => w.id === id)?.type ?? ''));
   const unarmed = readOnly && !hasMeleeWeapon ? weaponsData.find(w => w.id === 'unarmed') : undefined;
 
   function equipCostOf(id: string): number {
@@ -256,7 +263,7 @@ export default function FighterCard({
                 <button
                   type="button"
                   key={`${g.id}-${g.pending}-${g.fixed}`}
-                  className={`${styles.equipmentTag} ${styles.fighterCardTag} ${unbought ? styles.equipmentTagPending : ''}`}
+                  className={`${styles.equipmentTag} ${styles.fighterCardTag} ${unbought ? styles.equipmentTagPending : ''} ${!g.fixed && overLimit.includes(g.id) ? styles.equipmentTagOverLimit : ''}`}
                   onClick={() => setInfo({ id: g.id })}
                 >
                   {g.name}{g.count > 1 && ` (x${g.count})`}

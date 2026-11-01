@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Dices, X } from 'lucide-react';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, fixedAbilityIds, hasTag, isHeroNow, isMutatedWeapon, itemsData, optionalAbilityIds, statLabels, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fighterGrantedWeapons, fightersData, fixedAbilityIds, hasTag, isHeroNow, isMutatedWeapon, itemsData, optionalAbilityIds, statLabels, weaponsData } from './data';
 import EquipmentPicker, { NaturalWeapons } from './EquipmentPicker';
 import TalentPicker from './TalentPicker';
 import SpecialRulesCell from './SpecialRulesCell';
@@ -167,6 +167,8 @@ export default function FighterEditPanel({
   const noEquipment = isBeast || isThrall || isDaemon;
   const noRenown = isBeast || isThrall;
   const fixedEquipment = (profile.default_equipment ?? []).map(s => s.replace('weapon:', ''));
+  // Natural weapons from mutations (Tentacles, …): listed with the natural weapons, never bought
+  const grantedWeapons = fighterGrantedWeapons(profile, instance);
 
   const allEquipment = instance.isPending
     ? instance.equipment
@@ -285,32 +287,13 @@ export default function FighterEditPanel({
           {/* Equipment */}
           <div className={styles.editPanelSection}>
             {noEquipment ? (
-              // Beasts, thralls and daemons can't buy equipment: just show what they're born with.
-              // MUTANTs among them (the Possessed) can still grow the mutated weapons.
-              <>
-                {!isMutant && <NaturalWeapons weaponIds={fixedEquipment} />}
-                {isMutant && (
-                  <EquipmentPicker
-                    mutatedOnly
-                    naturalWeapons={fixedEquipment}
-                    allEquipment={allEquipment}
-                    fixedEquipment={[]}
-                    purchasedEquipment={instance.isPending ? [] : instance.equipment}
-                    factionId={profile.faction}
-                    isHero={isHero}
-                    isWizard={isWizard}
-                    isBeast={false}
-                    remainingGold={remainingGold}
-                    onAdd={onAddItem}
-                    onRemoveLast={onRemoveLastItem}
-                    onStash={onStashItem}
-                    onSell={onSellItem}
-                  />
-                )}
-              </>
+              // Beasts, thralls and daemons can't buy equipment: just show their natural weapons, from
+              // the profile and from mutations (the Possessed). Older saves kept mutation weapons in
+              // equipment, so those are listed here too.
+              <NaturalWeapons weaponIds={Array.from(new Set([...fixedEquipment, ...grantedWeapons, ...allEquipment]))} />
             ) : (
               <EquipmentPicker
-                isMutant={isMutant}
+                naturalWeapons={grantedWeapons}
                 allEquipment={allEquipment}
                 fixedEquipment={fixedEquipment}
                 purchasedEquipment={instance.isPending ? [] : instance.equipment}

@@ -580,7 +580,7 @@
   {
     "id": "mutation-tentacles",
     "name": "Tentacles",
-    "type": "mutated",
+    "type": "natural",
     "exclusive": "no",
     "range": 2,
     "attacks": 3,
@@ -595,7 +595,7 @@
   {
     "id": "mutation-great-claw",
     "name": "Great Claw",
-    "type": "mutated",
+    "type": "natural",
     "exclusive": "no",
     "range": 1,
     "attacks": 2,
@@ -611,7 +611,7 @@
   {
     "id": "mutation-scorpion-tail",
     "name": "Scorpion Tail",
-    "type": "mutated",
+    "type": "natural",
     "exclusive": "no",
     "range": 1,
     "attacks": 1,

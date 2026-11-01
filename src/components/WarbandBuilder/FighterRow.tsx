@@ -5,7 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FighterInstance, StatKey } from './useWarband';
 import styles from './warband-builder.module.css';
-import { abilityStatChanges, currentKeywords, fighterAbilityIds, fightersData, hasTag, itemsData, needsStartingAbility, weaponsData } from './data';
+import { abilityStatChanges, currentKeywords, fighterAbilityIds, fighterGrantedWeapons, fightersData, hasTag, itemsData, needsStartingAbility, weaponsData } from './data';
 import { calcDropdownPos, dropdownStyle, type DropdownPos } from './dropdownPos';
 import EquipmentCell from './EquipmentCell';
 import FighterAbilities, { fighterAbilities, PickAbilityPrompt } from './FighterAbilities';
@@ -304,6 +304,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           pendingStartIndex={pendingStartIndex}
           fixedEquipment={fixedEquipment}
           fixedAreNatural={noEquipment}
+          grantedWeapons={profile ? fighterGrantedWeapons(profile, instance) : []}
           onAdd={noEquipment ? undefined : () => setEditOpen('equipment')}
         />
       </div>

@@ -979,5 +979,44 @@
     "category": "blood-of-von-carstein",
     "ability_type": "triple",
     "description": "A fighter can only use this ability if an enemy fighter has been taken down by an attack action made by this fighter this activation. This fighter makes a free attack action."
+  },
+  {
+    "id": "tentacles",
+    "name": "Tentacles",
+    "category": "mutations",
+    "ability_type": "mutation",
+    "description": "Counts as a melee weapon.",
+    "modifiers": [
+      {
+        "item": "mutation-tentacles",
+        "source": "weapons"
+      }
+    ]
+  },
+  {
+    "id": "great-claw",
+    "name": "Great Claw",
+    "category": "mutations",
+    "ability_type": "mutation",
+    "description": "Counts as a melee weapon",
+    "modifiers": [
+      {
+        "item": "mutation-great-claw",
+        "source": "weapons"
+      }
+    ]
+  },
+  {
+    "id": "scorpion-tail",
+    "name": "Scorpion Tail",
+    "category": "mutations",
+    "ability_type": "mutation",
+    "description": "Counts as a melee weapon",
+    "modifiers": [
+      {
+        "item": "mutation-scorpion-tail",
+        "source": "weapons"
+      }
+    ]
   }
 ]

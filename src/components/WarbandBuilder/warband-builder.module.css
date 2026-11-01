@@ -2402,6 +2402,28 @@ button.fighterCardTag {
   color: var(--wyrd-text3);
 }
 
+/* "Natural Weapon" in place of the buttons, for a mutation's weapon */
+.equipRowNote {
+  font-size: 0.85rem;
+  color: var(--wyrd-text3);
+}
+
+/* Gear that no longer fits its slots (a mutation's weapon took one): stash or sell it */
+.equipOverLimit {
+  color: var(--ifm-color-danger);
+}
+
+.equipOverLimitNote {
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+  color: var(--ifm-color-danger);
+}
+
+.equipmentTag.equipmentTagOverLimit {
+  background: color-mix(in srgb, var(--ifm-color-danger) 16%, transparent);
+  color: var(--ifm-color-danger);
+}
+
 /* Current equipment rows: Remove, or Stash + Sell, in the Add buttons' column */
 .equipRowActions {
   display: flex;

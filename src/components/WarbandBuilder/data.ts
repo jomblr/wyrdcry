@@ -24,14 +24,16 @@
 import { STABLE_DATA, type GameData, type StatLabels } from '@site/src/data/gameData';
 
 /**
- * Mutated weapons (Tentacles, Great Claw, …) come from rolling on the mutation table, never
- * from buying, so the builder treats them as free whatever cost the data gives them. Done here
- * once so totals, the Purchase sum, affordability and sale prices all agree.
+ * Natural weapons (Tentacles, Great Claw, …; "mutated" in older exports) come with a mutation,
+ * never from buying, so the builder treats them as free whatever cost the data gives them. Done
+ * here once so totals, the Purchase sum, affordability and sale prices all agree.
  */
+const GRANTED_WEAPON_TYPES = ['natural', 'mutated'];
+
 function forBuilder(data: GameData): GameData {
   return {
     ...data,
-    weapons: data.weapons.map(w => (w.type === 'mutated' ? { ...w, cost: 0 } : w)),
+    weapons: data.weapons.map(w => (GRANTED_WEAPON_TYPES.includes(w.type) ? { ...w, cost: 0 } : w)),
     abilities: data.abilities.map(normaliseAbility) as GameData['abilities'],
   };
 }
@@ -57,9 +59,9 @@ export function setBuilderData(data: GameData): void {
   active = forBuilder(data);
 }
 
-/** Mutated weapons are part of the fighter's body: free, added straight away, and only removed. */
+/** Weapons that come with a mutation are part of the fighter's body: free, never bought, and only removed. */
 export function isMutatedWeapon(id: string): boolean {
-  return active.weapons.some(w => w.id === id && w.type === 'mutated');
+  return active.weapons.some(w => w.id === id && GRANTED_WEAPON_TYPES.includes(w.type));
 }
 
 /** Forward every property read to the active version's value for `key`. */
@@ -116,11 +118,13 @@ export function fixedAbilityIds(fighter: AbilityProfile): string[] {
 
 /**
  * A permanent change an ability makes to the fighter who has it: a characteristic change
- * (`defense` is Armour) or a keyword. Conditional effects stay in the description.
+ * (`defense` is Armour), a keyword, or gear it brings (a mutation's weapon, from `source`).
+ * Conditional effects stay in the description.
  */
 export type AbilityModifier =
   | { characteristic: 'move' | 'fight' | 'shoot' | 'defense' | 'health' | 'bravery'; modifier: number }
-  | { keyword: string };
+  | { keyword: string }
+  | { item: string; source: string };
 
 /** Every ability the fighter has: the profile's fixed ones, then talents, spells, injuries and mutations. */
 export function fighterAbilityIds(
@@ -146,6 +150,17 @@ export function abilityStatChanges(abilityIds: string[], stat: string): { name: 
 /** Keywords the fighter's abilities give it, e.g. TERRIFYING. */
 export function abilityKeywords(abilityIds: string[]): string[] {
   return modifiersOf(abilityIds).flatMap(({ modifier }) => ('keyword' in modifier ? [modifier.keyword.toUpperCase()] : []));
+}
+
+/** Weapons the abilities bring with them, e.g. Tentacles for the Tentacles mutation. */
+export function grantedWeaponIds(abilityIds: string[]): string[] {
+  return modifiersOf(abilityIds).flatMap(({ modifier }) =>
+    'item' in modifier && modifier.source === 'weapons' ? [modifier.item] : []);
+}
+
+/** The natural weapons the fighter's abilities give it now (removing the mutation removes the weapon). */
+export function fighterGrantedWeapons(profile: AbilityProfile, instance: { talents?: string[] }): string[] {
+  return grantedWeaponIds(fighterAbilityIds(profile, instance));
 }
 
 /** A HENCHMAN becomes a HERO on earning their 3rd point of Renown. */
