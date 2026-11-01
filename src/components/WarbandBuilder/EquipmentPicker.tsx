@@ -12,24 +12,39 @@ const MELEE_SLOTS = 2;
 const RANGED_SLOTS = 1;
 const EXCLUSIVE_ARMOUR = ['light-armour', 'heavy-armour'];
 
+/**
+ * Natural weapons from mutations that don't count as mutated weapons (the Scorpion Tail is an
+ * off-hand weapon): no melee slot, and ranged weapons are still allowed. The data has no field
+ * for this yet.
+ */
+const OFF_HAND_MUTATIONS = ['mutation-scorpion-tail'];
+
+/** A mutated weapon (Tentacles, Great Claw): fills a melee slot and rules out ranged weapons. */
+function isSlotMutation(id: string): boolean {
+  return isMutatedWeapon(id) && !OFF_HAND_MUTATIONS.includes(id);
+}
+
 /** Which slots a piece of gear fills, if any. */
 function slotOf(id: string): 'melee' | 'ranged' | null {
   if (id === 'shield') return 'melee';
   const w = weaponsData.find(x => x.id === id);
   if (!w) return null;
-  if (w.type === 'melee' || isMutatedWeapon(id)) return 'melee';
+  if (w.type === 'melee' || isSlotMutation(id)) return 'melee';
   return w.type === 'ranged' ? 'ranged' : null;
 }
 
 /**
- * Gear that no longer fits: a mutation's natural weapon fills a slot, so a fighter who already
- * had two melee weapons now has one too many. Every piece of gear in the overfull slot type is
- * returned, since the player chooses which to stash or sell.
+ * Gear that no longer fits: a mutated weapon fills a melee slot, so a fighter who already had two
+ * melee weapons now has one too many, and it rules out ranged weapons altogether. Every piece of
+ * gear in the overfull slot type is returned, since the player chooses which to stash or sell.
  */
 export function overLimitGear(naturalIds: string[], fixedIds: string[], equipmentIds: string[]): string[] {
-  const { melee, ranged } = countSlots([...naturalIds, ...fixedIds, ...equipmentIds]);
+  const all = [...naturalIds, ...fixedIds, ...equipmentIds];
+  const { melee, ranged } = countSlots(all);
+  const noRanged = all.some(isSlotMutation);
   return equipmentIds.filter(id =>
-    (melee > MELEE_SLOTS && slotOf(id) === 'melee') || (ranged > RANGED_SLOTS && slotOf(id) === 'ranged'));
+    (melee > MELEE_SLOTS && slotOf(id) === 'melee') ||
+    ((noRanged || ranged > RANGED_SLOTS) && slotOf(id) === 'ranged'));
 }
 
 function countSlots(ids: string[]): { melee: number; ranged: number } {
@@ -39,8 +54,8 @@ function countSlots(ids: string[]): { melee: number; ranged: number } {
     if (id === 'shield') { melee += 1; continue; }
     const w = weaponsData.find(x => x.id === id);
     if (!w) continue;
-    // A mutation's natural weapon (Tentacles, …) takes melee slots like any melee weapon
-    if (w.type === 'melee' || isMutatedWeapon(id)) melee += w.special_rules.includes('two-handed') ? 2 : 1;
+    // A mutated weapon (Tentacles, …) takes melee slots like any melee weapon
+    if (w.type === 'melee' || isSlotMutation(id)) melee += w.special_rules.includes('two-handed') ? 2 : 1;
     else if (w.type === 'ranged') {
       if (w.special_rules.includes('brace')) {
         if (!seenBrace.has(id)) { ranged += 1; seenBrace.add(id); }
@@ -255,6 +270,9 @@ export default function EquipmentPicker({
     return rule === 'hero' ? isHero : true;
   }
 
+  // A fighter with a mutated weapon can't carry ranged weapons
+  const hasMutatedWeapon = combinedIds.some(isSlotMutation);
+
   function combinedQty(id: string) { return combinedIds.filter(x => x === id).length; }
 
   function canAddMelee(w: (typeof weaponsData)[0], free = false): boolean {
@@ -265,7 +283,7 @@ export default function EquipmentPicker({
   }
 
   function canAddRanged(w: (typeof weaponsData)[0], free = false): boolean {
-    if (!affordable(w.cost, free)) return false;
+    if (!affordable(w.cost, free) || hasMutatedWeapon) return false;
     if (w.special_rules.includes('brace')) {
       const count = combinedQty(w.id);
       if (count === 0) return slots.ranged + 1 <= RANGED_SLOTS;
