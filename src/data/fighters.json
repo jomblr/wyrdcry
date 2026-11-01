@@ -86,6 +86,7 @@
   {
     "id": "eshin-sorcerer",
     "name": "Eshin Sorcerer",
+    "fighter_type": "regular",
     "description": "These wiry, hooded warlocks combine martial discipline with black magic that bend shadows and wither the flesh.",
     "move": 6,
     "fight": 3,
@@ -95,8 +96,10 @@
     "bravery": 5,
     "power_level": 15,
     "cost": 100,
-    "ability_preamble": "When recruiting an Eshin Sorcerer, you must select one of the following magical abilities. In addition, the Eshin Sorcerer may select another magical ability instead of selecting a heroic talent.",
-    "faction_ability_ids": [
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "optional_ability_preamble": "When recruiting an Eshin Sorcerer, you must select one of the following magical abilities. In addition, the Eshin Sorcerer may select another magical ability instead of selecting a heroic talent.",
+    "optional_ability_ids": [
       "skitterleap",
       "gnawdoom",
       "enshrouding-darkness"
@@ -111,8 +114,7 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "giant-rat",
@@ -145,6 +147,7 @@
   {
     "id": "matriarch",
     "name": "Matriarch",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 4,
@@ -154,8 +157,10 @@
     "bravery": 3,
     "power_level": 0,
     "cost": 120,
-    "ability_preamble": "When recruiting a Matriarch, you must select one of the following magical abilities. In addition, the Matriarch may select another magical ability instead of selecting a heroic talent.",
-    "faction_ability_ids": [
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "optional_ability_preamble": "When recruiting a Matriarch, you must select one of the following magical abilities. In addition, the Matriarch may select another magical ability instead of selecting a heroic talent.",
+    "optional_ability_ids": [
       "words-of-healing",
       "hammer-of-sigmar",
       "soulfire"
@@ -170,8 +175,7 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "captain",
@@ -427,6 +431,7 @@
   {
     "id": "magister",
     "name": "Magister",
+    "fighter_type": "regular",
     "description": "The cult magister is a charismatic and brilliant individual, who bends lesser souls to their will through dark pacts and a silver tongue.",
     "move": 5,
     "fight": 3,
@@ -436,8 +441,10 @@
     "bravery": 4,
     "power_level": 25,
     "cost": 120,
-    "ability_preamble": "When recruiting a Magister, you must select one of the following magical abilities. In addition, the Magister may select another magical ability instead of selecting a heroic talent.",
-    "faction_ability_ids": [
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "optional_ability_preamble": "When recruiting a Magister, you must select one of the following magical abilities. In addition, the Magister may select another magical ability instead of selecting a heroic talent.",
+    "optional_ability_ids": [
       "puppet-master",
       "curse-of-agony",
       "touch-of-chaos"
@@ -453,8 +460,7 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "darksoul",
@@ -1135,8 +1141,8 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "endure",
-      "bestial-rage",
-      "ramming-charge"
+      "ramming-charge",
+      "primal-fury"
     ],
     "default_equipment": [
       "weapon:dual-axes",
@@ -1231,87 +1237,97 @@
     "id": "chieftain",
     "name": "Chieftain",
     "fighter_type": "regular",
-    "description": "",
+    "description": "Exerting dominance over their snarling kin through acts of grisly violence, the Chieftain leads ruinous stampedes into civilised lands.",
     "move": 5,
     "fight": 4,
     "shoot": 3,
     "defense": 0,
     "health": 16,
     "bravery": 4,
-    "power_level": 0,
-    "cost": 120,
+    "power_level": 10,
+    "cost": 130,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "bray-for-blood"
+    ],
     "default_equipment": [],
     "race": [
       "BEASTMAN"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "HERO",
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": 1
   },
   {
     "id": "bestigor",
     "name": "Bestigor",
-    "description": "",
+    "fighter_type": "regular",
+    "description": "The brutish Bestigor are the elite warriors of the herd, arming themselves with the best weapons and armour plundered from human lands.",
     "move": 5,
     "fight": 4,
     "shoot": 3,
     "defense": 0,
     "health": 14,
     "bravery": 4,
-    "power_level": 0,
-    "cost": 100,
+    "power_level": 5,
+    "cost": 110,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "endure"
+    ],
     "default_equipment": [],
     "race": [
       "BEASTMAN"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": 3
   },
   {
-    "id": "shaman",
-    "name": "Shaman",
-    "description": "",
+    "id": "bray-shaman",
+    "name": "Bray-Shaman",
+    "fighter_type": "regular",
+    "description": "The Bray-Shamans commune directly with the Dark Gods and speak with their voices, making them the most revered of all Beastmen.",
     "move": 5,
     "fight": 3,
     "shoot": 3,
     "defense": 0,
     "health": 12,
     "bravery": 5,
-    "power_level": 0,
-    "cost": 70,
+    "power_level": 20,
+    "cost": 100,
     "ability_preamble": "",
     "faction_ability_ids": [],
+    "optional_ability_preamble": "When recruiting a Bray-Shaman, you must select one of the following magical abilities. In addition, the Bray-Shaman may select another magical ability instead of selecting a heroic talent.",
+    "optional_ability_ids": [
+      "devolve",
+      "storm-call",
+      "bestial-surge"
+    ],
     "default_equipment": [],
     "race": [
       "BEASTMAN"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "HERO",
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "gor",
     "name": "Gor",
     "fighter_type": "regular",
-    "description": "",
+    "description": "Large, powerful and numerous, the Gor form the spine of every warherd. Though their appearance varies greatly, their horns set them above lesser breeds of beastmen.",
     "move": 5,
     "fight": 3,
     "shoot": 3,
@@ -1326,7 +1342,7 @@
     "race": [
       "BEASTMAN"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "HENCHMAN"
     ],
@@ -1337,22 +1353,24 @@
     "id": "ungor",
     "name": "Ungor",
     "fighter_type": "regular",
-    "description": "",
+    "description": "Ungors are vicious and spiteful creatures. They are the lowest creatures in the hierarchy of the wilds, subject to savage torments by larger beastmen.",
     "move": 5,
     "fight": 2,
     "shoot": 3,
     "defense": 0,
     "health": 10,
     "bravery": 5,
-    "power_level": 5,
-    "cost": 55,
+    "power_level": 10,
+    "cost": 60,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "no-horns"
+    ],
     "default_equipment": [],
     "race": [
       "BEASTMAN"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "HENCHMAN"
     ],
@@ -1363,22 +1381,24 @@
     "id": "chaos-hound",
     "name": "Chaos Hound",
     "fighter_type": "regular",
-    "description": "",
-    "move": 6,
+    "description": "Possessing the ferocity and stature of wolves, these mutated hounds race toward their prey in slavering packs, their fanged maws snapping in anticipation of the kill.",
+    "move": 8,
     "fight": 4,
     "shoot": 3,
-    "defense": 1,
-    "health": 8,
+    "defense": 0,
+    "health": 10,
     "bravery": 5,
-    "power_level": 0,
-    "cost": 65,
+    "power_level": -15,
+    "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [],
-    "default_equipment": [],
+    "default_equipment": [
+      "weapon:warhound-savage-bite"
+    ],
     "race": [
       "WAR HOUND"
     ],
-    "faction": "beastmen",
+    "faction": "beastmen-raiders",
     "keywords": [
       "BEAST"
     ],
@@ -1413,7 +1433,7 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": 1
   },
   {
     "id": "veilwright",
@@ -1428,8 +1448,10 @@
     "bravery": 4,
     "power_level": 20,
     "cost": 120,
-    "ability_preamble": "When recruiting a Veilwright, you must select one of the following magical abilities. In addition, the Veilwright may select another magical ability instead of selecting a heroic talent.",
-    "faction_ability_ids": [
+    "ability_preamble": "",
+    "faction_ability_ids": [],
+    "optional_ability_preamble": "When recruiting a Veilwright, you must select one of the following magical abilities. In addition, the Veilwright may select another magical ability instead of selecting a heroic talent.",
+    "optional_ability_ids": [
       "misdirection",
       "mind-razor",
       "fools-gold"
@@ -1444,7 +1466,7 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": null
+    "limit": 1
   },
   {
     "id": "ranger",

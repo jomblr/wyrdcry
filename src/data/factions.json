@@ -232,15 +232,16 @@
     "warband_keyword": "Treasure Hunters"
   },
   {
-    "id": "beastmen",
-    "name": "Beastmen",
+    "id": "beastmen-raiders",
+    "name": "Beastmen Raiders",
     "status": "playtest",
-    "exclude": "yes",
+    "exclude": "no",
     "description": "",
     "warband_size": 15,
     "special_rules": "",
     "faction_ability_ids": [
-      "bestial-rage"
+      "primal-fury",
+      "raider-ambush"
     ],
     "fighters": [],
     "weapons": [],
@@ -252,7 +253,6 @@
       "morning-star": "all",
       "spear": "all",
       "bow": "all",
-      "troll-slayer-thrown-axe": "all",
       "item:light-armour": "hero",
       "item:shield": "all"
     },

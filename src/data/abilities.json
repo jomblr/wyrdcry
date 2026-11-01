@@ -308,11 +308,11 @@
     "description": "This fighter makes a free melee attack action. Then, you may remove the target of that attack action from the battlefield, and place it back anywhere within 1\" of this fighter."
   },
   {
-    "id": "bestial-rage",
-    "name": "Bestial Rage",
+    "id": "primal-fury",
+    "name": "Primal Fury",
     "category": "beastmen",
     "ability_type": "trait",
-    "description": "While this fighter is wounded, you may use the 'Onslaught' ability without needing or spending the ability dice to do so."
+    "description": "While this fighter is wounded, you may add 1 to its Fight characteristic. It automatically passes any Bravery test it is required to take, but it cannot make reactions."
   },
   {
     "id": "ramming-charge",
@@ -1018,5 +1018,50 @@
         "source": "weapons"
       }
     ]
+  },
+  {
+    "id": "bray-for-blood",
+    "name": "Bray for Blood",
+    "category": "beastmen",
+    "ability_type": "triple",
+    "description": "A fighter can use this ability after taking an enemy fighter out of action. Until the end of the battle round, each visible friendly fighter within 6” of this fighter may use the Onslaught ability without needing or using ability dice."
+  },
+  {
+    "id": "devolve",
+    "name": "Devolve",
+    "category": "beastmen",
+    "ability_type": "double",
+    "description": "Select a visible enemy fighter within 12” of this fighter. That fighter must take a bravery test. If it fails, that fighter makes a move action (you decide where it goes). When doing so, the fighter can move away from enemy fighters within 1” at the start of that move action.",
+    "magical": true
+  },
+  {
+    "id": "storm-call",
+    "name": "Storm Call",
+    "category": "beastmen",
+    "ability_type": "triple",
+    "description": "Until the end of the battle-round, friendly fighters within 6” of this fighter are considered to be in cover.",
+    "magical": true
+  },
+  {
+    "id": "bestial-surge",
+    "name": "Bestial Surge",
+    "category": "beastmen",
+    "ability_type": "triple",
+    "description": "Select up to (X/2) friendly fighters within 6” of this fighter. Each selected fighter makes a free move action, or a free attack action. Then, allocate (X/2) damage points to each selected fighter.",
+    "magical": true
+  },
+  {
+    "id": "no-horns",
+    "name": "No-horns",
+    "category": "beastmen",
+    "ability_type": "trait",
+    "description": "This fighter can never be promoted to a `HERO`."
+  },
+  {
+    "id": "raider-ambush",
+    "name": "Raider Ambush",
+    "category": "beastmen",
+    "ability_type": "trait",
+    "description": "Add 1 to the move characteristic of this fighter in the battle round in which they are deployed to the battlefield."
   }
 ]

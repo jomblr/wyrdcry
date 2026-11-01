@@ -16,6 +16,12 @@
       "defense": 0,
       "health": 10,
       "bravery": 10
+    },
+    "keyword_costs": {
+      "HERO": 5,
+      "LEADER": 5,
+      "WIZARD": 5,
+      "BEAST": -10
     }
   },
   "weapon": {

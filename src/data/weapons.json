@@ -189,6 +189,22 @@
     "cost": 20
   },
   {
+    "id": "mutation-great-claw",
+    "name": "Great Claw",
+    "type": "natural",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 2,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "brutal",
+      "piercing-3"
+    ],
+    "power_level": 0,
+    "cost": 35
+  },
+  {
     "id": "great-weapon",
     "name": "Great Weapon",
     "type": "melee",
@@ -249,6 +265,52 @@
     "special_rules": [],
     "power_level": 0,
     "cost": 10
+  },
+  {
+    "id": "ithilmar-axe",
+    "name": "Ithilmar Axe",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 3,
+    "crit": 4,
+    "special_rules": [
+      "two-handed",
+      "pierce-1"
+    ],
+    "power_level": 5,
+    "cost": 30
+  },
+  {
+    "id": "ithilmar-spear",
+    "name": "Ithilmar Spear",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "unwieldy"
+    ],
+    "power_level": 5,
+    "cost": 20
+  },
+  {
+    "id": "ithilmar-sword",
+    "name": "Ithilmar Sword",
+    "type": "melee",
+    "exclusive": "yes",
+    "range": 1,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "parry"
+    ],
+    "power_level": 5,
+    "cost": 25
   },
   {
     "id": "mastercrafted-sword",
@@ -342,6 +404,22 @@
     "special_rules": [],
     "power_level": 0,
     "cost": 15
+  },
+  {
+    "id": "mutation-scorpion-tail",
+    "name": "Scorpion Tail",
+    "type": "natural",
+    "exclusive": "no",
+    "range": 1,
+    "attacks": 1,
+    "hit": 2,
+    "crit": 4,
+    "special_rules": [
+      "pierce-1",
+      "Poisoned"
+    ],
+    "power_level": 0,
+    "cost": 10
   },
   {
     "id": "rat-ogre-sheer-brutality",
@@ -455,6 +533,21 @@
     ],
     "power_level": 0,
     "cost": 15
+  },
+  {
+    "id": "mutation-tentacles",
+    "name": "Tentacles",
+    "type": "natural",
+    "exclusive": "no",
+    "range": 2,
+    "attacks": 3,
+    "hit": 2,
+    "crit": 3,
+    "special_rules": [
+      "whipcrack"
+    ],
+    "power_level": 0,
+    "cost": 20
   },
   {
     "id": "throwing-dagger",
@@ -576,98 +669,5 @@
     ],
     "power_level": 0,
     "cost": 35
-  },
-  {
-    "id": "mutation-tentacles",
-    "name": "Tentacles",
-    "type": "natural",
-    "exclusive": "no",
-    "range": 2,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 3,
-    "special_rules": [
-      "whipcrack"
-    ],
-    "power_level": 0,
-    "cost": 20
-  },
-  {
-    "id": "mutation-great-claw",
-    "name": "Great Claw",
-    "type": "natural",
-    "exclusive": "no",
-    "range": 1,
-    "attacks": 2,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [
-      "brutal",
-      "piercing-3"
-    ],
-    "power_level": 0,
-    "cost": 35
-  },
-  {
-    "id": "mutation-scorpion-tail",
-    "name": "Scorpion Tail",
-    "type": "natural",
-    "exclusive": "no",
-    "range": 1,
-    "attacks": 1,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [
-      "pierce-1",
-      "Poisoned"
-    ],
-    "power_level": 0,
-    "cost": 10
-  },
-  {
-    "id": "ithilmar-axe",
-    "name": "Ithilmar Axe",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 3,
-    "hit": 3,
-    "crit": 4,
-    "special_rules": [
-      "two-handed",
-      "pierce-1"
-    ],
-    "power_level": 5,
-    "cost": 30
-  },
-  {
-    "id": "ithilmar-sword",
-    "name": "Ithilmar Sword",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 1,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [
-      "parry"
-    ],
-    "power_level": 5,
-    "cost": 25
-  },
-  {
-    "id": "ithilmar-spear",
-    "name": "Ithilmar Spear",
-    "type": "melee",
-    "exclusive": "yes",
-    "range": 2,
-    "attacks": 3,
-    "hit": 2,
-    "crit": 4,
-    "special_rules": [
-      "unwieldy"
-    ],
-    "power_level": 5,
-    "cost": 20
   }
 ]
