@@ -171,12 +171,21 @@ function resolvedAbilitiesMarkdown(
   fighter: Fighter,
   abilitiesData: GameData['abilities'],
 ): { preamble: string; body: string } {
-  const f = fighter as { faction_ability_ids?: string[]; ability_preamble?: string; abilities?: string };
-  const ids = f.faction_ability_ids;
+  const f = fighter as {
+    faction_ability_ids?: string[];
+    ability_preamble?: string;
+    optional_ability_ids?: string[] | null;
+    optional_ability_preamble?: string | null;
+    abilities?: string;
+  };
+  // Spells a wizard picks from (`optional_ability_ids`) are listed after the abilities it always has.
+  const ids = [...(f.faction_ability_ids ?? []), ...(f.optional_ability_ids ?? [])];
   // The preamble shows whenever it's filled in — even for a fighter with no abilities
-  // (e.g. the Mutant's "must roll on the mutation table").
-  const preamble = f.ability_preamble?.trim() ?? '';
-  if (ids && ids.length > 0) {
+  // (e.g. the Mutant's "must roll on the mutation table"). Some exports repeat it in both fields.
+  const preamble = Array.from(new Set(
+    [f.ability_preamble, f.optional_ability_preamble].map(p => p?.trim() ?? '').filter(Boolean),
+  )).join('\n\n');
+  if (ids.length > 0) {
     const body = ids
       .map(id => abilitiesData.find(a => a.id === id))
       .filter((a): a is GameData['abilities'][number] => a !== undefined)

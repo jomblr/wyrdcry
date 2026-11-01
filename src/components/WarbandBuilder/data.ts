@@ -92,16 +92,17 @@ export function hasTag(fighter: { race: string[]; keywords: string[] }, tag: str
 }
 
 /**
- * Wizards whose preamble says "select one of the following magical abilities" choose their
- * spells, so their `faction_ability_ids` are options rather than rules they have. The data has
- * no structured field for this yet, so read it from the preamble.
+ * The spells a wizard picks from. Newer WyrdForge exports list them in `optional_ability_ids`.
+ * Older ones put them in `faction_ability_ids` with a preamble saying "select one of the
+ * following magical abilities", so those are still read as options.
  */
 const CHOOSE_ONE = /select one of the following magical abilities/i;
 
-type AbilityProfile = { faction_ability_ids?: string[]; ability_preamble?: string };
+type AbilityProfile = { faction_ability_ids?: string[]; ability_preamble?: string; optional_ability_ids?: string[] | null };
 
 /** The abilities the fighter picks from (learned ones are stored with its talents). */
 export function optionalAbilityIds(fighter: AbilityProfile): string[] {
+  if (fighter.optional_ability_ids?.length) return fighter.optional_ability_ids;
   return CHOOSE_ONE.test(fighter.ability_preamble ?? '') ? fighter.faction_ability_ids ?? [] : [];
 }
 
@@ -113,7 +114,8 @@ export function needsStartingAbility(fighter: AbilityProfile, instance: { talent
 
 /** The abilities the fighter always has. */
 export function fixedAbilityIds(fighter: AbilityProfile): string[] {
-  return optionalAbilityIds(fighter).length > 0 ? [] : fighter.faction_ability_ids ?? [];
+  const options = optionalAbilityIds(fighter);
+  return (fighter.faction_ability_ids ?? []).filter(id => !options.includes(id));
 }
 
 /**
@@ -128,7 +130,7 @@ export type AbilityModifier =
 
 /** Every ability the fighter has: the profile's fixed ones, then talents, spells, injuries and mutations. */
 export function fighterAbilityIds(
-  profile: { faction_ability_ids?: string[]; ability_preamble?: string },
+  profile: AbilityProfile,
   instance: { talents?: string[] },
 ): string[] {
   return [...fixedAbilityIds(profile), ...(instance.talents ?? [])];
@@ -166,7 +168,7 @@ export function fighterGrantedWeapons(profile: AbilityProfile, instance: { talen
 /** A HENCHMAN becomes a HERO on earning their 3rd point of Renown. */
 const HERO_AT_RENOWN = 3;
 
-type KeywordProfile = { race: string[]; keywords: string[]; faction_ability_ids?: string[]; ability_preamble?: string };
+type KeywordProfile = AbilityProfile & { race: string[]; keywords: string[] };
 type KeywordInstance = { renown: number; talents?: string[]; isLeader?: boolean };
 
 /** Whether the fighter is a HERO now: by profile, or a henchman promoted by Renown. */
