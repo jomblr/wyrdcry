@@ -310,9 +310,10 @@
   {
     "id": "primal-fury",
     "name": "Primal Fury",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "trait",
-    "description": "While this fighter is wounded, you may add 1 to its Fight characteristic. It automatically passes any Bravery test it is required to take, but it cannot make reactions."
+    "description": "While this fighter is wounded, you may add 1 to its Fight characteristic. It automatically passes any Bravery test it is required to take, but it cannot make reactions.",
+    "faction_rule": true
   },
   {
     "id": "ramming-charge",
@@ -355,13 +356,6 @@
     "category": "hired-sword",
     "ability_type": "triple",
     "description": "Until the end of the battle round, `THRALLS` activated within (X)” of this fighter may increase their Move characteristic by 2, and their Attacks characteristics by 1."
-  },
-  {
-    "id": "sudden-accusation",
-    "name": "Sudden Accusation",
-    "category": "witch-hunters",
-    "ability_type": "reaction",
-    "description": "A fighter can make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter is condemned. Then, increase Zeal by 1."
   },
   {
     "id": "baleful-challenge",
@@ -424,14 +418,16 @@
     "name": "Fleet of foot",
     "category": "elf-rangers",
     "ability_type": "trait",
-    "description": "Once per activation, this fighter can make a free Move action."
+    "description": "Once per activation, this fighter can make a free Move action.",
+    "faction_rule": true
   },
   {
     "id": "unerring-aim",
     "name": "Unerring aim",
     "category": "elf-rangers",
     "ability_type": "trait",
-    "description": "Once per battle round, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule."
+    "description": "Once per battle round, when this fighter makes a ranged attack action with a Bow or Elven Bow and haven’t made a Move action yet in their activation, the weapon gains the **Pierce 1** special rule.",
+    "faction_rule": true
   },
   {
     "id": "wyrdlung-rot",
@@ -1022,14 +1018,14 @@
   {
     "id": "bray-for-blood",
     "name": "Bray for Blood",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "triple",
     "description": "A fighter can use this ability after taking an enemy fighter out of action. Until the end of the battle round, each visible friendly fighter within 6” of this fighter may use the Onslaught ability without needing or using ability dice."
   },
   {
     "id": "devolve",
     "name": "Devolve",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "double",
     "description": "Select a visible enemy fighter within 12” of this fighter. That fighter must take a bravery test. If it fails, that fighter makes a move action (you decide where it goes). When doing so, the fighter can move away from enemy fighters within 1” at the start of that move action.",
     "magical": true
@@ -1037,7 +1033,7 @@
   {
     "id": "storm-call",
     "name": "Storm Call",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "triple",
     "description": "Until the end of the battle-round, friendly fighters within 6” of this fighter are considered to be in cover.",
     "magical": true
@@ -1045,7 +1041,7 @@
   {
     "id": "bestial-surge",
     "name": "Bestial Surge",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "triple",
     "description": "Select up to (X/2) friendly fighters within 6” of this fighter. Each selected fighter makes a free move action, or a free attack action. Then, allocate (X/2) damage points to each selected fighter.",
     "magical": true
@@ -1053,15 +1049,56 @@
   {
     "id": "no-horns",
     "name": "No-horns",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "trait",
     "description": "This fighter can never be promoted to a `HERO`."
   },
   {
     "id": "raider-ambush",
     "name": "Raider Ambush",
-    "category": "beastmen",
+    "category": "beastmen-raiders",
     "ability_type": "trait",
-    "description": "Add 1 to the move characteristic of this fighter in the battle round in which they are deployed to the battlefield."
+    "description": "Add 1 to the move characteristic of this fighter in the battle round in which they are deployed to the battlefield.",
+    "faction_rule": true
+  },
+  {
+    "id": "strength-in-numbers",
+    "name": "Strength in numbers",
+    "category": "clan-eshin",
+    "ability_type": "trait",
+    "description": "When this fighter makes an attack action, if the target is flanked, this fighter’s weapons gain the \nPiercing 1 weapon rule.",
+    "faction_rule": true
+  },
+  {
+    "id": "slink-away",
+    "name": "Slink Away",
+    "category": "clan-eshin",
+    "ability_type": "double",
+    "description": "A fighter can only use this ability if they are within 1\" of an enemy fighter. This fighter makes a free Retreat action.",
+    "faction_rule": true
+  },
+  {
+    "id": "sudden-accusation",
+    "name": "Sudden Accusation",
+    "category": "witch-hunters",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction when a visible friendly fighter is taken out of action by a visible enemy fighter. That enemy fighter is condemned. Then, increase Zeal by 1.",
+    "faction_rule": true
+  },
+  {
+    "id": "glorious-death",
+    "name": "Glorious Death",
+    "category": "possessed",
+    "ability_type": "reaction",
+    "description": "A fighter can make this reaction when they suffer enough damage to take them out of action, but before removing them from the battlefield. Add 1 Wyrd Dice to your saved Wyrd Dice.",
+    "faction_rule": true
+  },
+  {
+    "id": "fervent-prayer",
+    "name": "Fervent Prayer",
+    "category": "sisters-of-sigmar",
+    "ability_type": "trait",
+    "description": "Whenever this fighter makes the Wait action they may pray to Sigmar by taking a Bravery test. If it passes, add 1 Wyrd Dice to your saved Wyrd Dice.",
+    "faction_rule": true
   }
 ]

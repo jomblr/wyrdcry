@@ -146,7 +146,7 @@
     "id": "elf-ranger-bow",
     "name": "Elven bow",
     "type": "ranged",
-    "exclusive": "yes",
+    "exclusive": "no",
     "range": 18,
     "attacks": 2,
     "hit": 2,

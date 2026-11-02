@@ -2,6 +2,7 @@
   {
     "id": "assassin-adept",
     "name": "Assassin Adept",
+    "fighter_type": "regular",
     "description": "Steeped in the ancient arts of far Cathay, the Assassin Adepts of clan Eshin command from the shadows and only strikes when the moment is right.",
     "move": 6,
     "fight": 4,
@@ -14,7 +15,9 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "one-with-the-shadows",
-      "running-death"
+      "running-death",
+      "slink-away",
+      "strength-in-numbers"
     ],
     "default_equipment": [],
     "race": [
@@ -26,12 +29,12 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "night-runner",
     "name": "Night Runner",
+    "fighter_type": "regular",
     "description": "Nimble, swift, and fanatical in their pursuit of recognition, Night Runners throw themselves into danger with reckless abandon.",
     "move": 6,
     "fight": 3,
@@ -43,7 +46,9 @@
     "cost": 55,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "pack-tactics"
+      "pack-tactics",
+      "strength-in-numbers",
+      "slink-away"
     ],
     "default_equipment": [],
     "race": [
@@ -54,12 +59,12 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "black-skaven",
     "name": "Black Skaven",
+    "fighter_type": "regular",
     "description": "Bred for strength, size and cruelty, the Black Skaven serve as the hulking bodyguards and executioners of Clan Eshin.",
     "move": 6,
     "fight": 4,
@@ -70,7 +75,10 @@
     "power_level": -10,
     "cost": 90,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "slink-away",
+      "strength-in-numbers"
+    ],
     "default_equipment": [],
     "race": [
       "SKAVEN"
@@ -80,8 +88,7 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3,
-    "fighter_type": "regular"
+    "limit": 3
   },
   {
     "id": "eshin-sorcerer",
@@ -97,7 +104,10 @@
     "power_level": 15,
     "cost": 100,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "strength-in-numbers",
+      "slink-away"
+    ],
     "optional_ability_preamble": "When recruiting an Eshin Sorcerer, you must select one of the following magical abilities. In addition, the Eshin Sorcerer may select another magical ability instead of selecting a heroic talent.",
     "optional_ability_ids": [
       "skitterleap",
@@ -119,6 +129,7 @@
   {
     "id": "giant-rat",
     "name": "Giant Rat",
+    "fighter_type": "regular",
     "description": "Giant Rats are creations of the twisted genius of the Skaven. They are mutated monstrosities the size of dogs.",
     "move": 8,
     "fight": 2,
@@ -126,10 +137,13 @@
     "defense": 0,
     "health": 6,
     "bravery": 6,
-    "power_level": -5,
+    "power_level": 5,
     "cost": 50,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "slink-away",
+      "strength-in-numbers"
+    ],
     "default_equipment": [
       "weapon:vicious-teeth"
     ],
@@ -141,8 +155,7 @@
       "BEAST"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "matriarch",
@@ -158,7 +171,9 @@
     "power_level": 0,
     "cost": 120,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "fervent-prayer"
+    ],
     "optional_ability_preamble": "When recruiting a Matriarch, you must select one of the following magical abilities. In addition, the Matriarch may select another magical ability instead of selecting a heroic talent.",
     "optional_ability_ids": [
       "words-of-healing",
@@ -321,6 +336,7 @@
   {
     "id": "augur",
     "name": "Augur",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 2,
@@ -334,7 +350,8 @@
     "faction_ability_ids": [
       "armour-of-faith",
       "foresight",
-      "doom"
+      "doom",
+      "fervent-prayer"
     ],
     "default_equipment": [],
     "race": [
@@ -345,12 +362,12 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "sister-superior",
     "name": "Sister Superior",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 4,
@@ -362,7 +379,8 @@
     "cost": 100,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "lead-by-example"
+      "lead-by-example",
+      "fervent-prayer"
     ],
     "default_equipment": [],
     "race": [
@@ -373,12 +391,12 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3,
-    "fighter_type": "regular"
+    "limit": 3
   },
   {
     "id": "sister",
     "name": "Sister",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 3,
@@ -389,7 +407,9 @@
     "power_level": -5,
     "cost": 65,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "fervent-prayer"
+    ],
     "default_equipment": [],
     "race": [
       "HUMAN"
@@ -399,12 +419,12 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "novice",
     "name": "Novice",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 2,
@@ -415,7 +435,9 @@
     "power_level": 10,
     "cost": 50,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "fervent-prayer"
+    ],
     "default_equipment": [],
     "race": [
       "HUMAN"
@@ -425,8 +447,7 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "magister",
@@ -442,7 +463,9 @@
     "power_level": 25,
     "cost": 120,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "glorious-death"
+    ],
     "optional_ability_preamble": "When recruiting a Magister, you must select one of the following magical abilities. In addition, the Magister may select another magical ability instead of selecting a heroic talent.",
     "optional_ability_ids": [
       "puppet-master",
@@ -465,6 +488,7 @@
   {
     "id": "darksoul",
     "name": "Darksoul",
+    "fighter_type": "regular",
     "description": "Hollowed out by daemonic possession, these revered warriors serve as the holy enforcers of the cult, carrying out their bloody craft without fear.",
     "move": 5,
     "fight": 4,
@@ -477,7 +501,8 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "hollowed",
-      "baleful-challenge"
+      "baleful-challenge",
+      "glorious-death"
     ],
     "default_equipment": [],
     "race": [
@@ -488,12 +513,12 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3,
-    "fighter_type": "regular"
+    "limit": 3
   },
   {
     "id": "possessed",
     "name": "Possessed",
+    "fighter_type": "regular",
     "description": "The Possessed have committed the greatest of sins: they have given their bodies to Daemons. They are nightmarish creatures made of flesh and black magic. ",
     "move": 6,
     "fight": 4,
@@ -505,7 +530,8 @@
     "cost": 160,
     "ability_preamble": "When this fighter is recruited to the warband, it must make a roll on the mutation table.",
     "faction_ability_ids": [
-      "ascended"
+      "ascended",
+      "glorious-death"
     ],
     "default_equipment": [
       "weapon:possessed-daemonic-appendage"
@@ -519,12 +545,12 @@
       "MUTANT"
     ],
     "recruitable_by": [],
-    "limit": 2,
-    "fighter_type": "regular"
+    "limit": 2
   },
   {
     "id": "brethren",
     "name": "Brethren",
+    "fighter_type": "regular",
     "description": "Brethren are the crazed human followers of the cults of the dark gods, eager to descend into damnation. ",
     "move": 5,
     "fight": 3,
@@ -535,7 +561,9 @@
     "power_level": 5,
     "cost": 65,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "glorious-death"
+    ],
     "default_equipment": [],
     "race": [
       "HUMAN"
@@ -545,12 +573,12 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "mutant",
     "name": "Mutant",
+    "fighter_type": "regular",
     "description": "Scorned by society, these wretches have found solace as embodiments of the shadowlord's will",
     "move": 5,
     "fight": 3,
@@ -561,7 +589,9 @@
     "power_level": 10,
     "cost": 70,
     "ability_preamble": "When this fighter is recruited to the warband, it must make a roll on the mutation table.",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "glorious-death"
+    ],
     "default_equipment": [],
     "race": [
       "HUMAN"
@@ -572,12 +602,12 @@
       "MUTANT"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "witch-hunter-captain",
     "name": "Witch Hunter Captain",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 4,
@@ -590,7 +620,8 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "condemn",
-      "incite-rabble"
+      "incite-rabble",
+      "sudden-accusation"
     ],
     "default_equipment": [],
     "race": [
@@ -602,12 +633,12 @@
       "LEADER"
     ],
     "recruitable_by": [],
-    "limit": 1,
-    "fighter_type": "regular"
+    "limit": 1
   },
   {
     "id": "witch-hunter",
     "name": "Witch Hunter",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 3,
@@ -619,7 +650,8 @@
     "cost": 90,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "incite-rabble"
+      "incite-rabble",
+      "sudden-accusation"
     ],
     "default_equipment": [],
     "race": [
@@ -630,12 +662,12 @@
       "HERO"
     ],
     "recruitable_by": [],
-    "limit": 3,
-    "fighter_type": "regular"
+    "limit": 3
   },
   {
     "id": "flagellant",
     "name": "Flagellant",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 4,
@@ -649,7 +681,8 @@
     "faction_ability_ids": [
       "self-flagellation",
       "penitent",
-      "unshakeable"
+      "unshakeable",
+      "sudden-accusation"
     ],
     "default_equipment": [],
     "race": [
@@ -660,12 +693,12 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": 5,
-    "fighter_type": "regular"
+    "limit": 5
   },
   {
     "id": "zealot",
     "name": "Zealot",
+    "fighter_type": "regular",
     "description": "",
     "move": 5,
     "fight": 3,
@@ -676,7 +709,9 @@
     "power_level": 5,
     "cost": 65,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "sudden-accusation"
+    ],
     "default_equipment": [],
     "race": [
       "HUMAN"
@@ -686,12 +721,12 @@
       "HENCHMAN"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "war-hound",
     "name": "War Hound",
+    "fighter_type": "regular",
     "description": "",
     "move": 6,
     "fight": 4,
@@ -716,8 +751,7 @@
       "BEAST"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "regular"
+    "limit": null
   },
   {
     "id": "dreg",
@@ -1248,7 +1282,9 @@
     "cost": 130,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "bray-for-blood"
+      "bray-for-blood",
+      "raider-ambush",
+      "primal-fury"
     ],
     "default_equipment": [],
     "race": [
@@ -1277,7 +1313,9 @@
     "cost": 110,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "endure"
+      "endure",
+      "primal-fury",
+      "raider-ambush"
     ],
     "default_equipment": [],
     "race": [
@@ -1304,7 +1342,10 @@
     "power_level": 20,
     "cost": 100,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "primal-fury",
+      "raider-ambush"
+    ],
     "optional_ability_preamble": "When recruiting a Bray-Shaman, you must select one of the following magical abilities. In addition, the Bray-Shaman may select another magical ability instead of selecting a heroic talent.",
     "optional_ability_ids": [
       "devolve",
@@ -1337,7 +1378,10 @@
     "power_level": 5,
     "cost": 75,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "raider-ambush",
+      "primal-fury"
+    ],
     "default_equipment": [],
     "race": [
       "BEASTMAN"
@@ -1364,7 +1408,9 @@
     "cost": 60,
     "ability_preamble": "",
     "faction_ability_ids": [
-      "no-horns"
+      "no-horns",
+      "primal-fury",
+      "raider-ambush"
     ],
     "default_equipment": [],
     "race": [
@@ -1421,7 +1467,9 @@
     "ability_preamble": "",
     "faction_ability_ids": [
       "call-to-battle",
-      "one-step-ahead"
+      "one-step-ahead",
+      "fleet-of-foot",
+      "unerring-aim"
     ],
     "default_equipment": [],
     "race": [
@@ -1449,7 +1497,10 @@
     "power_level": 20,
     "cost": 120,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "unerring-aim",
+      "fleet-of-foot"
+    ],
     "optional_ability_preamble": "When recruiting a Veilwright, you must select one of the following magical abilities. In addition, the Veilwright may select another magical ability instead of selecting a heroic talent.",
     "optional_ability_ids": [
       "misdirection",
@@ -1482,7 +1533,10 @@
     "power_level": 5,
     "cost": 110,
     "ability_preamble": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "fleet-of-foot",
+      "unerring-aim"
+    ],
     "default_equipment": [],
     "race": [
       "ELF"

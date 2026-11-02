@@ -7,7 +7,10 @@
     "description": "",
     "warband_size": 20,
     "special_rules": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "strength-in-numbers",
+      "slink-away"
+    ],
     "fighters": [],
     "weapons": [],
     "equipment": {
@@ -38,7 +41,7 @@
     "warband_size": 15,
     "special_rules": "",
     "faction_ability_ids": [
-      "sigmars-blessing"
+      "fervent-prayer"
     ],
     "fighters": [],
     "weapons": [],
@@ -97,7 +100,9 @@
     "description": "",
     "warband_size": 15,
     "special_rules": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "glorious-death"
+    ],
     "fighters": [],
     "weapons": [],
     "equipment": {
@@ -125,7 +130,9 @@
     "description": "",
     "warband_size": 15,
     "special_rules": "",
-    "faction_ability_ids": [],
+    "faction_ability_ids": [
+      "sudden-accusation"
+    ],
     "fighters": [],
     "weapons": [],
     "equipment": {
