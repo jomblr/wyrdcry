@@ -1356,6 +1356,45 @@ mark code {
   white-space: nowrap;
 }
 
+/* Fighter card abilities, one block each (FactionFighters.tsx). */
+.fighter-ability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.fighter-ability-list .fighter-abilities.markdown {
+  margin-top: 0;
+}
+
+.fighter-ability-list .fighter-abilities.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+/* Faction rules: collapsed under one "Faction Rules (N)" heading, since every fighter in the
+ * faction has them. Plain text rather than the inverted box `.markdown details` gives other
+ * collapsibles. */
+.markdown .fighter-ability-list details.fighter-faction-rules {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  --ifm-heading-color: inherit;
+  --ifm-link-color: var(--wyrd-link);
+  --ifm-link-hover-color: var(--wyrd-link-hover);
+}
+
+.markdown .fighter-ability-list details.fighter-faction-rules > summary {
+  cursor: pointer;
+}
+
+.fighter-faction-rules > .fighter-ability-list {
+  margin-top: 0.5rem;
+}
+
 /* Ability preamble on fighter cards ("When recruiting this fighter, you must select…").
  * Rendered as its own block by FactionFighters.tsx so the whole thing italicises cleanly. */
 .fighter-ability-preamble {

@@ -162,15 +162,18 @@ function abilityTypeSortKey(type: string): number {
   return i === -1 ? ABILITY_TYPE_ORDER.length : i;
 }
 
+type Ability = GameData['abilities'][number];
+
 /**
- * Abilities markdown for a fighter, with the preamble returned separately so it can be
- * rendered in its own (italic) block — wrapping it in `*…*` inside the markdown would
- * break as soon as a preamble carried its own emphasis or ran to several paragraphs.
+ * A fighter's abilities, with the preamble returned separately so it can be rendered in its own
+ * (italic) block — wrapping it in `*…*` inside the markdown would break as soon as a preamble
+ * carried its own emphasis or ran to several paragraphs. `legacy` is the raw `abilities` markdown
+ * for fighters not yet on `faction_ability_ids`.
  */
-function resolvedAbilitiesMarkdown(
+function resolvedAbilities(
   fighter: Fighter,
   abilitiesData: GameData['abilities'],
-): { preamble: string; body: string } {
+): { preamble: string; abilities: Ability[]; legacy: string } {
   const f = fighter as {
     faction_ability_ids?: string[];
     ability_preamble?: string;
@@ -178,23 +181,46 @@ function resolvedAbilitiesMarkdown(
     optional_ability_preamble?: string | null;
     abilities?: string;
   };
-  // Spells a wizard picks from (`optional_ability_ids`) are listed after the abilities it always has.
+  // Spells a wizard picks from (`optional_ability_ids`) are listed with the abilities it always has.
   const ids = [...(f.faction_ability_ids ?? []), ...(f.optional_ability_ids ?? [])];
   // The preamble shows whenever it's filled in — even for a fighter with no abilities
   // (e.g. the Mutant's "must roll on the mutation table"). Some exports repeat it in both fields.
   const preamble = Array.from(new Set(
     [f.ability_preamble, f.optional_ability_preamble].map(p => p?.trim() ?? '').filter(Boolean),
   )).join('\n\n');
-  if (ids.length > 0) {
-    const body = ids
-      .map(id => abilitiesData.find(a => a.id === id))
-      .filter((a): a is GameData['abilities'][number] => a !== undefined)
-      .sort((a, b) => abilityTypeSortKey(a.ability_type) - abilityTypeSortKey(b.ability_type))
-      .map(a => `**[${abilityTypeLabel(a.ability_type)}] ${a.name}:** ${a.description}`)
-      .join('\n\n');
-    return { preamble, body };
-  }
-  return { preamble, body: f.abilities?.trim() ?? '' };
+  const abilities = ids
+    .map(id => abilitiesData.find(a => a.id === id))
+    .filter((a): a is Ability => a !== undefined)
+    .sort((a, b) => abilityTypeSortKey(a.ability_type) - abilityTypeSortKey(b.ability_type) || a.name.localeCompare(b.name));
+  return { preamble, abilities, legacy: ids.length > 0 ? '' : f.abilities?.trim() ?? '' };
+}
+
+const isFactionRule = (a: Ability) => (a as { faction_rule?: boolean }).faction_rule === true;
+
+function FighterAbility({ ability: a }: { ability: Ability }) {
+  return <FighterAbilitiesMarkdown source={`**[${abilityTypeLabel(a.ability_type)}] ${a.name}:** ${a.description}`} />;
+}
+
+/**
+ * A fighter's abilities: its own first, then its faction rules (`faction_rule: true`) collapsed
+ * under one heading, since every fighter in the faction has them.
+ */
+function FighterAbilityList({ abilities }: { abilities: Ability[] }) {
+  const own = abilities.filter(a => !isFactionRule(a));
+  const factionRules = abilities.filter(isFactionRule);
+  return (
+    <div className="fighter-ability-list">
+      {own.map(a => <FighterAbility key={a.id} ability={a} />)}
+      {factionRules.length > 0 && (
+        <details className="fighter-faction-rules">
+          <summary><strong>Faction Rules ({factionRules.length})</strong></summary>
+          <div className="fighter-ability-list">
+            {factionRules.map(a => <FighterAbility key={a.id} ability={a} />)}
+          </div>
+        </details>
+      )}
+    </div>
+  );
 }
 
 /** Non-weapon gear a fighter comes with (`item:` entries in default_equipment) — mostly hired swords. */
@@ -306,7 +332,7 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
   // Exports may use `armour` or the older `defense` key.
   const armourValue = (f as { armour?: number; defense?: number }).armour
     ?? (f as { defense?: number }).defense;
-  const abilities = resolvedAbilitiesMarkdown(f, abilitiesData);
+  const abilities = resolvedAbilities(f, abilitiesData);
   const description = f.description?.trim() ?? '';
   const limitText = limitLabel(f.limit);
   const titleWithLimit = limitText ? `${f.name} (${limitText})` : f.name;
@@ -372,7 +398,10 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
             <FighterAbilitiesMarkdown source={abilities.preamble} />
           </div>
         ) : null}
-        {abilities.body ? <FighterAbilitiesMarkdown source={abilities.body} /> : null}
+        {abilities.abilities.length > 0 ? (
+          <FighterAbilityList abilities={abilities.abilities} />
+        ) : null}
+        {abilities.legacy ? <FighterAbilitiesMarkdown source={abilities.legacy} /> : null}
 
         <FighterKeywordLine fighter={f} />
       </section>
