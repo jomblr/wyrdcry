@@ -433,6 +433,9 @@
   background: var(--ifm-table-head-background);
   color: var(--ifm-table-head-color);
   margin: 0;
+  /* fr tracks can round to a hair short of the table's width, leaving a sliver of page colour
+     at the right edge; reach 1px past it (.tableWrapper clips the overflow). */
+  margin-right: -1px;
 }
 
 /* Sticky column headers (fighter table, wiki ref tables — not WarbandInfoRow) */
@@ -451,6 +454,7 @@
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
   border-top: 1px solid var(--wyrd-border);
+  margin-right: -1px; /* see .gridHeader */
 }
 
 .gridRow:hover {
