@@ -182,19 +182,20 @@ export default function FighterTable({
                 onSetTalents={talents => onSetFighterTalents(instance.instanceId, talents)}
                 onSetCostOverride={cost => onSetFighterCostOverride(instance.instanceId, cost)}
                 otherNames={otherNamesFor(instance)}
+                readOnly={playMode}
               />
             ))}
           </SortableContext>
         </DndContext>
 
         {/* Add fighter row */}
-        <AddFighterRow
+        {!playMode && <AddFighterRow
           factionId={warband.factionId}
           currentFighters={warband.fighters}
           atFighterLimit={atFighterLimit}
           remainingGold={remainingGold}
           onAdd={onAddFighter}
-        />
+        />}
       </div>
     </div>
     </div>

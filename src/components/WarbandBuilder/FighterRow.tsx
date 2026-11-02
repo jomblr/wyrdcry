@@ -35,9 +35,11 @@ interface Props {
   onSetCostOverride: (cost: number | null) => void;
   /** Other fighters' names, so a random name in the edit panel avoids them */
   otherNames: string[];
+  /** Warband locked (play mode): the row can't be opened, reordered or changed */
+  readOnly?: boolean;
 }
 
-export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames }: Props) {
+export default function FighterRow({ instance, stash, remainingGold, onSetName, onSetRenown, onSetEquipment, onSetPendingEquipment, onRemove, onDuplicate, canDuplicate, onSendToStash, onSell, onTakeFromStash, onSetStat, onSetNotes, onSetTalents, onSetCostOverride, otherNames, readOnly = false }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [editOpen, setEditOpen] = useState<false | 'equipment' | 'talents' | 'information'>(false);
@@ -192,7 +194,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
   // Profile abilities, then talents, injuries and mutations taken in the campaign
   const abilities = fighterAbilities(fighterAbilityIds(profile, instance));
-  const pickAbility = needsStartingAbility(profile, instance);
+  const pickAbility = !readOnly && needsStartingAbility(profile, instance);
 
   const menu =
     menuOpen && pos
@@ -234,15 +236,15 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
   // (menu, info sheets, the panel itself) still bubble here through React, so only count clicks
   // whose target is really inside the row.
   function handleRowClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (!e.currentTarget.contains(e.target as Node)) return;
+    if (readOnly || !e.currentTarget.contains(e.target as Node)) return;
     openPanel();
   }
 
   return (
-    <div ref={setNodeRef} className={`${styles.gridRow} ${styles.gridRowClickable}`} style={dragStyle} onClick={handleRowClick}>
+    <div ref={setNodeRef} className={`${styles.gridRow} ${readOnly ? '' : styles.gridRowClickable}`} style={dragStyle} onClick={handleRowClick}>
       {/* Drag handle */}
       <div className={`${styles.cell} ${styles.cellCenter} ${styles.dragHandleCell} ${styles.noPrint}`}>
-        <button
+        {!readOnly && <button
           type="button"
           className={styles.dragHandle}
           {...attributes}
@@ -252,7 +254,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           tabIndex={0}
         >
           <GripVertical size={14} />
-        </button>
+        </button>}
       </div>
 
       {/* Fighter name + type */}
@@ -305,7 +307,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           fixedEquipment={fixedEquipment}
           fixedAreNatural={noEquipment}
           grantedWeapons={profile ? fighterGrantedWeapons(profile, instance) : []}
-          onAdd={noEquipment ? undefined : () => setEditOpen('equipment')}
+          onAdd={noEquipment || readOnly ? undefined : () => setEditOpen('equipment')}
         />
       </div>
 
@@ -348,7 +350,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
 
       {/* Ellipsis menu */}
       <div className={`${styles.cell} ${styles.cellCenter} ${styles.noPrint}`}>
-        <button
+        {!readOnly && <button
           type="button"
           ref={btnRef}
           className={styles.ellipsisBtn}
@@ -356,7 +358,7 @@ export default function FighterRow({ instance, stash, remainingGold, onSetName, 
           aria-label="Fighter options"
         >
           <EllipsisVertical size={16} />
-        </button>
+        </button>}
         {menu}
         {confirmRemove && (
           <InfoSheet

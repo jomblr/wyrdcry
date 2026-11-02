@@ -97,10 +97,10 @@ export default function WarbandBuilder() {
   const isMobile = useIsMobile();
   const { colorMode, setColorMode } = useColorMode();
 
-  // Locked / play mode (mobile): swipeable read-only cards for use at the table.
+  // Locked / play mode: read-only fighters for use at the table (swipeable cards on mobile).
   // Always starts unlocked when a warband is opened, created or imported.
   const [playMode, setPlayMode] = useState(false);
-  const inPlayMode = isMobile && playMode;
+  const inPlayMode = playMode;
 
   // An open warband takes the whole screen: hide the site navbar
   // ("← Warbands" leads back to the list, where the navbar returns).
@@ -240,6 +240,19 @@ export default function WarbandBuilder() {
                 )
               : null;
 
+            // Locked = play mode: fighters can't be opened, changed, recruited or bought
+            const lockButton = (
+              <button
+                type="button"
+                className={styles.ellipsisBtn}
+                onClick={() => setPlayMode(!playMode)}
+                aria-pressed={playMode}
+                aria-label={playMode ? 'Unlock warband' : 'Lock warband'}
+              >
+                {playMode ? <Lock size={18} /> : <LockOpen size={18} />}
+              </button>
+            );
+
             const menuButton = (
               <button type="button" ref={menuBtnRef} className={styles.ellipsisBtn} onClick={toggleMenu} aria-label="Warband options">
                 <EllipsisVertical size={18} />
@@ -253,16 +266,7 @@ export default function WarbandBuilder() {
                     <ArrowLeft size={16} /><span>Warbands</span>
                   </button>
                   <div className={styles.topBarIcons}>
-                    {/* Locked = play mode: swipeable read-only cards, no recruiting or renaming */}
-                    <button
-                      type="button"
-                      className={styles.ellipsisBtn}
-                      onClick={() => setPlayMode(!playMode)}
-                      aria-pressed={playMode}
-                      aria-label={playMode ? 'Unlock warband' : 'Lock warband'}
-                    >
-                      {playMode ? <Lock size={18} /> : <LockOpen size={18} />}
-                    </button>
+                    {lockButton}
                     {menuButton}
                   </div>
                   {warbandMenu}
@@ -279,7 +283,7 @@ export default function WarbandBuilder() {
                   {tabToggle}
                 </div>
                 <div className={styles.actions}>
-                  {hasPending && (
+                  {hasPending && !playMode && (
                     <button
                       type="button"
                       className="button button--primary button--md"
@@ -289,6 +293,7 @@ export default function WarbandBuilder() {
                       Purchase <span className={styles.purchaseDiamond} aria-hidden>◆</span> {pendingCost}/{goldOnHand}gc
                     </button>
                   )}
+                  {lockButton}
                   {menuButton}
                   {warbandMenu}
                 </div>

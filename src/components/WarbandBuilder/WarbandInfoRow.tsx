@@ -165,6 +165,7 @@ export default function WarbandInfoRow({ warband, onSetName, onSetFavour, onAddG
               value={warband.name}
               onChange={e => onSetName(e.target.value)}
               disabled={locked}
+              readOnly={nameLocked}
             />
           </div>
 

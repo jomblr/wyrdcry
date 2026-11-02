@@ -50,7 +50,7 @@ export default function WarbandStash({ stash, onRemove, onSell, readOnly = false
       </div>
     );
   }
-  return <DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} />;
+  return <DesktopStash stash={stash} onRemove={onRemove} onSell={onSell} readOnly={readOnly} />;
 }
 
 /** Mobile: tags like the fighter cards; tapping one opens its details with Sell. */
@@ -98,7 +98,7 @@ function MobileStash({ stash, onSell, readOnly }: Pick<Props, 'stash' | 'onSell'
   );
 }
 
-function DesktopStash({ stash, onSell }: Omit<Props, 'readOnly'>) {
+function DesktopStash({ stash, onSell, readOnly = false }: Props) {
   const [modHeld, setModHeld] = useState(false);
   const [cursor, setCursor] = useState<{ x: number; y: number; text: string } | null>(null);
   const hoveredRef = useRef<{ idx: number; x: number; y: number; text: string } | null>(null);
@@ -124,7 +124,7 @@ function DesktopStash({ stash, onSell }: Omit<Props, 'readOnly'>) {
 
   return (
     <div className={`${styles.infoPanel} ${styles.stashPanel}`}>
-      <h3 className={styles.stashTitle}>Warband Stash <span className={styles.stashItemHint}>(Ctrl/Cmd click to sell)</span></h3>
+      <h3 className={styles.stashTitle}>Warband Stash {!readOnly && <span className={styles.stashItemHint}>(Ctrl/Cmd click to sell)</span>}</h3>
       <div className={styles.stashItems}>
         {stash.length === 0 && (
           <span className={styles.stashEmpty}>The stash is empty</span>
@@ -146,7 +146,7 @@ function DesktopStash({ stash, onSell }: Omit<Props, 'readOnly'>) {
               }}
               onMouseLeave={() => { hoveredRef.current = null; setCursor(null); }}
               onClick={e => {
-                if (e.ctrlKey || e.metaKey) { setCursor(null); onSell(idx, salePrice); }
+                if (!readOnly && (e.ctrlKey || e.metaKey)) { setCursor(null); onSell(idx, salePrice); }
               }}
             >
               {labelFor(id)}
@@ -154,7 +154,7 @@ function DesktopStash({ stash, onSell }: Omit<Props, 'readOnly'>) {
           );
         })}
       </div>
-      {cursor && modHeld && ReactDOM.createPortal(
+      {!readOnly && cursor && modHeld && ReactDOM.createPortal(
         <div className={styles.cursorLabel} style={{ left: cursor.x + 12, top: cursor.y + 16 }}>
           {cursor.text}
         </div>,
