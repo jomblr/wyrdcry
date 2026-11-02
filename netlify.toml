@@ -1,0 +1,9 @@
+# Production builds use the settings in the Netlify UI; this file only configures `netlify dev`,
+# which serves the site together with netlify/functions (shared warband links) and local Blobs:
+#   npx netlify-cli@27.13.0 dev   → http://localhost:8889
+[dev]
+  framework = "#custom"
+  command = "npm run start -- --port 3001"
+  targetPort = 3001
+  port = 8889
+  autoLaunch = false

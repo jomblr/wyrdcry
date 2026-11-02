@@ -33,3 +33,6 @@ yarn-error.log*
 # src/data/; don't commit the exports.
 src/data/wyrdforge-*
 
+
+# Local Netlify folder
+.netlify

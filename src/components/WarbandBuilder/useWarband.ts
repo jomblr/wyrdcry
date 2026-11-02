@@ -164,6 +164,23 @@ function loadWarband(id: string): Warband | null {
   }
 }
 
+/** Fill in fields that older saves, exports and shared links may not have. */
+function normaliseImported(wb: Warband): Warband {
+  return {
+    ...wb,
+    name: wb.name ?? '',
+    stash: wb.stash ?? [],
+    factionNotes: wb.factionNotes ?? '',
+    gold: wb.gold ?? campaignRules.warband_budget,
+    customWeapons: wb.customWeapons ?? [],
+    customAbilities: wb.customAbilities ?? [],
+    fighters: wb.fighters.map(f => {
+      const { specialRules, ...rest } = f as any;
+      return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, isPending: false, pendingEquipment: [], ...rest };
+    }),
+  };
+}
+
 function persistWarband(warband: Warband) {
   localStorage.setItem(storageKey(warband.id), JSON.stringify(warband));
 }
@@ -745,22 +762,23 @@ export function useWarband() {
           window.alert('This file doesn’t look like a Wyrdcry warband export.');
           return;
         }
-        wb.name = wb.name ?? '';
-        wb.stash = wb.stash ?? [];
-        wb.factionNotes = wb.factionNotes ?? '';
-        wb.gold = wb.gold ?? campaignRules.warband_budget;
-        wb.fighters = wb.fighters.map(f => {
-          const { specialRules, ...rest } = f as any;
-          return { statOverrides: {}, notes: Array.isArray(specialRules) ? specialRules.join(', ') : '', costOverride: null, isPending: false, pendingEquipment: [], ...rest };
-        });
-        persistWarband(wb);
-        dispatch({ type: 'LOAD_WARBAND', warband: wb });
-        dispatch({ type: 'REGISTER_WARBAND', id: wb.id });
+        const imported = normaliseImported(wb);
+        persistWarband(imported);
+        dispatch({ type: 'LOAD_WARBAND', warband: imported });
+        dispatch({ type: 'REGISTER_WARBAND', id: imported.id });
       } catch {
         window.alert('This file couldn’t be read as a warband (it isn’t valid JSON).');
       }
     };
     reader.readAsText(file);
+  }, []);
+
+  /** Import a warband from a share link: always a new copy, with no link of its own. */
+  const importSharedWarband = useCallback((wb: Warband) => {
+    const imported = normaliseImported({ ...wb, id: uuid() });
+    persistWarband(imported);
+    dispatch({ type: 'LOAD_WARBAND', warband: imported });
+    dispatch({ type: 'REGISTER_WARBAND', id: imported.id });
   }, []);
 
   const exportWarband = useCallback(() => {
@@ -808,6 +826,7 @@ export function useWarband() {
     createNewWarband,
     deleteWarband,
     importWarband,
+    importSharedWarband,
     exportWarband,
   };
 }

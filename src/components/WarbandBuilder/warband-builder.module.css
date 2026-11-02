@@ -2241,6 +2241,13 @@ button.statCard:not(:disabled) {
   line-height: 1.15;
 }
 
+.infoSheetCaption {
+  margin-top: 0.15rem;
+  font-family: var(--wyrd-font-body);
+  font-size: 0.95rem;
+  color: var(--wyrd-text3);
+}
+
 .infoSheetClose {
   display: flex;
   padding: 0.3rem;
@@ -2313,6 +2320,70 @@ button.statCard:not(:disabled) {
 
 :global(html[data-theme='light']) .infoSheetBtnWhite {
   border-color: var(--ifm-color-emphasis-500);
+}
+
+/* Share link sheet: the link in a read-only field (same box as the edit panel's number fields)
+ * with a Copy button beside it */
+.shareField {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 0.75rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--wyrd-border);
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+}
+
+.shareField:focus-within {
+  border-color: var(--ifm-color-primary);
+}
+
+.shareUrl {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+}
+
+.shareCopyBtn {
+  flex-shrink: 0;
+  min-width: 5.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--wyrd-border);
+  color: inherit;
+  font-family: var(--wyrd-font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.shareCopyBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* A button that reads as an inline text link */
+.linkButton {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ifm-link-color);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.shareCopyBtn:hover {
+  background: var(--ifm-hover-overlay);
 }
 
 .infoSheetRule {

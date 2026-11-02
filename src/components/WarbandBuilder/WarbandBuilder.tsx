@@ -14,6 +14,7 @@ import InformationTab from './InformationTab';
 import styles from './warband-builder.module.css';
 import useIsMobile from './useIsMobile';
 import useAnimatedNumber from './useAnimatedNumber';
+import { ShareSheet, ImportLinkSheet } from './ShareSheets';
 
 type Tab = 'fighters' | 'information';
 type View = 'list' | 'detail';
@@ -28,6 +29,9 @@ export default function WarbandBuilder() {
   const menuRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  // A share link opened in the browser (`?w=<id>`): offer to import it
+  const [linkToImport, setLinkToImport] = useState(() => new URLSearchParams(window.location.search).get('w'));
 
   const {
     active,
@@ -63,6 +67,7 @@ export default function WarbandBuilder() {
     createNewWarband,
     deleteWarband,
     importWarband,
+    importSharedWarband,
     exportWarband,
   } = useWarband();
 
@@ -126,6 +131,26 @@ export default function WarbandBuilder() {
   const animatedGold = useAnimatedNumber(goldOnHand);
   const maxFighters = factionsData.find(f => f.id === active.factionId)?.warband_size;
 
+  /** Drop `?w=` from the address so a reload doesn't offer the import again. */
+  function closeImportLink() {
+    setLinkToImport(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('w');
+    window.history.replaceState(window.history.state, '', url.toString());
+  }
+
+  function handleImportLink(warband: Parameters<typeof importSharedWarband>[0]) {
+    closeImportLink();
+    setPlayMode(false);
+    importSharedWarband(warband);
+    setView('detail');
+    setTab('fighters');
+  }
+
+  const importLinkSheet = linkToImport && (
+    <ImportLinkSheet linkId={linkToImport} onImport={handleImportLink} onClose={closeImportLink} />
+  );
+
   function handleDelete() {
     setMenuOpen(false);
     const label = active.name || 'Untitled Warband';
@@ -170,6 +195,7 @@ export default function WarbandBuilder() {
           onSelect={handleSelect}
           onCreate={handleCreate}
           onImport={handleImport}
+          onImportLink={setLinkToImport}
         />
         {showFactionModal && (
           <FactionPickerModal
@@ -177,6 +203,7 @@ export default function WarbandBuilder() {
             onCancel={() => setShowFactionModal(false)}
           />
         )}
+        {importLinkSheet}
       </div>
     );
   }
@@ -222,6 +249,9 @@ export default function WarbandBuilder() {
                   <div ref={menuRef} className={`${styles.dropdown} ${isMobile ? styles.dropdownMobile : ''}`} style={dropdownStyle(menuPos, true)}>
                     <button type="button" className={styles.dropdownItem} onClick={handleDelete}>Delete warband</button>
                     <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); exportWarband(); }}>Export</button>
+                    <button type="button" className={styles.dropdownItem} onClick={() => { setMenuOpen(false); setShareOpen(true); }}>
+                      Share link
+                    </button>
                     <button type="button" className={styles.dropdownItem} onClick={() => {
                       setMenuOpen(false);
                       (window as any).gtag?.('event', 'print_warband');
@@ -348,6 +378,8 @@ export default function WarbandBuilder() {
           </div>
         </div>
       </div>
+      {shareOpen && <ShareSheet warband={active} onClose={() => setShareOpen(false)} />}
+      {importLinkSheet}
     </div>
   );
 }

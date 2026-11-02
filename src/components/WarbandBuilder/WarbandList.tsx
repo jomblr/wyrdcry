@@ -1,7 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import type { Warband } from './useWarband';
 import { factionsData } from './data';
+import InfoSheet from './InfoSheet';
+import { linkIdFrom } from './shareLink';
 import styles from './warband-builder.module.css';
 
 interface Props {
@@ -9,10 +11,29 @@ interface Props {
   onSelect: (id: string) => void;
   onCreate: () => void;
   onImport: (file: File) => void;
+  /** A pasted share link's id; the builder then offers to import it */
+  onImportLink: (linkId: string) => void;
 }
 
-export default function WarbandList({ warbands, onSelect, onCreate, onImport }: Props) {
+export default function WarbandList({ warbands, onSelect, onCreate, onImport, onImportLink }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
+  const [importOpen, setImportOpen] = useState(false);
+  const [link, setLink] = useState('');
+  const [linkError, setLinkError] = useState(false);
+
+  function closeImport() {
+    setImportOpen(false);
+    setLink('');
+    setLinkError(false);
+  }
+
+  function importLink(e: React.FormEvent) {
+    e.preventDefault();
+    const id = linkIdFrom(link);
+    if (!id) { setLinkError(true); return; }
+    closeImport();
+    onImportLink(id);
+  }
 
   return (
     <div className={styles.warbandListShell}>
@@ -27,7 +48,7 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
           <button type="button" className="button button--primary button--lg" onClick={() => { (window as any).gtag?.('event', 'create_warband'); onCreate(); }}>
             Create new warband
           </button>
-          <button type="button" className="button button--secondary button--lg" onClick={() => fileRef.current?.click()}>
+          <button type="button" className="button button--secondary button--lg" onClick={() => setImportOpen(true)}>
             Import warband
           </button>
           <input
@@ -37,10 +58,33 @@ export default function WarbandList({ warbands, onSelect, onCreate, onImport }: 
             style={{ display: 'none' }}
             onChange={e => {
               const file = e.target.files?.[0];
-              if (file) { onImport(file); e.target.value = ''; }
+              if (file) { closeImport(); onImport(file); e.target.value = ''; }
             }}
           />
         </div>
+
+        {/* A share link from another player, or a file exported from the builder */}
+        {importOpen && (
+          <InfoSheet title="Import warband" onClose={closeImport}>
+            <form className={styles.shareField} onSubmit={importLink}>
+              <input
+                className={styles.shareUrl}
+                type="text"
+                value={link}
+                onChange={e => { setLink(e.target.value); setLinkError(false); }}
+                placeholder="Paste a share link"
+                aria-label="Share link"
+                autoFocus
+              />
+              <button type="submit" className={styles.shareCopyBtn} disabled={!link.trim()}>Import</button>
+            </form>
+            {linkError && <p>That doesn’t look like a warband share link.</p>}
+            <p>
+              Or{' '}
+              <button type="button" className={styles.linkButton} onClick={() => fileRef.current?.click()}>import a warband file (json)</button>
+            </p>
+          </InfoSheet>
+        )}
 
         <ul className={styles.warbandListItems}>
           {warbands.map(wb => (

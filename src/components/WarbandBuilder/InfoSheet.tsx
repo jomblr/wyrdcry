@@ -6,6 +6,8 @@ import styles from './warband-builder.module.css';
 interface Props {
   title: string;
   subtitle?: string;
+  /** A short line under the title, e.g. "Clan Eshin · 5 fighters". */
+  caption?: string;
   onClose: () => void;
   /** Buttons pinned under the scrolling content. */
   actions?: React.ReactNode;
@@ -13,7 +15,7 @@ interface Props {
 }
 
 /** Bottom sheet with a sticky header and scrollable body, used for weapon / ability details. */
-export default function InfoSheet({ title, subtitle, onClose, actions, children }: Props) {
+export default function InfoSheet({ title, subtitle, caption, onClose, actions, children }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -27,6 +29,7 @@ export default function InfoSheet({ title, subtitle, onClose, actions, children 
           <div className={styles.infoSheetTitleBlock}>
             {subtitle && <div className={styles.infoSheetSubtitle}>{subtitle}</div>}
             <div className={styles.infoSheetTitle}>{title}</div>
+            {caption && <div className={styles.infoSheetCaption}>{caption}</div>}
           </div>
           <button type="button" className={styles.infoSheetClose} onClick={onClose} aria-label="Close">
             <X size={20} />
