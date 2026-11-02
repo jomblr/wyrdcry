@@ -57,7 +57,8 @@ async function readWarband(req: Request): Promise<Record<string, unknown> | Resp
 }
 
 export default async (req: Request, context: Context) => {
-  const store = getStore('warbands');
+  // Strong reads so a link opened right after sharing (and the id-taken check) sees the new entry
+  const store = getStore({ name: 'warbands', consistency: 'strong' });
   const id = context.params.id;
 
   if (!id) {
