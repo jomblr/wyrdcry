@@ -128,6 +128,15 @@ export type AbilityModifier =
   | { keyword: string }
   | { item: string; source: string };
 
+/** Order a fighter's special rules are shown in; injuries and mutations come after. */
+const ABILITY_TYPE_ORDER = ['trait', 'reaction', 'double', 'triple', 'quad'];
+
+/** Sort comparator: traits, reactions, then abilities by dice (double, triple, quad); A–Z within each. */
+export function compareAbilityTypes(a: { ability_type: string; name: string }, b: { ability_type: string; name: string }): number {
+  const rank = (t: string) => (ABILITY_TYPE_ORDER.indexOf(t) + 1 || ABILITY_TYPE_ORDER.length + 1);
+  return rank(a.ability_type) - rank(b.ability_type) || a.name.localeCompare(b.name);
+}
+
 /** Every ability the fighter has: the profile's fixed ones, then talents, spells, injuries and mutations. */
 export function fighterAbilityIds(
   profile: AbilityProfile,

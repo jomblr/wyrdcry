@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { abilitiesData } from './data';
+import { abilitiesData, compareAbilityTypes } from './data';
 import InfoSheet from './InfoSheet';
 import styles from './warband-builder.module.css';
 
@@ -9,7 +9,8 @@ type Ability = (typeof abilitiesData)[number];
 export function fighterAbilities(abilityIds: string[] | undefined): Ability[] {
   return (abilityIds ?? [])
     .map(id => abilitiesData.find(a => a.id === id))
-    .filter((a): a is Ability => !!a);
+    .filter((a): a is Ability => !!a)
+    .sort(compareAbilityTypes);
 }
 
 function abilityLabel(a: Ability): string {

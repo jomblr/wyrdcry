@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { abilitiesData } from './data';
+import { abilitiesData, compareAbilityTypes } from './data';
 import { SectionHead } from './EquipmentPicker';
 import InfoSheet from './InfoSheet';
 import styles from './warband-builder.module.css';
@@ -90,6 +90,10 @@ export default function TalentPicker({ profileRules, optionalRules, talents, isH
     .filter((a): a is Ability => !!a);
   const own = lookup(profileRules);
   const taken = lookup(talents);
+  const current = [
+    ...own.map(ability => ({ ability, removable: false })),
+    ...taken.map(ability => ({ ability, removable: true })),
+  ].sort((x, y) => compareAbilityTypes(x.ability, y.ability));
   const has = (id: string) => talents.includes(id);
   const add = (id: string) => onChange([...talents, id]);
   const remove = (id: string) => onChange(talents.filter(t => t !== id));
@@ -116,9 +120,10 @@ export default function TalentPicker({ profileRules, optionalRules, talents, isH
     <div className={styles.equipPicker}>
       <div>
         <SectionHead title="Current special rules" />
-        {own.length + taken.length === 0 && <div className={styles.equipEmpty}>None</div>}
-        {own.map(a => <Row key={`own-${a.id}`} ability={a} />)}
-        {taken.map(a => <Row key={a.id} ability={a} action="Remove" onClick={() => remove(a.id)} />)}
+        {current.length === 0 && <div className={styles.equipEmpty}>None</div>}
+        {current.map(({ ability: a, removable }) => removable
+          ? <Row key={a.id} ability={a} action="Remove" onClick={() => remove(a.id)} />
+          : <Row key={`own-${a.id}`} ability={a} />)}
       </div>
 
       {groups.map(g => (
