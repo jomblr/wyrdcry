@@ -8,7 +8,7 @@ import styles from './warband-builder.module.css';
 
 // Hired swords aren't a faction you lead, so they're never offered. Everything else is
 // driven by the faction data: `exclude: 'yes'` hides a faction, `status: 'playtest'`
-// lists it under Core candidates instead of Core.
+// lists it under Playtest factions instead of Core factions.
 const HIDDEN_FACTIONS = new Set(['hired-sword']);
 
 type FactionFlags = { status?: string; exclude?: string };
@@ -29,8 +29,8 @@ export default function FactionPickerModal({ onConfirm, onCancel }: Props) {
   const gold = Math.max(0, parseInt(goldInput, 10) || 0);
   const factions = factionsData.filter(f => !HIDDEN_FACTIONS.has(f.id) && flags(f).exclude !== 'yes');
   const groups = [
-    { label: 'Core warbands', list: factions.filter(f => flags(f).status !== 'playtest') },
-    { label: 'Playtest warbands', list: factions.filter(f => flags(f).status === 'playtest') },
+    { label: 'Core factions', list: factions.filter(f => flags(f).status !== 'playtest') },
+    { label: 'Playtest factions', list: factions.filter(f => flags(f).status === 'playtest') },
   ].filter(g => g.list.length > 0);
   const selected = factions.find(f => f.id === factionId);
 
