@@ -9,7 +9,7 @@ You may either [download a roster](/files/warband-roster.pdf) or use the [Warban
 
 ## Step 2: Select a faction
 ---
-All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. The factions are:
+All factions have a faction entry that contains all of the special rules, fighter profiles and weapons lists unique to that faction. Select one of them and note down the faction name on your warband roster.
 
 - [Clan Eshin](core-factions/clan-eshin.mdx)
 - [Mercenaries](core-factions/mercenaries.mdx)
@@ -18,7 +18,14 @@ All factions have a faction entry that contains all of the special rules, fighte
 - [Sisters of Sigmar](core-factions/sisters-of-sigmar.mdx)
 - [The Undead](core-factions/undead.mdx)
 
-After selecting a faction you must note down the faction name on your warband roster.
+:::info[]
+### Playtest Factions
+If your gaming group agrees, you may decide to also allow factions that are currently being playtested for the game. Note that these factions are in active development and may change over the coming months.
+
+- [Beastmen Raiders](playtest-factions/beastmen-raiders.mdx)
+- [Elf Rangers](playtest-factions/elf-rangers.mdx)
+:::
+
 
 ## Step 3: Recruit fighters
 ---
