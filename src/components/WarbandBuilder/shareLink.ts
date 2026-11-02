@@ -7,16 +7,16 @@ import type { Warband } from './useWarband';
 
 const API = '/api/warband';
 
-/** The link id from a pasted share link (…/warband-builder?w=Qt6ezXn2) or a bare id. */
+/** The link id from a pasted share link (…/w/Qt6ezXn2, …/warband-builder?w=Qt6ezXn2) or a bare id. */
 export function linkIdFrom(text: string): string | null {
   const t = text.trim();
-  const id = /^[A-Za-z0-9]{8}$/.test(t) ? t : t.match(/[?&]w=([A-Za-z0-9]{8})\b/)?.[1];
+  const id = /^[A-Za-z0-9]{8}$/.test(t) ? t : t.match(/(?:\/w\/|[?&]w=)([A-Za-z0-9]{8})\b/)?.[1];
   return id ?? null;
 }
 
-/** The address to send to other players. */
+/** The address to send to other players; /w/ keeps the id in link previews (netlify/functions/warband-page.mts). */
 export function linkUrl(id: string): string {
-  return `${window.location.origin}/warband-builder?w=${id}`;
+  return `${window.location.origin}/w/${id}`;
 }
 
 async function request(url: string, init: RequestInit): Promise<Response> {

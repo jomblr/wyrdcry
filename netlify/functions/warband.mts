@@ -2,7 +2,7 @@
  * Shared warband links for the Warband Builder.
  *
  * A warband is only stored here when someone presses "Share link". Each press stores a fresh
- * snapshot under a new short id (the `?w=` in the link), so a link never changes once made and
+ * snapshot under a new short id (the /w/:id link, see warband-page.mts), so a link never changes once made and
  * nobody can overwrite anyone else's warband. Opening a link imports a copy. Remove a link by
  * hand in the Netlify dashboard if needed.
  *
