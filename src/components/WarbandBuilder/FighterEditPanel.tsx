@@ -37,7 +37,7 @@ const STAT_DEFS: { key: StatKey; label: string; suffix?: string; step?: number; 
   { key: 'fight',   label: 'Fight' },
   { key: 'shoot',   label: 'Shoot' },
   { key: 'defense', label: 'Defense' },
-  { key: 'health',  label: 'Health',  step: 2 },
+  { key: 'health',  label: 'Health',  step: 2, min: 2 },
   { key: 'bravery', label: 'Bravery', suffix: '+', min: 2, max: 6, invert: true },
 ];
 
@@ -46,8 +46,9 @@ export function PanelStat({ label, value, onChange, suffix = '', step = 1, min =
   suffix?: string; step?: number; min?: number; max?: number;
   invert?: boolean; modified?: boolean; readonly?: boolean;
 }) {
-  function raise() { const n = value + step; onChange(max !== undefined ? Math.min(max, n) : n); }
-  function lower() { onChange(Math.max(min, value - step)); }
+  // Snap to the step's grid (health moves in 2s), so a value that's off it gets back on
+  function raise() { const n = Math.floor(value / step) * step + step; onChange(max !== undefined ? Math.min(max, n) : n); }
+  function lower() { onChange(Math.max(min, Math.ceil(value / step) * step - step)); }
   const inc = invert ? lower : raise;
   const dec = invert ? raise : lower;
   return (
