@@ -29,7 +29,7 @@ If your gaming group agrees, you may decide to also allow factions that are curr
 
 ## Step 3: Recruit fighters
 ---
-Begin recruiting fighters from your faction entry by paying their recruitment fee, while following these restrictions:
+Begin recruiting fighters from your faction by paying their recruitment fee, while following these restrictions:
 - The total cost of your warband cannot exceed 1000 gold coins.
 - Your warband must include at least 3 fighters, and no more fighters than is listed under ‘Warband Size’ in your faction entry.
 - Your warband must include one `Leader`. No more, and no less.
@@ -38,19 +38,19 @@ Begin recruiting fighters from your faction entry by paying their recruitment fe
 ## Step 4: Equipment
 ---
 Purchase equipment for your fighters while following these restrictions:
-- A fighter can only use weapons and armour listed in their faction entry.
+- You may only purchase weapons and armour listed in the fighter's faction entry, as well as common items from the [trading post](../campaigns/the-trading-post.md).
 - A fighter may be equipped with up to two melee weapons, one ranged weapon and a suit of armour.
 	- A fighter can forfeit one melee weapon to wear a shield.
-- Any equipment marked with `Hero` may only be equipped by a `Hero`
-- `BEASTS` cannot use any equipment, and their natural weapons are listed in their respective fighter profile.
+- Any equipment marked with `Hero` may only be equipped by a `Hero`.
+- `BEASTS` and `THRALLS` cannot use any equipment other than the weapons listed in their fighter profile.
 
 ## Step 5: Finishing Touches
 ---
 ### The Warband Stash
-Any gold coin not spent on fighters and equipment are stored in the **warband stash** and may be used to recruit new fighters and buy new equipment during a campaign.
+Any gold coins not spent on fighters and equipment are stored in the **warband stash** and may be used to recruit new fighters and buy new equipment during a campaign.
 
 ### Renown
-Your `Leader` starts the campaign with 1 point of renown and may immediately select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's fighter's experience and notoriety prior to arriving in the cursed city.
+Your `Leader` starts the campaign with 1 point of renown and may immediately select a heroic talent [(see Renown)](../campaigns/the-aftermath-sequence/earn-renown.md). This represents the fighter's experience and notoriety prior to coming to the cursed city.
 
 ### Favour & Standing
 Each warband has a faction standing that represents the relationship between the warband and their faction. The process of earning favour and rising in standing is explained in detail in the aftermath sequence. For now, set your warband’s favour to 0 and their standing to **'Disposable'.**
