@@ -101,7 +101,7 @@ In a campaign game, a fighter that is taken out of action risks lasting injuries
 ### Keywords
 Each fighter profile includes a set of keywords that describes distinctive features of the fighter, such as their race and faction. When referenced in a rule, keywords are always written in `UPPERCASE`.
 
-A rule that refers to a keyword applies to all fighters with that keyword. If a rule refers to a keyword in the plural (for example, `UPPERCASE`), it is treated as a reference to the singular keyword (`Hero`).
+A rule that refers to a keyword applies to all fighters with that keyword. If a rule refers to a keyword in the plural (for example, `HEROES`), it is treated as a reference to the singular keyword (`HERO`).
 
 ### Special Rules
 Many fighters have one or more special rules that set them apart from their peers:
@@ -132,7 +132,7 @@ Fighters may be equipped with all manner of weapons, armour and trinkets, the ru
 All weapons come in two types, **melee weapons** and **ranged weapons.**
 
 ### Weapon Characteristics
-- **Range**: How far the weapon can reach, measured in inches. Weapons with a minimum range (like the bow) cannot target fighters within that minimum range.
+- **Range**: How far the weapon can reach, measured in inches.
 - **Attacks**: The amount of dice rolled when making attack actions with the weapon.
 - **Damage**: The damage potential of the weapon. The first value represents **hit damage**, and the second value represents **critical damage.**
 

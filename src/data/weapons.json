@@ -582,7 +582,7 @@
     "name": "Thrown Axe",
     "type": "ranged",
     "exclusive": "yes",
-    "range": "1-6",
+    "range": 6,
     "attacks": 2,
     "hit": 2,
     "crit": 4,

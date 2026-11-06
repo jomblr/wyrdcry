@@ -23,7 +23,7 @@ A fighter can jump from an obstacle or platform. Count the horizontal distance m
 If a fighter jumps further than half their Move characteristic (rounding up), they must take a **jump test**: roll a dice.
 
 - **On a 1:** the fighter [falls](#falling).
-- **On a 2-6:** the fighter can jump up to their full Move characteristic.
+- **On a 2-6:** the fighter makes the jump.
 
 A fighter automatically falls if they drop more than 2" vertically or end a Move action while jumping.
 
@@ -31,4 +31,4 @@ A fighter automatically falls if they drop more than 2" vertically or end a Move
 When a fighter falls, the opposing player selects a reasonable position beneath them where they land (don't be a dick!). Allocate D3 damage points to the fighter for every full 2" they fell.
 
 ## Flying
-Some rules allow a fighter to fly during a Move action. Count only the horizontal distance moved, not the distance moved vertically. A flying fighter can pass over terrain pieces and other fighters, but cannot end a Move action while flying.
+Some rules allow a fighter to fly during a Move action. Count only the horizontal distance moved, not the distance moved vertically. A flying fighter can pass over terrain pieces and other fighters, but if they end a Move action while flying, they [fall](#falling).
