@@ -169,7 +169,7 @@
       "two-handed",
       "pierce-1"
     ],
-    "power_level": 5,
+    "power_level": 0,
     "cost": 25
   },
   {
@@ -430,9 +430,11 @@
     "attacks": 4,
     "hit": 3,
     "crit": 4,
-    "special_rules": [],
+    "special_rules": [
+      "brutal"
+    ],
     "power_level": 0,
-    "cost": 35
+    "cost": 40
   },
   {
     "id": "thief-shiv-and-club",

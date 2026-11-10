@@ -950,7 +950,7 @@
     "description": "Elf rangers work as scouts and spies beyond the borders of the high elf realms,\ntracking targets of interest and eliminating them where possible. As hired\nswords, they offer little in comradery, but plenty in murderous efficiency.",
     "move": 6,
     "fight": 4,
-    "shoot": 6,
+    "shoot": 5,
     "defense": 0,
     "health": 10,
     "bravery": 3,
@@ -983,10 +983,11 @@
   {
     "id": "ogre-bodyguard",
     "name": "Ogre Bodyguard",
+    "fighter_type": "hired-sword",
     "description": "A warband backed up by an Ogre makes a fearsome enemy, since Ogres are extremely dangerous fighters and a terrifying sight to behold when\nenraged.",
     "move": 5,
     "fight": 5,
-    "shoot": 2,
+    "shoot": 3,
     "defense": 1,
     "health": 18,
     "bravery": 4,
@@ -1014,15 +1015,15 @@
       "undead",
       "witch-hunters"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "freelance-knight",
     "name": "Freelance Knight",
+    "fighter_type": "hired-sword",
     "description": "Freelancers, or “robber knights,” are fallen nobles with little to their name but their weapons and armour. Drunk and bitter, they haunt the surrounding settlements for work, caring more for coin than honour.",
     "move": 4,
-    "fight": 5,
+    "fight": 4,
     "shoot": 3,
     "defense": 3,
     "health": 14,
@@ -1051,8 +1052,7 @@
       "mercenaries",
       "witch-hunters"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "thief",
@@ -1094,6 +1094,7 @@
   {
     "id": "warlock",
     "name": "Warlock",
+    "fighter_type": "hired-sword",
     "description": "Witchcraft is a crime in the Empire, but that doesn’t stop magicians from finding employ with wealthy patrons. In Mordheim they barter their perilous craft for wyrdstone and a chance to uncover magical items lost in the ruins.",
     "move": 5,
     "fight": 3,
@@ -1102,7 +1103,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "wither",
@@ -1121,16 +1122,16 @@
       "WIZARD"
     ],
     "recruitable_by": [],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "rat-ogre",
     "name": "Rat Ogre",
+    "fighter_type": "hired-sword",
     "description": "Rat Ogres are lethal but stupid killing machines, whose small brains are singularly devoted to the pursuit of fighting and tearing their enemies apart.",
     "move": 6,
-    "fight": 6,
-    "shoot": 2,
+    "fight": 4,
+    "shoot": 3,
     "defense": 0,
     "health": 20,
     "bravery": 5,
@@ -1156,8 +1157,7 @@
     "recruitable_by": [
       "clan-eshin"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "beastman-warrior",
@@ -1197,6 +1197,7 @@
   {
     "id": "necromancer",
     "name": "Necromancer",
+    "fighter_type": "hired-sword",
     "description": "Necromancers are evil wizards who have mastered the corrupt art of Necromancy. Many have fled to Mordheim to practice their dark art freely and without interference from the Templars of Sigmar.",
     "move": 5,
     "fight": 3,
@@ -1205,7 +1206,7 @@
     "health": 12,
     "bravery": 4,
     "power_level": 0,
-    "cost": 60,
+    "cost": 50,
     "ability_preamble": "",
     "faction_ability_ids": [
       "raise-dead",
@@ -1228,8 +1229,7 @@
       "mercenaries",
       "possessed"
     ],
-    "limit": null,
-    "fighter_type": "hired-sword"
+    "limit": null
   },
   {
     "id": "warrior-priest",
