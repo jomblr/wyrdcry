@@ -318,6 +318,8 @@ function DefaultEquipmentTable({ equipment }: { equipment: string[] }) {
 }
 
 function recruitableByText(ids: string[], factions: GameData['factions']): string {
+  // A hired sword with no factions listed will fight for anyone
+  if (ids.length === 0) return 'May be recruited by any faction.';
   const names = ids
     .map(id => factions.find(fac => fac.id === id)?.name ?? id)
     .sort((a, b) => a.localeCompare(b));
@@ -346,10 +348,10 @@ function FighterSection({ fighter: f }: { fighter: Fighter }) {
         <p>
           {/* Hired swords are paid per battle, not once on recruitment. */}
           <strong>{f.cost} gc{f.faction === 'hired-sword' ? ' / battle' : ''}</strong>
-          {(f as { recruitable_by?: string[] }).recruitable_by?.length ? (
+          {f.faction === 'hired-sword' || (f as { recruitable_by?: string[] }).recruitable_by?.length ? (
             <>
               <br />
-              <em>{recruitableByText((f as { recruitable_by?: string[] }).recruitable_by!, factions)}</em>
+              <em>{recruitableByText((f as { recruitable_by?: string[] }).recruitable_by ?? [], factions)}</em>
             </>
           ) : null}
         </p>
